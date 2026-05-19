@@ -23,7 +23,7 @@ export function PropertyCard({
 
       <div className="overflow-hidden">
         <img
-          src={property.image}
+          src={property.images[0]}
           alt={property.title}
           className="h-[520px] w-full object-cover transition duration-700 group-hover:scale-110"
         />
