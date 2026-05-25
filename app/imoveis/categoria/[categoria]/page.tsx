@@ -29,7 +29,7 @@ export async function generateMetadata({
   const path = `/imoveis/categoria/${categoria}`;
 
   return {
-    title: `${categoryLabel} | Privilege Imoveis`,
+    title: categoryLabel,
     description: `Curadoria Privilege de ${categoryLabel.toLowerCase()} com atendimento imobiliario premium.`,
     alternates: {
       canonical: path,
