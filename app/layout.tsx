@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { absoluteUrl, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | Privilege Imoveis",
   },
   description: "Onde o privilegio tem endereco.",
-  metadataBase: new URL("https://privilegeimoveis.com"),
+  metadataBase: new URL(siteUrl),
   icons: {
     icon: "/brand/favicon.png",
     shortcut: "/brand/favicon.png",
@@ -26,15 +27,14 @@ export const metadata: Metadata = {
 const gaId = process.env.NEXT_PUBLIC_GA4_ID;
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
-const siteUrl = "https://privilegeimoveis.com";
 
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "RealEstateAgent",
   name: "Privilege Imoveis",
   url: siteUrl,
-  logo: `${siteUrl}/brand/logo-horizontal-blue.png`,
-  image: `${siteUrl}/brand/logo-horizontal-blue.png`,
+  logo: absoluteUrl("/brand/logo-horizontal-blue.png"),
+  image: absoluteUrl("/brand/logo-horizontal-blue.png"),
   email: "contato@privilegeimoveis.com.br",
   address: {
     "@type": "PostalAddress",

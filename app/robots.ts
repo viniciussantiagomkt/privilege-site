@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+import { absoluteUrl } from "@/lib/site";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -7,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin", "/login"],
     },
-    sitemap: "https://privilegeimoveis.com/sitemap.xml",
+    sitemap: absoluteUrl("/sitemap.xml"),
   };
 }

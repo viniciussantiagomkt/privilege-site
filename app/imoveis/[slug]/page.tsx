@@ -12,6 +12,7 @@ import { VideoEmbed } from "@/components/VideoEmbed";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
+import { absoluteUrl, cleanMetadataText } from "@/lib/site";
 import { Broker, Property } from "@/types/property";
 import type { Metadata } from "next";
 
@@ -42,10 +43,10 @@ export async function generateMetadata({
   }
 
   const title =
-    property.meta_title ||
+    cleanMetadataText(property.meta_title) ||
     `${property.title}${property.city ? ` em ${property.city}` : ""}`;
   const description =
-    property.meta_description ||
+    cleanMetadataText(property.meta_description, 40) ||
     property.description?.slice(0, 155) ||
     "Imovel premium selecionado pela Privilege Imoveis.";
   const image = property.og_image || property.main_image_url || property.images?.[0];
@@ -145,7 +146,7 @@ export default async function PropertyPage({
     "@type": "RealEstateListing",
     name: property.title,
     description: property.description,
-    url: `https://privilegeimoveis.com/imoveis/${property.slug}`,
+    url: absoluteUrl(`/imoveis/${property.slug}`),
     image: images,
     datePosted: property.created_at,
     address: {

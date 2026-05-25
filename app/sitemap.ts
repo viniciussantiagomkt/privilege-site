@@ -2,9 +2,8 @@ import type { MetadataRoute } from "next";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { propertyCategories } from "@/lib/property-filters";
+import { absoluteUrl } from "@/lib/site";
 import { Property } from "@/types/property";
-
-const siteUrl = "https://privilegeimoveis.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createServerClient();
@@ -35,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...cities.map((city) => `/imoveis/cidade/${city}`),
     ...properties.map((property) => `/imoveis/${property.slug}`),
   ].map((path) => ({
-    url: `${siteUrl}${path}`,
+    url: absoluteUrl(path),
     lastModified:
       properties.find((property) => path.endsWith(property.slug))?.updated_at ??
       new Date(),
