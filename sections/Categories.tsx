@@ -1,41 +1,89 @@
+import Link from "next/link";
+
 const categories = [
-  "Casas",
-  "Condomínios",
-  "Terrenos",
-  "Na Planta",
-  "Aluguel",
+  {
+    title: "Casas",
+    slug: "casas",
+    image:
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
+  },
+  {
+    title: "Condominios",
+    slug: "condominios",
+    image:
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+  },
+  {
+    title: "Terrenos",
+    slug: "terrenos",
+    image:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
+  },
+  {
+    title: "Na Planta",
+    slug: "na-planta",
+    image:
+      "https://images.unsplash.com/photo-1460317442991-0ec209397118",
+  },
+  {
+    title: "Aluguel",
+    slug: "aluguel",
+    image:
+      "https://images.unsplash.com/photo-1494526585095-c41746248156",
+  },
+  {
+    title: "Apartamentos",
+    slug: "apartamentos",
+    image:
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154",
+  },
 ];
 
 export function Categories() {
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-14">
-          <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-sm">
-            Categorias
-          </span>
+    <section className="py-20 text-[#030F18] md:py-28">
+      <div className="premium-shell">
+        <div className="mb-10 md:mb-14">
+          <div>
+            <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
+              Categorias
+            </span>
 
-          <h2 className="text-5xl font-bold mt-4">
-            Descubra oportunidades exclusivas.
-          </h2>
+            <h2 className="mt-5 text-[clamp(2.6rem,13vw,6rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.95]">
+              Explore por estilo.
+            </h2>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {categories.map((category) => (
-            <div
-              key={category}
-              className="group rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-xl p-10 cursor-pointer transition hover:border-[#72A3BF]/40 hover:-translate-y-2"
+            <Link
+              key={category.slug}
+              href={`/imoveis/categoria/${category.slug}`}
+              className="group relative min-h-[300px] overflow-hidden rounded-[28px] border border-[#446E87]/14 bg-[#E0E8E6]/58 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.06)] md:min-h-[360px] md:rounded-[34px]"
             >
-              <div className="h-16 w-16 rounded-2xl bg-[#72A3BF]/10 border border-[#72A3BF]/20 mb-8" />
+              <div className="relative h-full min-h-[284px] overflow-hidden rounded-[24px] md:min-h-[344px] md:rounded-[28px]">
+                <img
+                  src={category.image}
+                  alt={category.title}
+                  className="absolute inset-0 h-full w-full object-cover opacity-78 transition duration-700 group-hover:scale-105 group-hover:opacity-95"
+                />
 
-              <h3 className="text-2xl font-semibold">
-                {category}
-              </h3>
+                <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-[#030F18]/12 to-[#030F18]/80" />
 
-              <p className="text-white/50 mt-4">
-                Imóveis sofisticados selecionados com exclusividade.
-              </p>
-            </div>
+                <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
+                  <h3
+                    className="text-3xl font-semibold md:text-4xl"
+                    style={{
+                      color: "#E0E8E6",
+                      textShadow: "0 8px 28px rgba(3,15,24,0.42)",
+                    }}
+                  >
+                    {category.title}
+                  </h3>
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

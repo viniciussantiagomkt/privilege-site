@@ -1,90 +1,42 @@
-"use client";
-
-import { useMemo, useState } from "react";
-
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { PropertyCard } from "@/components/PropertyCard";
+import { PropertyCatalog } from "@/components/PropertyCatalog";
 
-import { properties } from "@/data/properties";
+import { createServerClient } from "@/lib/supabase-server";
+import { Property } from "@/types/property";
 
-export default function PropertiesPage() {
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("Todos");
+export default async function PropertiesPage() {
+  const supabase = createServerClient();
 
-  const categories = [
-    "Todos",
-    ...new Set(properties.map((item) => item.category)),
-  ];
+  const { data } = await supabase
+    .from("properties")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-  const filteredProperties = useMemo(() => {
-    return properties.filter((property) => {
-      const matchesSearch =
-        property.title
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        property.location
-          .toLowerCase()
-          .includes(search.toLowerCase());
-
-      const matchesCategory =
-        category === "Todos" ||
-        property.category === category;
-
-      return matchesSearch && matchesCategory;
-    });
-  }, [search, category]);
+  const properties = (data || []) as Property[];
 
   return (
-    <main>
+    <main className="text-[#030F18]">
       <Navbar />
 
-      <section className="pt-40 pb-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-14">
-            <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-sm">
-              Imóveis
+      <section className="px-4 pb-20 pt-32 md:pb-24 md:pt-40">
+        <div className="premium-shell">
+          <div className="mb-10 max-w-5xl md:mb-14">
+            <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
+              Central de imoveis
             </span>
 
-            <h1 className="text-6xl font-bold mt-6">
-              Encontre o imóvel ideal.
+            <h1 className="mt-5 text-[clamp(2.65rem,13vw,7rem)] font-semibold leading-[0.96] md:mt-6">
+              Encontre o imovel ideal com filtros inteligentes.
             </h1>
+
+            <p className="mt-6 max-w-3xl text-base leading-7 text-[#030F18]/56 md:mt-8 md:text-lg md:leading-8">
+              Busque por categoria, localizacao, faixa de valor e quantidade
+              de quartos em uma vitrine conectada ao banco de dados.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-14">
-            <input
-              type="text"
-              placeholder="Buscar por imóvel ou localização"
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
-              className="xl:col-span-3 h-16 rounded-2xl border border-white/10 bg-white/5 px-6 outline-none placeholder:text-white/30"
-            />
-
-            <select
-              value={category}
-              onChange={(e) =>
-                setCategory(e.target.value)
-              }
-              className="h-16 rounded-2xl border border-white/10 bg-[#030F18] px-6 outline-none"
-            >
-              {categories.map((item) => (
-                <option key={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-            {filteredProperties.map((property) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-              />
-            ))}
-          </div>
+          <PropertyCatalog properties={properties} />
         </div>
       </section>
 

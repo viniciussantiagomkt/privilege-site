@@ -1,39 +1,43 @@
+import { Reveal } from "@/components/Reveal";
+import Link from "next/link";
+
 export function About() {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-16 items-center">
-        <div>
-          <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-sm">
-            Sobre a Privilege
-          </span>
+    <section className="py-20 text-[#030F18] md:py-28">
+      <Reveal>
+        <div className="premium-shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="order-2 lg:order-1">
+            <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
+              Sobre a Privilege
+            </span>
 
-          <h2 className="text-5xl font-bold mt-6 leading-tight">
-            Mais que imóveis.
-            <br />
-            Patrimônios extraordinários.
-          </h2>
+            <h2 className="mt-5 text-[clamp(2.6rem,13vw,6.2rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.94]">
+              Mais que imoveis. Patrimonios extraordinarios.
+            </h2>
 
-          <p className="text-white/60 mt-8 text-lg leading-relaxed">
-            A Privilege Imoveis conecta pessoas a experiências imobiliárias
-            sofisticadas, unindo arquitetura, localização e exclusividade em
-            cada oportunidade apresentada.
-          </p>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-[#030F18]/58 md:mt-8 md:text-lg md:leading-8">
+              A Privilege conecta pessoas a experiencias imobiliarias
+              sofisticadas, unindo arquitetura, localizacao e exclusividade em
+              cada oportunidade apresentada.
+            </p>
 
-          <button className="mt-10 px-8 py-4 rounded-full bg-[#72A3BF] text-black font-semibold transition hover:scale-105">
-            Conhecer a empresa
-          </button>
+            <Link href="/sobre" className="premium-cta mt-8 min-h-12 px-7 md:mt-10">
+              Conhecer a empresa
+            </Link>
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <div className="relative overflow-hidden rounded-[30px] border border-[#446E87]/14 bg-[#E0E8E6]/58 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.08)] md:rounded-[44px]">
+              <img
+                src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
+                alt="Casa premium"
+                className="aspect-[4/5] h-auto w-full rounded-[24px] object-cover opacity-90 md:h-[560px] md:aspect-auto md:rounded-[36px]"
+              />
+              <div className="absolute inset-2 rounded-[24px] bg-gradient-to-t from-[#030F18]/70 via-transparent to-transparent md:rounded-[36px]" />
+            </div>
+          </div>
         </div>
-
-        <div className="relative">
-          <div className="absolute inset-0 bg-[#72A3BF]/10 blur-[120px]" />
-
-          <img
-            src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
-            alt="Luxury House"
-            className="relative rounded-[40px] h-[700px] w-full object-cover"
-          />
-        </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -1,36 +1,46 @@
+import { Reveal } from "@/components/Reveal";
+import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
+import Link from "next/link";
+
 export function CTA() {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-gradient-to-br from-[#1D4052] to-[#030F18] p-16 text-center">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#72A3BF]/20 blur-[180px]" />
+    <section className="py-20 text-[#E0E8E6] md:py-28">
+      <Reveal>
+        <div className="premium-shell">
+          <div className="relative overflow-hidden rounded-[30px] border border-[#030F18]/10 bg-[#030F18] p-2 shadow-[0_30px_120px_rgba(3,15,24,0.16)] md:rounded-[48px]">
+            <div className="relative overflow-hidden rounded-[24px] px-5 py-14 text-center md:rounded-[40px] md:px-16 md:py-20">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(114,163,191,0.12),transparent_34rem)]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#1D4052]/16 to-[#030F18]" />
 
-          <div className="relative z-10">
-            <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-sm">
-              Exclusividade
-            </span>
+              <div className="relative z-10">
+                <span className="text-xs uppercase tracking-[0.28em] text-[#E0E8E6] md:text-sm md:tracking-[0.34em]">
+                  Exclusividade
+                </span>
 
-            <h2 className="text-5xl font-bold mt-6 max-w-4xl mx-auto leading-tight">
-              O próximo patrimônio extraordinário pode estar a um clique.
-            </h2>
+                <h2
+                  className="mx-auto mt-5 max-w-5xl text-[clamp(2.35rem,12vw,6.4rem)] font-semibold leading-[0.98] md:mt-6 md:leading-[0.95]"
+                  style={{ color: "#E0E8E6" }}
+                >
+                  O proximo patrimonio extraordinario pode estar a um clique.
+                </h2>
 
-            <p className="text-white/60 mt-8 max-w-2xl mx-auto text-lg">
-              Converse com nossos especialistas e descubra imóveis selecionados
-              para elevar seu estilo de vida.
-            </p>
+                <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:items-center md:mt-12 md:flex-row">
+                  <WhatsAppLeadButton
+                    href="https://wa.me/5583999999999"
+                    label="Falar com especialista"
+                    source="cta-final"
+                    className="inline-flex min-h-14 items-center justify-center rounded-full border border-[#1D4052] bg-[#1D4052] px-8 text-[#E0E8E6] shadow-[0_20px_60px_rgba(29,64,82,0.32)] transition duration-500 hover:border-[#446E87] hover:bg-[#446E87]"
+                  />
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-5 mt-12">
-              <button className="px-8 py-4 rounded-full bg-[#72A3BF] text-black font-semibold transition hover:scale-105">
-                Falar com especialista
-              </button>
-
-              <button className="px-8 py-4 rounded-full border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition">
-                Explorar imóveis
-              </button>
+                  <Link href="/imoveis" className="inline-flex h-14 items-center justify-center rounded-full border border-[#1D4052] bg-transparent px-8 text-[#E0E8E6] transition duration-500 hover:border-[#1D4052] hover:bg-[#1D4052] hover:text-[#E0E8E6]">
+                    Explorar imoveis
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

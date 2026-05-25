@@ -7,14 +7,26 @@ import { Categories } from "@/sections/Categories";
 import { About } from "@/sections/about";
 import { CTA } from "@/sections/cta";
 
-export default function Home() {
+import { createServerClient } from "@/lib/supabase-server";
+
+export default async function Home() {
+  const supabase =
+    createServerClient();
+
+  const { data: properties } =
+    await supabase
+      .from("properties")
+      .select("*");
+
   return (
     <main className="overflow-hidden">
       <Navbar />
 
       <Hero />
 
-      <FeaturedProperties />
+      <FeaturedProperties
+        properties={properties || []}
+      />
 
       <Categories />
 
