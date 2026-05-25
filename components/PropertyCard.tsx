@@ -29,7 +29,7 @@ export function PropertyCard({
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 top-20 h-px w-44 rotate-[-42deg] bg-[#446E87]/18 transition duration-700 group-hover:bg-[#72A3BF]/30"
       />
-      <Link href={`/imoveis/${property.slug}`} className="block">
+      <Link href={property.slug ? `/imoveis/${property.slug}` : "/imoveis"} className="block">
         <div className="relative overflow-hidden rounded-[28px]">
           <Image
             src={image}
@@ -54,13 +54,13 @@ export function PropertyCard({
           <div className="flex items-start justify-between gap-3">
             <div>
               <h3 className="text-xl font-semibold leading-tight text-[#1D4052] sm:text-2xl">
-                {property.title || "Imovel exclusivo"}
+                {property.title || "Imóvel exclusivo"}
               </h3>
 
               <p className="mt-3 text-sm text-[#030F18]/52">
                 {property.neighborhood || property.city
                   ? [property.neighborhood, property.city].filter(Boolean).join(" - ")
-                  : property.location || "Localizacao sob consulta"}
+                  : property.location || "Localização sob consulta"}
               </p>
             </div>
 

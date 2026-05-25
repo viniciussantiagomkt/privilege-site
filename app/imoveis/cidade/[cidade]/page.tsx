@@ -5,7 +5,8 @@ import { Navbar } from "@/components/Navbar";
 import { PropertyCard } from "@/components/PropertyCard";
 import { createServerClient } from "@/lib/supabase-server";
 import { normalizeText } from "@/lib/property-filters";
-import { Property } from "@/types/property";
+import { attachPropertyImages } from "@/lib/property-media";
+import { Property, PropertyImage } from "@/types/property";
 
 interface CityPageProps {
   params: Promise<{
@@ -28,13 +29,13 @@ export async function generateMetadata({
   const label = cityLabel(cidade);
 
   return {
-    title: `Imoveis em ${label}`,
-    description: `Selecao premium de imoveis em ${label} com curadoria Privilege Imoveis.`,
+    title: `Imóveis em ${label}`,
+    description: `Seleção premium de imóveis em ${label} com curadoria Privilege Imóveis.`,
     alternates: {
       canonical: `/imoveis/cidade/${cidade}`,
     },
     openGraph: {
-      title: `Imoveis em ${label} | Privilege Imoveis`,
+      title: `Imóveis em ${label} | Privilege Imóveis`,
       description: `Casas, apartamentos, terrenos e oportunidades premium em ${label}.`,
       url: `/imoveis/cidade/${cidade}`,
     },
@@ -45,12 +46,20 @@ export default async function CityPage({ params }: CityPageProps) {
   const { cidade } = await params;
   const supabase = createServerClient();
 
-  const { data } = await supabase
-    .from("properties")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const [{ data }, { data: imageData }] = await Promise.all([
+    supabase
+      .from("properties")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("property_images")
+      .select("property_id,url,is_main,sort_order"),
+  ]);
 
-  const properties = ((data || []) as Property[]).filter((property) => {
+  const properties = attachPropertyImages(
+    (data || []) as Property[],
+    (imageData || []) as PropertyImage[]
+  ).filter((property) => {
     const slug = property.city_slug || normalizeText(property.city || "").replace(/\s+/g, "-");
     return slug === cidade;
   });
@@ -68,7 +77,7 @@ export default async function CityPage({ params }: CityPageProps) {
             </span>
 
             <h1 className="mt-5 text-[clamp(2.75rem,13vw,7rem)] font-semibold leading-[0.96] md:mt-6 md:leading-[0.94]">
-              Imoveis em {label}.
+              Imóveis em {label}.
             </h1>
           </div>
 
@@ -80,7 +89,7 @@ export default async function CityPage({ params }: CityPageProps) {
             </div>
           ) : (
             <div className="flex min-h-72 items-center justify-center rounded-[34px] border border-[#446E87]/14 bg-[#D7E1DF]/50 px-6 text-center text-[#030F18]/56">
-              Nenhum imovel encontrado nesta cidade no momento.
+              Nenhum imóvel encontrado nesta cidade no momento.
             </div>
           )}
         </div>

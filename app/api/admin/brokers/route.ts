@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { normalizeBrazilWhatsApp } from "@/lib/whatsapp";
 
 interface BrokerCreateBody {
   email?: string;
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Configure SUPABASE_SERVICE_ROLE_KEY para criar usuarios corretores pelo admin.",
+          "Configure SUPABASE_SERVICE_ROLE_KEY para criar usuários corretores pelo admin.",
       },
       { status: 501 }
     );
@@ -46,13 +47,13 @@ export async function POST(request: Request) {
   const token = request.headers.get("authorization")?.replace("Bearer ", "");
 
   if (!token) {
-    return NextResponse.json({ error: "Sessao ausente." }, { status: 401 });
+    return NextResponse.json({ error: "Sessão ausente." }, { status: 401 });
   }
 
   const { data: userData, error: userError } = await admin.auth.getUser(token);
 
   if (userError || !userData.user) {
-    return NextResponse.json({ error: "Sessao invalida." }, { status: 401 });
+    return NextResponse.json({ error: "Sessão inválida." }, { status: 401 });
   }
 
   const { data: roleData } = await admin
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
 
   if (!body.email || !body.name) {
     return NextResponse.json(
-      { error: "Nome e email sao obrigatorios." },
+      { error: "Nome e e-mail são obrigatórios." },
       { status: 400 }
     );
   }
@@ -95,7 +96,7 @@ export async function POST(request: Request) {
 
   if (createError || !createdUser.user) {
     return NextResponse.json(
-      { error: createError?.message || "Nao foi possivel criar o corretor." },
+      { error: createError?.message || "Não foi possível criar o corretor." },
       { status: 500 }
     );
   }
@@ -113,7 +114,7 @@ export async function POST(request: Request) {
       email: body.email,
       name: body.name,
       phone: body.phone || null,
-      whatsapp: body.whatsapp || null,
+      whatsapp: body.whatsapp ? normalizeBrazilWhatsApp(body.whatsapp) : null,
       creci: body.creci || null,
       instagram: body.instagram || null,
       position: body.position || null,

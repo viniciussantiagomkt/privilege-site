@@ -3,46 +3,14 @@ import { Camera } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { createServerClient } from "@/lib/supabase-server";
+import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Broker } from "@/types/property";
 
-const fallbackAgents: Broker[] = [
-  {
-    id: "carlos-mendes",
-    name: "Carlos Mendes",
-    position: "Especialista Alto Padrao",
-    creci: "CRECI 839J",
-    instagram: "https://instagram.com/privilegeimoveis",
-    whatsapp: "5583999999999",
-    avatar_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
-  },
-  {
-    id: "fernanda-alves",
-    name: "Fernanda Alves",
-    position: "Consultora Imobiliaria",
-    creci: "CRECI 839J",
-    instagram: "https://instagram.com/privilegeimoveis",
-    whatsapp: "5583999999999",
-    avatar_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-  },
-  {
-    id: "marina-duarte",
-    name: "Marina Duarte",
-    position: "Curadora de Imoveis Premium",
-    creci: "CRECI 839J",
-    instagram: "https://instagram.com/privilegeimoveis",
-    whatsapp: "5583999999999",
-    avatar_url: "https://images.unsplash.com/photo-1580489944761-15a19d654956",
-  },
-  {
-    id: "rafael-nogueira",
-    name: "Rafael Nogueira",
-    position: "Consultor de Patrimonio Imobiliario",
-    creci: "CRECI 839J",
-    instagram: "https://instagram.com/privilegeimoveis",
-    whatsapp: "5583999999999",
-    avatar_url: "https://images.unsplash.com/photo-1560250097-0b93528c311a",
-  },
-];
+function normalizeInstagram(value?: string | null) {
+  if (!value) return null;
+  if (value.startsWith("http")) return value;
+  return `https://instagram.com/${value.replace(/^@/, "")}`;
+}
 
 export default async function AgentsPage() {
   const supabase = createServerClient();
@@ -50,8 +18,8 @@ export default async function AgentsPage() {
     .from("brokers")
     .select("*")
     .eq("active", true)
-    .order("name", { ascending: true });
-  const agents = ((data || []) as Broker[]).length ? ((data || []) as Broker[]) : fallbackAgents;
+    .order("created_at", { ascending: false });
+  const agents = (data || []) as Broker[];
 
   return (
     <main className="text-[#030F18]">
@@ -69,7 +37,11 @@ export default async function AgentsPage() {
 
           <div className="mt-12 grid grid-cols-1 gap-6 md:mt-20 md:grid-cols-2 md:gap-10">
             {agents.map((agent) => {
-              const whatsapp = (agent.whatsapp || agent.phone || "5583999999999").replace(/\D/g, "");
+              const whatsappUrl = createWhatsAppUrl(
+                agent.whatsapp || agent.phone,
+                "Olá! Vi seu perfil no site da Privilege Imóveis e gostaria de falar sobre imóveis disponíveis."
+              );
+              const instagram = normalizeInstagram(agent.instagram);
 
               return (
                 <div
@@ -90,10 +62,15 @@ export default async function AgentsPage() {
                     <p className="mt-3 text-xs uppercase tracking-[0.24em] text-[#446E87]">
                       {agent.creci || "CRECI 839J"}
                     </p>
+                    {agent.bio && (
+                      <p className="mt-5 text-sm leading-6 text-[#030F18]/58">
+                        {agent.bio}
+                      </p>
+                    )}
 
                     <div className="mt-7 flex items-center gap-3 md:mt-8">
                       <a
-                        href={`https://wa.me/${whatsapp}`}
+                        href={whatsappUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] px-5 py-3 text-white shadow-[0_18px_50px_rgba(37,211,102,0.16)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] sm:flex-none md:px-6 md:py-4"
@@ -101,9 +78,9 @@ export default async function AgentsPage() {
                         Falar no WhatsApp
                       </a>
 
-                      {agent.instagram && (
+                      {instagram && (
                         <a
-                          href={agent.instagram}
+                          href={instagram}
                           target="_blank"
                           rel="noreferrer"
                           aria-label={`Instagram de ${agent.name}`}
@@ -117,6 +94,18 @@ export default async function AgentsPage() {
                 </div>
               );
             })}
+
+            {!agents.length && (
+              <div className="rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-8 text-center md:col-span-2 md:p-12">
+                <h2 className="text-3xl font-semibold text-[#1D4052]">
+                  Equipe em atualização.
+                </h2>
+                <p className="mx-auto mt-4 max-w-xl text-[#030F18]/58">
+                  Os corretores ativos cadastrados no painel administrativo
+                  aparecerão aqui automaticamente.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>

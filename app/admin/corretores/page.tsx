@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { supabase } from "@/lib/supabase";
+import { normalizeBrazilWhatsApp } from "@/lib/whatsapp";
 import { Broker } from "@/types/property";
 
 type BrokerForm = {
@@ -118,7 +119,7 @@ export default function AdminBrokersPage() {
           name: form.name,
           email: form.email,
           phone: form.phone || null,
-          whatsapp: form.whatsapp || null,
+          whatsapp: form.whatsapp ? normalizeBrazilWhatsApp(form.whatsapp) : null,
           creci: form.creci || null,
           instagram: form.instagram || null,
           position: form.position || null,
@@ -165,13 +166,13 @@ export default function AdminBrokersPage() {
     setSaving(false);
 
     if (!response.ok) {
-      setMessage(result?.error || "Nao foi possivel criar o corretor.");
+      setMessage(result?.error || "Não foi possível criar o corretor.");
       return;
     }
 
     setMessage(
       result?.temporary_password
-        ? `Corretor criado. Senha temporaria: ${result.temporary_password}`
+        ? `Corretor criado. Senha temporária: ${result.temporary_password}`
         : "Corretor criado."
     );
     setForm(emptyForm);
@@ -219,7 +220,7 @@ export default function AdminBrokersPage() {
 
             <div className="mt-6 grid gap-4">
               <input className="admin-input" placeholder="Nome" value={form.name} onChange={(e) => updateField("name", e.target.value)} required />
-              <input className="admin-input" placeholder="Email" type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} required />
+              <input className="admin-input" placeholder="E-mail" type="email" value={form.email} onChange={(e) => updateField("email", e.target.value)} required />
               {!editingId && (
                 <input className="admin-input" placeholder="Senha inicial opcional" type="password" value={form.password} onChange={(e) => updateField("password", e.target.value)} />
               )}
@@ -287,7 +288,7 @@ export default function AdminBrokersPage() {
                     <h2 className="text-2xl font-semibold">{broker.name || broker.email}</h2>
                     <p className="mt-1 text-[#030F18]/56">{broker.position || broker.role_title || "Corretor Privilege"}</p>
                     <p className="mt-2 text-xs uppercase tracking-[0.22em] text-[#446E87]">
-                      {broker.creci || "CRECI nao informado"}
+                      {broker.creci || "CRECI não informado"}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-3 text-sm text-[#030F18]/58">
                       {broker.whatsapp && <span>{broker.whatsapp}</span>}

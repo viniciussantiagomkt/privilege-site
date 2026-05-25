@@ -5,7 +5,7 @@ export default function Loading() {
         <div className="absolute inset-0 rounded-full border border-[#446E87]/12 animate-ping" />
         <img
           src="/brand/symbol-blue.png"
-          alt="Carregando Privilege Imoveis"
+          alt="Carregando Privilege Imóveis"
           className="h-16 w-16 object-contain opacity-80 animate-pulse"
         />
       </div>

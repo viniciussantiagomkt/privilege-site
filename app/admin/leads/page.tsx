@@ -131,7 +131,7 @@ export default function AdminLeadsPage() {
               setQuery(event.target.value);
               setPage(1);
             }}
-            placeholder="Buscar por nome, telefone, email ou imovel"
+            placeholder="Buscar por nome, telefone, e-mail ou imóvel"
             className="h-14 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-5 outline-none"
           />
 
@@ -190,9 +190,9 @@ export default function AdminLeadsPage() {
 
                     <div className="mt-4 grid gap-2 text-sm text-[#030F18]/62 md:grid-cols-2">
                       <span>{lead.phone}</span>
-                      <span>{lead.email || "Email nao informado"}</span>
-                      <span>{lead.property_title || "Sem imovel vinculado"}</span>
-                      <span>{lead.page_path || "Pagina nao registrada"}</span>
+                      <span>{lead.email || "E-mail não informado"}</span>
+                      <span>{lead.property_title || "Sem imóvel vinculado"}</span>
+                      <span>{lead.page_path || "Página não registrada"}</span>
                     </div>
 
                     {lead.message && (
@@ -204,7 +204,7 @@ export default function AdminLeadsPage() {
                     <textarea
                       defaultValue={lead.notes || ""}
                       onBlur={(event) => updateLead(lead.id, { notes: event.target.value })}
-                      placeholder="Observacoes internas"
+                      placeholder="Observações internas"
                       className="mt-4 min-h-24 w-full rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/60 p-4 outline-none"
                     />
                   </div>
@@ -230,7 +230,7 @@ export default function AdminLeadsPage() {
                         target="_blank"
                         className="flex h-12 items-center justify-center rounded-2xl border border-[#1D4052]/18 text-[#1D4052] transition hover:bg-white/30"
                       >
-                        Abrir imovel
+                        Abrir imóvel
                       </a>
                     )}
 
@@ -259,14 +259,14 @@ export default function AdminLeadsPage() {
             Anterior
           </button>
           <span className="text-sm text-[#030F18]/52">
-            Pagina {page} de {totalPages}
+            Página {page} de {totalPages}
           </span>
           <button
             disabled={page >= totalPages}
             onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
             className="h-12 rounded-full border border-[#1D4052]/18 px-5 disabled:opacity-40"
           >
-            Proxima
+            Próxima
           </button>
         </div>
       </div>

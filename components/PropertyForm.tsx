@@ -140,7 +140,7 @@ function getSuggestions(form: PropertyFormData, imagesText: string) {
   const suggestions: string[] = [];
 
   if (form.description.trim().length < 120) {
-    suggestions.push("A descricao ainda esta curta para um anuncio premium.");
+    suggestions.push("A descrição ainda está curta para um anúncio premium.");
   }
 
   if (images.length < 5) {
@@ -148,7 +148,7 @@ function getSuggestions(form: PropertyFormData, imagesText: string) {
   }
 
   if (!form.location.trim()) {
-    suggestions.push("Preencha a localizacao corretamente para melhorar mapa e busca.");
+    suggestions.push("Preencha a localização corretamente para melhorar mapa e busca.");
   }
 
   if (!form.price.trim()) {
@@ -284,7 +284,7 @@ export function PropertyForm({
     if (!googleMapsKey) {
       updateField("location", locationQuery);
       setMessage(
-        "Endereco salvo como texto. Configure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY para buscar coordenadas automaticamente."
+        "Endereço salvo como texto. Configure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY para buscar coordenadas automaticamente."
       );
       return;
     }
@@ -306,7 +306,7 @@ export function PropertyForm({
     setLocationLoading(false);
 
     if (!data.results?.length) {
-      setMessage("Nenhum endereco encontrado para a busca informada.");
+      setMessage("Nenhum endereço encontrado para a busca informada.");
     }
   }
 
@@ -340,7 +340,7 @@ export function PropertyForm({
 
       if (error) {
         setMessage(
-          "Nao foi possivel enviar. Crie no Supabase Storage um bucket publico chamado property-images com politica de upload para usuarios autenticados."
+          "Não foi possível enviar. Crie no Supabase Storage um bucket público chamado property-images com política de upload para usuários autenticados."
         );
         continue;
       }
@@ -491,8 +491,8 @@ export function PropertyForm({
 
     setMessage(
       initialData?.id
-        ? "Imovel atualizado com sucesso."
-        : "Imovel cadastrado com sucesso."
+        ? "Imóvel atualizado com sucesso."
+        : "Imóvel cadastrado com sucesso."
     );
   }
 
@@ -537,7 +537,7 @@ export function PropertyForm({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Field label="Titulo do imovel" help="Use um titulo claro e comercial.">
+          <Field label="Título do imóvel" help="Use um título claro e comercial.">
             <input
               value={form.title}
               onChange={(event) => updateTitle(event.target.value)}
@@ -580,7 +580,7 @@ export function PropertyForm({
             <input
               value={form.type ?? ""}
               onChange={(event) => updateField("type", event.target.value)}
-              placeholder="Casa em condominio"
+              placeholder="Casa em condomínio"
               className="admin-input"
             />
           </Field>
@@ -600,14 +600,14 @@ export function PropertyForm({
           </Field>
 
           <Field
-            label="Descricao"
-            help="Descricao completa aumenta conversao e melhora SEO."
+            label="Descrição"
+            help="Descrição completa aumenta conversão e melhora SEO."
             className="md:col-span-2"
           >
             <textarea
               value={form.description}
               onChange={(event) => updateField("description", event.target.value)}
-              placeholder="Descreva arquitetura, diferenciais, localizacao e experiencia do imovel."
+              placeholder="Descreva arquitetura, diferenciais, localização e experiência do imóvel."
               className="admin-input min-h-36 p-5"
             />
           </Field>
@@ -618,7 +618,7 @@ export function PropertyForm({
         <h3 className="mb-6 text-xl font-bold md:text-2xl">Informacoes tecnicas</h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <Field label="Preco" help="Use valor em R$ ou 'Sob consulta'.">
+          <Field label="Preço" help="Use valor em R$ ou 'Sob consulta'.">
             <input
               value={form.price}
               onChange={(event) => updateField("price", formatMoney(event.target.value))}
@@ -627,16 +627,16 @@ export function PropertyForm({
             />
           </Field>
 
-          <Field label="Area" help="Area privativa ou total em metros quadrados.">
+          <Field label="Área" help="Área privativa ou total em metros quadrados.">
             <input
               value={form.area ?? ""}
               onChange={(event) => updateField("area", event.target.value)}
-              placeholder="Area em m2"
+              placeholder="Área em m²"
               className="admin-input"
             />
           </Field>
 
-          <Field label="Condominio" help="Valor mensal do condominio.">
+          <Field label="Condomínio" help="Valor mensal do condomínio.">
             <input
               value={form.condominium ?? ""}
               placeholder="R$ 0,00"
@@ -697,7 +697,7 @@ export function PropertyForm({
               checked={form.featured}
               onChange={(event) => updateField("featured", event.target.checked)}
             />
-            Imovel em destaque
+            Imóvel em destaque
           </label>
         </div>
       </section>
@@ -705,11 +705,11 @@ export function PropertyForm({
       <section className="rounded-[24px] border border-white/10 bg-white/[0.04] p-5 md:rounded-[28px] md:p-6">
         <div className="flex items-center gap-3 mb-6">
           <MapPin className="h-5 w-5 text-[#72A3BF]" />
-          <h3 className="text-xl font-bold md:text-2xl">Localizacao inteligente</h3>
+          <h3 className="text-xl font-bold md:text-2xl">Localização inteligente</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_180px] gap-5">
-          <Field label="Buscar endereco" help="Pesquise rua, bairro, cidade ou condominio.">
+          <Field label="Buscar endereço" help="Pesquise rua, bairro, cidade ou condomínio.">
             <input
               value={locationQuery}
               onChange={(event) => setLocationQuery(event.target.value)}
@@ -724,7 +724,7 @@ export function PropertyForm({
             disabled={locationLoading}
             className="self-end h-14 rounded-2xl bg-[#72A3BF] text-black font-semibold disabled:opacity-60"
           >
-            {locationLoading ? "Buscando..." : "Usar localizacao"}
+            {locationLoading ? "Buscando..." : "Usar localização"}
           </button>
         </div>
 
@@ -769,17 +769,17 @@ export function PropertyForm({
             />
           </Field>
 
-          <Field label="Localizacao salva" help="Texto exibido no site.">
+          <Field label="Localização salva" help="Texto exibido no site.">
             <input
               value={form.location}
               onChange={(event) => updateField("location", event.target.value)}
-              placeholder="Endereco formatado"
+              placeholder="Endereço formatado"
               className="admin-input"
               required
             />
           </Field>
 
-          <Field label="Endereco completo" help="Endereco interno para mapa e operacao.">
+          <Field label="Endereço completo" help="Endereço interno para mapa e operação.">
             <input
               value={form.address ?? ""}
               onChange={(event) => updateField("address", event.target.value)}
@@ -815,7 +815,7 @@ export function PropertyForm({
       <section className="rounded-[24px] border border-white/10 bg-white/[0.04] p-5 md:rounded-[28px] md:p-6">
         <div className="flex items-center gap-3 mb-6">
           <ImagePlus className="h-5 w-5 text-[#72A3BF]" />
-          <h3 className="text-xl font-bold md:text-2xl">Midia do imovel</h3>
+          <h3 className="text-xl font-bold md:text-2xl">Mídia do imóvel</h3>
         </div>
 
         <label
@@ -836,7 +836,7 @@ export function PropertyForm({
             {uploading ? "Enviando e comprimindo..." : "Arraste ou selecione imagens"}
           </span>
           <span className="text-sm text-white/50 mt-2">
-            Upload multiplo, compressao WebP e pasta por imovel.
+            Upload múltiplo, compressão WebP e pasta por imóvel.
           </span>
           <input
             type="file"
@@ -887,7 +887,7 @@ export function PropertyForm({
         />
 
         <Field
-          label="Videos do imovel"
+          label="Vídeos do imóvel"
           help="Cole URLs de YouTube, Vimeo, tour virtual ou videos hospedados, uma por linha."
           className="mt-5"
         >
@@ -909,7 +909,7 @@ export function PropertyForm({
               <input
                 value={form.meta_title ?? ""}
                 onChange={(event) => updateField("meta_title", event.target.value)}
-                placeholder="Casa em Condominio no Catole | Privilege Imoveis"
+                placeholder="Casa em Condomínio no Catolé | Privilege Imóveis"
                 className="admin-input"
               />
             </Field>
@@ -921,7 +921,7 @@ export function PropertyForm({
                 className="admin-input"
               />
             </Field>
-            <Field label="Corretor responsavel" help="Vincula leads e edicao operacional ao corretor.">
+            <Field label="Corretor responsável" help="Vincula leads e edição operacional ao corretor.">
               <select
                 value={form.broker_id ?? ""}
                 onChange={(event) => updateField("broker_id", event.target.value || null)}
@@ -943,7 +943,7 @@ export function PropertyForm({
                 className="admin-input min-h-24 p-5"
               />
             </Field>
-            <Field label="Tour virtual" help="Link externo para Matterport, YouTube ou landing de apresentacao.">
+            <Field label="Tour virtual" help="Link externo para Matterport, YouTube ou landing de apresentação.">
               <input
                 value={form.virtual_tour_url ?? ""}
                 onChange={(event) => updateField("virtual_tour_url", event.target.value)}
@@ -975,7 +975,7 @@ export function PropertyForm({
         disabled={saving || uploading}
         className="h-16 w-full rounded-2xl bg-[#72A3BF] text-black font-semibold disabled:opacity-60"
       >
-        {saving ? "Salvando..." : "Salvar imovel"}
+        {saving ? "Salvando..." : "Salvar imóvel"}
       </button>
     </form>
   );

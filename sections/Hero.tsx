@@ -87,12 +87,12 @@ export function Hero() {
               transition={{ duration: 1.1, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="mt-5 max-w-3xl text-[clamp(3.05rem,16vw,7.8rem)] font-semibold leading-[0.9] tracking-normal text-[#1D4052] sm:mt-7 sm:text-[clamp(4rem,8.2vw,7.8rem)] sm:leading-[0.88]"
             >
-              Onde o privilegio tem endereco.
+              Onde o privilégio tem endereço.
             </motion.h1>
 
             <p className="mt-6 max-w-md text-base leading-7 text-[#030F18]/62 sm:mt-8 sm:max-w-xl sm:text-lg sm:leading-8">
-              Curadoria imobiliaria para quem valoriza arquitetura, localizacao
-              e patrimonio.
+              Curadoria imobiliária para quem valoriza arquitetura, localização
+              e patrimônio.
             </p>
           </motion.div>
           <div className="hidden lg:block" />
@@ -124,7 +124,7 @@ export function Hero() {
               <label className="text-xs text-[#030F18]/42">Cidade</label>
               <input
                 type="text"
-                placeholder="campina-grande"
+                placeholder="Campina Grande"
                 value={city}
                 onChange={(event) => setCity(event.target.value)}
                 className="mt-1 w-full bg-transparent text-[#030F18] outline-none placeholder:text-[#030F18]/32"

@@ -23,7 +23,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (error) {
-      alert("Credenciais invalidas");
+      alert("Credenciais inválidas");
       return;
     }
 
@@ -35,16 +35,16 @@ export default function LoginPage() {
       <div className="w-full max-w-md rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/60 p-10 shadow-[0_24px_80px_rgba(3,15,24,0.08)] backdrop-blur-2xl">
         <img
           src="/brand/logo-vertical-blue.png"
-          alt="Privilege Imoveis"
+          alt="Privilege Imóveis"
           className="mx-auto h-28 w-36 object-contain"
         />
 
-        <h1 className="mt-8 text-4xl font-bold">Login Administrativo</h1>
+        <h1 className="mt-8 text-4xl font-bold">Login administrativo</h1>
 
         <form onSubmit={handleLogin} className="mt-10 flex flex-col gap-6">
           <input
             type="email"
-            placeholder="Seu email"
+            placeholder="Seu e-mail"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none"

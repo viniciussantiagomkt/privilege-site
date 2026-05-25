@@ -3,19 +3,19 @@ import { Property } from "@/types/property";
 export const propertyCategories = [
   { label: "Todos", value: "" },
   { label: "Casas", value: "casas" },
-  { label: "Condominios", value: "condominios" },
+  { label: "Condomínios", value: "condominios" },
   { label: "Terrenos", value: "terrenos" },
-  { label: "Na Planta", value: "na-planta" },
+  { label: "Na planta", value: "na-planta" },
   { label: "Aluguel", value: "aluguel" },
   { label: "Apartamentos", value: "apartamentos" },
 ];
 
 export const priceRanges = [
   { label: "Qualquer valor", value: "" },
-  { label: "Ate R$ 200 mil", value: "200mil", max: 200000 },
-  { label: "Ate R$ 500 mil", value: "500mil", max: 500000 },
-  { label: "Ate R$ 2 milhoes", value: "2milhoes", max: 2000000 },
-  { label: "Acima de R$ 2 milhoes", value: "acima-2milhoes", min: 2000000 },
+  { label: "Até R$ 200 mil", value: "200mil", max: 200000 },
+  { label: "Até R$ 500 mil", value: "500mil", max: 500000 },
+  { label: "Até R$ 2 milhões", value: "2milhoes", max: 2000000 },
+  { label: "Acima de R$ 2 milhões", value: "acima-2milhoes", min: 2000000 },
 ];
 
 export const propertyStatuses = [

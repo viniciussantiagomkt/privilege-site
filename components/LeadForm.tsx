@@ -64,7 +64,7 @@ export function LeadForm({
     if (!response.ok) {
       setMessage(
         result?.error ||
-          "Nao foi possivel enviar agora. Tente novamente em instantes."
+          "Não foi possível enviar agora. Tente novamente em instantes."
       );
       return;
     }
@@ -109,7 +109,7 @@ export function LeadForm({
       />
 
       <textarea
-        placeholder="Conte brevemente o que voce procura"
+        placeholder="Conte brevemente o que você procura"
         value={leadMessage}
         onChange={(event) => setLeadMessage(event.target.value)}
         className="min-h-28 rounded-2xl border border-[#446E87]/12 bg-[#E0E8E6]/70 px-5 py-5 text-[#030F18] outline-none placeholder:text-[#030F18]/35 md:px-6"
@@ -125,7 +125,7 @@ export function LeadForm({
 
       <input
         type="email"
-        placeholder="Seu email"
+        placeholder="Seu e-mail"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         className="h-14 rounded-2xl border border-[#446E87]/12 bg-[#E0E8E6]/70 px-5 text-[#030F18] outline-none placeholder:text-[#030F18]/35 md:h-16 md:px-6"

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/imoveis", label: "Imoveis" },
+  { href: "/imoveis", label: "Imóveis" },
   { href: "/sobre", label: "Sobre" },
   { href: "/contato", label: "Contato" },
 ];
@@ -15,21 +15,21 @@ export function Footer() {
           <div>
             <img
               src="/brand/logo-horizontal-light.png"
-              alt="Privilege Imoveis"
+              alt="Privilege Imóveis"
               className="h-12 w-56 object-contain object-left md:h-14 md:w-64"
             />
 
             <h2 className="mt-4 text-3xl font-semibold leading-tight text-[#E0E8E6] md:text-4xl">
-              Onde o privilegio tem endereco.
+              Onde o privilégio tem endereço.
             </h2>
 
             <p className="mt-4 text-sm uppercase tracking-[0.22em] text-[#E0E8E6]/48">
-              Creci: 839j
+              CRECI: 839J
             </p>
           </div>
 
           <div>
-            <span className="text-sm text-[#E0E8E6]/40">Paginas</span>
+            <span className="text-sm text-[#E0E8E6]/40">Páginas</span>
             <div className="mt-4 grid gap-3">
               {links.map((link) => (
                 <Link
@@ -54,7 +54,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-[#E0E8E6]/10 pt-6 text-sm text-[#E0E8E6]/38 md:flex-row md:items-center md:justify-between">
-          <span>Privilege Imoveis</span>
+          <span>Privilege Imóveis</span>
           <span>Premium real estate platform</span>
         </div>
       </div>

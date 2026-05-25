@@ -9,16 +9,21 @@ interface PropertyGalleryProps {
   title: string;
 }
 
+const fallbackImage =
+  "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1600&auto=format&fit=crop";
+
 export function PropertyGallery({ images, title }: PropertyGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const activeImage = activeIndex !== null ? images[activeIndex] : null;
+  const galleryImages = images.length ? images : [fallbackImage];
+  const galleryLength = galleryImages.length;
+  const activeImage = activeIndex !== null ? galleryImages[activeIndex] : null;
 
   const move = useCallback((direction: -1 | 1) => {
     setActiveIndex((current) => {
       if (current === null) return 0;
-      return (current + direction + images.length) % images.length;
+      return (current + direction + galleryLength) % galleryLength;
     });
-  }, [images.length]);
+  }, [galleryLength]);
 
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
@@ -32,18 +37,10 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [activeIndex, move]);
 
-  if (!images.length) {
-    return (
-      <div className="flex aspect-[4/5] items-center justify-center rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/55 text-[#030F18]/50">
-        Imagens em breve
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-        {images.map((image, index) => (
+        {galleryImages.map((image, index) => (
           <button
             type="button"
             key={`${image}-${index}`}
@@ -68,7 +65,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
         <div className="fixed inset-0 z-[1200] flex flex-col bg-[#030F18]/96 p-4 text-[#E0E8E6] md:p-6">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-sm text-[#E0E8E6]/60">
-              {activeIndex + 1} / {images.length}
+              {activeIndex + 1} / {galleryImages.length}
             </span>
             <button
               type="button"
@@ -88,7 +85,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
               sizes="100vw"
               className="object-contain"
             />
-            {images.length > 1 && (
+            {galleryImages.length > 1 && (
               <>
                 <button
                   type="button"
@@ -102,7 +99,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
                   type="button"
                   onClick={() => move(1)}
                   className="absolute right-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[#E0E8E6]/16 bg-[#030F18]/42"
-                  aria-label="Proxima imagem"
+                  aria-label="Próxima imagem"
                 >
                   <ChevronRight />
                 </button>
@@ -111,7 +108,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
           </div>
 
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
-            {images.map((image, index) => (
+            {galleryImages.map((image, index) => (
               <button
                 type="button"
                 key={`thumb-${image}-${index}`}

@@ -43,14 +43,14 @@ export default function ContactPage() {
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-7 text-[#030F18]/62 md:mt-8 md:text-lg md:leading-8">
-                Atendimento premium para clientes que buscam imoveis exclusivos
-                e oportunidades estrategicas.
+                Atendimento premium para clientes que buscam imóveis exclusivos
+                e oportunidades estratégicas.
             </p>
 
             <div className="mt-10 grid gap-4 text-[#030F18]/68 md:mt-12">
-              <ContactLine label="Localizacao" value="Campina Grande - Paraiba" />
+              <ContactLine label="Localização" value="Campina Grande - Paraíba" />
               <ContactLine
-                label="Email"
+                label="E-mail"
                 value="contato@privilegeimoveis.com.br"
                 highlight
               />

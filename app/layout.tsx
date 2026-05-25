@@ -5,10 +5,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Privilege Imoveis",
-    template: "%s | Privilege Imoveis",
+    default: "Privilege Imóveis",
+    template: "%s | Privilege Imóveis",
   },
-  description: "Onde o privilegio tem endereco.",
+  description: "Onde o privilégio tem endereço.",
   metadataBase: new URL(siteUrl),
   icons: {
     icon: "/brand/favicon.png",
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     apple: "/brand/favicon.png",
   },
   openGraph: {
-    title: "Privilege Imoveis",
-    description: "Onde o privilegio tem endereco.",
-    siteName: "Privilege Imoveis",
+    title: "Privilege Imóveis",
+    description: "Onde o privilégio tem endereço.",
+    siteName: "Privilege Imóveis",
     locale: "pt_BR",
     type: "website",
   },
@@ -31,7 +31,7 @@ const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "RealEstateAgent",
-  name: "Privilege Imoveis",
+  name: "Privilege Imóveis",
   url: siteUrl,
   logo: absoluteUrl("/brand/logo-horizontal-blue.png"),
   image: absoluteUrl("/brand/logo-horizontal-blue.png"),
@@ -42,7 +42,7 @@ const localBusinessJsonLd = {
     addressRegion: "PB",
     addressCountry: "BR",
   },
-  areaServed: ["Campina Grande", "Joao Pessoa", "Paraiba"],
+  areaServed: ["Campina Grande", "João Pessoa", "Paraíba"],
 };
 
 export default function RootLayout({

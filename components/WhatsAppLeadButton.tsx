@@ -38,7 +38,7 @@ export function WhatsAppLeadButton({
       page_path: window.location.pathname,
       origin_detail: document.referrer || null,
       message: propertyTitle
-        ? `Clique no WhatsApp para o imovel ${propertyTitle}`
+        ? `Clique no WhatsApp para o imóvel ${propertyTitle}`
         : "Clique no WhatsApp",
     };
 

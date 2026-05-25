@@ -12,12 +12,12 @@ export function About() {
             </span>
 
             <h2 className="mt-5 text-[clamp(2.6rem,13vw,6.2rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.94]">
-              Mais que imoveis. Patrimonios extraordinarios.
+              Mais que imóveis. Patrimônios extraordinários.
             </h2>
 
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#030F18]/58 md:mt-8 md:text-lg md:leading-8">
-              A Privilege conecta pessoas a experiencias imobiliarias
-              sofisticadas, unindo arquitetura, localizacao e exclusividade em
+              A Privilege conecta pessoas a experiências imobiliárias
+              sofisticadas, unindo arquitetura, localização e exclusividade em
               cada oportunidade apresentada.
             </p>
 

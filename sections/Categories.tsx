@@ -8,7 +8,7 @@ const categories = [
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
   },
   {
-    title: "Condominios",
+    title: "Condomínios",
     slug: "condominios",
     image:
       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
@@ -20,7 +20,7 @@ const categories = [
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
   },
   {
-    title: "Na Planta",
+    title: "Na planta",
     slug: "na-planta",
     image:
       "https://images.unsplash.com/photo-1460317442991-0ec209397118",

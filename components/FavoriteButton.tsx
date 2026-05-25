@@ -92,7 +92,7 @@ export function FavoriteButton({
       className={`${className} flex h-14 w-14 items-center justify-center rounded-full border border-[#E0E8E6]/24 bg-[#030F18]/28 text-[#E0E8E6] shadow-[0_14px_44px_rgba(3,15,24,0.16)] backdrop-blur-xl transition duration-500 hover:scale-105 hover:bg-[#E0E8E6]/22 ${
         favorite ? "border-red-500/40 bg-red-500/14 text-red-500" : ""
       }`}
-      aria-label="Salvar imovel nos favoritos"
+      aria-label="Salvar imóvel nos favoritos"
     >
       <Heart
         className={

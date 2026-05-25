@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-
-const commercialWhatsApp = "5583999999999";
+import { createWhatsAppUrl, normalizeBrazilWhatsApp } from "@/lib/whatsapp";
 
 interface LeadRequestBody {
   name?: string;
@@ -17,17 +16,12 @@ interface LeadRequestBody {
   whatsapp_number?: string | null;
 }
 
-function normalizeWhatsApp(value?: string | null) {
-  const digits = (value || commercialWhatsApp).replace(/\D/g, "");
-  return digits || commercialWhatsApp;
-}
-
 function createWhatsAppMessage(lead: LeadRequestBody) {
   const propertyText = lead.property_title
-    ? ` no imovel ${lead.property_title}`
+    ? ` no imóvel ${lead.property_title}`
     : "";
 
-  return `Ola! Meu nome e ${lead.name || "um cliente"} e tenho interesse${propertyText}. Gostaria de receber mais informacoes e falar com um especialista da Privilege Imoveis.`;
+  return `Olá! Meu nome é ${lead.name || "um cliente"} e tenho interesse${propertyText}. Gostaria de receber mais informações e falar com um especialista da Privilege Imóveis.`;
 }
 
 async function sendWebhook(payload: Record<string, unknown>) {
@@ -76,7 +70,7 @@ export async function POST(request: Request) {
   if (!body.name || !body.phone) {
     return NextResponse.json(
       {
-        error: "Nome e telefone sao obrigatorios.",
+        error: "Nome e telefone são obrigatórios.",
       },
       { status: 400 }
     );
@@ -123,10 +117,8 @@ export async function POST(request: Request) {
   };
 
   const webhook = await sendWebhook(webhookPayload);
-  const whatsappNumber = normalizeWhatsApp(body.whatsapp_number);
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    createWhatsAppMessage(body)
-  )}`;
+  const whatsappNumber = normalizeBrazilWhatsApp(body.whatsapp_number);
+  const whatsappUrl = createWhatsAppUrl(whatsappNumber, createWhatsAppMessage(body));
 
   return NextResponse.json({
     ok: true,

@@ -13,7 +13,8 @@ import {
   propertyCategories,
   slugToCategoryLabel,
 } from "@/lib/property-filters";
-import { Property } from "@/types/property";
+import { attachPropertyImages } from "@/lib/property-media";
+import { Property, PropertyImage } from "@/types/property";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -30,13 +31,13 @@ export async function generateMetadata({
 
   return {
     title: categoryLabel,
-    description: `Curadoria Privilege de ${categoryLabel.toLowerCase()} com atendimento imobiliario premium.`,
+    description: `Curadoria Privilege de ${categoryLabel.toLowerCase()} com atendimento imobiliário premium.`,
     alternates: {
       canonical: path,
     },
     openGraph: {
-      title: `${categoryLabel} | Privilege Imoveis`,
-      description: `Explore ${categoryLabel.toLowerCase()} selecionados pela Privilege Imoveis.`,
+      title: `${categoryLabel} | Privilege Imóveis`,
+      description: `Explore ${categoryLabel.toLowerCase()} selecionados pela Privilege Imóveis.`,
       url: path,
       type: "website",
     },
@@ -58,12 +59,20 @@ export default async function CategoryPage({
 
   const supabase = createServerClient();
 
-  const { data } = await supabase
-    .from("properties")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const [{ data }, { data: imageData }] = await Promise.all([
+    supabase
+      .from("properties")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("property_images")
+      .select("property_id,url,is_main,sort_order"),
+  ]);
 
-  const properties = filterProperties((data || []) as Property[], {
+  const properties = filterProperties(attachPropertyImages(
+    (data || []) as Property[],
+    (imageData || []) as PropertyImage[]
+  ), {
     categoria,
   });
 
@@ -82,7 +91,7 @@ export default async function CategoryPage({
                 href: "/",
               },
               {
-                label: "Imoveis",
+                label: "Imóveis",
                 href: "/imoveis",
               },
               {
@@ -101,7 +110,7 @@ export default async function CategoryPage({
             </h1>
 
             <p className="mt-5 text-base leading-7 text-[#030F18]/56 md:mt-6 md:text-lg">
-              {properties.length} imoveis encontrados nesta categoria.
+              {properties.length} imóveis encontrados nesta categoria.
             </p>
           </div>
 
@@ -117,7 +126,7 @@ export default async function CategoryPage({
           ) : (
             <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/50 p-6 text-center md:rounded-[32px] md:p-10">
               <h2 className="text-2xl font-bold md:text-3xl">
-                Nenhum imovel nesta categoria
+                Nenhum imóvel encontrado nesta categoria.
               </h2>
 
               <p className="text-[#030F18]/56 mt-4">

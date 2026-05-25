@@ -28,7 +28,7 @@ export function FeaturedProperties({
           >
             <div>
               <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
-                Imoveis exclusivos
+                Imóveis exclusivos
               </span>
 
               <h2 className="mt-5 max-w-3xl text-[clamp(2.6rem,13vw,6.5rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.94]">

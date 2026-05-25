@@ -117,7 +117,7 @@ export function PropertyCatalog({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-8">
         <input
           type="text"
-          placeholder="Nome, localizacao, bairro ou condominio"
+          placeholder="Nome, localização, bairro ou condomínio"
           value={busca}
           onChange={(event) => updateFilter("busca", event.target.value)}
           className="h-14 min-w-0 rounded-2xl border border-[#446E87]/16 bg-[#E0E8E6]/70 px-5 text-[#030F18] outline-none placeholder:text-[#030F18]/35 sm:col-span-2 xl:col-span-2"
@@ -221,7 +221,7 @@ export function PropertyCatalog({
       <section>
         <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <p className="text-[#030F18]/55">
-            {filteredProperties.length} imoveis encontrados
+            {filteredProperties.length} imóveis encontrados
           </p>
         </div>
 
@@ -245,12 +245,12 @@ export function PropertyCatalog({
             className="mb-6 h-16 w-16 object-contain opacity-20"
           />
           <h2 className="text-3xl font-bold">
-            Nenhum imovel encontrado
+            Nenhum imóvel encontrado
           </h2>
 
           <p className="text-[#030F18]/56 mt-4 max-w-xl">
             Ajuste os filtros ou fale com a equipe para encontrar uma
-            oportunidade exclusiva fora da vitrine publica. Ajuste sua busca
+            oportunidade exclusiva fora da vitrine pública. Ajuste sua busca
             ou fale com um especialista Privilege.
           </p>
         </div>

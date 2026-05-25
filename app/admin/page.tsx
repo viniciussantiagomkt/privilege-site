@@ -62,12 +62,12 @@ interface LeadOriginMetric {
 
 const menu = [
   { id: "dashboard", label: "Dashboard", icon: Home },
-  { id: "imoveis", label: "Imoveis", icon: Building2 },
+  { id: "imoveis", label: "Imóveis", icon: Building2 },
   { id: "leads", label: "Leads", icon: Inbox },
   { id: "corretores", label: "Corretores", icon: Users, adminOnly: true },
   { id: "favoritos", label: "Favoritos", icon: Heart },
   { id: "analytics", label: "Analytics", icon: BarChart3, adminOnly: true },
-  { id: "configuracoes", label: "Configuracoes", icon: Settings, adminOnly: true },
+  { id: "configuracoes", label: "Configurações", icon: Settings, adminOnly: true },
 ] satisfies {
   id: AdminSection;
   label: string;
@@ -194,7 +194,7 @@ export default function AdminPage() {
 
   async function deleteProperty(property: Property) {
     if (role !== "admin") {
-      alert("Apenas administradores podem excluir imoveis.");
+      alert("Apenas administradores podem excluir imóveis.");
       return;
     }
 
@@ -227,14 +227,14 @@ export default function AdminPage() {
       return (
         <div className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-            <MetricCard label="Total de imoveis" value={properties.length} />
-            <MetricCard label="Imoveis ativos" value={activeCount} />
-            <MetricCard label="Imoveis vendidos" value={properties.filter((property) => property.status === "vendido").length} />
+            <MetricCard label="Total de imóveis" value={properties.length} />
+            <MetricCard label="Imóveis ativos" value={activeCount} />
+            <MetricCard label="Imóveis vendidos" value={properties.filter((property) => property.status === "vendido").length} />
             <MetricCard label="Leads recebidos" value={leads.length} />
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <Panel title="Imoveis com melhor qualidade" className="xl:col-span-2">
+            <Panel title="Imóveis com melhor qualidade" className="xl:col-span-2">
               <div className="space-y-4">
                 {topQuality.map((property) => (
                   <PropertyRow
@@ -250,16 +250,16 @@ export default function AdminPage() {
 
             <Panel title="Boas praticas">
               <div className="space-y-4 text-sm text-white/70">
-                <AdminTip text="Preencha a localizacao com cidade, bairro e condominio quando existir." />
-                <AdminTip text="Adicione no minimo 5 imagens em ordem de importancia." />
-                <AdminTip text="Use descricoes completas para melhorar SEO e conversao." />
-                <AdminTip text="Revise preco, metragem e vagas antes de publicar." />
+                <AdminTip text="Preencha a localização com cidade, bairro e condomínio quando existir." />
+                <AdminTip text="Adicione no mínimo 5 imagens em ordem de importância." />
+                <AdminTip text="Use descrições completas para melhorar SEO e conversão." />
+                <AdminTip text="Revise preço, metragem e vagas antes de publicar." />
               </div>
             </Panel>
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <Panel title="Imoveis mais vistos">
+            <Panel title="Imóveis mais vistos">
               <div className="space-y-3">
                 {propertyMetrics
                   .filter((metric) => Number(metric.views_count ?? 0) > 0)
@@ -267,12 +267,12 @@ export default function AdminPage() {
                   .map((metric) => (
                     <AdminListLine
                       key={metric.id}
-                      label={metric.title || "Imovel"}
+                      label={metric.title || "Imóvel"}
                       value={Number(metric.views_count ?? 0)}
                     />
                   ))}
                 {!propertyMetrics.some((metric) => Number(metric.views_count ?? 0) > 0) && (
-                  <p className="text-sm text-white/50">Sem visualizacoes registradas ainda.</p>
+                  <p className="text-sm text-white/50">Sem visualizações registradas ainda.</p>
                 )}
               </div>
             </Panel>
@@ -285,12 +285,12 @@ export default function AdminPage() {
                   .map((metric) => (
                     <AdminListLine
                       key={metric.id}
-                      label={metric.title || "Imovel"}
+                      label={metric.title || "Imóvel"}
                       value={Number(metric.favorites_count ?? 0)}
                     />
                   ))}
                 {!propertyMetrics.some((metric) => Number(metric.favorites_count ?? 0) > 0) && (
-                  <p className="text-sm text-white/50">Favoritos ainda estao locais no navegador do usuario.</p>
+                  <p className="text-sm text-white/50">Favoritos ainda estão locais no navegador do usuário.</p>
                 )}
               </div>
             </Panel>
@@ -317,7 +317,7 @@ export default function AdminPage() {
     if (activeSection === "imoveis") {
       return (
         <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_440px] gap-6">
-          <Panel title="Imoveis cadastrados">
+          <Panel title="Imóveis cadastrados">
             <div className="space-y-4">
               {properties.map((property) => (
                 <PropertyRow
@@ -331,7 +331,7 @@ export default function AdminPage() {
             </div>
           </Panel>
 
-          <Panel title="Cadastrar imovel">
+          <Panel title="Cadastrar imóvel">
             <PropertyForm
               compact
               onSaved={(property) => {
@@ -351,7 +351,7 @@ export default function AdminPage() {
               {leads.map((lead) => (
                 <div key={lead.id} className="rounded-2xl border border-white/10 bg-black/20 p-5">
                   <strong>{lead.name ?? "Lead sem nome"}</strong>
-                  <p className="text-white/50 mt-2">{lead.phone ?? lead.email ?? "Contato nao informado"}</p>
+                  <p className="text-white/50 mt-2">{lead.phone ?? lead.email ?? "Contato não informado"}</p>
                   <p className="text-white/50 mt-2">
                     Origem: {lead.source ?? "site"}
                     {lead.property_title ? ` - ${lead.property_title}` : ""}
@@ -362,18 +362,18 @@ export default function AdminPage() {
                       target="_blank"
                       className="mt-3 inline-flex text-sm text-[#72A3BF] hover:text-white"
                     >
-                      Abrir imovel
+                      Abrir imóvel
                     </a>
                   )}
                   <span className="mt-4 inline-flex rounded-full bg-[#72A3BF]/15 px-3 py-1 text-xs text-[#72A3BF]">
                     {lead.status ?? "novo"}
                   </span>
-                  <p className="text-white/30 text-sm mt-4">{lead.created_at ?? "Data nao informada"}</p>
+                  <p className="text-white/30 text-sm mt-4">{lead.created_at ?? "Data não informada"}</p>
                 </div>
               ))}
             </div>
           ) : (
-            <EmptyState text="Nenhum lead encontrado ainda. Quando os formularios forem conectados ao Supabase, eles aparecem aqui." />
+            <EmptyState text="Nenhum lead encontrado ainda. Quando os formulários forem conectados ao Supabase, eles aparecem aqui." />
           )}
         </Panel>
       );
@@ -382,7 +382,7 @@ export default function AdminPage() {
     if (activeSection === "favoritos") {
       return (
         <Panel title="Favoritos e interesse">
-          <EmptyState text="Base preparada para consolidar imoveis favoritos, comparacoes e interesse por usuario." />
+          <EmptyState text="Base preparada para consolidar imóveis favoritos, comparações e interesse por usuário." />
         </Panel>
       );
     }
@@ -392,7 +392,7 @@ export default function AdminPage() {
         <Panel title="Acesso restrito">
           <div className="flex gap-4 rounded-2xl border border-white/10 bg-black/20 p-5 text-white/70">
             <Lock className="h-6 w-6 text-[#72A3BF]" />
-            Esta area e exclusiva para administradores.
+            Esta área é exclusiva para administradores.
           </div>
         </Panel>
       );
@@ -401,7 +401,7 @@ export default function AdminPage() {
     if (activeSection === "corretores") {
       return (
         <Panel title="Corretores">
-          <EmptyState text="Estrutura pronta para listar usuarios autorizados, cargos e permissoes." />
+          <EmptyState text="Estrutura pronta para listar usuários autorizados, cargos e permissões." />
         </Panel>
       );
     }
@@ -420,7 +420,7 @@ export default function AdminPage() {
 
     return (
       <Panel title="Configuracoes">
-        <EmptyState text="Area reservada para SEO, pixels, CRM, WhatsApp e automacoes comerciais." />
+        <EmptyState text="Área reservada para SEO, pixels, CRM, WhatsApp e automações comerciais." />
       </Panel>
     );
   }
@@ -432,7 +432,7 @@ export default function AdminPage() {
           <div className="rounded-[24px] border border-white/10 bg-black/20 p-5 md:rounded-[28px] md:p-6">
             <img
               src="/brand/symbol-blue.png"
-              alt="Privilege Imoveis"
+              alt="Privilege Imóveis"
               className="h-12 w-12 object-contain"
             />
             <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-xs">
@@ -483,7 +483,7 @@ export default function AdminPage() {
             <div>
               <img
                 src="/brand/logo-horizontal-blue.png"
-                alt="Privilege Imoveis"
+                alt="Privilege Imóveis"
                 className="mb-6 h-12 w-56 object-contain object-left md:mb-8 md:h-16 md:w-72"
               />
               <span className="text-xs uppercase tracking-[0.26em] text-[#72A3BF] md:text-sm md:tracking-[0.3em]">
@@ -493,7 +493,7 @@ export default function AdminPage() {
                 Painel Administrativo
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-6 text-white/60 md:text-base">
-                Gerencie catalogo, leads, qualidade dos anuncios e operacao
+                Gerencie catálogo, leads, qualidade dos anúncios e operação
                 comercial em uma interface premium conectada ao site.
               </p>
             </div>
@@ -539,15 +539,15 @@ export default function AdminPage() {
         <div className="fixed inset-0 z-[1000] flex items-center justify-center overflow-y-auto bg-black/70 p-4 md:p-6">
           <div className="w-full max-w-lg rounded-[28px] border border-white/10 bg-[#030F18] p-6 md:rounded-[32px] md:p-8">
             <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-xs">
-              Confirmar exclusao
+              Confirmar exclusão
             </span>
 
             <h2 className="mt-4 text-2xl font-bold md:text-3xl">
-              Excluir este imovel?
+              Excluir este imóvel?
             </h2>
 
             <p className="text-white/60 mt-4">
-              Esta acao remove o imovel do banco, da busca, das categorias e
+              Esta ação remove o imóvel do banco, da busca, das categorias e
               tenta remover as imagens vinculadas ao Storage.
             </p>
 
@@ -632,7 +632,7 @@ function PropertyRow({
         <div className="min-w-0">
           <p className="text-[#72A3BF] text-sm">{property.category}</p>
           <h4 className="text-xl font-semibold mt-2">
-            {property.title || "Imovel sem titulo"}
+            {property.title || "Imóvel sem título"}
           </h4>
           <p className="text-white/50 mt-1">{property.location}</p>
           <span className="mt-3 inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">

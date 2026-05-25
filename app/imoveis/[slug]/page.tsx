@@ -13,7 +13,9 @@ import { VideoEmbed } from "@/components/VideoEmbed";
 import { createServerClient } from "@/lib/supabase-server";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
 import { absoluteUrl, cleanMetadataText } from "@/lib/site";
-import { Broker, Property } from "@/types/property";
+import { attachPropertyImages } from "@/lib/property-media";
+import { createWhatsAppUrl } from "@/lib/whatsapp";
+import { Broker, Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
 
 interface PropertyPageProps {
@@ -38,7 +40,7 @@ export async function generateMetadata({
 
   if (!property) {
     return {
-      title: "Imovel nao encontrado",
+      title: "Imóvel não encontrado",
     };
   }
 
@@ -48,7 +50,7 @@ export async function generateMetadata({
   const description =
     cleanMetadataText(property.meta_description, 40) ||
     property.description?.slice(0, 155) ||
-    "Imovel premium selecionado pela Privilege Imoveis.";
+    "Imóvel premium selecionado pela Privilege Imóveis.";
   const image = property.og_image || property.main_image_url || property.images?.[0];
   const path = `/imoveis/${property.slug}`;
 
@@ -80,12 +82,17 @@ export default async function PropertyPage({
     .eq("slug", slug)
     .single();
 
-  const property = propertyData as Property | null;
+  const [property] = propertyData
+    ? attachPropertyImages([propertyData as Property], (await supabase
+        .from("property_images")
+        .select("property_id,url,is_main,sort_order")
+        .eq("property_id", (propertyData as Property).id)).data as PropertyImage[] || [])
+    : [];
 
   if (!property) {
     return (
       <main className="min-h-screen flex items-center justify-center text-[#030F18]">
-        Imovel nao encontrado.
+        Imóvel não encontrado.
       </main>
     );
   }
@@ -128,10 +135,11 @@ export default async function PropertyPage({
     .map(({ item }) => item)
     .slice(0, 3);
 
-  const whatsappNumber = property.whatsapp || broker?.whatsapp || "5583999999999";
-  const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent(
-    `Ola, tenho interesse no imovel ${property.title}`
-  )}`;
+  const whatsappNumber = property.whatsapp || broker?.whatsapp || broker?.phone || "5583999999999";
+  const whatsappUrl = createWhatsAppUrl(
+    whatsappNumber,
+    `Olá, tenho interesse no imóvel ${property.title}. Gostaria de receber mais informações.`
+  );
   const images = [
     property.main_image_url,
     ...(property.images ?? []),
@@ -195,7 +203,7 @@ export default async function PropertyPage({
                 href: "/",
               },
               {
-                label: "Imoveis",
+                label: "Imóveis",
                 href: "/imoveis",
               },
               {
@@ -266,7 +274,7 @@ export default async function PropertyPage({
                   <div className="h-px flex-1 bg-[#446E87]/14" />
                 </div>
                 <h2 className="text-3xl font-bold md:text-4xl">
-                  Sobre o imovel
+                  Sobre o imóvel
                 </h2>
 
                 <p className="mt-6 text-base leading-7 text-[#030F18]/66 md:mt-8 md:text-lg md:leading-8">
@@ -290,7 +298,7 @@ export default async function PropertyPage({
                 </div>
 
                 <div className="rounded-[22px] border border-[#446E87]/14 bg-[#D7E1DF]/48 p-5 md:rounded-[24px] md:p-6">
-                  <span className="text-[#030F18]/50 text-sm">Area</span>
+                  <span className="text-[#030F18]/50 text-sm">Área</span>
                   <h3 className="mt-4 text-2xl font-bold md:text-3xl">
                     {property.area ?? "-"}
                   </h3>
@@ -312,7 +320,7 @@ export default async function PropertyPage({
 
               <div className="mt-16 md:mt-24">
                 <h2 className="mb-8 text-3xl font-bold md:mb-10 md:text-4xl">
-                  Localizacao
+                  Localização
                 </h2>
 
                 <div className="overflow-hidden rounded-[32px] border border-[#446E87]/14 shadow-[0_24px_80px_rgba(3,15,24,0.06)]">
@@ -359,11 +367,11 @@ export default async function PropertyPage({
                   <div className="flex items-center gap-4">
                     <img
                       src={broker.avatar_url || "/brand/symbol-blue.png"}
-                      alt={broker.name || "Corretor responsavel"}
+                      alt={broker.name || "Corretor responsável"}
                       className="h-16 w-16 rounded-2xl object-cover"
                     />
                     <div>
-                      <span className="text-[#030F18]/50 text-sm">Corretor responsavel</span>
+                      <span className="text-[#030F18]/50 text-sm">Corretor responsável</span>
                       <h2 className="mt-2 text-2xl font-bold">{broker.name || broker.email}</h2>
                     </div>
                   </div>
@@ -413,11 +421,11 @@ export default async function PropertyPage({
           {relatedProperties.length > 0 && (
             <div className="mt-20 md:mt-28">
               <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.3em]">
-                Imoveis relacionados
+                Imóveis relacionados
               </span>
 
               <h2 className="mb-8 mt-4 text-3xl font-bold md:mb-10 md:text-4xl">
-                Selecoes similares
+                Seleções similares
               </h2>
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-3">

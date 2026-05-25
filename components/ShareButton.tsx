@@ -6,13 +6,13 @@ interface ShareButtonProps {
   title?: string;
 }
 
-export function ShareButton({ title = "Privilege Imoveis" }: ShareButtonProps) {
+export function ShareButton({ title = "Privilege Imóveis" }: ShareButtonProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleShare() {
     const shareData = {
       title,
-      text: "Confira este imovel exclusivo.",
+      text: "Confira este imóvel exclusivo.",
       url: window.location.href,
     };
 
@@ -33,7 +33,7 @@ export function ShareButton({ title = "Privilege Imoveis" }: ShareButtonProps) {
         onClick={handleShare}
         className="h-14 w-full rounded-2xl border border-[#030F18]/14 bg-transparent text-[#030F18]/70 transition duration-500 hover:border-[#446E87]/42 hover:bg-white/30 md:h-16"
       >
-        {copied ? "Link copiado" : "Compartilhar imovel"}
+        {copied ? "Link copiado" : "Compartilhar imóvel"}
       </button>
       <div className="grid grid-cols-2 gap-3">
         <a

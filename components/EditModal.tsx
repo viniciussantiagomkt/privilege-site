@@ -23,7 +23,7 @@ export function EditModal({
       <div className="max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-[26px] border border-white/10 bg-[#030F18] p-5 md:rounded-[32px] md:p-10">
         <div className="mb-8 flex items-center justify-between gap-4 md:mb-10">
           <h2 className="text-2xl font-bold md:text-3xl">
-            Editar imovel
+            Editar imóvel
           </h2>
 
           <button

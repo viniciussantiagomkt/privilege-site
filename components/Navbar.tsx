@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/imoveis", label: "Imoveis" },
+  { href: "/imoveis", label: "Imóveis" },
   { href: "/sobre", label: "Sobre" },
   { href: "/corretores", label: "Corretores" },
   { href: "/contato", label: "Contato" },
@@ -26,10 +26,6 @@ export function Navbar() {
 
       setDarkSurface(Boolean(target));
     }
-console.log(
-  "GA4:",
-  process.env.NEXT_PUBLIC_GA4_ID
-);
     detectSurface();
     window.addEventListener("scroll", detectSurface, { passive: true });
     window.addEventListener("resize", detectSurface);
@@ -46,11 +42,11 @@ console.log(
         <Link
           href="/"
           className="premium-pill hidden h-14 items-center justify-center rounded-full px-5 transition hover:scale-[1.015] md:flex"
-          aria-label="Privilege Imoveis"
+          aria-label="Privilege Imóveis"
         >
           <img
             src={darkSurface ? "/brand/logo-horizontal-light.png" : "/brand/logo-horizontal-blue.png"}
-            alt="Privilege Imoveis"
+            alt="Privilege Imóveis"
             className="h-9 w-44 object-contain object-left"
           />
         </Link>
@@ -59,11 +55,11 @@ console.log(
           <Link
             href="/"
             className="mr-6 flex items-center md:hidden"
-            aria-label="Privilege Imoveis"
+            aria-label="Privilege Imóveis"
           >
             <img
               src={darkSurface ? "/brand/logo-horizontal-light.png" : "/brand/logo-horizontal-blue.png"}
-              alt="Privilege Imoveis"
+              alt="Privilege Imóveis"
               className="h-8 w-28 object-contain object-left sm:w-32"
             />
           </Link>
