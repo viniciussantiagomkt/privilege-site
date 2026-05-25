@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -32,10 +33,13 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 text-[#030F18]">
-      <div className="w-full max-w-md rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/60 p-10 shadow-[0_24px_80px_rgba(3,15,24,0.08)] backdrop-blur-2xl">
-        <img
+      <div className="w-full max-w-md rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/60 p-8 shadow-[0_24px_80px_rgba(3,15,24,0.08)] backdrop-blur-2xl md:p-10">
+        <Image
           src="/brand/logo-vertical-blue.png"
           alt="Privilege Imóveis"
+          width={144}
+          height={112}
+          priority
           className="mx-auto h-28 w-36 object-contain"
         />
 
@@ -47,7 +51,7 @@ export default function LoginPage() {
             placeholder="Seu e-mail"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none"
+            className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none transition duration-500 focus:border-[#446E87]/48"
           />
 
           <input
@@ -55,7 +59,7 @@ export default function LoginPage() {
             placeholder="Sua senha"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none"
+            className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none transition duration-500 focus:border-[#446E87]/48"
           />
 
           <button className="h-16 rounded-2xl border border-[#030F18]/18 text-[#030F18]/76 transition duration-500 hover:border-[#446E87]/45 hover:bg-white/35">

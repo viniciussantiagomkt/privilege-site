@@ -28,6 +28,14 @@ html {
   scroll-behavior: smooth;
 }
 
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
 h1,
 h2,
 h3,
@@ -179,6 +187,10 @@ h6 {
     inset 0 1px 0 rgb(255 255 255 / 0.14);
 }
 
+.safe-area-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
 .admin-input {
   height: 3.5rem;
   width: 100%;
@@ -249,4 +261,15 @@ h6 {
 .admin-editorial h4,
 .admin-editorial strong {
   color: #1d4052;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

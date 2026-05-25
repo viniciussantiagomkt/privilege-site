@@ -1,41 +1,36 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const categories = [
   {
     title: "Casas",
     slug: "casas",
-    image:
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
+    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
   },
   {
     title: "Condomínios",
     slug: "condominios",
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
   },
   {
     title: "Terrenos",
     slug: "terrenos",
-    image:
-      "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
   },
   {
     title: "Na planta",
     slug: "na-planta",
-    image:
-      "https://images.unsplash.com/photo-1460317442991-0ec209397118",
+    image: "https://images.unsplash.com/photo-1460317442991-0ec209397118",
   },
   {
     title: "Aluguel",
     slug: "aluguel",
-    image:
-      "https://images.unsplash.com/photo-1494526585095-c41746248156",
+    image: "https://images.unsplash.com/photo-1494526585095-c41746248156",
   },
   {
     title: "Apartamentos",
     slug: "apartamentos",
-    image:
-      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154",
+    image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154",
   },
 ];
 
@@ -44,15 +39,13 @@ export function Categories() {
     <section className="py-20 text-[#030F18] md:py-28">
       <div className="premium-shell">
         <div className="mb-10 md:mb-14">
-          <div>
-            <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
-              Categorias
-            </span>
+          <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
+            Categorias
+          </span>
 
-            <h2 className="mt-5 text-[clamp(2.6rem,13vw,6rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.95]">
-              Explore por estilo.
-            </h2>
-          </div>
+          <h2 className="mt-5 text-[clamp(2.6rem,13vw,6rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.95]">
+            Explore por estilo.
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -60,13 +53,15 @@ export function Categories() {
             <Link
               key={category.slug}
               href={`/imoveis/categoria/${category.slug}`}
-              className="group relative min-h-[300px] overflow-hidden rounded-[28px] border border-[#446E87]/14 bg-[#E0E8E6]/58 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.06)] md:min-h-[360px] md:rounded-[34px]"
+              className="group relative min-h-[300px] overflow-hidden rounded-[28px] border border-[#446E87]/14 bg-[#E0E8E6]/58 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.06)] transition duration-700 hover:-translate-y-1 hover:shadow-[0_34px_100px_rgba(3,15,24,0.1)] md:min-h-[360px] md:rounded-[34px]"
             >
               <div className="relative h-full min-h-[284px] overflow-hidden rounded-[24px] md:min-h-[344px] md:rounded-[28px]">
-                <img
+                <Image
                   src={category.image}
                   alt={category.title}
-                  className="absolute inset-0 h-full w-full object-cover opacity-78 transition duration-700 group-hover:scale-105 group-hover:opacity-95"
+                  fill
+                  sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="absolute inset-0 h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-105 group-hover:opacity-95"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-[#030F18]/12 to-[#030F18]/80" />

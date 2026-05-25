@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import {
   BarChart3,
@@ -430,9 +431,11 @@ export default function AdminPage() {
       <div className="grid min-h-screen grid-cols-1 xl:grid-cols-[300px_minmax(0,1fr)]">
         <aside className="border-b border-white/10 bg-white/[0.03] p-4 md:p-6 xl:border-b-0 xl:border-r">
           <div className="rounded-[24px] border border-white/10 bg-black/20 p-5 md:rounded-[28px] md:p-6">
-            <img
+            <Image
               src="/brand/symbol-blue.png"
               alt="Privilege Imóveis"
+              width={48}
+              height={48}
               className="h-12 w-12 object-contain"
             />
             <span className="text-[#72A3BF] uppercase tracking-[0.3em] text-xs">
@@ -481,9 +484,12 @@ export default function AdminPage() {
         <section className="min-w-0 p-4 md:p-6 xl:p-10">
           <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between xl:mb-10">
             <div>
-              <img
+              <Image
                 src="/brand/logo-horizontal-blue.png"
                 alt="Privilege Imóveis"
+                width={288}
+                height={64}
+                priority
                 className="mb-6 h-12 w-56 object-contain object-left md:mb-8 md:h-16 md:w-72"
               />
               <span className="text-xs uppercase tracking-[0.26em] text-[#72A3BF] md:text-sm md:tracking-[0.3em]">
@@ -690,10 +696,12 @@ function AdminListLine({ label, value }: { label: string; value: number }) {
 function EmptyState({ text }: { text: string }) {
   return (
     <div className="min-h-72 rounded-[28px] border border-white/10 bg-black/20 flex flex-col items-center justify-center text-center px-6 text-white/60">
-      <img
+      <Image
         src="/brand/symbol-blue.png"
         alt=""
         aria-hidden="true"
+        width={56}
+        height={56}
         className="mb-5 h-14 w-14 object-contain opacity-20"
       />
       <span>{text}</span>

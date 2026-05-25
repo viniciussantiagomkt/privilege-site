@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { supabase } from "@/lib/supabase";
@@ -236,9 +237,11 @@ export default function AdminBrokersPage() {
               </label>
 
               {form.avatar_url && (
-                <img
+                <Image
                   src={form.avatar_url}
                   alt=""
+                  width={128}
+                  height={128}
                   className="h-32 w-32 rounded-2xl object-cover"
                 />
               )}
@@ -279,9 +282,11 @@ export default function AdminBrokersPage() {
                 className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/60 p-5 md:p-6"
               >
                 <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-                  <img
+                  <Image
                     src={broker.avatar_url || "/brand/symbol-blue.png"}
                     alt={broker.name || "Corretor"}
+                    width={96}
+                    height={96}
                     className="h-24 w-24 rounded-3xl object-cover"
                   />
                   <div className="min-w-0 flex-1">

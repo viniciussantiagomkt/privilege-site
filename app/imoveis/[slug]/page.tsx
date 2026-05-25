@@ -17,6 +17,7 @@ import { attachPropertyImages } from "@/lib/property-media";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Broker, Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 interface PropertyPageProps {
   params: Promise<{
@@ -190,10 +191,12 @@ export default async function PropertyPage({
 
       <section className="relative px-5 pb-20 pt-32 md:px-6 md:pb-24">
         <div className="mx-auto max-w-7xl">
-          <img
+          <Image
             src="/brand/symbol-blue.png"
             alt=""
             aria-hidden="true"
+            width={544}
+            height={340}
             className="pointer-events-none absolute right-0 top-28 hidden w-[34rem] opacity-[0.035] md:block"
           />
           <Breadcrumb
@@ -265,10 +268,12 @@ export default async function PropertyPage({
 
               <div className="mt-14 md:mt-20">
                 <div className="mb-8 flex items-center gap-4 md:mb-10">
-                  <img
+                  <Image
                     src="/brand/symbol-blue.png"
                     alt=""
                     aria-hidden="true"
+                    width={32}
+                    height={32}
                     className="h-8 w-8 object-contain opacity-45"
                   />
                   <div className="h-px flex-1 bg-[#446E87]/14" />
@@ -365,9 +370,11 @@ export default async function PropertyPage({
               {broker && (
                 <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-6 md:rounded-[32px] md:p-8">
                   <div className="flex items-center gap-4">
-                    <img
+                    <Image
                       src={broker.avatar_url || "/brand/symbol-blue.png"}
                       alt={broker.name || "Corretor responsável"}
+                      width={64}
+                      height={64}
                       className="h-16 w-16 rounded-2xl object-cover"
                     />
                     <div>
@@ -441,7 +448,7 @@ export default async function PropertyPage({
         </div>
       </section>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-[#446E87]/14 bg-[#E0E8E6]/92 p-3 shadow-[0_-18px_60px_rgba(3,15,24,0.12)] backdrop-blur-2xl md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-[#446E87]/14 bg-[#E0E8E6]/92 px-3 pt-3 shadow-[0_-18px_60px_rgba(3,15,24,0.12)] backdrop-blur-2xl md:hidden safe-area-bottom">
         <WhatsAppLeadButton
           href={whatsappUrl}
           propertyId={property.id}

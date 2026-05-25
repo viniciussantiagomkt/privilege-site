@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
@@ -19,22 +21,24 @@ export default function AboutPage() {
           <div className="mt-12 grid grid-cols-1 gap-10 lg:mt-20 lg:grid-cols-2 lg:gap-20">
             <div>
               <p className="text-base leading-7 text-[#030F18]/68 md:text-lg md:leading-8">
-                A Privilege Imóveis nasceu para oferecer uma experiência
-                imobiliária sofisticada, moderna e altamente personalizada.
+                A Privilege Imóveis nasceu para oferecer uma experiência imobiliária
+                sofisticada, moderna e altamente personalizada.
               </p>
 
               <p className="mt-6 text-base leading-7 text-[#030F18]/68 md:mt-8 md:text-lg md:leading-8">
-                Nosso foco está em imóveis de alto padrão, oportunidades
-                exclusivas e atendimento premium para clientes que valorizam
-                conforto, localização e investimento inteligente.
+                Nosso foco está em imóveis de alto padrão, oportunidades exclusivas
+                e atendimento premium para clientes que valorizam conforto,
+                localização e investimento inteligente.
               </p>
             </div>
 
-            <div className="overflow-hidden rounded-[28px] border border-[#446E87]/14 shadow-[0_24px_80px_rgba(3,15,24,0.07)] md:rounded-[32px]">
-              <img
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] border border-[#446E87]/14 shadow-[0_24px_80px_rgba(3,15,24,0.07)] md:aspect-[16/11] md:rounded-[32px]">
+              <Image
                 src="https://images.unsplash.com/photo-1600585154526-990dced4db0d"
                 alt="Privilege Imóveis"
-                className="aspect-[4/5] h-auto w-full object-cover md:aspect-[16/11]"
+                fill
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
               />
             </div>
           </div>

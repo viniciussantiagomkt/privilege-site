@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+
 import { absoluteUrl, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
     siteName: "Privilege Imóveis",
     locale: "pt_BR",
     type: "website",
+    images: [absoluteUrl("/brand/logo-horizontal-blue.png")],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privilege Imóveis",
+    description: "Onde o privilégio tem endereço.",
+    images: [absoluteUrl("/brand/logo-horizontal-blue.png")],
   },
 };
 

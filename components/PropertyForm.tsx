@@ -1,5 +1,6 @@
 "use client";
 
+import NextImage from "next/image";
 import {
   ChangeEvent,
   DragEvent,
@@ -855,7 +856,13 @@ export function PropertyForm({
                 className="overflow-hidden rounded-2xl border border-white/10 bg-black/20"
               >
                 <div className="relative h-40">
-                  <img src={image} alt="" className="h-full w-full object-cover" />
+                  <NextImage
+                    src={image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover"
+                  />
                   {index === 0 && (
                     <span className="absolute left-3 top-3 rounded-full bg-[#72A3BF] px-3 py-1 text-xs font-semibold text-black">
                       Principal

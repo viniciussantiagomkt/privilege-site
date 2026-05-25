@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const links = [
@@ -10,12 +11,14 @@ const links = [
 export function Footer() {
   return (
     <footer data-nav-theme="dark" className="bg-[#030F18] px-4 pb-6 pt-14 text-[#E0E8E6] md:pb-8 md:pt-20">
-      <div className="premium-shell rounded-[30px] border border-[#E0E8E6]/10 bg-[#E0E8E6]/[0.035] p-6 md:rounded-[40px] md:p-10">
+      <div className="premium-shell rounded-[30px] border border-[#E0E8E6]/10 bg-[#E0E8E6]/[0.035] p-6 shadow-[0_-8px_80px_rgba(224,232,230,0.03)] md:rounded-[40px] md:p-10">
         <div className="grid gap-9 lg:grid-cols-[1fr_1fr_1fr] lg:gap-10">
           <div>
-            <img
+            <Image
               src="/brand/logo-horizontal-light.png"
               alt="Privilege Imóveis"
+              width={256}
+              height={56}
               className="h-12 w-56 object-contain object-left md:h-14 md:w-64"
             />
 
@@ -32,11 +35,7 @@ export function Footer() {
             <span className="text-sm text-[#E0E8E6]/40">Páginas</span>
             <div className="mt-4 grid gap-3">
               {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-[#E0E8E6]/62 transition hover:text-white"
-                >
+                <Link key={link.href} href={link.href} className="text-[#E0E8E6]/62 transition duration-500 hover:text-white">
                   {link.label}
                 </Link>
               ))}

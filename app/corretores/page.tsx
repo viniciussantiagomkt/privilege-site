@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Camera } from "lucide-react";
 
 import { Navbar } from "@/components/Navbar";
@@ -48,11 +49,15 @@ export default async function AgentsPage() {
                   key={agent.id}
                   className="group overflow-hidden rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/55 shadow-[0_24px_80px_rgba(3,15,24,0.06)] transition duration-700 hover:-translate-y-1 hover:border-[#446E87]/24 hover:shadow-[0_30px_90px_rgba(3,15,24,0.09)]"
                 >
-                  <img
-                    src={agent.avatar_url || "/brand/symbol-blue.png"}
-                    alt={agent.name || "Corretor Privilege"}
-                    className="aspect-[4/5] h-auto w-full object-cover transition duration-1000 group-hover:scale-[1.025] md:h-[500px] md:aspect-auto"
-                  />
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <Image
+                      src={agent.avatar_url || "/brand/symbol-blue.png"}
+                      alt={agent.name || "Corretor Privilege"}
+                      fill
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="object-cover transition duration-1000 group-hover:scale-[1.025]"
+                    />
+                  </div>
 
                   <div className="p-6 md:p-8">
                     <h2 className="text-2xl font-semibold md:text-3xl">{agent.name}</h2>
@@ -63,9 +68,7 @@ export default async function AgentsPage() {
                       {agent.creci || "CRECI 839J"}
                     </p>
                     {agent.bio && (
-                      <p className="mt-5 text-sm leading-6 text-[#030F18]/58">
-                        {agent.bio}
-                      </p>
+                      <p className="mt-5 text-sm leading-6 text-[#030F18]/58">{agent.bio}</p>
                     )}
 
                     <div className="mt-7 flex items-center gap-3 md:mt-8">
@@ -97,12 +100,19 @@ export default async function AgentsPage() {
 
             {!agents.length && (
               <div className="rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-8 text-center md:col-span-2 md:p-12">
+                <Image
+                  src="/brand/symbol-blue.png"
+                  alt=""
+                  aria-hidden="true"
+                  width={56}
+                  height={56}
+                  className="mx-auto mb-5 h-14 w-14 object-contain opacity-20"
+                />
                 <h2 className="text-3xl font-semibold text-[#1D4052]">
                   Equipe em atualização.
                 </h2>
                 <p className="mx-auto mt-4 max-w-xl text-[#030F18]/58">
-                  Os corretores ativos cadastrados no painel administrativo
-                  aparecerão aqui automaticamente.
+                  Os corretores ativos cadastrados no painel administrativo aparecerão aqui automaticamente.
                 </p>
               </div>
             )}

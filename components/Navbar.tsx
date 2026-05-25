@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -26,6 +27,7 @@ export function Navbar() {
 
       setDarkSurface(Boolean(target));
     }
+
     detectSurface();
     window.addEventListener("scroll", detectSurface, { passive: true });
     window.addEventListener("resize", detectSurface);
@@ -36,17 +38,24 @@ export function Navbar() {
     };
   }, []);
 
+  const logoSrc = darkSurface
+    ? "/brand/logo-horizontal-light.png"
+    : "/brand/logo-horizontal-blue.png";
+
   return (
     <header className="pointer-events-none fixed left-0 top-0 z-50 w-full px-3 py-3 text-[#030F18] md:px-4 md:py-5">
       <div className="premium-shell pointer-events-auto flex items-center justify-center gap-3">
         <Link
           href="/"
-          className="premium-pill hidden h-14 items-center justify-center rounded-full px-5 transition hover:scale-[1.015] md:flex"
+          className="premium-pill hidden h-14 items-center justify-center rounded-full px-5 transition duration-500 hover:scale-[1.015] md:flex"
           aria-label="Privilege Imóveis"
         >
-          <img
-            src={darkSurface ? "/brand/logo-horizontal-light.png" : "/brand/logo-horizontal-blue.png"}
+          <Image
+            src={logoSrc}
             alt="Privilege Imóveis"
+            width={176}
+            height={36}
+            priority
             className="h-9 w-44 object-contain object-left"
           />
         </Link>
@@ -57,20 +66,19 @@ export function Navbar() {
             className="mr-6 flex items-center md:hidden"
             aria-label="Privilege Imóveis"
           >
-            <img
-              src={darkSurface ? "/brand/logo-horizontal-light.png" : "/brand/logo-horizontal-blue.png"}
+            <Image
+              src={logoSrc}
               alt="Privilege Imóveis"
+              width={128}
+              height={32}
+              priority
               className="h-8 w-28 object-contain object-left sm:w-32"
             />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-              className="premium-nav-link text-sm"
-            >
+              <Link key={item.href} href={item.href} className="premium-nav-link text-sm">
                 {item.label}
               </Link>
             ))}
@@ -78,17 +86,14 @@ export function Navbar() {
 
           <button
             onClick={() => setOpen((current) => !current)}
-            className="ml-auto flex h-10 w-10 items-center justify-center rounded-full text-[#030F18]/70 transition hover:bg-white/35 lg:hidden"
+            className="ml-auto flex h-10 w-10 items-center justify-center rounded-full text-[#030F18]/70 transition duration-500 hover:bg-white/35 lg:hidden"
             aria-label="Abrir menu"
           >
             {open ? <X /> : <Menu />}
           </button>
         </div>
 
-        <Link
-          href="/contato"
-          className="premium-cta hidden px-6 text-sm md:inline-flex"
-        >
+        <Link href="/contato" className="premium-cta hidden px-6 text-sm md:inline-flex">
           Atendimento Privilege
         </Link>
       </div>
@@ -101,7 +106,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="rounded-2xl px-4 py-4 text-[#030F18]/78 transition hover:bg-white/40"
+                className="rounded-2xl px-4 py-4 text-[#030F18]/78 transition duration-500 hover:bg-white/40"
               >
                 {item.label}
               </Link>
@@ -109,7 +114,7 @@ export function Navbar() {
             <Link
               href="/contato"
               onClick={() => setOpen(false)}
-              className="mt-2 flex min-h-12 items-center justify-center rounded-full border border-[#1D4052] bg-[#1D4052] px-5 text-sm text-[#E0E8E6] transition hover:bg-[#446E87]"
+              className="mt-2 flex min-h-12 items-center justify-center rounded-full border border-[#1D4052] bg-[#1D4052] px-5 text-sm text-[#E0E8E6] transition duration-500 hover:bg-[#446E87]"
             >
               Atendimento Privilege
             </Link>
