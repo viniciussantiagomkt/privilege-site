@@ -13,6 +13,7 @@ interface BrokerCreateBody {
   position?: string;
   bio?: string;
   avatar_url?: string;
+  active?: boolean;
 }
 
 function getSupabaseAdmin() {
@@ -121,7 +122,7 @@ export async function POST(request: Request) {
       role_title: body.position || null,
       bio: body.bio || null,
       avatar_url: body.avatar_url || null,
-      active: true,
+      active: body.active !== false,
       updated_at: new Date().toISOString(),
     })
     .select()

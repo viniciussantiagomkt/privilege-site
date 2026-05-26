@@ -18,6 +18,7 @@ type BrokerForm = {
   position: string;
   bio: string;
   avatar_url: string;
+  active: boolean;
 };
 
 const emptyForm: BrokerForm = {
@@ -31,6 +32,7 @@ const emptyForm: BrokerForm = {
   position: "",
   bio: "",
   avatar_url: "",
+  active: true,
 };
 
 function slugify(value: string) {
@@ -62,7 +64,7 @@ export default function AdminBrokersPage() {
     setBrokers((data || []) as Broker[]);
   }
 
-  function updateField(field: keyof BrokerForm, value: string) {
+  function updateField(field: keyof BrokerForm, value: string | boolean) {
     setForm((current) => ({
       ...current,
       [field]: value,
@@ -82,6 +84,7 @@ export default function AdminBrokersPage() {
       position: broker.position || broker.role_title || "",
       bio: broker.bio || "",
       avatar_url: broker.avatar_url || "",
+      active: broker.active !== false,
     });
     setMessage("");
   }
@@ -127,6 +130,7 @@ export default function AdminBrokersPage() {
           role_title: form.position || null,
           bio: form.bio || null,
           avatar_url: form.avatar_url || null,
+          active: form.active,
           updated_at: new Date().toISOString(),
         })
         .eq("id", editingId);
@@ -180,10 +184,10 @@ export default function AdminBrokersPage() {
     await loadBrokers();
   }
 
-  async function deactivateBroker(id: string) {
+  async function toggleBrokerVisibility(id: string, active: boolean) {
     const { error } = await supabase
       .from("brokers")
-      .update({ active: false, updated_at: new Date().toISOString() })
+      .update({ active, updated_at: new Date().toISOString() })
       .eq("id", id);
 
     if (error) {
@@ -230,6 +234,23 @@ export default function AdminBrokersPage() {
               <input className="admin-input" placeholder="WhatsApp" value={form.whatsapp} onChange={(e) => updateField("whatsapp", e.target.value)} />
               <input className="admin-input" placeholder="Telefone" value={form.phone} onChange={(e) => updateField("phone", e.target.value)} />
               <input className="admin-input" placeholder="Instagram" value={form.instagram} onChange={(e) => updateField("instagram", e.target.value)} />
+
+              <label className="flex items-center justify-between gap-4 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/60 p-4">
+                <span>
+                  <span className="block text-sm font-medium text-[#1D4052]">
+                    Exibir na página de corretores
+                  </span>
+                  <span className="mt-1 block text-xs leading-5 text-[#030F18]/52">
+                    Desative para manter o corretor salvo no admin sem mostrar no site público.
+                  </span>
+                </span>
+                <input
+                  type="checkbox"
+                  checked={form.active}
+                  onChange={(e) => updateField("active", e.target.checked)}
+                  className="h-5 w-5 shrink-0 accent-[#1D4052]"
+                />
+              </label>
 
               <label className="rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/60 p-4">
                 <span className="text-sm text-[#030F18]/60">Avatar</span>
@@ -298,7 +319,11 @@ export default function AdminBrokersPage() {
                     <div className="mt-3 flex flex-wrap gap-3 text-sm text-[#030F18]/58">
                       {broker.whatsapp && <span>{broker.whatsapp}</span>}
                       {broker.instagram && <span>{broker.instagram}</span>}
-                      {!broker.active && <span className="text-red-600">Inativo</span>}
+                      {broker.active === false ? (
+                        <span className="text-red-600">Oculto no site</span>
+                      ) : (
+                        <span className="text-[#1D4052]">Visível no site</span>
+                      )}
                     </div>
                   </div>
                   <div className="grid gap-2 sm:w-36">
@@ -309,10 +334,14 @@ export default function AdminBrokersPage() {
                       Editar
                     </button>
                     <button
-                      onClick={() => deactivateBroker(broker.id)}
-                      className="h-11 rounded-full bg-red-500/10 text-red-700"
+                      onClick={() => toggleBrokerVisibility(broker.id, broker.active === false)}
+                      className={`h-11 rounded-full ${
+                        broker.active === false
+                          ? "bg-[#1D4052] text-[#E0E8E6]"
+                          : "bg-red-500/10 text-red-700"
+                      }`}
                     >
-                      Remover
+                      {broker.active === false ? "Mostrar" : "Ocultar"}
                     </button>
                   </div>
                 </div>
