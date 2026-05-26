@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { trackEvent } from "@/lib/analytics";
 
 interface WhatsAppLeadButtonProps {
@@ -70,6 +72,14 @@ export function WhatsAppLeadButton({
       onClick={trackLead}
       className={className}
     >
+      <Image
+        src="/social/whatsapp.png"
+        alt=""
+        aria-hidden="true"
+        width={22}
+        height={22}
+        className="mr-2 h-5 w-5 shrink-0 object-contain"
+      />
       {label}
     </a>
   );

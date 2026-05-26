@@ -396,17 +396,33 @@ export default async function PropertyPage({
                         href={broker.instagram}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex h-12 items-center justify-center rounded-2xl border border-[#1D4052]/18 text-sm text-[#1D4052]"
+                        aria-label="Instagram do corretor"
+                        className="flex h-12 items-center justify-center rounded-2xl border border-[#1D4052]/18 text-sm text-[#1D4052] transition duration-500 hover:bg-white/45"
                       >
-                        Instagram
+                        <Image
+                          src="/social/instagram.png"
+                          alt=""
+                          aria-hidden="true"
+                          width={26}
+                          height={26}
+                          className="h-6 w-6 object-contain"
+                        />
                       </a>
                     )}
                     <a
                       href={whatsappUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex h-12 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] text-sm text-white"
+                      className="flex h-12 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] text-sm text-white transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857]"
                     >
+                      <Image
+                        src="/social/whatsapp.png"
+                        alt=""
+                        aria-hidden="true"
+                        width={22}
+                        height={22}
+                        className="mr-2 h-5 w-5 object-contain"
+                      />
                       WhatsApp
                     </a>
                   </div>

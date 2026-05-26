@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Camera } from "lucide-react";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -81,7 +80,15 @@ export default async function AgentsPage() {
                         rel="noreferrer"
                         className="flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] px-5 py-3 text-white shadow-[0_18px_50px_rgba(37,211,102,0.16)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] sm:flex-none md:px-6 md:py-4"
                       >
-                        Falar no WhatsApp
+                        <Image
+                          src="/social/whatsapp.png"
+                          alt=""
+                          aria-hidden="true"
+                          width={22}
+                          height={22}
+                          className="mr-2 h-5 w-5 object-contain"
+                        />
+                        Falar com corretor
                       </a>
 
                       {instagram && (
@@ -90,9 +97,16 @@ export default async function AgentsPage() {
                           target="_blank"
                           rel="noreferrer"
                           aria-label={`Instagram de ${agent.name}`}
-                          className="flex h-14 w-14 items-center justify-center rounded-full border border-[#1D4052]/12 bg-transparent text-[#1D4052] transition duration-500 hover:-translate-y-1 hover:border-[#1D4052] hover:bg-[#1D4052] hover:text-[#E0E8E6]"
+                          className="flex h-14 w-14 items-center justify-center rounded-full border border-[#1D4052]/12 bg-transparent transition duration-500 hover:-translate-y-1 hover:border-[#1D4052] hover:bg-white/45"
                         >
-                          <Camera className="h-5 w-5" />
+                          <Image
+                            src="/social/instagram.png"
+                            alt=""
+                            aria-hidden="true"
+                            width={28}
+                            height={28}
+                            className="h-7 w-7 object-contain transition duration-500 hover:scale-105"
+                          />
                         </a>
                       )}
                     </div>

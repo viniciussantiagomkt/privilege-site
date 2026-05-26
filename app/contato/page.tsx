@@ -1,28 +1,29 @@
+import Image from "next/image";
+
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { LeadForm } from "@/components/LeadForm";
-import { Camera, MessageCircle, Music2, Play } from "lucide-react";
 
 const socialLinks = [
   {
     label: "WhatsApp",
     href: "https://wa.me/5583999999999",
-    icon: MessageCircle,
+    icon: "/social/whatsapp.png",
   },
   {
     label: "Instagram",
     href: "https://instagram.com/privilegeimoveis",
-    icon: Camera,
+    icon: "/social/instagram.png",
   },
   {
     label: "YouTube",
     href: "https://youtube.com",
-    icon: Play,
+    icon: "/social/youtube.png",
   },
   {
     label: "TikTok",
     href: "https://tiktok.com",
-    icon: Music2,
+    icon: "/social/tiktok.png",
   },
 ];
 
@@ -43,8 +44,8 @@ export default function ContactPage() {
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-7 text-[#030F18]/62 md:mt-8 md:text-lg md:leading-8">
-                Atendimento premium para clientes que buscam imóveis exclusivos
-                e oportunidades estratégicas.
+              Atendimento premium para clientes que buscam imóveis exclusivos
+              e oportunidades estratégicas.
             </p>
 
             <div className="mt-10 grid gap-4 text-[#030F18]/68 md:mt-12">
@@ -58,27 +59,25 @@ export default function ContactPage() {
             </div>
 
             <div className="mt-8 flex items-center gap-3 md:mt-10">
-              {socialLinks.map((item) => {
-                const Icon = item.icon;
-                const isWhatsApp = item.label === "WhatsApp";
-
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={item.label}
-                    className={`group flex h-12 w-12 items-center justify-center rounded-full shadow-[0_12px_36px_rgba(3,15,24,0.05)] transition duration-500 hover:-translate-y-1 ${
-                      isWhatsApp
-                        ? "border border-[#25D366] bg-[#25D366] text-white hover:border-[#1FB857] hover:bg-[#1FB857]"
-                        : "border border-[#030F18]/8 bg-[#E0E8E6]/70 text-[#030F18] hover:border-[#030F18] hover:bg-[#030F18] hover:text-[#E0E8E6]"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 transition duration-500 group-hover:scale-105" />
-                  </a>
-                );
-              })}
+              {socialLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={item.label}
+                  className="group flex h-12 w-12 items-center justify-center rounded-full border border-[#030F18]/8 bg-[#E0E8E6]/70 shadow-[0_12px_36px_rgba(3,15,24,0.05)] transition duration-500 hover:-translate-y-1 hover:border-[#030F18]/18 hover:bg-white/60"
+                >
+                  <Image
+                    src={item.icon}
+                    alt=""
+                    aria-hidden="true"
+                    width={28}
+                    height={28}
+                    className="h-7 w-7 object-contain transition duration-500 group-hover:scale-105"
+                  />
+                </a>
+              ))}
             </div>
           </div>
 
