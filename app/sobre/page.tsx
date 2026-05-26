@@ -1,7 +1,32 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Sobre a Privilege Imóveis",
+  description:
+    "Conheça a Privilege Imóveis, imobiliária premium em Campina Grande com curadoria de imóveis de alto padrão na Paraíba.",
+  alternates: {
+    canonical: "/sobre",
+  },
+  openGraph: {
+    title: "Sobre a Privilege Imóveis",
+    description:
+      "Atendimento imobiliário premium, curadoria especializada e imóveis de alto padrão em Campina Grande e Paraíba.",
+    url: "/sobre",
+    type: "website",
+    images: [{ url: absoluteUrl(defaultOgImage), alt: "Privilege Imóveis" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sobre a Privilege Imóveis",
+    description: "Curadoria imobiliária premium em Campina Grande e Paraíba.",
+    images: [absoluteUrl(defaultOgImage)],
+  },
+};
 
 export default function AboutPage() {
   return (

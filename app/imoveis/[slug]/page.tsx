@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/Navbar";
+﻿import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { LeadForm } from "@/components/LeadForm";
@@ -12,7 +12,7 @@ import { VideoEmbed } from "@/components/VideoEmbed";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
-import { absoluteUrl, cleanMetadataText } from "@/lib/site";
+import { absoluteUrl, cleanMetadataText, defaultOgImage, siteName } from "@/lib/site";
 import { attachPropertyImages } from "@/lib/property-media";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Broker, Property, PropertyImage } from "@/types/property";
@@ -42,6 +42,10 @@ export async function generateMetadata({
   if (!property) {
     return {
       title: "Imóvel não encontrado",
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
@@ -52,7 +56,11 @@ export async function generateMetadata({
     cleanMetadataText(property.meta_description, 40) ||
     property.description?.slice(0, 155) ||
     "Imóvel premium selecionado pela Privilege Imóveis.";
-  const image = property.og_image || property.main_image_url || property.images?.[0];
+  const image =
+    property.og_image ||
+    property.main_image_url ||
+    property.images?.[0] ||
+    absoluteUrl(defaultOgImage);
   const path = `/imoveis/${property.slug}`;
 
   return {
@@ -65,8 +73,16 @@ export async function generateMetadata({
       title,
       description,
       url: path,
-      images: image ? [{ url: image, alt: property.title }] : undefined,
+      siteName,
+      locale: "pt_BR",
+      images: [{ url: absoluteUrl(image), alt: property.title }],
       type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [absoluteUrl(image)],
     },
   };
 }
@@ -150,32 +166,45 @@ export default async function PropertyPage({
     ...(property.videos ?? []),
     property.virtual_tour_url,
   ].filter((video, index, list): video is string => Boolean(video) && list.indexOf(video) === index);
+  const schemaImages = images.length ? images.map(absoluteUrl) : [absoluteUrl(defaultOgImage)];
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
+    "@id": absoluteUrl(`/imoveis/${property.slug}#listing`),
     name: property.title,
     description: property.description,
     url: absoluteUrl(`/imoveis/${property.slug}`),
-    image: images,
+    image: schemaImages,
     datePosted: property.created_at,
+    category: property.category,
     address: {
       "@type": "PostalAddress",
       addressLocality: property.city || property.location,
       addressRegion: "PB",
+      addressCountry: "BR",
       streetAddress: property.address || property.location,
     },
+    floorSize: property.area
+      ? {
+          "@type": "QuantitativeValue",
+          value: property.area,
+        }
+      : undefined,
+    numberOfRooms: property.bedrooms || undefined,
     offers: {
       "@type": "Offer",
       price: getPropertyNumericPrice(property.price) || undefined,
       priceCurrency: "BRL",
       availability: property.status === "vendido" ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
+      url: absoluteUrl(`/imoveis/${property.slug}`),
     },
     broker: broker
       ? {
           "@type": "RealEstateAgent",
           name: broker.name || broker.email,
           telephone: broker.phone || broker.whatsapp,
-          image: broker.avatar_url,
+          image: broker.avatar_url || absoluteUrl(defaultOgImage),
+          url: absoluteUrl("/corretores"),
         }
       : undefined,
   };
@@ -494,3 +523,5 @@ function InfoCard({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+

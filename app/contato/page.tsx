@@ -1,8 +1,33 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { LeadForm } from "@/components/LeadForm";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Contato | Privilege Imóveis",
+  description:
+    "Fale com especialistas da Privilege Imóveis em Campina Grande para comprar, vender, alugar ou avaliar imóveis premium na Paraíba.",
+  alternates: {
+    canonical: "/contato",
+  },
+  openGraph: {
+    title: "Contato | Privilege Imóveis",
+    description:
+      "Atendimento imobiliário premium em Campina Grande e Paraíba.",
+    url: "/contato",
+    type: "website",
+    images: [{ url: absoluteUrl(defaultOgImage), alt: "Contato Privilege Imóveis" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contato | Privilege Imóveis",
+    description: "Fale com especialistas da Privilege Imóveis.",
+    images: [absoluteUrl(defaultOgImage)],
+  },
+};
 
 const socialLinks = [
   {

@@ -45,8 +45,8 @@ export function normalizeText(value = "") {
 
 export function slugToCategoryLabel(slug: string) {
   return (
-    propertyCategories.find((category) => category.value === slug)
-      ?.label ?? slug.replace(/-/g, " ")
+    propertyCategories.find((category) => category.value === slug)?.label ??
+    slug.replace(/-/g, " ")
   );
 }
 
@@ -93,9 +93,7 @@ export function matchesCategory(property: Property, category: string) {
   const terms = aliases[normalizedCategory] ?? [normalizedCategory];
 
   return terms.some(
-    (term) =>
-      propertyCategory.includes(term) ||
-      propertyTitle.includes(term)
+    (term) => propertyCategory.includes(term) || propertyTitle.includes(term)
   );
 }
 
@@ -165,9 +163,9 @@ export function filterProperties(
       );
     const matchesNeighborhood =
       !filters.bairro ||
-      normalizeText(
-        property.neighborhood_slug || property.neighborhood || ""
-      ).includes(normalizeText(filters.bairro));
+      normalizeText(property.neighborhood_slug || property.neighborhood || "").includes(
+        normalizeText(filters.bairro)
+      );
     const matchesStatus =
       !filters.status ||
       normalizeText(property.status || "ativo") === normalizeText(filters.status);
@@ -193,9 +191,15 @@ export function filterProperties(
   return filtered.sort((a, b) => {
     switch (filters.ordenar) {
       case "maior-valor":
-        return (getPropertyNumericPrice(b.price) ?? 0) - (getPropertyNumericPrice(a.price) ?? 0);
+        return (
+          (getPropertyNumericPrice(b.price) ?? 0) -
+          (getPropertyNumericPrice(a.price) ?? 0)
+        );
       case "menor-valor":
-        return (getPropertyNumericPrice(a.price) ?? Number.MAX_SAFE_INTEGER) - (getPropertyNumericPrice(b.price) ?? Number.MAX_SAFE_INTEGER);
+        return (
+          (getPropertyNumericPrice(a.price) ?? Number.MAX_SAFE_INTEGER) -
+          (getPropertyNumericPrice(b.price) ?? Number.MAX_SAFE_INTEGER)
+        );
       case "mais-vistos":
         return Number(b.view_count ?? 0) - Number(a.view_count ?? 0);
       case "destaque":

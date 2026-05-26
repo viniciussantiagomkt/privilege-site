@@ -1,13 +1,39 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { createServerClient } from "@/lib/supabase-server";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Broker } from "@/types/property";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Corretores especialistas | Privilege Imóveis",
+  description:
+    "Conheça os corretores da Privilege Imóveis em Campina Grande, especialistas em imóveis premium, casas em condomínio e oportunidades na Paraíba.",
+  alternates: {
+    canonical: "/corretores",
+  },
+  openGraph: {
+    title: "Corretores especialistas | Privilege Imóveis",
+    description:
+      "Equipe de atendimento imobiliário premium em Campina Grande e Paraíba.",
+    url: "/corretores",
+    type: "website",
+    images: [{ url: absoluteUrl(defaultOgImage), alt: "Corretores Privilege Imóveis" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Corretores Privilege Imóveis",
+    description:
+      "Especialistas em imóveis premium em Campina Grande e Paraíba.",
+    images: [absoluteUrl(defaultOgImage)],
+  },
+};
 
 function normalizeInstagram(value?: string | null) {
   if (!value) return null;
@@ -24,8 +50,29 @@ export default async function AgentsPage() {
     .order("created_at", { ascending: false });
   const agents = (data || []) as Broker[];
 
+  const agentsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: agents.map((agent, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "RealEstateAgent",
+        name: agent.name || agent.email,
+        email: agent.email,
+        telephone: agent.phone || agent.whatsapp,
+        image: agent.avatar_url || absoluteUrl(defaultOgImage),
+        url: absoluteUrl("/corretores"),
+      },
+    })),
+  };
+
   return (
     <main className="text-[#030F18]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(agentsJsonLd) }}
+      />
       <Navbar />
 
       <section className="px-5 pb-20 pt-32 md:px-6 md:pb-24 md:pt-40">

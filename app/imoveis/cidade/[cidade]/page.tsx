@@ -6,6 +6,7 @@ import { PropertyCard } from "@/components/PropertyCard";
 import { createServerClient } from "@/lib/supabase-server";
 import { normalizeText } from "@/lib/property-filters";
 import { attachPropertyImages } from "@/lib/property-media";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
 
 interface CityPageProps {
@@ -27,17 +28,28 @@ export async function generateMetadata({
 }: CityPageProps): Promise<Metadata> {
   const { cidade } = await params;
   const label = cityLabel(cidade);
+  const path = `/imoveis/cidade/${cidade}`;
+  const title = `Imóveis em ${label}`;
+  const description = `Seleção premium de imóveis em ${label}, Paraíba, com curadoria da Privilege Imóveis.`;
 
   return {
-    title: `Imóveis em ${label}`,
-    description: `Seleção premium de imóveis em ${label} com curadoria Privilege Imóveis.`,
+    title,
+    description,
     alternates: {
-      canonical: `/imoveis/cidade/${cidade}`,
+      canonical: path,
     },
     openGraph: {
-      title: `Imóveis em ${label} | Privilege Imóveis`,
-      description: `Casas, apartamentos, terrenos e oportunidades premium em ${label}.`,
-      url: `/imoveis/cidade/${cidade}`,
+      title: `${title} | Privilege Imóveis`,
+      description,
+      url: path,
+      type: "website",
+      images: [{ url: absoluteUrl(defaultOgImage), alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | Privilege Imóveis`,
+      description,
+      images: [absoluteUrl(defaultOgImage)],
     },
   };
 }
@@ -60,13 +72,30 @@ export default async function CityPage({ params }: CityPageProps) {
     (data || []) as Property[],
     (imageData || []) as PropertyImage[]
   ).filter((property) => {
-    const slug = property.city_slug || normalizeText(property.city || "").replace(/\s+/g, "-");
+    const slug =
+      property.city_slug || normalizeText(property.city || "").replace(/\s+/g, "-");
     return slug === cidade;
   });
   const label = cityLabel(cidade);
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Imóveis em ${label}`,
+    url: absoluteUrl(`/imoveis/cidade/${cidade}`),
+    itemListElement: properties.map((property, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/imoveis/${property.slug}`),
+      name: property.title,
+    })),
+  };
 
   return (
     <main className="text-[#030F18]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
       <Navbar />
 
       <section className="px-4 pb-20 pt-32 md:pb-24 md:pt-40">

@@ -14,6 +14,7 @@ import {
   slugToCategoryLabel,
 } from "@/lib/property-filters";
 import { attachPropertyImages } from "@/lib/property-media";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
 
 interface CategoryPageProps {
@@ -28,18 +29,27 @@ export async function generateMetadata({
   const { categoria } = await params;
   const categoryLabel = slugToCategoryLabel(categoria);
   const path = `/imoveis/categoria/${categoria}`;
+  const title = `${categoryLabel} em Campina Grande e Paraíba`;
+  const description = `Curadoria Privilege de ${categoryLabel.toLowerCase()} em Campina Grande e Paraíba com atendimento imobiliário premium.`;
 
   return {
-    title: categoryLabel,
-    description: `Curadoria Privilege de ${categoryLabel.toLowerCase()} com atendimento imobiliário premium.`,
+    title,
+    description,
     alternates: {
       canonical: path,
     },
     openGraph: {
-      title: `${categoryLabel} | Privilege Imóveis`,
-      description: `Explore ${categoryLabel.toLowerCase()} selecionados pela Privilege Imóveis.`,
+      title: `${title} | Privilege Imóveis`,
+      description,
       url: path,
       type: "website",
+      images: [{ url: absoluteUrl(defaultOgImage), alt: categoryLabel }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | Privilege Imóveis`,
+      description,
+      images: [absoluteUrl(defaultOgImage)],
     },
   };
 }
@@ -69,17 +79,36 @@ export default async function CategoryPage({
       .select("property_id,url,is_main,sort_order"),
   ]);
 
-  const properties = filterProperties(attachPropertyImages(
-    (data || []) as Property[],
-    (imageData || []) as PropertyImage[]
-  ), {
-    categoria,
-  });
+  const properties = filterProperties(
+    attachPropertyImages(
+      (data || []) as Property[],
+      (imageData || []) as PropertyImage[]
+    ),
+    {
+      categoria,
+    }
+  );
 
   const categoryLabel = slugToCategoryLabel(categoria);
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `${categoryLabel} | Privilege Imóveis`,
+    url: absoluteUrl(`/imoveis/categoria/${categoria}`),
+    itemListElement: properties.map((property, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/imoveis/${property.slug}`),
+      name: property.title,
+    })),
+  };
 
   return (
     <main className="text-[#030F18]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
       <Navbar />
 
       <section className="px-5 pb-20 pt-32 md:px-6 md:pb-24 md:pt-40">
@@ -117,10 +146,7 @@ export default async function CategoryPage({
           {properties.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-3">
               {properties.map((property) => (
-                <PropertyCard
-                  key={property.id}
-                  property={property}
-                />
+                <PropertyCard key={property.id} property={property} />
               ))}
             </div>
           ) : (
@@ -129,7 +155,7 @@ export default async function CategoryPage({
                 Nenhum imóvel encontrado nesta categoria.
               </h2>
 
-              <p className="text-[#030F18]/56 mt-4">
+              <p className="mt-4 text-[#030F18]/56">
                 Veja a central completa ou fale com a equipe para buscar
                 oportunidades exclusivas.
               </p>

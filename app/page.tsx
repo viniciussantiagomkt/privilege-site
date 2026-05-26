@@ -9,7 +9,32 @@ import { CTA } from "@/sections/cta";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privilege Imóveis | Curadoria imobiliária premium na Paraíba",
+  description:
+    "Imóveis de alto padrão em Campina Grande e Paraíba com curadoria premium, atendimento especializado e experiência imobiliária sofisticada.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Privilege Imóveis | Curadoria imobiliária premium",
+    description:
+      "Explore casas, apartamentos, condomínios e terrenos selecionados pela Privilege Imóveis.",
+    url: "/",
+    type: "website",
+    images: [{ url: absoluteUrl(defaultOgImage), alt: "Privilege Imóveis" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privilege Imóveis",
+    description: "Curadoria imobiliária premium em Campina Grande e Paraíba.",
+    images: [absoluteUrl(defaultOgImage)],
+  },
+};
 
 export default async function Home() {
   const supabase =

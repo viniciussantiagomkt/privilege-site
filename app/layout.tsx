@@ -1,34 +1,65 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 
-import { absoluteUrl, siteUrl } from "@/lib/site";
+import {
+  absoluteUrl,
+  companyEmail,
+  companyPhone,
+  defaultDescription,
+  defaultOgImage,
+  defaultTitle,
+  localKeywords,
+  siteName,
+  siteUrl,
+} from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Privilege Imóveis",
-    template: "%s | Privilege Imóveis",
+    default: defaultTitle,
+    template: `%s | ${siteName}`,
   },
-  description: "Onde o privilégio tem endereço.",
+  description: defaultDescription,
+  keywords: localKeywords,
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/brand/favicon.png",
     shortcut: "/brand/favicon.png",
     apple: "/brand/favicon.png",
   },
   openGraph: {
-    title: "Privilege Imóveis",
-    description: "Onde o privilégio tem endereço.",
-    siteName: "Privilege Imóveis",
+    title: defaultTitle,
+    description: defaultDescription,
+    siteName,
     locale: "pt_BR",
     type: "website",
-    images: [absoluteUrl("/brand/logo-horizontal-blue.png")],
+    url: "/",
+    images: [
+      {
+        url: absoluteUrl(defaultOgImage),
+        alt: siteName,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privilege Imóveis",
-    description: "Onde o privilégio tem endereço.",
-    images: [absoluteUrl("/brand/logo-horizontal-blue.png")],
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [absoluteUrl(defaultOgImage)],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -36,21 +67,46 @@ const gaId = process.env.NEXT_PUBLIC_GA4_ID;
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
 
-const localBusinessJsonLd = {
+const businessJsonLd = {
   "@context": "https://schema.org",
-  "@type": "RealEstateAgent",
-  name: "Privilege Imóveis",
-  url: siteUrl,
-  logo: absoluteUrl("/brand/logo-horizontal-blue.png"),
-  image: absoluteUrl("/brand/logo-horizontal-blue.png"),
-  email: "contato@privilegeimoveis.com.br",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Campina Grande",
-    addressRegion: "PB",
-    addressCountry: "BR",
-  },
-  areaServed: ["Campina Grande", "João Pessoa", "Paraíba"],
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": absoluteUrl("/#organization"),
+      name: siteName,
+      url: siteUrl,
+      logo: absoluteUrl("/brand/logo-horizontal-blue.png"),
+      image: absoluteUrl(defaultOgImage),
+      email: companyEmail,
+      telephone: companyPhone,
+      sameAs: [
+        "https://instagram.com/privilegeimoveis",
+        "https://youtube.com",
+        "https://tiktok.com",
+      ],
+    },
+    {
+      "@type": "RealEstateAgent",
+      "@id": absoluteUrl("/#real-estate-agent"),
+      name: siteName,
+      url: siteUrl,
+      logo: absoluteUrl("/brand/logo-horizontal-blue.png"),
+      image: absoluteUrl(defaultOgImage),
+      email: companyEmail,
+      telephone: companyPhone,
+      priceRange: "$$$",
+      areaServed: ["Campina Grande", "João Pessoa", "Paraíba"],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Campina Grande",
+        addressRegion: "PB",
+        addressCountry: "BR",
+      },
+      parentOrganization: {
+        "@id": absoluteUrl("/#organization"),
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -109,10 +165,10 @@ export default function RootLayout({
       )}
       <body>
         <Script
-          id="local-business-jsonld"
+          id="business-jsonld"
           type="application/ld+json"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd) }}
         />
         {children}
       </body>

@@ -4,7 +4,32 @@ import { PropertyCatalog } from "@/components/PropertyCatalog";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
+import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Imóveis à venda e aluguel em Campina Grande",
+  description:
+    "Catálogo premium de imóveis em Campina Grande e Paraíba com filtros por categoria, cidade, bairro, valor, status e quartos.",
+  alternates: {
+    canonical: "/imoveis",
+  },
+  openGraph: {
+    title: "Imóveis premium | Privilege Imóveis",
+    description:
+      "Encontre casas, apartamentos, condomínios, terrenos e oportunidades exclusivas na Paraíba.",
+    url: "/imoveis",
+    type: "website",
+    images: [{ url: absoluteUrl(defaultOgImage), alt: "Imóveis Privilege" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Imóveis premium | Privilege Imóveis",
+    description: "Catálogo imobiliário premium em Campina Grande e Paraíba.",
+    images: [absoluteUrl(defaultOgImage)],
+  },
+};
 
 export default async function PropertiesPage() {
   const supabase = createServerClient();
