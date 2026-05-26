@@ -7,6 +7,9 @@ import { createServerClient } from "@/lib/supabase-server";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Broker } from "@/types/property";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function normalizeInstagram(value?: string | null) {
   if (!value) return null;
   if (value.startsWith("http")) return value;
