@@ -8,14 +8,14 @@ import { absoluteUrl, defaultOgImage } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Sobre a Privilege Imóveis",
   description:
-    "Conheça a Privilege Imóveis, imobiliária premium em Campina Grande com curadoria de imóveis de alto padrão na Paraíba.",
+    "Conheça a Privilege Imóveis, uma imobiliária em Campina Grande que combina curadoria, atendimento próximo e inteligência de mercado.",
   alternates: {
     canonical: "/sobre",
   },
   openGraph: {
     title: "Sobre a Privilege Imóveis",
     description:
-      "Atendimento imobiliário premium, curadoria especializada e imóveis de alto padrão em Campina Grande e Paraíba.",
+      "Curadoria imobiliária, atendimento próximo e inteligência de mercado para decisões mais seguras.",
     url: "/sobre",
     type: "website",
     images: [{ url: absoluteUrl(defaultOgImage), alt: "Privilege Imóveis" }],
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Sobre a Privilege Imóveis",
-    description: "Curadoria imobiliária premium em Campina Grande e Paraíba.",
+    description: "Curadoria imobiliária em Campina Grande com atendimento próximo e estratégico.",
     images: [absoluteUrl(defaultOgImage)],
   },
 };
@@ -46,14 +46,15 @@ export default function AboutPage() {
           <div className="mt-12 grid grid-cols-1 gap-10 lg:mt-20 lg:grid-cols-2 lg:gap-20">
             <div>
               <p className="text-base leading-7 text-[#030F18]/68 md:text-lg md:leading-8">
-                A Privilege Imóveis nasceu para oferecer uma experiência imobiliária
-                sofisticada, moderna e altamente personalizada.
+                A Privilege Imóveis nasceu para tornar a jornada imobiliária
+                mais clara, criteriosa e bem conduzida do primeiro contato à
+                decisão final.
               </p>
 
               <p className="mt-6 text-base leading-7 text-[#030F18]/68 md:mt-8 md:text-lg md:leading-8">
-                Nosso foco está em imóveis de alto padrão, oportunidades exclusivas
-                e atendimento premium para clientes que valorizam conforto,
-                localização e investimento inteligente.
+                Unimos curadoria, conhecimento de mercado e atendimento próximo
+                para apresentar imóveis com boa localização, valor real e
+                aderência ao momento de cada cliente.
               </p>
             </div>
 

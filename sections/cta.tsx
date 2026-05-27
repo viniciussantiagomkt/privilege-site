@@ -21,7 +21,7 @@ export function CTA() {
                   className="mx-auto mt-5 max-w-5xl text-[clamp(2.35rem,12vw,6.4rem)] font-semibold leading-[0.98] md:mt-6 md:leading-[0.95]"
                   style={{ color: "#E0E8E6" }}
                 >
-                  O próximo patrimônio extraordinário pode estar a um clique.
+                  O imóvel certo pode mudar a forma como você vive a cidade.
                 </h2>
 
                 <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:items-center md:mt-12 md:flex-row">

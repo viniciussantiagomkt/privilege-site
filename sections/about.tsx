@@ -14,13 +14,12 @@ export function About() {
             </span>
 
             <h2 className="mt-5 text-[clamp(2.6rem,13vw,6.2rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.94]">
-              Mais que imóveis. Patrimônios extraordinários.
+              Imóveis escolhidos com critério. Atendimento feito com presença.
             </h2>
 
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#030F18]/58 md:mt-8 md:text-lg md:leading-8">
-              A Privilege conecta pessoas a experiências imobiliárias sofisticadas,
-              unindo arquitetura, localização e exclusividade em cada oportunidade
-              apresentada.
+              A Privilege conecta pessoas a imóveis que fazem sentido para sua
+              rotina, seus planos e sua forma de viver a cidade.
             </p>
 
             <Link href="/sobre" className="premium-cta mt-8 min-h-12 px-7 md:mt-10">
@@ -33,7 +32,7 @@ export function About() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] md:h-[560px] md:aspect-auto md:rounded-[36px]">
                 <Image
                   src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=2070&auto=format&fit=crop"
-                  alt="Casa premium"
+                  alt="Casa com arquitetura contemporânea"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover opacity-90"

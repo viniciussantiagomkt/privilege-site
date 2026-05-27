@@ -14,14 +14,14 @@ import { Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privilege Imóveis | Curadoria imobiliária premium na Paraíba",
+  title: "Privilege Imóveis | Curadoria imobiliária na Paraíba",
   description:
-    "Imóveis de alto padrão em Campina Grande e Paraíba com curadoria premium, atendimento especializado e experiência imobiliária sofisticada.",
+    "Imóveis em Campina Grande e Paraíba com curadoria, atendimento especializado e uma experiência de escolha mais clara e segura.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Privilege Imóveis | Curadoria imobiliária premium",
+    title: "Privilege Imóveis | Curadoria imobiliária",
     description:
       "Explore casas, apartamentos, condomínios e terrenos selecionados pela Privilege Imóveis.",
     url: "/",
@@ -31,14 +31,13 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Privilege Imóveis",
-    description: "Curadoria imobiliária premium em Campina Grande e Paraíba.",
+    description: "Curadoria imobiliária em Campina Grande e Paraíba.",
     images: [absoluteUrl(defaultOgImage)],
   },
 };
 
 export default async function Home() {
-  const supabase =
-    createServerClient();
+  const supabase = createServerClient();
 
   const [{ data: propertyData }, { data: imageData }] = await Promise.all([
     supabase
@@ -61,9 +60,7 @@ export default async function Home() {
 
       <Hero />
 
-      <FeaturedProperties
-        properties={properties}
-      />
+      <FeaturedProperties properties={properties} />
 
       <Categories />
 

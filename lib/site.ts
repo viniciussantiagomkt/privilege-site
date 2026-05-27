@@ -2,16 +2,16 @@ export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://www.privilegeimoveispb.com.br";
 
 export const siteName = "Privilege Imóveis";
-export const defaultTitle = "Privilege Imóveis | Imóveis de alto padrão na Paraíba";
+export const defaultTitle = "Privilege Imóveis | Curadoria imobiliária na Paraíba";
 export const defaultDescription =
-  "Curadoria imobiliária premium em Campina Grande e Paraíba para casas, apartamentos, condomínios, terrenos e oportunidades exclusivas.";
+  "Curadoria imobiliária em Campina Grande e Paraíba para casas, apartamentos, condomínios, terrenos e oportunidades bem localizadas.";
 export const defaultOgImage = "/brand/logo-horizontal-blue.png";
 export const companyEmail = "contato@privilegeimoveis.com.br";
 export const companyPhone = "+55 83 99999-9999";
 export const localKeywords = [
   "imóveis em Campina Grande",
   "imobiliária em Campina Grande",
-  "imóveis de alto padrão na Paraíba",
+  "imóveis na Paraíba",
   "casas em condomínio em Campina Grande",
   "Privilege Imóveis",
 ];

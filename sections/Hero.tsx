@@ -78,9 +78,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="text-[0.68rem] uppercase tracking-[0.32em] text-[#446E87] sm:text-xs sm:tracking-[0.42em]"
-            >
-              
-            </motion.span>
+            />
             <motion.h1
               initial={{ opacity: 0, y: 34 }}
               animate={{ opacity: 1, y: 0 }}
@@ -91,8 +89,8 @@ export function Hero() {
             </motion.h1>
 
             <p className="mt-6 max-w-md text-base leading-7 text-[#030F18]/62 sm:mt-8 sm:max-w-xl sm:text-lg sm:leading-8">
-              Curadoria imobiliária para quem valoriza arquitetura, localização
-              e patrimônio.
+              Uma curadoria imobiliária feita para quem busca escolher melhor,
+              viver bem e investir com confiança.
             </p>
           </motion.div>
           <div className="hidden lg:block" />
