@@ -30,7 +30,7 @@ export async function generateMetadata({
   const categoryLabel = slugToCategoryLabel(categoria);
   const path = `/imoveis/categoria/${categoria}`;
   const title = `${categoryLabel} em Campina Grande e Paraíba`;
-  const description = `Curadoria Privilege de ${categoryLabel.toLowerCase()} em Campina Grande e Paraíba com atendimento imobiliário premium.`;
+  const description = `Imobiliária em Campina Grande com opções de ${categoryLabel.toLowerCase()} para compra, venda ou aluguel com atendimento especializado.`;
 
   return {
     title,

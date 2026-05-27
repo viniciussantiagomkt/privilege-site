@@ -4,16 +4,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-import {
-  priceRanges,
-  propertyCategories,
-} from "@/lib/property-filters";
+import { priceRanges, propertyCategories } from "@/lib/property-filters";
 
 export function Hero() {
   const router = useRouter();
@@ -47,7 +40,7 @@ export function Hero() {
       >
         <Image
           src="/hero/campina-grande-skyline.jpg"
-          alt="Vista urbana premium de Campina Grande"
+          alt="Vista urbana de Campina Grande"
           fill
           priority
           sizes="100vw"
@@ -89,8 +82,8 @@ export function Hero() {
             </motion.h1>
 
             <p className="mt-6 max-w-md text-base leading-7 text-[#030F18]/62 sm:mt-8 sm:max-w-xl sm:text-lg sm:leading-8">
-              Uma curadoria imobiliária feita para quem busca escolher melhor,
-              viver bem e investir com confiança.
+              Uma imobiliária para quem quer encontrar o imóvel certo com
+              orientação clara, atendimento próximo e segurança na decisão.
             </p>
           </motion.div>
           <div className="hidden lg:block" />

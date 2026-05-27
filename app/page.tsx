@@ -14,16 +14,16 @@ import { Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privilege Imóveis | Curadoria imobiliária na Paraíba",
+  title: "Privilege Imóveis | Imobiliária em Campina Grande",
   description:
-    "Imóveis em Campina Grande e Paraíba com curadoria, atendimento especializado e uma experiência de escolha mais clara e segura.",
+    "Imobiliária em Campina Grande e Paraíba para quem busca imóveis bem localizados, atendimento claro e orientação segura.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Privilege Imóveis | Curadoria imobiliária",
+    title: "Privilege Imóveis | Imobiliária em Campina Grande",
     description:
-      "Explore casas, apartamentos, condomínios e terrenos selecionados pela Privilege Imóveis.",
+      "Encontre casas, apartamentos, condomínios e terrenos com atendimento especializado da Privilege Imóveis.",
     url: "/",
     type: "website",
     images: [{ url: absoluteUrl(defaultOgImage), alt: "Privilege Imóveis" }],
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Privilege Imóveis",
-    description: "Curadoria imobiliária em Campina Grande e Paraíba.",
+    description: "Imobiliária em Campina Grande e Paraíba.",
     images: [absoluteUrl(defaultOgImage)],
   },
 };
@@ -57,17 +57,11 @@ export default async function Home() {
   return (
     <main className="overflow-hidden">
       <Navbar />
-
       <Hero />
-
       <FeaturedProperties properties={properties} />
-
       <Categories />
-
       <About />
-
       <CTA />
-
       <Footer />
     </main>
   );

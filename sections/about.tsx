@@ -14,12 +14,12 @@ export function About() {
             </span>
 
             <h2 className="mt-5 text-[clamp(2.6rem,13vw,6.2rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.94]">
-              Imóveis escolhidos com critério. Atendimento feito com presença.
+              Uma imobiliária para decisões mais seguras.
             </h2>
 
             <p className="mt-6 max-w-2xl text-base leading-7 text-[#030F18]/58 md:mt-8 md:text-lg md:leading-8">
-              A Privilege conecta pessoas a imóveis que fazem sentido para sua
-              rotina, seus planos e sua forma de viver a cidade.
+              A Privilege ajuda você a encontrar, vender ou alugar imóveis com
+              atendimento próximo, informações claras e visão de mercado.
             </p>
 
             <Link href="/sobre" className="premium-cta mt-8 min-h-12 px-7 md:mt-10">

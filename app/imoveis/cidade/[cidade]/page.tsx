@@ -30,7 +30,7 @@ export async function generateMetadata({
   const label = cityLabel(cidade);
   const path = `/imoveis/cidade/${cidade}`;
   const title = `Imóveis em ${label}`;
-  const description = `Seleção premium de imóveis em ${label}, Paraíba, com curadoria da Privilege Imóveis.`;
+  const description = `Imóveis em ${label}, Paraíba, com atendimento da Privilege Imóveis para comprar, vender ou alugar com segurança.`;
 
   return {
     title,

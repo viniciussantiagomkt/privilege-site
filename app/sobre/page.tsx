@@ -8,14 +8,14 @@ import { absoluteUrl, defaultOgImage } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Sobre a Privilege Imóveis",
   description:
-    "Conheça a Privilege Imóveis, uma imobiliária em Campina Grande que combina curadoria, atendimento próximo e inteligência de mercado.",
+    "Conheça a Privilege Imóveis, uma imobiliária em Campina Grande com atendimento claro, próximo e especializado.",
   alternates: {
     canonical: "/sobre",
   },
   openGraph: {
     title: "Sobre a Privilege Imóveis",
     description:
-      "Curadoria imobiliária, atendimento próximo e inteligência de mercado para decisões mais seguras.",
+      "Imobiliária em Campina Grande para quem busca comprar, vender ou alugar com mais segurança.",
     url: "/sobre",
     type: "website",
     images: [{ url: absoluteUrl(defaultOgImage), alt: "Privilege Imóveis" }],
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Sobre a Privilege Imóveis",
-    description: "Curadoria imobiliária em Campina Grande com atendimento próximo e estratégico.",
+    description: "Imobiliária em Campina Grande com atendimento claro e especializado.",
     images: [absoluteUrl(defaultOgImage)],
   },
 };
@@ -46,15 +46,14 @@ export default function AboutPage() {
           <div className="mt-12 grid grid-cols-1 gap-10 lg:mt-20 lg:grid-cols-2 lg:gap-20">
             <div>
               <p className="text-base leading-7 text-[#030F18]/68 md:text-lg md:leading-8">
-                A Privilege Imóveis nasceu para tornar a jornada imobiliária
-                mais clara, criteriosa e bem conduzida do primeiro contato à
-                decisão final.
+                A Privilege Imóveis é uma imobiliária criada para ajudar você a
+                comprar, vender ou alugar com clareza em cada etapa.
               </p>
 
               <p className="mt-6 text-base leading-7 text-[#030F18]/68 md:mt-8 md:text-lg md:leading-8">
-                Unimos curadoria, conhecimento de mercado e atendimento próximo
-                para apresentar imóveis com boa localização, valor real e
-                aderência ao momento de cada cliente.
+                Apresentamos imóveis bem localizados, explicamos as opções com
+                objetividade e acompanhamos sua decisão com atendimento próximo
+                e seguro.
               </p>
             </div>
 
