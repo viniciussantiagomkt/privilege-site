@@ -4,19 +4,25 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { LeadForm } from "@/components/LeadForm";
-import { absoluteUrl, defaultOgImage } from "@/lib/site";
+import {
+  absoluteUrl,
+  companyEmail,
+  companyPhoneDisplay,
+  companyWhatsApp,
+  defaultOgImage,
+} from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Contato | Privilege Imóveis",
   description:
-    "Fale com especialistas da Privilege Imóveis em Campina Grande para comprar, vender, alugar ou avaliar imóveis premium na Paraíba.",
+    "Fale com especialistas da Privilege Imóveis em Campina Grande para comprar, vender, alugar ou avaliar imóveis na Paraíba.",
   alternates: {
     canonical: "/contato",
   },
   openGraph: {
     title: "Contato | Privilege Imóveis",
     description:
-      "Atendimento imobiliário premium em Campina Grande e Paraíba.",
+      "Atendimento imobiliário em Campina Grande e Paraíba.",
     url: "/contato",
     type: "website",
     images: [{ url: absoluteUrl(defaultOgImage), alt: "Contato Privilege Imóveis" }],
@@ -32,7 +38,7 @@ export const metadata: Metadata = {
 const socialLinks = [
   {
     label: "WhatsApp",
-    href: "https://wa.me/5583999999999",
+    href: `https://wa.me/${companyWhatsApp}`,
     icon: "/social/whatsapp.png",
   },
   {
@@ -69,18 +75,14 @@ export default function ContactPage() {
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-7 text-[#030F18]/62 md:mt-8 md:text-lg md:leading-8">
-              Atendimento premium para clientes que buscam imóveis exclusivos
-              e oportunidades estratégicas.
+              Atendimento para clientes que buscam imóveis bem localizados,
+              orientação clara e uma negociação segura.
             </p>
 
             <div className="mt-10 grid gap-4 text-[#030F18]/68 md:mt-12">
               <ContactLine label="Localização" value="Campina Grande - Paraíba" />
-              <ContactLine
-                label="E-mail"
-                value="contato@privilegeimoveis.com.br"
-                highlight
-              />
-              <ContactLine label="Telefone" value="(83) 99999-9999" />
+              <ContactLine label="E-mail" value={companyEmail} highlight />
+              <ContactLine label="Telefone" value={companyPhoneDisplay} />
             </div>
 
             <div className="mt-8 flex items-center gap-3 md:mt-10">

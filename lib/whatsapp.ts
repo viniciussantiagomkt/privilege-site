@@ -1,4 +1,6 @@
-const defaultCompanyWhatsApp = "5583999999999";
+import { companyWhatsApp } from "@/lib/site";
+
+const defaultCompanyWhatsApp = companyWhatsApp;
 
 export function normalizeBrazilWhatsApp(value?: string | null) {
   const digits = (value || defaultCompanyWhatsApp).replace(/\D/g, "");

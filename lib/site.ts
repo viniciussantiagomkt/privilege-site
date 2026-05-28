@@ -6,8 +6,10 @@ export const defaultTitle = "Privilege Imóveis | Imobiliária na Paraíba";
 export const defaultDescription =
   "Imobiliária em Campina Grande e Paraíba para quem busca comprar, vender ou alugar com atendimento claro, seguro e especializado.";
 export const defaultOgImage = "/brand/logo-horizontal-blue.png";
-export const companyEmail = "contato@privilegeimoveis.com.br";
-export const companyPhone = "+55 83 99999-9999";
+export const companyEmail = "privilegeimoveis51@gmail.com";
+export const companyPhone = "+55 83 99952-1041";
+export const companyPhoneDisplay = "(83) 99952-1041";
+export const companyWhatsApp = "5583999521041";
 export const localKeywords = [
   "imóveis em Campina Grande",
   "imobiliária em Campina Grande",

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { companyEmail, companyPhoneDisplay } from "@/lib/site";
+
 const links = [
   { href: "/", label: "Home" },
   { href: "/imoveis", label: "Imóveis" },
@@ -46,8 +48,8 @@ export function Footer() {
             <span className="text-sm text-[#E0E8E6]/40">Contato</span>
             <div className="mt-4 grid gap-3 text-[#E0E8E6]/62">
               <span>Campina Grande, PB</span>
-              <span>contato@privilegeimoveis.com.br</span>
-              <span>(83) 99999-9999</span>
+              <span>{companyEmail}</span>
+              <span>{companyPhoneDisplay}</span>
             </div>
           </div>
         </div>

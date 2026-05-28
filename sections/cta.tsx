@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
+import { companyWhatsApp } from "@/lib/site";
 import Link from "next/link";
 
 export function CTA() {
@@ -26,7 +27,7 @@ export function CTA() {
 
                 <div className="mt-9 flex flex-col items-stretch justify-center gap-3 sm:items-center md:mt-12 md:flex-row">
                   <WhatsAppLeadButton
-                    href="https://wa.me/5583999999999"
+                    href={`https://wa.me/${companyWhatsApp}`}
                     label="Falar com especialista"
                     source="cta-final"
                     className="inline-flex min-h-14 items-center justify-center rounded-full border border-[#1D4052] bg-[#1D4052] px-8 text-[#E0E8E6] shadow-[0_20px_60px_rgba(29,64,82,0.32)] transition duration-500 hover:border-[#446E87] hover:bg-[#446E87]"

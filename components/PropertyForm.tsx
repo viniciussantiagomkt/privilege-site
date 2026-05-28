@@ -924,7 +924,7 @@ export function PropertyForm({
               <input
                 value={form.whatsapp ?? ""}
                 onChange={(event) => updateField("whatsapp", event.target.value)}
-                placeholder="5583999999999"
+                placeholder="5583999521041"
                 className="admin-input"
               />
             </Field>

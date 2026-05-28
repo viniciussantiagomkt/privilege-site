@@ -12,7 +12,7 @@ import { VideoEmbed } from "@/components/VideoEmbed";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
-import { absoluteUrl, cleanMetadataText, defaultOgImage, siteName } from "@/lib/site";
+import { absoluteUrl, cleanMetadataText, companyWhatsApp, defaultOgImage, siteName } from "@/lib/site";
 import { attachPropertyImages } from "@/lib/property-media";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Broker, Property, PropertyImage } from "@/types/property";
@@ -152,7 +152,7 @@ export default async function PropertyPage({
     .map(({ item }) => item)
     .slice(0, 3);
 
-  const whatsappNumber = property.whatsapp || broker?.whatsapp || broker?.phone || "5583999999999";
+  const whatsappNumber = property.whatsapp || broker?.whatsapp || broker?.phone || companyWhatsApp;
   const whatsappUrl = createWhatsAppUrl(
     whatsappNumber,
     `Olá, tenho interesse no imóvel ${property.title}. Gostaria de receber mais informações.`
