@@ -13,7 +13,10 @@ interface FeaturedPropertiesProps {
 export function FeaturedProperties({
   properties,
 }: FeaturedPropertiesProps) {
-  const curatedProperties = properties.slice(0, 4);
+  const curatedProperties = [
+    ...properties.filter((property) => property.featured),
+    ...properties.filter((property) => !property.featured),
+  ].slice(0, 4);
 
   return (
     <section className="relative overflow-hidden bg-[#E0E8E6] py-20 text-[#030F18] md:py-28">
@@ -38,23 +41,29 @@ export function FeaturedProperties({
 
           </motion.div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-4">
-            {curatedProperties.map((property, index) => (
-              <motion.div
-                key={property.id}
-                initial={{ opacity: 0, y: 34 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.75,
-                  delay: index * 0.08,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                viewport={{ once: true, margin: "-80px" }}
-              >
-                <PropertyCard property={property} />
-              </motion.div>
-            ))}
-          </div>
+          {curatedProperties.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 xl:grid-cols-4">
+              {curatedProperties.map((property, index) => (
+                <motion.div
+                  key={property.id}
+                  initial={{ opacity: 0, y: 34 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.75,
+                    delay: index * 0.08,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  viewport={{ once: true, margin: "-80px" }}
+                >
+                  <PropertyCard property={property} />
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/50 px-6 py-12 text-center text-[#030F18]/56">
+              Nenhum imóvel publicado no momento.
+            </div>
+          )}
         </div>
       </Reveal>
     </section>

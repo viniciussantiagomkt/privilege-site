@@ -4,10 +4,13 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PropertyCard } from "@/components/PropertyCard";
 import { createServerClient } from "@/lib/supabase-server";
-import { normalizeText } from "@/lib/property-filters";
+import { normalizeText, publicPropertyStatuses } from "@/lib/property-filters";
 import { attachPropertyImages } from "@/lib/property-media";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 interface CityPageProps {
   params: Promise<{
@@ -62,6 +65,7 @@ export default async function CityPage({ params }: CityPageProps) {
     supabase
       .from("properties")
       .select("*")
+      .in("status", publicPropertyStatuses)
       .order("created_at", { ascending: false }),
     supabase
       .from("property_images")

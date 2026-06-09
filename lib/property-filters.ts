@@ -18,6 +18,8 @@ export const priceRanges = [
   { label: "Acima de R$ 2 milhões", value: "acima-2milhoes", min: 2000000 },
 ];
 
+export const publicPropertyStatuses = ["ativo", "reservado", "vendido", "alugado"];
+
 export const propertyStatuses = [
   { label: "Todos os status", value: "" },
   { label: "Ativo", value: "ativo" },

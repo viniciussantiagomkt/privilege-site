@@ -9,9 +9,13 @@ import { CTA } from "@/sections/cta";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
+import { publicPropertyStatuses } from "@/lib/property-filters";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Privilege Imóveis | Imobiliária em Campina Grande",
@@ -43,6 +47,7 @@ export default async function Home() {
     supabase
       .from("properties")
       .select("*")
+      .in("status", publicPropertyStatuses)
       .order("created_at", { ascending: false }),
     supabase
       .from("property_images")

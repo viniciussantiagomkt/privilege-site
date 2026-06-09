@@ -11,11 +11,15 @@ import { createServerClient } from "@/lib/supabase-server";
 import {
   filterProperties,
   propertyCategories,
+  publicPropertyStatuses,
   slugToCategoryLabel,
 } from "@/lib/property-filters";
 import { attachPropertyImages } from "@/lib/property-media";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 interface CategoryPageProps {
   params: Promise<{
@@ -73,6 +77,7 @@ export default async function CategoryPage({
     supabase
       .from("properties")
       .select("*")
+      .in("status", publicPropertyStatuses)
       .order("created_at", { ascending: false }),
     supabase
       .from("property_images")
