@@ -6,13 +6,10 @@ import {
   Building2,
   Gem,
   KeyRound,
-  MessageCircle,
   PlayCircle,
-  Search,
   UsersRound,
 } from "lucide-react";
 
-import { LinksLeadForm } from "@/components/LinksLeadForm";
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
 import { publicPropertyStatuses } from "@/lib/property-filters";
@@ -26,7 +23,7 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Central Digital Privilege | Privilege Imóveis",
   description:
-    "Encontre imóveis, lançamentos, tours, especialistas e atendimento da Privilege Imóveis em Campina Grande.",
+    "Acesso rápido para imóveis, lançamentos, tours, especialistas e atendimento da Privilege Imóveis em Campina Grande.",
   alternates: {
     canonical: "/links",
   },
@@ -46,12 +43,17 @@ export const metadata: Metadata = {
   },
 };
 
+const whatsappUrl = createWhatsAppUrl(
+  companyWhatsApp,
+  "Olá! Vim pela Central Digital da Privilege Imóveis e gostaria de falar com um especialista."
+);
+
 const mainLinks = [
   {
-    label: "Encontrar meu imóvel ideal",
-    href: "#encontrar-imovel",
-    icon: Search,
-    primary: true,
+    label: "Atendimento Privilege",
+    href: whatsappUrl,
+    external: true,
+    whatsapp: true,
   },
   {
     label: "Alto padrão",
@@ -78,15 +80,6 @@ const mainLinks = [
     label: "Conheça nossos especialistas",
     href: "/corretores",
     icon: UsersRound,
-  },
-  {
-    label: "Atendimento Privilege",
-    href: createWhatsAppUrl(
-      companyWhatsApp,
-      "Olá! Vim pela Central Digital da Privilege Imóveis e gostaria de falar com um especialista."
-    ),
-    icon: MessageCircle,
-    external: true,
   },
 ];
 
@@ -145,18 +138,29 @@ export default async function LinksPage() {
             <div className="mt-10 grid gap-3">
               {mainLinks.map((item) => {
                 const Icon = item.icon;
-                const className = item.primary
-                  ? "group flex min-h-14 items-center justify-between rounded-2xl border border-[#1D4052] bg-[#1D4052] px-5 text-sm font-medium text-[#E0E8E6] shadow-[0_18px_60px_rgba(29,64,82,0.18)] transition duration-500 hover:border-[#446E87] hover:bg-[#446E87]"
+                const className = item.whatsapp
+                  ? "group flex min-h-16 items-center justify-between rounded-2xl border border-[#25D366] bg-[#25D366] px-5 text-sm font-semibold text-white shadow-[0_18px_60px_rgba(37,211,102,0.22)] transition duration-500 hover:-translate-y-0.5 hover:border-[#1fb456] hover:bg-[#1fb456]"
                   : "group flex min-h-14 items-center justify-between rounded-2xl border border-[#446E87]/16 bg-[#E0E8E6]/54 px-5 text-sm font-medium text-[#1D4052] transition duration-500 hover:-translate-y-0.5 hover:border-[#1D4052]/30 hover:bg-white/35";
 
                 const content = (
                   <>
                     <span className="flex items-center gap-3">
-                      <Icon className="h-4 w-4" aria-hidden="true" />
+                      {item.whatsapp ? (
+                        <Image
+                          src="/social/whatsapp.png"
+                          alt=""
+                          width={28}
+                          height={28}
+                          aria-hidden="true"
+                          className="h-7 w-7 object-contain"
+                        />
+                      ) : Icon ? (
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      ) : null}
                       {item.label}
                     </span>
                     <ArrowUpRight
-                      className="h-4 w-4 opacity-55 transition duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                      className="h-4 w-4 opacity-60 transition duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
                       aria-hidden="true"
                     />
                   </>
@@ -187,8 +191,6 @@ export default async function LinksPage() {
         </div>
 
         <div className="grid gap-6">
-          <LinksLeadForm />
-
           <FeaturedLinkProperty property={featuredProperty} />
 
           <div className="rounded-[30px] border border-[#446E87]/14 bg-[#D7E1DF]/38 p-5 text-sm leading-6 text-[#030F18]/58 sm:p-7">
@@ -196,8 +198,8 @@ export default async function LinksPage() {
               Uma recepção online para quem chega pelos nossos conteúdos.
             </strong>
             <span className="mt-2 block">
-              Escolha o caminho mais próximo do que você procura e fale com a equipe
-              da Privilege no momento certo.
+              Escolha o caminho mais próximo do que você procura ou fale direto
+              com a equipe pelo WhatsApp.
             </span>
           </div>
         </div>
