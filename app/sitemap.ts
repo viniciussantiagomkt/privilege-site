@@ -61,6 +61,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.75,
     }),
+    sitemapEntry("/links", {
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    }),
     ...propertyCategories
       .filter((category) => category.value)
       .map((category) =>
