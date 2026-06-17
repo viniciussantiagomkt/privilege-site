@@ -38,7 +38,7 @@ export function ShareButton({ title = "Privilege Imóveis" }: ShareButtonProps) 
       </button>
       <div className="grid gap-3">
         <a
-          href="https://instagram.com/privilegeimoveis"
+          href="https://www.instagram.com/privilege_imoveis/"
           target="_blank"
           rel="noreferrer"
           className="flex h-12 items-center justify-center rounded-2xl border border-[#1D4052]/18 text-sm text-[#1D4052] transition duration-500 hover:bg-white/35"

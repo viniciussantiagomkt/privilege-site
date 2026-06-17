@@ -44,7 +44,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://instagram.com/privilegeimoveis",
+    href: "https://www.instagram.com/privilege_imoveis/",
     icon: "/social/instagram.png",
   },
   {

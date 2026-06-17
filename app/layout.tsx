@@ -80,7 +80,7 @@ const businessJsonLd = {
       email: companyEmail,
       telephone: companyPhone,
       sameAs: [
-        "https://instagram.com/privilegeimoveis",
+        "https://www.instagram.com/privilege_imoveis/",
         "https://youtube.com",
         "https://tiktok.com",
       ],
