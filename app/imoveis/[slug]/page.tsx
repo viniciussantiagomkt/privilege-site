@@ -1,7 +1,6 @@
 ﻿import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { LeadForm } from "@/components/LeadForm";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { PropertyCard } from "@/components/PropertyCard";
 import { PropertyViewTracker } from "@/components/PropertyViewTracker";
@@ -468,13 +467,25 @@ export default async function PropertyPage({
                 </div>
               )}
 
-              <div id="atendimento">
-                <LeadForm
+              <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-6 shadow-[0_24px_80px_rgba(3,15,24,0.06)] md:rounded-[32px] md:p-8">
+                <span className="text-xs uppercase tracking-[0.28em] text-[#446E87]">
+                  Atendimento imediato
+                </span>
+                <h2 className="mt-4 text-3xl font-bold leading-tight text-[#1D4052]">
+                  Tire dúvidas sobre este imóvel pelo WhatsApp.
+                </h2>
+                <p className="mt-4 text-sm leading-6 text-[#030F18]/60">
+                  Fale com a equipe da Privilege para confirmar disponibilidade,
+                  condições, detalhes e agendamento de visita.
+                </p>
+                <WhatsAppLeadButton
+                  href={whatsappUrl}
                   propertyId={property.id}
                   propertyTitle={property.title}
                   propertySlug={property.slug}
-                  source="imovel"
-                  whatsappNumber={whatsappNumber}
+                  source="imovel-whatsapp"
+                  label="Chamar no WhatsApp"
+                  className="mt-7 flex h-14 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857]"
                 />
               </div>
             </div>
@@ -512,12 +523,15 @@ export default async function PropertyPage({
           label="WhatsApp"
           className="flex h-12 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] text-white"
         />
-        <a
-          href="#atendimento"
-          className="flex h-12 items-center justify-center rounded-full border border-[#1D4052] bg-[#1D4052] text-[#E0E8E6]"
-        >
-          Agendar visita
-        </a>
+        <WhatsAppLeadButton
+          href={whatsappUrl}
+          propertyId={property.id}
+          propertyTitle={property.title}
+          propertySlug={property.slug}
+          source="agendar-visita-whatsapp"
+          label="Agendar visita"
+          className="flex h-12 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] text-white"
+        />
       </div>
 
       <Footer />

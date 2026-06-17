@@ -11,7 +11,6 @@ const navItems = [
   { href: "/imoveis", label: "Imóveis" },
   { href: "/sobre", label: "Sobre" },
   { href: "/corretores", label: "Corretores" },
-  { href: "/contato", label: "Contato" },
 ];
 
 export function Navbar() {

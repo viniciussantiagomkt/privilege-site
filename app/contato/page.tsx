@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { LeadForm } from "@/components/LeadForm";
+import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
 import {
   absoluteUrl,
   companyEmail,
@@ -11,6 +11,7 @@ import {
   companyWhatsApp,
   defaultOgImage,
 } from "@/lib/site";
+import { createWhatsAppUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contato | Privilege Imóveis",
@@ -59,6 +60,11 @@ const socialLinks = [
 ];
 
 export default function ContactPage() {
+  const whatsappUrl = createWhatsAppUrl(
+    companyWhatsApp,
+    "Olá! Vim pelo site da Privilege Imóveis e gostaria de falar com um especialista."
+  );
+
   return (
     <main className="text-[#030F18]">
       <Navbar />
@@ -108,7 +114,27 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <LeadForm source="contato" />
+          <div className="flex min-h-full flex-col justify-between rounded-[30px] border border-[#446E87]/12 bg-[#D7E1DF]/42 p-6 shadow-[0_24px_80px_rgba(3,15,24,0.05)] backdrop-blur-xl md:rounded-[38px] md:p-10">
+            <div>
+              <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.3em]">
+                Atendimento Privilege
+              </span>
+              <h2 className="mt-5 text-3xl font-bold leading-tight text-[#1D4052] md:text-5xl">
+                Fale direto com a nossa equipe.
+              </h2>
+              <p className="mt-6 text-base leading-7 text-[#030F18]/62 md:text-lg md:leading-8">
+                Abra uma conversa no WhatsApp e receba orientação sobre imóveis,
+                visitas, disponibilidade e oportunidades em Campina Grande.
+              </p>
+            </div>
+
+            <WhatsAppLeadButton
+              href={whatsappUrl}
+              label="Chamar no WhatsApp"
+              source="contato-whatsapp"
+              className="mt-10 flex min-h-16 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-base font-semibold text-white shadow-[0_18px_60px_rgba(37,211,102,0.22)] transition duration-500 hover:-translate-y-0.5 hover:border-[#1fb456] hover:bg-[#1fb456]"
+            />
+          </div>
         </div>
       </section>
 
