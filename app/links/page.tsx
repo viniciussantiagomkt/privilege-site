@@ -67,7 +67,7 @@ const mainLinks = [
   },
   {
     label: "Primeiro imóvel",
-    href: "/imoveis?preco=500mil",
+    href: "/imoveis/categoria/minha-casa-minha-vida",
     icon: KeyRound,
   },
   {

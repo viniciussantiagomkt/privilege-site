@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import { FavoriteButton } from "./FavoriteButton";
+import { MinhaCasaMinhaVidaBadge } from "./MinhaCasaMinhaVidaBadge";
 import { Property } from "@/types/property";
 
 interface PropertyCardProps {
@@ -47,6 +48,12 @@ export function PropertyCard({
             <div className="absolute right-5 top-5 rounded-full border border-[#E0E8E6]/22 bg-[#030F18]/24 px-4 py-2 text-xs text-[#E0E8E6]/78 backdrop-blur-xl">
               {property.status}
             </div>
+          )}
+          {property.minha_casa_minha_vida && (
+            <MinhaCasaMinhaVidaBadge
+              compact
+              className="absolute bottom-5 left-5"
+            />
           )}
         </div>
 

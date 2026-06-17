@@ -9,6 +9,7 @@ import { ShareButton } from "@/components/ShareButton";
 import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { VideoEmbed } from "@/components/VideoEmbed";
+import { MinhaCasaMinhaVidaBadge } from "@/components/MinhaCasaMinhaVidaBadge";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
@@ -257,6 +258,15 @@ export default async function PropertyPage({
               <p className="mt-5 text-base leading-7 text-[#030F18]/58 md:mt-6 md:text-xl">
                 {property.location}
               </p>
+
+              {property.minha_casa_minha_vida && (
+                <div className="mt-6 inline-flex flex-col gap-3 rounded-[24px] border border-[#446E87]/14 bg-[#D7E1DF]/58 p-4 shadow-[0_18px_50px_rgba(3,15,24,0.05)] sm:flex-row sm:items-center">
+                  <MinhaCasaMinhaVidaBadge />
+                  <span className="text-sm leading-6 text-[#030F18]/60">
+                    Imóvel sinalizado como elegível ao programa Minha Casa Minha Vida.
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-3 md:gap-4">

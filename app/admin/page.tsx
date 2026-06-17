@@ -641,9 +641,16 @@ function PropertyRow({
             {property.title || "Imóvel sem título"}
           </h4>
           <p className="text-white/50 mt-1">{property.location}</p>
-          <span className="mt-3 inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-            {property.status ?? "ativo"}
-          </span>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <span className="inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
+              {property.status ?? "ativo"}
+            </span>
+            {property.minha_casa_minha_vida && (
+              <span className="inline-flex rounded-full border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-1 text-xs text-[#25D366]">
+                Minha Casa Minha Vida
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="min-w-0 xl:min-w-48">

@@ -29,6 +29,7 @@ export interface Property {
   area: string | null;
 
   featured: boolean;
+  minha_casa_minha_vida?: boolean;
   view_count?: number | null;
 
   images: string[];

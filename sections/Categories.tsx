@@ -32,6 +32,11 @@ const categories = [
     slug: "apartamentos",
     image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154",
   },
+  {
+    title: "Minha Casa Minha Vida",
+    slug: "minha-casa-minha-vida",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa",
+  },
 ];
 
 export function Categories() {

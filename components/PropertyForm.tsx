@@ -70,6 +70,7 @@ const emptyProperty: PropertyFormData = {
   garage: 0,
   area: "",
   featured: false,
+  minha_casa_minha_vida: false,
   images: [],
   main_image_url: "",
   videos: [],
@@ -396,6 +397,7 @@ export function PropertyForm({
       garage: Number(form.garage ?? 0),
       area: form.area || "",
       featured: form.featured,
+      minha_casa_minha_vida: Boolean(form.minha_casa_minha_vida),
       images: imageUrls,
       main_image_url: imageUrls[0] ?? null,
       videos: videoUrls,
@@ -415,6 +417,9 @@ export function PropertyForm({
       latitude: form.latitude,
       longitude: form.longitude,
     };
+    const legacyPayload = Object.fromEntries(
+      Object.entries(basePayload).filter(([key]) => key !== "minha_casa_minha_vida")
+    );
 
     let query = initialData?.id
       ? supabase
@@ -431,16 +436,17 @@ export function PropertyForm({
       error &&
       (error.message.toLowerCase().includes("latitude") ||
         error.message.toLowerCase().includes("longitude") ||
+        error.message.toLowerCase().includes("minha_casa_minha_vida") ||
         error.message.toLowerCase().includes("column"))
     ) {
       query = initialData?.id
         ? supabase
             .from("properties")
-            .update(basePayload)
+            .update(legacyPayload)
             .eq("id", initialData.id)
             .select()
             .single()
-        : supabase.from("properties").insert(basePayload).select().single();
+        : supabase.from("properties").insert(legacyPayload).select().single();
 
       const fallback = await query;
       data = fallback.data;
@@ -699,6 +705,22 @@ export function PropertyForm({
               onChange={(event) => updateField("featured", event.target.checked)}
             />
             Imóvel em destaque
+          </label>
+
+          <label className="min-h-14 rounded-2xl border border-white/10 bg-black/20 px-5 py-4 flex items-center gap-4 md:col-span-2">
+            <input
+              type="checkbox"
+              checked={Boolean(form.minha_casa_minha_vida)}
+              onChange={(event) =>
+                updateField("minha_casa_minha_vida", event.target.checked)
+              }
+            />
+            <span>
+              <span className="block font-semibold">Minha Casa Minha Vida</span>
+              <span className="mt-1 block text-xs text-white/45">
+                Marque quando o imóvel se enquadrar no programa para diferenciar da vitrine de alto padrão.
+              </span>
+            </span>
           </label>
         </div>
       </section>

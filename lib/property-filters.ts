@@ -8,6 +8,7 @@ export const propertyCategories = [
   { label: "Na planta", value: "na-planta" },
   { label: "Aluguel", value: "aluguel" },
   { label: "Apartamentos", value: "apartamentos" },
+  { label: "Minha Casa Minha Vida", value: "minha-casa-minha-vida" },
 ];
 
 export const priceRanges = [
@@ -92,6 +93,10 @@ export function matchesCategory(property: Property, category: string) {
     apartamentos: ["apartamento", "apartamentos"],
   };
 
+  if (normalizedCategory === "minha-casa-minha-vida") {
+    return Boolean(property.minha_casa_minha_vida);
+  }
+
   const terms = aliases[normalizedCategory] ?? [normalizedCategory];
 
   return terms.some(
@@ -154,6 +159,7 @@ export function filterProperties(
         property.type,
         property.status,
         property.description,
+        property.minha_casa_minha_vida ? "minha casa minha vida primeiro imovel financiamento" : "",
       ].join(" ")
     );
 
