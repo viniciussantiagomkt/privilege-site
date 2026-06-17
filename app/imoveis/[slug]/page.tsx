@@ -244,8 +244,8 @@ export default async function PropertyPage({
             ]}
           />
 
-          <div className="mt-8 flex flex-col gap-7 lg:mt-10 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
-            <div className="min-w-0">
+          <div className="mt-8 lg:mt-10">
+            <div className="min-w-0 max-w-5xl">
               <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.3em]">
                 {property.category}
               </span>
@@ -268,21 +268,6 @@ export default async function PropertyPage({
               )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 md:gap-4">
-              <FavoriteButton
-                propertyId={property.id}
-                className="relative"
-              />
-
-              <WhatsAppLeadButton
-                href={whatsappUrl}
-                propertyId={property.id}
-                propertyTitle={property.title}
-                propertySlug={property.slug}
-                label="WhatsApp"
-                className="flex h-14 flex-1 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] px-7 text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] sm:flex-none sm:px-8"
-              />
-            </div>
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-8 lg:mt-20 lg:grid-cols-3">
@@ -385,21 +370,32 @@ export default async function PropertyPage({
 
             <div className="space-y-6 lg:space-y-8">
               <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-6 shadow-[0_24px_80px_rgba(3,15,24,0.06)] md:rounded-[32px] md:p-8">
-                <span className="text-[#030F18]/50 text-sm">
-                  Valor
-                </span>
+                <div className="flex items-start justify-between gap-4">
+                  <span className="text-[#030F18]/50 text-sm">
+                    Valor
+                  </span>
+                  <FavoriteButton
+                    propertyId={property.id}
+                    className="relative"
+                  />
+                </div>
 
                 <h2 className="mt-4 text-4xl font-bold md:text-5xl">
                   {property.price}
                 </h2>
+
+                <p className="mt-5 text-sm leading-6 text-[#030F18]/58">
+                  Confirme disponibilidade, condições e agendamento de visita com a equipe da Privilege.
+                </p>
 
                 <WhatsAppLeadButton
                   href={whatsappUrl}
                   propertyId={property.id}
                   propertyTitle={property.title}
                   propertySlug={property.slug}
-                  label="Agendar visita"
-                  className="mt-8 flex h-14 items-center justify-center rounded-2xl border border-[#1D4052] bg-[#1D4052] text-[#E0E8E6] shadow-[0_18px_50px_rgba(29,64,82,0.16)] transition duration-500 hover:border-[#446E87] hover:bg-[#446E87] md:mt-10 md:h-16"
+                  source="imovel-whatsapp"
+                  label="Chamar no WhatsApp"
+                  className="mt-8 flex h-14 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] md:h-16"
                 />
 
                 <ShareButton title={property.title} />
@@ -428,7 +424,7 @@ export default async function PropertyPage({
                   )}
                   {broker.phone && <p className="mt-3 text-[#030F18]/60">{broker.phone}</p>}
                   {broker.bio && <p className="mt-5 text-[#030F18]/60 leading-7">{broker.bio}</p>}
-                  <div className="mt-6 grid grid-cols-2 gap-3">
+                  <div className="mt-6 grid gap-3">
                     {broker.instagram && (
                       <a
                         href={broker.instagram}
@@ -447,47 +443,9 @@ export default async function PropertyPage({
                         />
                       </a>
                     )}
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex h-12 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] text-sm text-white transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857]"
-                    >
-                      <Image
-                        src="/social/whatsapp.png"
-                        alt=""
-                        aria-hidden="true"
-                        width={22}
-                        height={22}
-                        className="mr-2 h-5 w-5 object-contain"
-                      />
-                      WhatsApp
-                    </a>
                   </div>
                 </div>
               )}
-
-              <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-6 shadow-[0_24px_80px_rgba(3,15,24,0.06)] md:rounded-[32px] md:p-8">
-                <span className="text-xs uppercase tracking-[0.28em] text-[#446E87]">
-                  Atendimento imediato
-                </span>
-                <h2 className="mt-4 text-3xl font-bold leading-tight text-[#1D4052]">
-                  Tire dúvidas sobre este imóvel pelo WhatsApp.
-                </h2>
-                <p className="mt-4 text-sm leading-6 text-[#030F18]/60">
-                  Fale com a equipe da Privilege para confirmar disponibilidade,
-                  condições, detalhes e agendamento de visita.
-                </p>
-                <WhatsAppLeadButton
-                  href={whatsappUrl}
-                  propertyId={property.id}
-                  propertyTitle={property.title}
-                  propertySlug={property.slug}
-                  source="imovel-whatsapp"
-                  label="Chamar no WhatsApp"
-                  className="mt-7 flex h-14 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857]"
-                />
-              </div>
             </div>
           </div>
 
@@ -513,26 +471,6 @@ export default async function PropertyPage({
           )}
         </div>
       </section>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-[#446E87]/14 bg-[#E0E8E6]/92 px-3 pt-3 shadow-[0_-18px_60px_rgba(3,15,24,0.12)] backdrop-blur-2xl md:hidden safe-area-bottom">
-        <WhatsAppLeadButton
-          href={whatsappUrl}
-          propertyId={property.id}
-          propertyTitle={property.title}
-          propertySlug={property.slug}
-          label="WhatsApp"
-          className="flex h-12 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] text-white"
-        />
-        <WhatsAppLeadButton
-          href={whatsappUrl}
-          propertyId={property.id}
-          propertyTitle={property.title}
-          propertySlug={property.slug}
-          source="agendar-visita-whatsapp"
-          label="Agendar visita"
-          className="flex h-12 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] text-white"
-        />
-      </div>
 
       <Footer />
     </main>
