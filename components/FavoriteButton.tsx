@@ -8,6 +8,7 @@ import { trackEvent } from "@/lib/analytics";
 interface FavoriteButtonProps {
   propertyId: number;
   className?: string;
+  showLabel?: boolean;
 }
 
 const favoritesEvent = "favorites:update";
@@ -41,6 +42,7 @@ function parseFavorites(value: string) {
 export function FavoriteButton({
   propertyId,
   className = "absolute top-6 right-6 z-30",
+  showLabel = false,
 }: FavoriteButtonProps) {
   const favoritesSnapshot = useSyncExternalStore(
     subscribeToFavorites,
@@ -63,7 +65,7 @@ export function FavoriteButton({
       property_id: propertyId,
     });
 
-    setFeedback(favorite ? "Removido" : "Salvo nos favoritos");
+    setFeedback(favorite ? "Removido dos favoritos" : "Imóvel curtido");
     window.setTimeout(() => setFeedback(""), 1500);
     window.dispatchEvent(new Event(favoritesEvent));
   }
@@ -72,18 +74,29 @@ export function FavoriteButton({
     <span className={`${className} inline-flex items-center`}>
       <button
         onClick={toggleFavorite}
-        className={`flex h-14 w-14 items-center justify-center rounded-full border border-[#E0E8E6]/24 bg-[#030F18]/28 text-[#E0E8E6] shadow-[0_14px_44px_rgba(3,15,24,0.16)] backdrop-blur-xl transition duration-500 hover:scale-105 hover:bg-[#E0E8E6]/22 ${
-          favorite ? "border-red-500/40 bg-red-500/14 text-red-500" : ""
+        className={`flex h-14 items-center justify-center gap-2 rounded-full border shadow-[0_14px_44px_rgba(3,15,24,0.16)] backdrop-blur-xl transition duration-500 hover:scale-105 ${
+          showLabel ? "w-auto px-5" : "w-14"
+        } ${
+          favorite
+            ? "border-red-500/40 bg-red-500/14 text-red-500"
+            : "border-[#E0E8E6]/24 bg-[#030F18]/28 text-[#E0E8E6] hover:bg-[#E0E8E6]/22"
         }`}
-        aria-label="Salvar imóvel nos favoritos"
+        aria-pressed={favorite}
+        aria-label={favorite ? "Imóvel curtido" : "Curtir imóvel"}
       >
         <Heart
+          size={showLabel ? 19 : 24}
           className={
             favorite
               ? "scale-110 fill-red-500 stroke-red-500 transition duration-500"
               : "stroke-current transition duration-500"
           }
         />
+        {showLabel && (
+          <span className="text-sm font-medium">
+            {favorite ? "Curtido" : "Curtir imóvel"}
+          </span>
+        )}
       </button>
       {feedback && (
         <span className="pointer-events-none absolute -bottom-9 right-0 whitespace-nowrap rounded-full border border-[#E0E8E6]/24 bg-[#030F18]/72 px-3 py-1 text-xs text-[#E0E8E6] opacity-95 shadow-[0_14px_40px_rgba(3,15,24,0.14)] backdrop-blur-xl">

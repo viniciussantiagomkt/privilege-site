@@ -377,6 +377,7 @@ export default async function PropertyPage({
                   <FavoriteButton
                     propertyId={property.id}
                     className="relative"
+                    showLabel
                   />
                 </div>
 
@@ -395,7 +396,7 @@ export default async function PropertyPage({
                   propertySlug={property.slug}
                   source="imovel-whatsapp"
                   label="Chamar no WhatsApp"
-                  className="mt-8 flex h-14 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] md:h-16"
+                  className="mt-8 hidden h-14 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] md:flex md:h-16"
                 />
 
                 <ShareButton title={property.title} />
@@ -471,6 +472,18 @@ export default async function PropertyPage({
           )}
         </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#446E87]/14 bg-[#E0E8E6]/92 px-3 pt-3 shadow-[0_-18px_60px_rgba(3,15,24,0.12)] backdrop-blur-2xl md:hidden safe-area-bottom">
+        <WhatsAppLeadButton
+          href={whatsappUrl}
+          propertyId={property.id}
+          propertyTitle={property.title}
+          propertySlug={property.slug}
+          source="imovel-whatsapp-sticky"
+          label="Chamar no WhatsApp"
+          className="flex h-12 w-full items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] text-white"
+        />
+      </div>
 
       <Footer />
     </main>

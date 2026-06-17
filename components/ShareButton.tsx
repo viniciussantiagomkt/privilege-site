@@ -36,23 +36,7 @@ export function ShareButton({ title = "Privilege Imóveis" }: ShareButtonProps) 
       >
         {copied ? "Link copiado" : "Compartilhar imóvel"}
       </button>
-      <div className="grid grid-cols-2 gap-3">
-        <a
-          href={`https://wa.me/?text=${encodeURIComponent(`${title} ${typeof window !== "undefined" ? window.location.href : ""}`)}`}
-          target="_blank"
-          rel="noreferrer"
-          className="flex h-12 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] text-sm text-white transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857]"
-        >
-          <Image
-            src="/social/whatsapp.png"
-            alt=""
-            aria-hidden="true"
-            width={22}
-            height={22}
-            className="mr-2 h-5 w-5 object-contain"
-          />
-          WhatsApp
-        </a>
+      <div className="grid gap-3">
         <a
           href="https://instagram.com/privilegeimoveis"
           target="_blank"
