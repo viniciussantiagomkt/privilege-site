@@ -5,37 +5,37 @@ const categories = [
   {
     title: "Casas",
     slug: "casas",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d",
+    image: "/categories/casas.webp",
   },
   {
     title: "Condomínios",
     slug: "condominios",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+    image: "/categories/condominios.webp",
   },
   {
     title: "Terrenos",
     slug: "terrenos",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef",
+    image: "/categories/terrenos.webp",
   },
   {
     title: "Na planta",
     slug: "na-planta",
-    image: "https://images.unsplash.com/photo-1460317442991-0ec209397118",
+    image: "/categories/na-planta.webp",
   },
   {
     title: "Aluguel",
     slug: "aluguel",
-    image: "https://images.unsplash.com/photo-1494526585095-c41746248156",
+    image: "/categories/aluguel.webp",
   },
   {
     title: "Apartamentos",
     slug: "apartamentos",
-    image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154",
+    image: "/categories/apartamentos.webp",
   },
   {
     title: "Minha Casa Minha Vida",
     slug: "minha-casa-minha-vida",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa",
+    image: "/categories/minha-casa-minha-vida.webp",
   },
 ];
 
