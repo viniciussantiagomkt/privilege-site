@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 import { FavoriteButton } from "./FavoriteButton";
 import { MinhaCasaMinhaVidaBadge } from "./MinhaCasaMinhaVidaBadge";
+import { getPropertyNumericPrice } from "@/lib/property-filters";
 import { Property } from "@/types/property";
 
 interface PropertyCardProps {
@@ -84,7 +85,11 @@ export function PropertyCard({
         </div>
       </Link>
 
-      <FavoriteButton propertyId={property.id} />
+      <FavoriteButton
+        propertyId={property.id}
+        propertyTitle={property.title}
+        propertyPrice={getPropertyNumericPrice(property.price)}
+      />
     </motion.article>
   );
 }

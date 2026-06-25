@@ -12,6 +12,7 @@ import {
   propertyStatuses,
   sortOptions,
 } from "@/lib/property-filters";
+import { trackEvent } from "@/lib/analytics";
 import { Property } from "@/types/property";
 
 interface PropertyCatalogProps {
@@ -134,6 +135,23 @@ export function PropertyCatalog({ properties }: PropertyCatalogProps) {
     } else {
       params.delete(name);
     }
+
+    const selectedPriceRange = priceRanges.find(
+      (item) => item.value === params.get("preco")
+    );
+
+    trackEvent("property_search", {
+      search_type: name,
+      search_term: params.get("busca") || null,
+      category: params.get("categoria") || null,
+      city: params.get("cidade") || null,
+      neighborhood: params.get("bairro") || null,
+      min_price: selectedPriceRange?.min ?? null,
+      max_price: selectedPriceRange?.max ?? null,
+      bedrooms: params.get("quartos") || null,
+      property_status: params.get("status") || null,
+      sort_order: params.get("ordenar") || "recentes",
+    });
 
     pushWithParams(params);
   }

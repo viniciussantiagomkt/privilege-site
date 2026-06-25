@@ -179,6 +179,7 @@ export default async function LinksPage() {
                         label: item.label,
                         source: "links",
                         type: item.whatsapp ? "whatsapp" : "external",
+                        button_location: item.whatsapp ? "links_hub" : "links_external",
                       }}
                       trackLead={Boolean(item.whatsapp)}
                     >

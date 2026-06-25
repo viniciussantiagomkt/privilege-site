@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { trackEvent, trackMetaEvent } from "@/lib/analytics";
+import { trackEvent, trackWhatsAppLead } from "@/lib/analytics";
 
 type TrackingPayload = Record<string, string | number | boolean | null | undefined>;
 
@@ -34,15 +34,19 @@ export function TrackedLink({
       ...eventPayload,
     };
 
-    trackEvent(eventName, payload);
-
     if (trackLead) {
-      trackMetaEvent("Lead", {
-        content_name: eventPayload.label || "Atendimento Privilege",
-        content_category: "Central Digital",
-        source: eventPayload.source || "links",
+      trackWhatsAppLead({
+        ...payload,
+        property_id: eventPayload.property_id || null,
+        property_title: eventPayload.property_title || null,
+        property_price: eventPayload.property_price || null,
+        broker_name: eventPayload.broker_name || null,
+        button_location: eventPayload.button_location || "links_hub",
       });
+      return;
     }
+
+    trackEvent(eventName, payload);
   }
 
   if (external) {

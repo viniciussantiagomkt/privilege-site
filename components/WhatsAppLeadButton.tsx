@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { trackEvent } from "@/lib/analytics";
+import { trackWhatsAppLead } from "@/lib/analytics";
 
 interface WhatsAppLeadButtonProps {
   href: string;
@@ -10,6 +10,9 @@ interface WhatsAppLeadButtonProps {
   propertyId?: number;
   propertyTitle?: string;
   propertySlug?: string;
+  propertyPrice?: string | number | null;
+  brokerName?: string | null;
+  buttonLocation?: string;
   source?: string;
   className?: string;
 }
@@ -20,14 +23,22 @@ export function WhatsAppLeadButton({
   propertyId,
   propertyTitle,
   propertySlug,
+  propertyPrice,
+  brokerName,
+  buttonLocation,
   source = "whatsapp",
   className = "",
 }: WhatsAppLeadButtonProps) {
   function trackLead() {
-    trackEvent("whatsapp_click", {
+    trackWhatsAppLead({
       source,
+      page_url: window.location.href,
       property_id: propertyId ?? null,
       property_slug: propertySlug ?? null,
+      property_title: propertyTitle ?? null,
+      property_price: propertyPrice ?? null,
+      broker_name: brokerName ?? null,
+      button_location: buttonLocation || source,
     });
 
     const payload = {

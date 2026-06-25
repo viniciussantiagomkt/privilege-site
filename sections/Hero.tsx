@@ -7,6 +7,7 @@ import { FormEvent, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import { priceRanges, propertyCategories } from "@/lib/property-filters";
+import { trackEvent } from "@/lib/analytics";
 
 export function Hero() {
   const router = useRouter();
@@ -28,6 +29,18 @@ export function Hero() {
     if (category) params.set("categoria", category);
     if (price) params.set("preco", price);
     if (city.trim()) params.set("cidade", city.trim());
+
+    const selectedPriceRange = priceRanges.find((item) => item.value === price);
+
+    trackEvent("property_search", {
+      search_type: "hero_quick_search",
+      category,
+      city: city.trim() || null,
+      neighborhood: null,
+      min_price: selectedPriceRange?.min ?? null,
+      max_price: selectedPriceRange?.max ?? null,
+      bedrooms: null,
+    });
 
     router.push(`/imoveis?${params.toString()}`);
   }

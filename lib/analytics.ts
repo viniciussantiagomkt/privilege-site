@@ -1,25 +1,57 @@
 "use client";
 
-type AnalyticsPayload = Record<string, string | number | boolean | null | undefined>;
+type AnalyticsValue = string | number | boolean | null | undefined;
+type AnalyticsPayload = Record<string, AnalyticsValue>;
+type DataLayerEvent = AnalyticsPayload & {
+  event: string;
+  event_id?: string;
+};
 
 declare global {
   interface Window {
-    gtag?: (...args: unknown[]) => void;
-    fbq?: (...args: unknown[]) => void;
+    dataLayer?: DataLayerEvent[];
     clarity?: (...args: unknown[]) => void;
   }
 }
 
-export function trackEvent(name: string, payload: AnalyticsPayload = {}) {
-  if (typeof window === "undefined") return;
+export function createAnalyticsEventId(prefix = "evt") {
+  const randomId =
+    typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-  window.gtag?.("event", name, payload);
-  window.fbq?.("trackCustom", name, payload);
-  window.clarity?.("event", name);
+  return `${prefix}_${randomId}`;
 }
 
-export function trackMetaEvent(name: string, payload: AnalyticsPayload = {}) {
-  if (typeof window === "undefined") return;
+export function pushDataLayer(eventData: DataLayerEvent) {
+  if (typeof window === "undefined") return null;
 
-  window.fbq?.("track", name, payload);
+  const payload = {
+    event_id: eventData.event_id || createAnalyticsEventId(eventData.event),
+    page_url: window.location.href,
+    ...eventData,
+  };
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(payload);
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("Analytics Event:", payload);
+  }
+
+  return payload.event_id;
+}
+
+export function trackEvent(name: string, payload: AnalyticsPayload = {}) {
+  return pushDataLayer({
+    event: name,
+    ...payload,
+  });
+}
+
+export function trackWhatsAppLead(payload: AnalyticsPayload = {}) {
+  return trackEvent("whatsapp_lead", {
+    lead_type: "whatsapp",
+    ...payload,
+  });
 }

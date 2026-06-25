@@ -215,7 +215,21 @@ export default async function PropertyPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <PropertyViewTracker propertyId={property.id} />
+      <PropertyViewTracker
+        propertyId={property.id}
+        propertySlug={property.slug}
+        propertyTitle={property.title}
+        propertyType={property.type}
+        propertyCategory={property.category}
+        propertyPrice={getPropertyNumericPrice(property.price)}
+        city={property.city}
+        neighborhood={property.neighborhood}
+        bedrooms={property.bedrooms}
+        parkingSpaces={property.garage}
+        area={property.area}
+        brokerId={property.broker_id}
+        brokerName={broker?.name || broker?.email || null}
+      />
       <Navbar />
 
       <section className="relative px-5 pb-20 pt-32 md:px-6 md:pb-24">
@@ -376,6 +390,8 @@ export default async function PropertyPage({
                   </span>
                   <FavoriteButton
                     propertyId={property.id}
+                    propertyTitle={property.title}
+                    propertyPrice={getPropertyNumericPrice(property.price)}
                     className="relative"
                     showLabel
                   />
@@ -394,6 +410,9 @@ export default async function PropertyPage({
                   propertyId={property.id}
                   propertyTitle={property.title}
                   propertySlug={property.slug}
+                  propertyPrice={getPropertyNumericPrice(property.price)}
+                  brokerName={broker?.name || broker?.email || null}
+                  buttonLocation="property_page"
                   source="imovel-whatsapp"
                   label="Chamar no WhatsApp"
                   className="mt-8 hidden h-14 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(37,211,102,0.18)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] md:flex md:h-16"
@@ -479,6 +498,9 @@ export default async function PropertyPage({
           propertyId={property.id}
           propertyTitle={property.title}
           propertySlug={property.slug}
+          propertyPrice={getPropertyNumericPrice(property.price)}
+          brokerName={broker?.name || broker?.email || null}
+          buttonLocation="property_page_mobile_sticky"
           source="imovel-whatsapp-sticky"
           label="Chamar no WhatsApp"
           className="flex h-12 w-full items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] text-white"

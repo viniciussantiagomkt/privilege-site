@@ -7,6 +7,8 @@ import { trackEvent } from "@/lib/analytics";
 
 interface FavoriteButtonProps {
   propertyId: number;
+  propertyTitle?: string;
+  propertyPrice?: string | number | null;
   className?: string;
   showLabel?: boolean;
 }
@@ -41,6 +43,8 @@ function parseFavorites(value: string) {
 
 export function FavoriteButton({
   propertyId,
+  propertyTitle,
+  propertyPrice,
   className = "absolute top-6 right-6 z-30",
   showLabel = false,
 }: FavoriteButtonProps) {
@@ -61,8 +65,11 @@ export function FavoriteButton({
 
     localStorage.setItem("favorites", JSON.stringify(updated));
 
-    trackEvent(favorite ? "favorite_remove" : "favorite_add", {
+    trackEvent("property_favorite", {
+      action: favorite ? "remove" : "add",
       property_id: propertyId,
+      property_title: propertyTitle || null,
+      property_price: propertyPrice ?? null,
     });
 
     setFeedback(favorite ? "Removido dos favoritos" : "Imóvel curtido");

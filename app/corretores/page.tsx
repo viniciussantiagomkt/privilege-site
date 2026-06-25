@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
 import { createServerClient } from "@/lib/supabase-server";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
@@ -121,22 +122,14 @@ export default async function AgentsPage() {
                     )}
 
                     <div className="mt-7 flex items-center gap-3 md:mt-8">
-                      <a
+                      <WhatsAppLeadButton
                         href={whatsappUrl}
-                        target="_blank"
-                        rel="noreferrer"
+                        label="Falar com corretor"
+                        brokerName={agent.name || agent.email || null}
+                        buttonLocation="broker_card"
+                        source="corretor-whatsapp"
                         className="flex min-h-12 flex-1 items-center justify-center rounded-full border border-[#25D366] bg-[#25D366] px-5 py-3 text-white shadow-[0_18px_50px_rgba(37,211,102,0.16)] transition duration-500 hover:border-[#1FB857] hover:bg-[#1FB857] sm:flex-none md:px-6 md:py-4"
-                      >
-                        <Image
-                          src="/social/whatsapp.png"
-                          alt=""
-                          aria-hidden="true"
-                          width={22}
-                          height={22}
-                          className="mr-2 h-5 w-5 object-contain"
-                        />
-                        Falar com corretor
-                      </a>
+                      />
 
                       {instagram && (
                         <a

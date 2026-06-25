@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { TrackedLink } from "@/components/TrackedLink";
 import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
 import {
   absoluteUrl,
@@ -93,13 +94,20 @@ export default function ContactPage() {
 
             <div className="mt-8 flex items-center gap-3 md:mt-10">
               {socialLinks.map((item) => (
-                <a
+                <TrackedLink
                   key={item.label}
                   href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
+                  external
                   aria-label={item.label}
                   className="group flex h-12 w-12 items-center justify-center rounded-full border border-[#030F18]/8 bg-[#E0E8E6]/70 shadow-[0_12px_36px_rgba(3,15,24,0.05)] transition duration-500 hover:-translate-y-1 hover:border-[#030F18]/18 hover:bg-white/60"
+                  eventName="social_click"
+                  eventPayload={{
+                    label: item.label,
+                    source: "contact_page",
+                    button_location: item.label === "WhatsApp" ? "contact_social" : "contact_social_icon",
+                    type: item.label.toLowerCase(),
+                  }}
+                  trackLead={item.label === "WhatsApp"}
                 >
                   <Image
                     src={item.icon}
@@ -109,7 +117,7 @@ export default function ContactPage() {
                     height={28}
                     className="h-7 w-7 object-contain transition duration-500 group-hover:scale-105"
                   />
-                </a>
+                </TrackedLink>
               ))}
             </div>
           </div>
@@ -132,6 +140,7 @@ export default function ContactPage() {
               href={whatsappUrl}
               label="Chamar no WhatsApp"
               source="contato-whatsapp"
+              buttonLocation="contact_page"
               className="mt-10 flex min-h-16 items-center justify-center rounded-2xl border border-[#25D366] bg-[#25D366] px-6 text-base font-semibold text-white shadow-[0_18px_60px_rgba(37,211,102,0.22)] transition duration-500 hover:-translate-y-0.5 hover:border-[#1fb456] hover:bg-[#1fb456]"
             />
           </div>
