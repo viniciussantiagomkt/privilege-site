@@ -17,3 +17,9 @@ export function trackEvent(name: string, payload: AnalyticsPayload = {}) {
   window.fbq?.("trackCustom", name, payload);
   window.clarity?.("event", name);
 }
+
+export function trackMetaEvent(name: string, payload: AnalyticsPayload = {}) {
+  if (typeof window === "undefined") return;
+
+  window.fbq?.("track", name, payload);
+}

@@ -64,7 +64,7 @@ export const metadata: Metadata = {
 };
 
 const gaId = process.env.NEXT_PUBLIC_GA4_ID;
-const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || "1893673224676516";
 const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
 
 const businessJsonLd = {

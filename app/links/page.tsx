@@ -16,6 +16,7 @@ import { publicPropertyStatuses } from "@/lib/property-filters";
 import { absoluteUrl, companyWhatsApp, defaultOgImage } from "@/lib/site";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Property, PropertyImage } from "@/types/property";
+import { TrackedLink } from "@/components/TrackedLink";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -168,22 +169,38 @@ export default async function LinksPage() {
 
                 if (item.external) {
                   return (
-                    <a
+                    <TrackedLink
                       key={item.label}
                       href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
+                      external
                       className={className}
+                      eventName="CentralDigitalClick"
+                      eventPayload={{
+                        label: item.label,
+                        source: "links",
+                        type: item.whatsapp ? "whatsapp" : "external",
+                      }}
+                      trackLead={Boolean(item.whatsapp)}
                     >
                       {content}
-                    </a>
+                    </TrackedLink>
                   );
                 }
 
                 return (
-                  <Link key={item.label} href={item.href} className={className}>
+                  <TrackedLink
+                    key={item.label}
+                    href={item.href}
+                    className={className}
+                    eventName="CentralDigitalClick"
+                    eventPayload={{
+                      label: item.label,
+                      source: "links",
+                      type: "internal",
+                    }}
+                  >
                     {content}
-                  </Link>
+                  </TrackedLink>
                 );
               })}
             </div>
@@ -228,9 +245,17 @@ function FeaturedLinkProperty({ property }: { property?: Property }) {
     "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85";
 
   return (
-    <Link
+    <TrackedLink
       href={`/imoveis/${property.slug}`}
       className="group overflow-hidden rounded-[30px] border border-[#446E87]/14 bg-[#D7E1DF]/44 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.06)] transition duration-700 hover:-translate-y-1 hover:bg-[#D7E1DF]/58"
+      eventName="CentralDigitalClick"
+      eventPayload={{
+        label: "Destaque da semana",
+        property_slug: property.slug,
+        property_title: property.title,
+        source: "links",
+        type: "featured_property",
+      }}
     >
       <div className="relative overflow-hidden rounded-[24px]">
         <Image
@@ -263,6 +288,6 @@ function FeaturedLinkProperty({ property }: { property?: Property }) {
           Conhecer imóvel
         </span>
       </div>
-    </Link>
+    </TrackedLink>
   );
 }
