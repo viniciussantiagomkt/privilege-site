@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -14,51 +14,114 @@ const fallbackImage =
 
 export function PropertyGallery({ images, title }: PropertyGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const galleryImages = images.length ? images : [fallbackImage];
   const galleryLength = galleryImages.length;
   const activeImage = activeIndex !== null ? galleryImages[activeIndex] : null;
 
-  const move = useCallback((direction: -1 | 1) => {
+  const moveFullscreen = useCallback((direction: -1 | 1) => {
     setActiveIndex((current) => {
       if (current === null) return 0;
       return (current + direction + galleryLength) % galleryLength;
     });
   }, [galleryLength]);
 
+  const moveCarousel = useCallback((direction: -1 | 1) => {
+    setSelectedIndex((current) => (current + direction + galleryLength) % galleryLength);
+  }, [galleryLength]);
+
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
-      if (activeIndex === null) return;
-      if (event.key === "Escape") setActiveIndex(null);
-      if (event.key === "ArrowLeft") move(-1);
-      if (event.key === "ArrowRight") move(1);
+      if (activeIndex !== null) {
+        if (event.key === "Escape") setActiveIndex(null);
+        if (event.key === "ArrowLeft") moveFullscreen(-1);
+        if (event.key === "ArrowRight") moveFullscreen(1);
+        return;
+      }
+
+      if (event.key === "ArrowLeft") moveCarousel(-1);
+      if (event.key === "ArrowRight") moveCarousel(1);
     }
 
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [activeIndex, move]);
+  }, [activeIndex, moveCarousel, moveFullscreen]);
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-        {galleryImages.map((image, index) => (
+      <div className="overflow-hidden rounded-[30px] border border-[#446E87]/14 bg-[#D7E1DF]/42 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.06)] md:rounded-[36px]">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-[#446E87]/10 bg-[#E0E8E6]/74 md:aspect-[16/10] md:rounded-[30px]">
+          <Image
+            src={galleryImages[selectedIndex]}
+            alt={`${title} - imagem ${selectedIndex + 1}`}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 66vw"
+            className="object-contain p-3 transition duration-700 md:p-5"
+          />
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#030F18]/18 to-transparent" />
+
+          <div className="absolute left-4 top-4 rounded-full border border-[#030F18]/8 bg-[#E0E8E6]/82 px-4 py-2 text-xs font-medium text-[#1D4052] shadow-[0_12px_36px_rgba(3,15,24,0.08)] backdrop-blur-xl">
+            {selectedIndex + 1} / {galleryLength}
+          </div>
+
           <button
             type="button"
-            key={`${image}-${index}`}
-            onClick={() => setActiveIndex(index)}
-            className={`group relative overflow-hidden rounded-[28px] border border-[#446E87]/14 shadow-[0_24px_80px_rgba(3,15,24,0.07)] md:rounded-[32px] ${
-              index === 0 ? "md:col-span-2" : ""
-            }`}
+            onClick={() => setActiveIndex(selectedIndex)}
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#030F18]/8 bg-[#E0E8E6]/82 text-[#1D4052] shadow-[0_12px_36px_rgba(3,15,24,0.08)] backdrop-blur-xl transition duration-500 hover:bg-[#1D4052] hover:text-[#E0E8E6]"
+            aria-label="Ampliar imagem"
           >
-            <Image
-              src={image}
-              alt={`${title} - imagem ${index + 1}`}
-              width={1400}
-              height={index === 0 ? 900 : 700}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 66vw, 820px"
-              className={`${index === 0 ? "aspect-[4/5] md:h-[560px] md:aspect-auto" : "aspect-[4/5] md:h-[360px] md:aspect-auto"} w-full object-cover transition duration-700 group-hover:scale-105`}
-            />
+            <Maximize2 className="h-4 w-4" />
           </button>
-        ))}
+
+          {galleryLength > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => moveCarousel(-1)}
+                className="absolute left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[#030F18]/8 bg-[#E0E8E6]/86 text-[#1D4052] shadow-[0_14px_42px_rgba(3,15,24,0.10)] backdrop-blur-xl transition duration-500 hover:bg-[#1D4052] hover:text-[#E0E8E6]"
+                aria-label="Imagem anterior"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => moveCarousel(1)}
+                className="absolute right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[#030F18]/8 bg-[#E0E8E6]/86 text-[#1D4052] shadow-[0_14px_42px_rgba(3,15,24,0.10)] backdrop-blur-xl transition duration-500 hover:bg-[#1D4052] hover:text-[#E0E8E6]"
+                aria-label="Próxima imagem"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </>
+          )}
+        </div>
+
+        {galleryLength > 1 && (
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 md:mt-4 md:gap-3">
+            {galleryImages.map((image, index) => (
+              <button
+                type="button"
+                key={`${image}-${index}`}
+                onClick={() => setSelectedIndex(index)}
+                className={`relative h-20 w-24 shrink-0 overflow-hidden rounded-2xl border bg-[#E0E8E6]/70 transition duration-500 md:h-24 md:w-32 ${
+                  index === selectedIndex
+                    ? "border-[#1D4052] shadow-[0_12px_36px_rgba(29,64,82,0.14)]"
+                    : "border-[#446E87]/14 opacity-72 hover:border-[#446E87]/34 hover:opacity-100"
+                }`}
+                aria-label={`Selecionar imagem ${index + 1}`}
+              >
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="128px"
+                  className="object-contain p-1.5"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {activeImage && activeIndex !== null && (
@@ -89,7 +152,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
               <>
                 <button
                   type="button"
-                  onClick={() => move(-1)}
+                  onClick={() => moveFullscreen(-1)}
                   className="absolute left-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[#E0E8E6]/16 bg-[#030F18]/42"
                   aria-label="Imagem anterior"
                 >
@@ -97,7 +160,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => move(1)}
+                  onClick={() => moveFullscreen(1)}
                   className="absolute right-2 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[#E0E8E6]/16 bg-[#030F18]/42"
                   aria-label="Próxima imagem"
                 >
