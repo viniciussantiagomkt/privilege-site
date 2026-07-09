@@ -1,91 +1,99 @@
-import Image from "next/image";
 import Link from "next/link";
+import {
+  BadgeCheck,
+  Building2,
+  Hammer,
+  Home,
+  KeyRound,
+  Map,
+  Trees,
+} from "lucide-react";
 
 const categories = [
   {
     title: "Casas",
     slug: "casas",
-    image: "/categories/casas.webp",
+    icon: Home,
   },
   {
     title: "Condomínios",
     slug: "condominios",
-    image: "/categories/condominios.webp",
+    icon: Trees,
   },
   {
     title: "Terrenos",
     slug: "terrenos",
-    image: "/categories/terrenos.webp",
+    icon: Map,
   },
   {
     title: "Na planta",
     slug: "na-planta",
-    image: "/categories/na-planta.webp",
+    icon: Hammer,
   },
   {
     title: "Aluguel",
     slug: "aluguel",
-    image: "/categories/aluguel.webp",
+    icon: KeyRound,
   },
   {
     title: "Apartamentos",
     slug: "apartamentos",
-    image: "/categories/apartamentos.webp",
+    icon: Building2,
   },
   {
     title: "Minha Casa Minha Vida",
     slug: "minha-casa-minha-vida",
-    image: "/categories/minha-casa-minha-vida.webp",
+    icon: BadgeCheck,
   },
 ];
 
 export function Categories() {
   return (
-    <section className="py-20 text-[#030F18] md:py-28">
+    <section className="py-16 text-[#030F18] md:py-24">
       <div className="premium-shell">
-        <div className="mb-10 md:mb-14">
-          <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
-            Categorias
-          </span>
+        <div className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="text-xs uppercase tracking-[0.28em] text-[#446E87] md:text-sm md:tracking-[0.34em]">
+              Categorias
+            </span>
 
-          <h2 className="mt-5 text-[clamp(2.6rem,13vw,6rem)] font-semibold leading-[0.96] text-[#1D4052] md:leading-[0.95]">
-            Explore por estilo.
-          </h2>
+            <h2 className="mt-4 text-[clamp(2.25rem,10vw,4.6rem)] font-semibold leading-[0.98] text-[#1D4052] md:leading-[0.95]">
+              Escolha o perfil do imóvel.
+            </h2>
+          </div>
+
+          <p className="max-w-md text-sm leading-6 text-[#030F18]/54 md:text-right">
+            Navegação rápida por categorias, integrada ao catálogo e aos filtros
+            da plataforma.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/imoveis/categoria/${category.slug}`}
-              className="group relative min-h-[300px] overflow-hidden rounded-[28px] border border-[#446E87]/14 bg-[#E0E8E6]/58 p-2 shadow-[0_24px_80px_rgba(3,15,24,0.06)] transition duration-700 hover:-translate-y-1 hover:shadow-[0_34px_100px_rgba(3,15,24,0.1)] md:min-h-[360px] md:rounded-[34px]"
-            >
-              <div className="relative h-full min-h-[284px] overflow-hidden rounded-[24px] md:min-h-[344px] md:rounded-[28px]">
-                <Image
-                  src={category.image}
-                  alt={category.title}
-                  fill
-                  sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
-                  className="absolute inset-0 h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-105 group-hover:opacity-95"
-                />
+        <nav
+          aria-label="Categorias de imóveis"
+          className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/46 p-2 shadow-[0_18px_64px_rgba(3,15,24,0.045)] backdrop-blur-xl"
+        >
+          <div className="flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-7 md:overflow-visible md:pb-0">
+            {categories.map((category) => {
+              const Icon = category.icon;
 
-                <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-[#030F18]/12 to-[#030F18]/80" />
+              return (
+                <Link
+                  key={category.slug}
+                  href={`/imoveis/categoria/${category.slug}`}
+                  className="group flex min-w-[150px] flex-col items-center justify-center gap-3 rounded-[22px] border border-transparent bg-[#E0E8E6]/56 px-4 py-5 text-center transition duration-500 hover:-translate-y-0.5 hover:border-[#446E87]/24 hover:bg-[#E0E8E6] md:min-w-0"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#446E87]/14 bg-[#D7E1DF]/68 text-[#1D4052] transition duration-500 group-hover:border-[#1D4052]/24 group-hover:bg-[#1D4052] group-hover:text-[#E0E8E6]">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
 
-                <div className="absolute bottom-5 left-5 right-5 md:bottom-6 md:left-6 md:right-6">
-                  <h3
-                    className="text-3xl font-semibold md:text-4xl"
-                    style={{
-                      color: "#E0E8E6",
-                      textShadow: "0 8px 28px rgba(3,15,24,0.42)",
-                    }}
-                  >
+                  <span className="text-sm font-medium leading-tight text-[#1D4052]">
                     {category.title}
-                  </h3>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
       </div>
     </section>
   );

@@ -167,6 +167,7 @@ export default async function PropertyPage({
     property.virtual_tour_url,
   ].filter((video, index, list): video is string => Boolean(video) && list.indexOf(video) === index);
   const schemaImages = images.length ? images.map(absoluteUrl) : [absoluteUrl(defaultOgImage)];
+  const statusLabel = getPropertyStatusLabel(property.status);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
@@ -324,7 +325,7 @@ export default async function PropertyPage({
                 </p>
               </div>
 
-              <div className="mt-14 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-4 md:gap-6">
+              <div className="mt-14 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-5 md:gap-5">
                 <div className="rounded-[22px] border border-[#446E87]/14 bg-[#D7E1DF]/48 p-5 md:rounded-[24px] md:p-6">
                   <span className="text-[#030F18]/50 text-sm">Quartos</span>
                   <h3 className="mt-4 text-2xl font-bold md:text-3xl">
@@ -333,9 +334,16 @@ export default async function PropertyPage({
                 </div>
 
                 <div className="rounded-[22px] border border-[#446E87]/14 bg-[#D7E1DF]/48 p-5 md:rounded-[24px] md:p-6">
-                  <span className="text-[#030F18]/50 text-sm">Banheiros</span>
+                  <span className="text-[#030F18]/50 text-sm">Banheiro social</span>
                   <h3 className="mt-4 text-2xl font-bold md:text-3xl">
                     {property.bathrooms ?? "-"}
+                  </h3>
+                </div>
+
+                <div className="rounded-[22px] border border-[#446E87]/14 bg-[#D7E1DF]/48 p-5 md:rounded-[24px] md:p-6">
+                  <span className="text-[#030F18]/50 text-sm">Suítes</span>
+                  <h3 className="mt-4 text-2xl font-bold md:text-3xl">
+                    {property.suites ?? "-"}
                   </h3>
                 </div>
 
@@ -347,7 +355,7 @@ export default async function PropertyPage({
                 </div>
 
                 <div className="rounded-[22px] border border-[#446E87]/14 bg-[#D7E1DF]/48 p-5 md:rounded-[24px] md:p-6">
-                  <span className="text-[#030F18]/50 text-sm">Vagas</span>
+                  <span className="text-[#030F18]/50 text-sm">Vagas de carro</span>
                   <h3 className="mt-4 text-2xl font-bold md:text-3xl">
                     {property.garage ?? "-"}
                   </h3>
@@ -357,7 +365,7 @@ export default async function PropertyPage({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                 <InfoCard label="Cidade" value={property.city || "-"} />
                 <InfoCard label="Bairro" value={property.neighborhood || "-"} />
-                <InfoCard label="Status" value={property.status || "ativo"} />
+                <InfoCard label="Status" value={statusLabel} />
               </div>
 
               <div className="mt-16 md:mt-24">
@@ -521,4 +529,13 @@ function InfoCard({ label, value }: { label: string; value: string }) {
   );
 }
 
+function getPropertyStatusLabel(status?: string | null) {
+  const labels: Record<string, string> = {
+    ativo: "Disponível",
+    reservado: "Reservado",
+    vendido: "Vendido",
+  };
+
+  return labels[(status || "ativo").toLowerCase()] || "Disponível";
+}
 

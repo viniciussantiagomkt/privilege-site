@@ -25,6 +25,7 @@ export interface Property {
 
   bedrooms: number | null;
   bathrooms: number | null;
+  suites?: number | null;
   garage: number | null;
   area: string | null;
 

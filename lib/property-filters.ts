@@ -23,11 +23,9 @@ export const publicPropertyStatuses = ["ativo", "reservado", "vendido", "alugado
 
 export const propertyStatuses = [
   { label: "Todos os status", value: "" },
-  { label: "Ativo", value: "ativo" },
+  { label: "Disponível", value: "ativo" },
   { label: "Reservado", value: "reservado" },
   { label: "Vendido", value: "vendido" },
-  { label: "Alugado", value: "alugado" },
-  { label: "Rascunho", value: "rascunho" },
 ];
 
 export const sortOptions = [

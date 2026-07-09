@@ -598,11 +598,9 @@ export function PropertyForm({
               onChange={(event) => updateField("status", event.target.value)}
               className="admin-input bg-[#030F18]"
             >
-              <option value="ativo">Ativo</option>
+              <option value="ativo">Disponível</option>
               <option value="reservado">Reservado</option>
               <option value="vendido">Vendido</option>
-              <option value="alugado">Alugado</option>
-              <option value="rascunho">Rascunho</option>
             </select>
           </Field>
 
@@ -676,24 +674,24 @@ export function PropertyForm({
             />
           </Field>
 
-          <Field label="Banheiros" help="Quantidade de banheiros.">
+          <Field label="Banheiro social" help="Quantidade de banheiros sociais.">
             <input
               type="number"
               min={0}
               value={form.bathrooms ?? 0}
               onChange={(event) => updateField("bathrooms", Number(event.target.value))}
-              placeholder="Quantidade de banheiros"
+              placeholder="Banheiros sociais"
               className="admin-input"
             />
           </Field>
 
-          <Field label="Vagas" help="Vagas de garagem.">
+          <Field label="Vagas de carro" help="Quantidade de vagas de carro.">
             <input
               type="number"
               min={0}
               value={form.garage ?? 0}
               onChange={(event) => updateField("garage", Number(event.target.value))}
-              placeholder="Vagas de garagem"
+              placeholder="Vagas de carro"
               className="admin-input"
             />
           </Field>

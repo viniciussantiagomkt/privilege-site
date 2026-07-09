@@ -229,7 +229,7 @@ export default function AdminPage() {
         <div className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
             <MetricCard label="Total de imóveis" value={properties.length} />
-            <MetricCard label="Imóveis ativos" value={activeCount} />
+            <MetricCard label="Imóveis disponíveis" value={activeCount} />
             <MetricCard label="Imóveis vendidos" value={properties.filter((property) => property.status === "vendido").length} />
             <MetricCard label="Leads recebidos" value={leads.length} />
           </div>
@@ -643,7 +643,7 @@ function PropertyRow({
           <p className="text-white/50 mt-1">{property.location}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-white/60">
-              {property.status ?? "ativo"}
+              {getPropertyStatusLabel(property.status)}
             </span>
             {property.minha_casa_minha_vida && (
               <span className="inline-flex rounded-full border border-[#25D366]/30 bg-[#25D366]/10 px-3 py-1 text-xs text-[#25D366]">
@@ -714,4 +714,14 @@ function EmptyState({ text }: { text: string }) {
       <span>{text}</span>
     </div>
   );
+}
+
+function getPropertyStatusLabel(status?: string | null) {
+  const labels: Record<string, string> = {
+    ativo: "Disponível",
+    reservado: "Reservado",
+    vendido: "Vendido",
+  };
+
+  return labels[(status || "ativo").toLowerCase()] || "Disponível";
 }
