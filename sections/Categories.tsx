@@ -72,21 +72,24 @@ export function Categories() {
           aria-label="Categorias de imóveis"
           className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/46 p-2 shadow-[0_18px_64px_rgba(3,15,24,0.045)] backdrop-blur-xl"
         >
-          <div className="flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-7 md:overflow-visible md:pb-0">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-7">
             {categories.map((category) => {
               const Icon = category.icon;
+              const isLongCategory = category.slug === "minha-casa-minha-vida";
 
               return (
                 <Link
                   key={category.slug}
                   href={`/imoveis/categoria/${category.slug}`}
-                  className="group flex min-w-[150px] flex-col items-center justify-center gap-3 rounded-[22px] border border-transparent bg-[#E0E8E6]/56 px-4 py-5 text-center transition duration-500 hover:-translate-y-0.5 hover:border-[#446E87]/24 hover:bg-[#E0E8E6] md:min-w-0"
+                  className={`group flex min-h-24 items-center gap-3 rounded-[22px] border border-transparent bg-[#E0E8E6]/56 px-3 py-4 text-left transition duration-500 hover:-translate-y-0.5 hover:border-[#446E87]/24 hover:bg-[#E0E8E6] sm:flex-col sm:justify-center sm:text-center md:min-h-32 md:px-4 md:py-5 ${
+                    isLongCategory ? "col-span-2 sm:col-span-1" : ""
+                  }`}
                 >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#446E87]/14 bg-[#D7E1DF]/68 text-[#1D4052] transition duration-500 group-hover:border-[#1D4052]/24 group-hover:bg-[#1D4052] group-hover:text-[#E0E8E6]">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[#446E87]/14 bg-[#D7E1DF]/68 text-[#1D4052] transition duration-500 group-hover:border-[#1D4052]/24 group-hover:bg-[#1D4052] group-hover:text-[#E0E8E6] md:h-12 md:w-12">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
 
-                  <span className="text-sm font-medium leading-tight text-[#1D4052]">
+                  <span className="text-sm font-medium leading-tight text-[#1D4052] md:text-center">
                     {category.title}
                   </span>
                 </Link>
