@@ -15,6 +15,7 @@ export const priceRanges = [
   { label: "Qualquer valor", value: "" },
   { label: "Até R$ 200 mil", value: "200mil", max: 200000 },
   { label: "Até R$ 500 mil", value: "500mil", max: 500000 },
+  { label: "Acima de R$ 1 milhão", value: "acima-1milhao", min: 1000000 },
   { label: "Até R$ 2 milhões", value: "2milhoes", max: 2000000 },
   { label: "Acima de R$ 2 milhões", value: "acima-2milhoes", min: 2000000 },
 ];
@@ -64,13 +65,41 @@ export function getPropertyNumericPrice(price: string) {
     return null;
   }
 
-  const digits = normalized.replace(/\D/g, "");
+  const millionMatch = normalized.match(/(\d+(?:[,.]\d+)?)\s*(milhao|milhoes)/);
 
-  if (!digits) {
+  if (millionMatch) {
+    return Math.round(Number(millionMatch[1].replace(",", ".")) * 1000000);
+  }
+
+  const thousandMatch = normalized.match(/(\d+(?:[,.]\d+)?)\s*mil\b/);
+
+  if (thousandMatch) {
+    return Math.round(Number(thousandMatch[1].replace(",", ".")) * 1000);
+  }
+
+  const compactValue = normalized.replace(/[^\d,.]/g, "");
+
+  if (!compactValue) {
     return null;
   }
 
-  return Number(digits);
+  let numericValue = compactValue;
+
+  if (compactValue.includes(",")) {
+    numericValue = compactValue.replace(/\./g, "").replace(",", ".");
+  } else if ((compactValue.match(/\./g) || []).length > 1) {
+    numericValue = compactValue.replace(/\./g, "");
+  } else if (/^\d{1,3}\.\d{3}$/.test(compactValue)) {
+    numericValue = compactValue.replace(".", "");
+  }
+
+  const value = Number(numericValue);
+
+  if (!Number.isFinite(value) || value <= 0) {
+    return null;
+  }
+
+  return Math.round(value);
 }
 
 export function matchesCategory(property: Property, category: string) {
@@ -116,7 +145,7 @@ export function matchesPrice(property: Property, priceRange: string) {
   const price = getPropertyNumericPrice(property.price);
 
   if (price === null) {
-    return true;
+    return false;
   }
 
   if (range.min) {

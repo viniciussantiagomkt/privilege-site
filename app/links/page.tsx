@@ -58,7 +58,7 @@ const mainLinks = [
   },
   {
     label: "Alto padrão",
-    href: "/imoveis?preco=acima-2milhoes&ordenar=destaque",
+    href: "/imoveis?preco=acima-1milhao&ordenar=destaque",
     icon: Gem,
   },
   {
