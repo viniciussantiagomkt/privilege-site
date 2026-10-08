@@ -26,6 +26,7 @@ interface Lead {
   page_path?: string | null;
   origin_detail?: string | null;
   notes?: string | null;
+  lost_reason?: string | null;
 }
 
 const statuses: LeadStatus[] = [
@@ -92,15 +93,19 @@ export default function AdminLeadsPage() {
   const visibleLeads = filteredLeads.slice((page - 1) * pageSize, page * pageSize);
 
   async function updateLead(id: number, payload: Partial<Lead>) {
-    setLeads((current) =>
-      current.map((lead) => (lead.id === id ? { ...lead, ...payload } : lead))
-    );
-
-    const { error } = await supabase.from("leads").update(payload).eq("id", id);
+    if (payload.status === "perdido") {
+      const reason = window.prompt("Qual foi o motivo da perda?");
+      if (!reason?.trim()) return;
+      payload = { ...payload, lost_reason: reason.trim() };
+    }
+    const { data, error } = await supabase.from("leads").update(payload).eq("id", id)
+      .select("*").single();
 
     if (error) {
       alert(error.message);
+      return;
     }
+    setLeads((current) => current.map((lead) => lead.id === id ? data as Lead : lead));
   }
 
   return (
@@ -109,6 +114,7 @@ export default function AdminLeadsPage() {
         <a href="/admin" className="text-sm text-[#446E87] transition hover:text-[#1D4052]">
           Voltar ao dashboard
         </a>
+        <a href="/admin/crm" className="ml-6 text-sm text-[#446E87]">Abrir fluxo comercial</a>
 
         <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>

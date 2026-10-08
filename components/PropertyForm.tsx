@@ -463,35 +463,15 @@ export function PropertyForm({
     if (data) {
       const savedProperty = data as Property;
 
-      await supabase.from("property_images").delete().eq("property_id", savedProperty.id);
-      if (imageUrls.length) {
-        await supabase.from("property_images").insert(
-          imageUrls.map((url, index) => ({
-            property_id: savedProperty.id,
-            url,
-            sort_order: index,
-            is_main: index === 0,
-            alt: `${savedProperty.title} - imagem ${index + 1}`,
-          }))
-        );
-      }
-
-      await supabase.from("property_videos").delete().eq("property_id", savedProperty.id);
-      if (videoUrls.length) {
-        await supabase.from("property_videos").insert(
-          videoUrls.map((url, index) => ({
-            property_id: savedProperty.id,
-            url,
-            sort_order: index,
-            title: `${savedProperty.title} - video ${index + 1}`,
-            provider: url.includes("supabase") ? "upload" : "external",
-          }))
-        );
-      }
-
-      await supabase.rpc("sync_property_media_arrays", {
+      const { error: mediaError } = await supabase.rpc("crm_save_property_media", {
         target_property_id: savedProperty.id,
+        image_urls: imageUrls,
+        video_urls: videoUrls,
       });
+      if (mediaError) {
+        setMessage("O imóvel foi salvo, mas as mídias não foram atualizadas: " + mediaError.message);
+        return;
+      }
 
       onSaved?.(data as Property);
     }

@@ -1,0 +1,81 @@
+{
+  "environment": "staging",
+  "authentication": "anon",
+  "results": [
+    {
+      "name": "anonymous API cannot read leads",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read clients",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read tasks",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read visits",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read proposals",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read negotiations",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read sales",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read audit_logs",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read lead_assignments",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API cannot read notifications",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous API denied crm_assign_lead",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous API denied crm_record_contact",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous API denied sync_property_media_arrays",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous API denied increment_property_view",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous API denied crm_save_property_media",
+      "passed": true,
+      "status": 401
+    }
+  ]
+}

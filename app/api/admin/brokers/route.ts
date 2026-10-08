@@ -59,11 +59,11 @@ export async function POST(request: Request) {
 
   const { data: roleData } = await admin
     .from("user_roles")
-    .select("role")
+    .select("role,disabled_at")
     .eq("id", userData.user.id)
     .maybeSingle();
 
-  if (roleData?.role !== "admin") {
+  if (roleData?.role !== "admin" || roleData.disabled_at) {
     return NextResponse.json(
       { error: "Apenas administradores podem criar corretores." },
       { status: 403 }
@@ -102,12 +102,18 @@ export async function POST(request: Request) {
     );
   }
 
-  await admin.from("user_roles").upsert({
+  const { error: roleError } = await admin.from("user_roles").upsert({
     id: createdUser.user.id,
     role: "corretor",
     updated_at: new Date().toISOString(),
   });
 
+  if (roleError) {
+    return NextResponse.json(
+      { error: "Conta criada, mas a permissão não foi configurada. A administração precisa revisar o cadastro." },
+      { status: 500 }
+    );
+  }
   const { data: broker, error: brokerError } = await admin
     .from("brokers")
     .upsert({

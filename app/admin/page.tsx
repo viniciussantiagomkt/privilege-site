@@ -30,7 +30,7 @@ type AdminSection =
   | "analytics"
   | "configuracoes";
 
-type UserRole = "admin" | "corretor";
+type UserRole = "admin" | "manager" | "corretor";
 
 interface Lead {
   id: number;
@@ -77,7 +77,7 @@ const menu = [
 }[];
 
 function getRoleLabel(role: UserRole) {
-  return role === "admin" ? "Administrador" : "Corretor";
+  return role === "admin" ? "Administrador" : role === "manager" ? "Gerente" : "Corretor";
 }
 
 function getPropertyQuality(property: Property) {
@@ -149,7 +149,7 @@ export default function AdminPage() {
         userId
           ? supabase
               .from("user_roles")
-              .select("role")
+              .select("role,disabled_at")
               .eq("id", userId)
               .maybeSingle()
           : Promise.resolve({ data: null }),
@@ -166,9 +166,9 @@ export default function AdminPage() {
 
       if (!active) return;
 
-      const metadataRole = session?.user.user_metadata?.role;
       const databaseRole = roleData?.role;
-      setRole(databaseRole === "admin" || metadataRole === "admin" ? "admin" : "corretor");
+      setRole(!roleData?.disabled_at && databaseRole === "admin" ? "admin" :
+        !roleData?.disabled_at && databaseRole === "manager" ? "manager" : "corretor");
       setUserEmail(session?.user.email ?? "");
       setProperties((propertyData || []) as Property[]);
       setLeads((leadData || []) as Lead[]);
