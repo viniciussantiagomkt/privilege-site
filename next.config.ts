@@ -15,6 +15,7 @@ if (process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008") {
 
 const nextConfig: NextConfig = {
   images: {
+    unoptimized: process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008",
     remotePatterns: [
       {
         protocol: "https",

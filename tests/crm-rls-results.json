@@ -1,6 +1,6 @@
 {
   "environment": "staging",
-  "authentication": "SET LOCAL ROLE authenticated/anon plus request.jwt.claims; not an admin SELECT",
+  "authentication": "PostgreSQL authenticated and anon roles with test user claims",
   "results": [
     {
       "name": "A sees only own synthetic lead",
@@ -326,6 +326,56 @@
       "name": "anon cannot forge assigned lead",
       "passed": true,
       "detail": "42501"
+    },
+    {
+      "name": "storage owner sees unpublished photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage owner cannot upload to colleague folder",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage colleague cannot see unpublished photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage colleague cannot attach private photo",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage anon cannot read unlinked photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage manager sees private photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage anon reads published photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage hides photo after unpublishing",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage reassigned broker reads property photos",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage reassigned broker preserves existing photos",
+      "passed": true,
+      "detail": "boolean assertion"
     }
   ]
 }
