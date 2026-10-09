@@ -30,7 +30,7 @@ type PropertyFormData = Omit<Property, "id"> & {
 };
 
 interface PropertyFormProps {
-  initialData?: Property | null;
+  initialData?: Partial<Property> | null;
   onSaved?: (property: Property) => void;
   compact?: boolean;
 }

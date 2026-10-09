@@ -136,4 +136,18 @@ select set_config('request.jwt.claims','{"sub":"779c7220-06dd-4180-8b52-05136bee
 select set_config('request.jwt.claim.sub','779c7220-06dd-4180-8b52-05136bee21cb',true);
 select pg_temp.crm_check('storage reassigned broker reads property photos',$q$select count(*)=1 from storage.objects where bucket_id='crm-property-images'$q$);
 select pg_temp.crm_check('storage reassigned broker preserves existing photos',$q$select true from crm_save_property_media(-910005,array['https://preview.invalid/api/property-media/73a767b8-218d-4910-a370-2b93cf32bf74/00000000-0000-0000-0000-000000000001.webp'],'{}')$q$);
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"73a767b8-218d-4910-a370-2b93cf32bf74","role":"authenticated"}',true);
+select set_config('request.jwt.claim.sub','73a767b8-218d-4910-a370-2b93cf32bf74',true);
+select pg_temp.crm_check('contact owner stores proprietor profile',$q$with x as(update clients set contact_type='proprietario' where id=-910001 returning id)select count(*)=1 from x$q$);
+select pg_temp.crm_check('contact links own client and lead',$q$with x as(insert into crm_contact_links(contact_id,lead_id,relation)values(-910001,-910001,'atendimento')returning id)select count(*)=1 from x$q$);
+select pg_temp.crm_check('contact cannot link colleague private client',$q$insert into crm_contact_links(contact_id,lead_id,relation)values(-910002,-910001,'atendimento')$q$,'42501');
+select pg_temp.crm_check('contact cannot link colleague private lead',$q$insert into crm_contact_links(contact_id,lead_id,relation)values(-910001,-910002,'atendimento')$q$,'42501');
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"779c7220-06dd-4180-8b52-05136bee21cb","role":"authenticated"}',true);
+select set_config('request.jwt.claim.sub','779c7220-06dd-4180-8b52-05136bee21cb',true);
+select pg_temp.crm_check('contact colleague cannot read private link',$q$select count(*)=0 from crm_contact_links where contact_id=-910001$q$);
+set local role anon;
+select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);
+select pg_temp.crm_check('contact anonymous cannot read private links',$q$select count(*)=0 from crm_contact_links$q$);
 reset role; select json_agg(r) results from crm_test_results r; rollback;

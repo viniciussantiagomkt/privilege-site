@@ -1,72 +1,142 @@
 "use client";
-
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-  async function handleLogin(event: React.FormEvent) {
-    event.preventDefault();
+  const [error, setError] = useState("");
+  async function login(e: React.FormEvent) {
+    e.preventDefault();
+    if (loading) return;
     setLoading(true);
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setLoading(false);
-
-    if (error) {
-      alert("Credenciais inválidas");
-      return;
+    setError("");
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error) {
+        setError(
+          error.code === "email_not_confirmed"
+            ? "Confirme o e-mail da sua conta antes de entrar."
+            : "Não foi possível entrar. Confira seu e-mail e senha.",
+        );
+        return;
+      }
+      router.replace("/admin");
+      router.refresh();
+    } catch {
+      setError(
+        "Não foi possível conectar. Verifique sua conexão e tente novamente.",
+      );
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/admin");
   }
-
   return (
-    <main className="flex min-h-screen items-center justify-center px-6 text-[#030F18]">
-      <div className="w-full max-w-md rounded-[32px] border border-[#446E87]/14 bg-[#D7E1DF]/60 p-8 shadow-[0_24px_80px_rgba(3,15,24,0.08)] backdrop-blur-2xl md:p-10">
+    <main className="crm-auth">
+      <section className="crm-auth-story">
         <Image
-          src="/brand/logo-vertical-blue.png"
+          src="/brand/logo-horizontal-blue.png"
           alt="Privilege Imóveis"
-          width={144}
-          height={112}
+          width={240}
+          height={75}
+          style={{
+            filter: "brightness(0) invert(1)",
+            objectFit: "contain",
+            objectPosition: "left",
+          }}
           priority
-          className="mx-auto h-28 w-36 object-contain"
         />
-
-        <h1 className="mt-8 text-4xl font-bold">Login administrativo</h1>
-
-        <form onSubmit={handleLogin} className="mt-10 flex flex-col gap-6">
-          <input
-            type="email"
-            placeholder="Seu e-mail"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none transition duration-500 focus:border-[#446E87]/48"
+        <h1>
+          Mais conexões.
+          <br />
+          Novas oportunidades.
+          <br />
+          Grandes negócios.
+        </h1>
+        <p>
+          Seu portfólio, seus clientes e sua próxima conquista. Tudo conectado
+          no workspace Privilege.
+        </p>
+        <small>ONDE O PRIVILÉGIO TEM ENDEREÇO.</small>
+      </section>
+      <section className="crm-auth-form-area">
+        <div className="crm-auth-card">
+          <Image
+            src="/brand/symbol-blue.png"
+            alt="Privilege"
+            width={46}
+            height={46}
           />
-
-          <input
-            type="password"
-            placeholder="Sua senha"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="h-16 rounded-2xl border border-[#446E87]/14 bg-[#E0E8E6]/70 px-6 outline-none transition duration-500 focus:border-[#446E87]/48"
-          />
-
-          <button className="h-16 rounded-2xl border border-[#030F18]/18 text-[#030F18]/76 transition duration-500 hover:border-[#446E87]/45 hover:bg-white/35">
-            {loading ? "Entrando..." : "Entrar"}
-          </button>
-        </form>
-      </div>
+          <p className="crm-eyebrow" style={{ marginTop: 20 }}>
+            WORKSPACE PRIVILEGE
+          </p>
+          <h2>Bem-vindo de volta.</h2>
+          <p>Acesse sua conta e continue de onde parou.</p>
+          <form onSubmit={login}>
+            <label htmlFor="email">
+              E-mail
+              <input
+                id="email"
+                type="email"
+                autoComplete="username"
+                required
+                value={email}
+                disabled={loading}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Seu e-mail profissional"
+              />
+            </label>
+            <label htmlFor="password">
+              Senha
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                disabled={loading}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Sua senha"
+              />
+            </label>
+            {error && (
+              <p className="auth-error" role="alert">
+                {error}
+              </p>
+            )}
+            <button disabled={loading} type="submit">
+              {loading ? "Entrando no workspace..." : "Entrar no workspace"}{" "}
+              <ArrowUpRight
+                size={15}
+                style={{
+                  display: "inline",
+                  verticalAlign: "middle",
+                  marginLeft: 9,
+                }}
+              />
+            </button>
+          </form>
+          <small>
+            <ShieldCheck
+              size={14}
+              style={{
+                display: "inline",
+                verticalAlign: "middle",
+                marginRight: 5,
+              }}
+            />
+            Acesso individual e seguro. Se precisar recuperar sua conta, procure
+            a administração da Privilege.
+          </small>
+        </div>
+      </section>
     </main>
   );
 }
