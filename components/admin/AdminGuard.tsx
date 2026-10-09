@@ -2,20 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Session } from "@supabase/supabase-js";
 
 import { supabase } from "@/lib/supabase";
 
 interface AdminGuardProps {
   children: React.ReactNode;
-}
-
-export type AdminRole = "admin" | "corretor";
-
-export function getUserRole(session: Session | null): AdminRole {
-  const role = session?.user.user_metadata?.role;
-
-  return role === "admin" ? "admin" : "corretor";
 }
 
 export function AdminGuard({
@@ -30,16 +21,25 @@ export function AdminGuard({
 
     async function validateSession() {
       const {
-        data: { session },
-      } = await supabase.auth.getSession();
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
 
       if (!active) return;
 
-      if (!session) {
+      if (error || !user) {
+        setAuthorized(false);
         router.replace("/login");
         return;
       }
 
+      const { data: role, error: roleError } = await supabase.rpc("current_user_role");
+      if (!active) return;
+      if (roleError || !["admin", "manager", "broker", "corretor"].includes(role)) {
+        setAuthorized(false);
+        setLoading(false);
+        return;
+      }
       setAuthorized(true);
       setLoading(false);
     }
@@ -50,7 +50,10 @@ export function AdminGuard({
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session) {
+        setAuthorized(false);
         router.replace("/login");
+      } else {
+        queueMicrotask(() => { void validateSession(); });
       }
     });
 
@@ -69,7 +72,7 @@ export function AdminGuard({
   }
 
   if (!authorized) {
-    return null;
+    return <main className="min-h-screen flex items-center justify-center">Sua conta não tem acesso ao CRM.</main>;
   }
 
   return <>{children}</>;
