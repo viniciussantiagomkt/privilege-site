@@ -112,4 +112,8 @@ Não foram criadas contas administrativas, alteradas senhas existentes nem conce
 
 O PR #1 permanece aberto e em rascunho: https://github.com/viniciussantiagomkt/privilege-site/pull/1
 
-O preview será registrado após a conclusão do deployment. As duas variáveis públicas do Supabase da branch foram comparadas com o staging e conferem. A guarda de build bloqueia produção, projeto diferente, chave diferente e service-role nesta branch.
+Preview atualizado: https://privilege-site-671bux1vs-viniciussantiagomkts-projects.vercel.app/login
+
+Deployment `dpl_UUS3PDoZVvGeEb8GP4jikPmYWaaK`, estado `READY`, target `staging`, código do commit `53986aeb7984efb570ffb757d5d78a67cc4bad91`. Build remoto concluído e `/login` retornou HTTP 200 pelo acesso autenticado da integração Vercel. O preview mantém a proteção da Vercel; acesso ao CRM exige também uma conta de staging. A homologação autenticada continua pendente.
+
+As duas variáveis públicas do Supabase da branch foram comparadas com o staging e conferem. A guarda de build bloqueia produção, projeto diferente, chave diferente e service-role nesta branch. A main foi novamente verificada em `51aae401901b9af73f596b8d72288cc1117178c5`, sem alteração.
