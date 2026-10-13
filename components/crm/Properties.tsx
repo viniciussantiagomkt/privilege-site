@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { ShareComposer } from "./ShareComposer";
 import { useEffect, useState } from "react";
 import {
   Building2,
@@ -67,6 +68,7 @@ export function PrivateThumbnail({
 }
 export function Properties() {
   const ctx = useWorkspace();
+  const [shareProperty, setShareProperty] = useState<number | null>(null);
   const [view, setView] = useState("cards");
   const [filter, setFilter] = useState("");
   const [scope, setScope] = useState("");
@@ -300,6 +302,12 @@ export function Properties() {
           </div>
         )}
       </SectionState>
+      {shareProperty && (
+        <ShareComposer
+          propertyId={shareProperty}
+          onClose={() => setShareProperty(null)}
+        />
+      )}
       {(create || edit) && (
         <Modal
           title={edit ? "Editar imóvel" : "Captar um novo imóvel"}
@@ -364,6 +372,16 @@ export function Properties() {
                 </div>
               </div>
               <div className="crm-detail-actions">
+                {linkEnabled && (
+                  <Button
+                    onClick={() => {
+                      setShareProperty(p.id);
+                      setSelected(null);
+                    }}
+                  >
+                    Compartilhar apresentação
+                  </Button>
+                )}
                 {canEdit(p) && (
                   <Button
                     onClick={() => {

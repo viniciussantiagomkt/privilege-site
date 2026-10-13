@@ -1,0 +1,28 @@
+{
+  "environment": "local application with real staging RPC",
+  "authentication": "anonymous",
+  "fixtures": "synthetic, temporary, removed after test",
+  "results": [
+    {
+      "name": "real anonymous token presentation renders",
+      "passed": true
+    },
+    {
+      "name": "desktop no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "real consent API records opening",
+      "passed": true
+    },
+    {
+      "name": "mobile no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "no client runtime errors",
+      "passed": true,
+      "errors": []
+    }
+  ]
+}

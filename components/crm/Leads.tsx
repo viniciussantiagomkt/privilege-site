@@ -11,6 +11,7 @@ import {
   CheckCheck,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { ShareComposer } from "./ShareComposer";
 import { useWorkspace } from "./Workspace";
 import {
   PageHeading,
@@ -37,6 +38,7 @@ import {
 } from "@/lib/crm/model";
 export function Leads() {
   const ctx = useWorkspace();
+  const [shareLead, setShareLead] = useState<number | null>(null);
   const [view, setView] = useState("kanban");
   const [stage, setStage] = useState("");
   const [broker, setBroker] = useState("");
@@ -106,6 +108,9 @@ export function Leads() {
   ];
   return (
     <>
+      {shareLead && (
+        <ShareComposer leadId={shareLead} onClose={() => setShareLead(null)} />
+      )}
       <PageHeading
         eyebrow="Relacionamento comercial"
         title="Leads e pipeline"
@@ -381,6 +386,10 @@ export function Leads() {
       )}
       {selected && ctx.data.leads.find((l) => l.id === selected) && (
         <LeadDetail
+          onShare={() => {
+            setShareLead(selected);
+            setSelected(null);
+          }}
           lead={ctx.data.leads.find((l) => l.id === selected)!}
           onClose={() => setSelected(null)}
         />
@@ -388,7 +397,15 @@ export function Leads() {
     </>
   );
 }
-function LeadDetail({ lead, onClose }: { lead: Lead; onClose: () => void }) {
+function LeadDetail({
+  lead,
+  onClose,
+  onShare,
+}: {
+  lead: Lead;
+  onClose: () => void;
+  onShare: () => void;
+}) {
   const ctx = useWorkspace();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [historyError, setHistoryError] = useState("");
@@ -500,6 +517,9 @@ function LeadDetail({ lead, onClose }: { lead: Lead; onClose: () => void }) {
       </div>
       {lead.message && <p className="crm-detail-pill">{lead.message}</p>}
       <div className="crm-detail-actions">
+        <Button secondary onClick={onShare}>
+          Compartilhar apresentação
+        </Button>
         {phone && (
           <a
             className="crm-button"

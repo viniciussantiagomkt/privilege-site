@@ -22,6 +22,10 @@ import {
   ChevronRight,
   Target,
   CheckCheck,
+  Megaphone,
+  Link2,
+  Zap,
+  Landmark,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { initials, matches, dateTime } from "@/lib/crm/model";
@@ -34,6 +38,14 @@ export const NAV = [
   { href: "/admin/contatos", label: "Clientes e proprietários", icon: Users },
   { href: "/admin/agenda", label: "Agenda e tarefas", icon: CalendarDays },
   { href: "/admin/negocios", label: "Propostas e vendas", icon: Handshake },
+  { href: "/admin/marketing", label: "Central de Marketing", icon: Megaphone },
+  { href: "/admin/apresentacoes", label: "Apresentações", icon: Link2 },
+  {
+    href: "/admin/empreendimentos",
+    label: "Construtoras e empreendimentos",
+    icon: Landmark,
+  },
+  { href: "/admin/automacoes", label: "Automações", icon: Zap },
   { href: "/admin/equipe", label: "Equipe e desempenho", icon: BarChart3 },
 ];
 export function CrmShell({ children }: { children: ReactNode }) {
@@ -279,6 +291,8 @@ export function CrmShell({ children }: { children: ReactNode }) {
               {ctx.updatedAt
                 ? `Atualizado às ${ctx.updatedAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`
                 : "Conectando ao workspace"}
+              {ctx.realtimeStatus !== "SUBSCRIBED" &&
+                " · Atualização periódica ativa"}
             </span>
           </footer>
         </main>

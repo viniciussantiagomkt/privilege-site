@@ -33,6 +33,7 @@ interface Workspace {
   notice: { text: string; error: boolean } | null;
   setNotice: (n: { text: string; error: boolean } | null) => void;
   updatedAt: Date | null;
+  realtimeStatus: string;
 }
 const Context = createContext<Workspace | null>(null);
 export const useWorkspace = () => {
@@ -47,10 +48,16 @@ async function allRows(table: keyof WorkspaceData) {
     let q = supabase
       .from(table)
       .select("*")
-      .order("id")
+      .order(
+        table === "crm_automation_preferences" ||
+          table === "marketing_favorites"
+          ? "owner_id"
+          : "id",
+      )
       .range(start, start + 499);
     if (["properties", "clients", "tasks"].includes(table))
       q = q.is("deleted_at", null);
+    if (table === "marketing_favorites") q = q.order("asset_id");
     const { data, error } = await q;
     if (error) throw new Error(error.message);
     rows.push(...(data || []));
@@ -70,6 +77,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<Workspace["notice"]>(null);
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
+  const [realtimeStatus, setRealtimeStatus] = useState("CONNECTING");
   const lock = useRef(false);
   const mounted = useRef(true);
   const generation = useRef(0);
@@ -147,7 +155,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         },
       ),
     );
-    channel.subscribe();
+    channel.subscribe((status) => setRealtimeStatus(status));
     return () => {
       clearTimeout(timer);
       void supabase.removeChannel(channel);
@@ -200,6 +208,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         notice,
         setNotice,
         updatedAt,
+        realtimeStatus,
       }}
     >
       {children}

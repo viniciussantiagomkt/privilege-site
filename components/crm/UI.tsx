@@ -189,6 +189,7 @@ export function Modal({
   onClose: () => void;
   wide?: boolean;
 }) {
+  const { notice } = useWorkspace();
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -218,7 +219,14 @@ export function Modal({
           <X size={20} />
         </button>
       </div>
-      <div className="crm-dialog-body">{children}</div>
+      <div className="crm-dialog-body">
+        {notice?.error && (
+          <div className="crm-alert" role="alert">
+            {notice.text}
+          </div>
+        )}
+        {children}
+      </div>
     </dialog>
   );
 }

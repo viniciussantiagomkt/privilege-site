@@ -1,3 +1,18 @@
+import type {
+  Asset,
+  AssetVersion,
+  AssetRelation,
+  Collection,
+  CollectionItem,
+  Share,
+  ShareEvent,
+  Developer,
+  Development,
+  Unit,
+  AutomationPreference,
+  EventLog,
+  AssetImport,
+} from "./marketing";
 import type { Property } from "@/types/property";
 export type RecordId = number | string;
 export interface BaseRow {
@@ -95,6 +110,21 @@ export interface Activity extends BaseRow {
   type: string;
 }
 export interface WorkspaceData {
+  marketing_assets: Asset[];
+  asset_versions: AssetVersion[];
+  asset_relations: AssetRelation[];
+  marketing_collections: Collection[];
+  marketing_collection_items: CollectionItem[];
+  marketing_shares: Share[];
+  marketing_share_events: ShareEvent[];
+  developers: Developer[];
+  developments: Development[];
+  development_units: Unit[];
+  crm_automation_preferences: AutomationPreference[];
+  crm_event_log: EventLog[];
+  asset_imports: AssetImport[];
+  marketing_favorites: { owner_id: string; asset_id: number }[];
+
   leads: Lead[];
   clients: Contact[];
   properties: CrmProperty[];
@@ -108,6 +138,21 @@ export interface WorkspaceData {
   crm_contact_links: ContactLink[];
 }
 export const EMPTY_DATA: WorkspaceData = {
+  marketing_assets: [],
+  asset_versions: [],
+  asset_relations: [],
+  marketing_collections: [],
+  marketing_collection_items: [],
+  marketing_shares: [],
+  marketing_share_events: [],
+  developers: [],
+  developments: [],
+  development_units: [],
+  crm_automation_preferences: [],
+  crm_event_log: [],
+  asset_imports: [],
+  marketing_favorites: [],
+
   leads: [],
   clients: [],
   properties: [],

@@ -1,0 +1,72 @@
+{
+  "environment": "local connected to staging",
+  "authentication": "anonymous",
+  "results": [
+    {
+      "name": "public route /",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public route /imoveis",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public route /contato",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public route /login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous redirects /admin",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/leads",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/crm",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/corretores",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/marketing",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/apresentacoes",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/automacoes",
+      "passed": true
+    },
+    {
+      "name": "anonymous redirects /admin/empreendimentos",
+      "passed": true
+    },
+    {
+      "name": "missing presentation renders not-found",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invalid presentation token not-found",
+      "passed": true
+    },
+    {
+      "name": "no browser runtime exceptions",
+      "passed": true,
+      "errors": []
+    }
+  ]
+}
