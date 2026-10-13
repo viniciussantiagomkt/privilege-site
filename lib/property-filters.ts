@@ -149,7 +149,7 @@ export function matchesPrice(property: Property, priceRange: string) {
   }
 
   if (range.min) {
-    return price >= range.min;
+    return price > range.min;
   }
 
   if (range.max) {
@@ -179,6 +179,7 @@ export function filterProperties(
     const searchableText = normalizeText(
       [
         property.title,
+        property.property_code,
         property.location,
         property.city,
         property.neighborhood,

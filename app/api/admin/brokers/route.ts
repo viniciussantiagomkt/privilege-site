@@ -1,20 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { normalizeBrazilWhatsApp } from "@/lib/whatsapp";
-
-interface BrokerCreateBody {
-  email?: string;
-  password?: string;
-  name?: string;
-  phone?: string;
-  whatsapp?: string;
-  creci?: string;
-  instagram?: string;
-  position?: string;
-  bio?: string;
-  avatar_url?: string;
-  active?: boolean;
-}
+import { validateBrokerCreate, type BrokerCreateBody } from "@/lib/broker-validation";
 
 function getSupabaseAdmin() {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -70,14 +57,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const body = (await request.json()) as BrokerCreateBody;
-
-  if (!body.email || !body.name) {
-    return NextResponse.json(
-      { error: "Nome e e-mail são obrigatórios." },
-      { status: 400 }
-    );
-  }
+  const input: unknown = await request.json().catch(() => null);
+  const validation = validateBrokerCreate(input);
+  if (validation) return NextResponse.json({ error: validation }, { status: 400 });
+  const body = input as BrokerCreateBody;
 
   const password =
     body.password && body.password.length >= 8
@@ -86,11 +69,11 @@ export async function POST(request: Request) {
 
   const { data: createdUser, error: createError } =
     await admin.auth.admin.createUser({
-      email: body.email,
+      email: body.email!.trim().toLowerCase(),
       password,
       email_confirm: true,
       user_metadata: {
-        name: body.name,
+        name: body.name!.trim(),
         role: "corretor",
       },
     });
@@ -118,8 +101,8 @@ export async function POST(request: Request) {
     .from("brokers")
     .upsert({
       id: createdUser.user.id,
-      email: body.email,
-      name: body.name,
+      email: body.email!.trim().toLowerCase(),
+      name: body.name!.trim(),
       phone: body.phone || null,
       whatsapp: body.whatsapp ? normalizeBrazilWhatsApp(body.whatsapp) : null,
       creci: body.creci || null,

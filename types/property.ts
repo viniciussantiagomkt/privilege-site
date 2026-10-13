@@ -3,6 +3,15 @@ export interface Property {
   created_at?: string;
   updated_at?: string;
   slug: string;
+  property_code?: string | null;
+  publish_on_site?: boolean;
+  show_on_broker_page?: boolean;
+  presentation_enabled?: boolean;
+  shareable_by_other_brokers?: boolean;
+  available_for_campaigns?: boolean;
+  featured_on_broker_page?: boolean;
+  deleted_at?: string | null;
+  workflow_status?: string | null;
 
   title: string;
   description: string;

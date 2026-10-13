@@ -9,7 +9,7 @@ import { CTA } from "@/sections/cta";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
-import { publicPropertyStatuses } from "@/lib/property-filters";
+import { publicPropertyQuery } from "@/lib/property-publication";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
@@ -42,18 +42,17 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const supabase = createServerClient();
+  const { query } = await publicPropertyQuery(supabase);
 
-  const [{ data: propertyData }, { data: imageData }] = await Promise.all([
-    supabase
-      .from("properties")
-      .select("*")
-      .in("status", publicPropertyStatuses)
-      .order("created_at", { ascending: false }),
+  const [{ data: propertyData, error: propertyError }, { data: imageData }] = await Promise.all([
+    query.order("featured", { ascending: false, nullsFirst: false })
+      .order("created_at", { ascending: false }).limit(4),
     supabase
       .from("property_images")
       .select("property_id,url,is_main,sort_order"),
   ]);
 
+  if (propertyError) throw new Error("Não foi possível consultar os imóveis em destaque.");
   const properties = attachPropertyImages(
     (propertyData || []) as Property[],
     (imageData || []) as PropertyImage[]

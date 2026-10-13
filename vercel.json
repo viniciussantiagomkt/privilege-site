@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "work/crm-staging-audit-20261008": false
+      "work/crm-staging-audit-20261008": false,
+      "codex/crm-integration-20261013": false
     }
   }
 }

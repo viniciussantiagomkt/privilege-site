@@ -3,7 +3,7 @@ import { writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 const { chromium } = createRequire(import.meta.url)("playwright");
 const fallback = process.env.CRM_CHROMIUM_PATH;
-const args = fallback
+const args = fallback && process.platform !== "win32"
   ? [
       "--no-sandbox",
       "--disable-dev-shm-usage",
@@ -64,6 +64,12 @@ try {
     name: "invalid presentation token not-found",
     passed: await page.getByText("This page could not be found.").isVisible(),
   });
+  await page.setViewportSize({ width: 375, height: 812 });
+  for (const path of ["/", "/imoveis", "/contato", "/login"]) {
+    await page.goto("http://127.0.0.1:3000" + path);
+    const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+    results.push({ name: "mobile without horizontal overflow " + path, passed: noOverflow });
+  }
   results.push({
     name: "no browser runtime exceptions",
     passed: errors.length === 0,

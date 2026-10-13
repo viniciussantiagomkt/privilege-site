@@ -4,7 +4,7 @@ import { PropertyCatalog } from "@/components/PropertyCatalog";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
-import { publicPropertyStatuses } from "@/lib/property-filters";
+import { publicPropertyQuery } from "@/lib/property-publication";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
 import type { Metadata } from "next";
@@ -37,18 +37,17 @@ export const metadata: Metadata = {
 
 export default async function PropertiesPage() {
   const supabase = createServerClient();
+  const { query } = await publicPropertyQuery(supabase);
 
-  const [{ data }, { data: imageData }] = await Promise.all([
-    supabase
-      .from("properties")
-      .select("*")
-      .in("status", publicPropertyStatuses)
+  const [{ data, error: propertyError }, { data: imageData }] = await Promise.all([
+    query
       .order("created_at", { ascending: false }),
     supabase
       .from("property_images")
       .select("property_id,url,is_main,sort_order"),
   ]);
 
+  if (propertyError) throw new Error("Não foi possível consultar o catálogo de imóveis.");
   const properties = attachPropertyImages(
     (data || []) as Property[],
     (imageData || []) as PropertyImage[]
