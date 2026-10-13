@@ -240,14 +240,19 @@ export function PropertyForm({
     let active = true;
 
     async function loadBrokers() {
-      const { data } = await supabase
+      const { data: { session } } = await supabase.auth.getSession();
+      const { data: role } = await supabase.rpc("current_user_role");
+      const canManage = role === "admin" || role === "manager";
+      let query = supabase
         .from("brokers")
         .select("id,name,email,phone,whatsapp,active")
-        .eq("active", true)
         .order("name", { ascending: true });
+      if (!canManage) query = query.eq("id", session?.user.id || "00000000-0000-4000-8000-000000000000");
+      const { data } = await query;
 
       if (active) {
         setBrokers((data || []) as Broker[]);
+        if (session && !initialData?.id && !canManage) setForm(current => ({ ...current, broker_id: session.user.id }));
       }
     }
 
@@ -256,7 +261,7 @@ export function PropertyForm({
     return () => {
       active = false;
     };
-  }, []);
+  }, [initialData?.id]);
 
   function updateField<K extends keyof PropertyFormData>(
     field: K,
@@ -423,11 +428,12 @@ export function PropertyForm({
       Object.entries(basePayload).filter(([key]) => key !== "minha_casa_minha_vida")
     );
 
-    let query = initialData?.id
+    const existingId = form.id || initialData?.id;
+    let query = existingId
       ? supabase
           .from("properties")
           .update(extendedPayload)
-          .eq("id", initialData.id)
+          .eq("id", existingId)
           .select()
           .single()
       : supabase.from("properties").insert(extendedPayload).select().single();
@@ -435,17 +441,16 @@ export function PropertyForm({
     let { data, error } = await query;
 
     if (
-      error &&
+      error && ["42703", "PGRST204"].includes(error.code) &&
       (error.message.toLowerCase().includes("latitude") ||
         error.message.toLowerCase().includes("longitude") ||
-        error.message.toLowerCase().includes("minha_casa_minha_vida") ||
-        error.message.toLowerCase().includes("column"))
+        error.message.toLowerCase().includes("minha_casa_minha_vida"))
     ) {
-      query = initialData?.id
+      query = existingId
         ? supabase
             .from("properties")
             .update(legacyPayload)
-            .eq("id", initialData.id)
+            .eq("id", existingId)
             .select()
             .single()
         : supabase.from("properties").insert(legacyPayload).select().single();
@@ -455,15 +460,15 @@ export function PropertyForm({
       error = fallback.error;
     }
 
-    setSaving(false);
-
     if (error) {
+      setSaving(false);
       setMessage(error.message);
       return;
     }
 
     if (data) {
       const savedProperty = data as Property;
+      setForm(current => ({ ...current, ...savedProperty }));
 
       const { error: mediaError } = await supabase.rpc("crm_save_property_media", {
         target_property_id: savedProperty.id,
@@ -471,12 +476,14 @@ export function PropertyForm({
         video_urls: videoUrls,
       });
       if (mediaError) {
+        setSaving(false);
         setMessage("O imóvel foi salvo, mas as mídias não foram atualizadas: " + mediaError.message);
         return;
       }
 
       onSaved?.(data as Property);
     }
+    setSaving(false);
 
     setMessage(
       initialData?.id

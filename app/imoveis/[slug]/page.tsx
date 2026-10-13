@@ -11,6 +11,9 @@ import { VideoEmbed } from "@/components/VideoEmbed";
 import { MinhaCasaMinhaVidaBadge } from "@/components/MinhaCasaMinhaVidaBadge";
 
 import { createServerClient } from "@/lib/supabase-server";
+import { publicPropertyQuery } from "@/lib/property-publication";
+import { serializeJsonLd } from "@/lib/structured-data";
+import { notFound } from "next/navigation";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
 import { absoluteUrl, cleanMetadataText, companyWhatsApp, defaultOgImage, siteName } from "@/lib/site";
 import { attachPropertyImages } from "@/lib/property-media";
@@ -31,11 +34,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const supabase = createServerClient();
 
-  const { data } = await supabase
-    .from("properties")
-    .select("*")
+  const { query } = await publicPropertyQuery(supabase);
+  const { data, error } = await query
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
+  if (error) throw new Error("Não foi possível consultar o imóvel.");
 
   const property = data as Property | null;
 
@@ -93,11 +96,11 @@ export default async function PropertyPage({
   const { slug } = await params;
   const supabase = createServerClient();
 
-  const { data: propertyData } = await supabase
-    .from("properties")
-    .select("*")
+  const { query } = await publicPropertyQuery(supabase);
+  const { data: propertyData, error } = await query
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
+  if (error) throw new Error("Não foi possível consultar o imóvel.");
 
   const [property] = propertyData
     ? attachPropertyImages([propertyData as Property], (await supabase
@@ -107,16 +110,11 @@ export default async function PropertyPage({
     : [];
 
   if (!property) {
-    return (
-      <main className="min-h-screen flex items-center justify-center text-[#030F18]">
-        Imóvel não encontrado.
-      </main>
-    );
+    return notFound();
   }
 
-  const { data: relatedData } = await supabase
-    .from("properties")
-    .select("*")
+  const { query: relatedQuery } = await publicPropertyQuery(supabase);
+  const { data: relatedData } = await relatedQuery
     .neq("id", property.id)
     .limit(6);
 
@@ -214,7 +212,7 @@ export default async function PropertyPage({
     <main className="text-[#030F18]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <PropertyViewTracker
         propertyId={property.id}

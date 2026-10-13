@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Privilege CRM evolves the existing Next.js/Supabase site. Work remains the integration base; see [the synchronization report](docs/crm-codex-integration-20261013.md) and [historical SQL archive](supabase/historical/README.md). Archived baselines must not be replayed.
+
+Local checks: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`. Staging smoke tests and their limits are documented in `docs/crm-recovery-20261013.md`. Environment files stay untracked; do not copy production credentials into a review worktree.
 
 ## Getting Started
 

@@ -12,7 +12,7 @@ import {
 
 import { createServerClient } from "@/lib/supabase-server";
 import { attachPropertyImages } from "@/lib/property-media";
-import { publicPropertyStatuses } from "@/lib/property-filters";
+import { publicPropertyQuery } from "@/lib/property-publication";
 import { absoluteUrl, companyWhatsApp, defaultOgImage } from "@/lib/site";
 import { createWhatsAppUrl } from "@/lib/whatsapp";
 import { Property, PropertyImage } from "@/types/property";
@@ -86,13 +86,11 @@ const mainLinks = [
 
 export default async function LinksPage() {
   const supabase = createServerClient();
+  const { query } = await publicPropertyQuery(supabase);
 
-  const [{ data: propertyData }, { data: imageData }] = await Promise.all([
-    supabase
-      .from("properties")
-      .select("*")
-      .in("status", publicPropertyStatuses)
-      .order("featured", { ascending: false })
+  const [{ data: propertyData, error: propertyError }, { data: imageData }] = await Promise.all([
+    query
+      .order("featured", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false })
       .limit(1),
     supabase
@@ -100,6 +98,7 @@ export default async function LinksPage() {
       .select("property_id,url,is_main,sort_order"),
   ]);
 
+  if (propertyError) throw new Error("Não foi possível consultar o imóvel em destaque.");
   const featuredProperty = attachPropertyImages(
     (propertyData || []) as Property[],
     (imageData || []) as PropertyImage[]

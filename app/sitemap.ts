@@ -2,10 +2,12 @@ import type { MetadataRoute } from "next";
 
 import { createServerClient } from "@/lib/supabase-server";
 import { propertyCategories } from "@/lib/property-filters";
+import { publicPropertyQuery } from "@/lib/property-publication";
 import { absoluteUrl } from "@/lib/site";
 import { Property } from "@/types/property";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
+export const dynamic = "force-dynamic";
 
 function sitemapEntry(
   path: string,
@@ -19,12 +21,11 @@ function sitemapEntry(
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = createServerClient();
-  const { data } = await supabase
-    .from("properties")
-    .select("slug,updated_at,created_at,city_slug,status")
-    .in("status", ["ativo", "reservado", "vendido", "alugado"])
+  const { query } = await publicPropertyQuery(supabase, "slug,updated_at,created_at,city_slug,status");
+  const { data, error } = await query
     .not("slug", "is", null)
     .order("created_at", { ascending: false });
+  if (error) throw new Error("Não foi possível gerar o sitemap de imóveis.");
 
   const properties = ((data || []) as Pick<
     Property,

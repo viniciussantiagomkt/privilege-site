@@ -2,7 +2,9 @@ import type { NextConfig } from "next";
 import { createHash } from "node:crypto";
 
 // Fail before build-time data fetching if this review branch is accidentally deployed.
-if (process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008") {
+const reviewBranch = process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008" ||
+  process.env.VERCEL_GIT_COMMIT_REF?.startsWith("codex/crm-integration-");
+if (reviewBranch) {
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
   if (process.env.VERCEL_ENV === "production" ||
@@ -15,7 +17,7 @@ if (process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008") {
 
 const nextConfig: NextConfig = {
   images: {
-    unoptimized: process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008",
+    unoptimized: Boolean(reviewBranch),
     remotePatterns: [
       {
         protocol: "https",

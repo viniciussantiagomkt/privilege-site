@@ -11,10 +11,11 @@ import { createServerClient } from "@/lib/supabase-server";
 import {
   filterProperties,
   propertyCategories,
-  publicPropertyStatuses,
   slugToCategoryLabel,
 } from "@/lib/property-filters";
 import { attachPropertyImages } from "@/lib/property-media";
+import { publicPropertyQuery } from "@/lib/property-publication";
+import { serializeJsonLd } from "@/lib/structured-data";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
 
@@ -72,18 +73,17 @@ export default async function CategoryPage({
   }
 
   const supabase = createServerClient();
+  const { query } = await publicPropertyQuery(supabase);
 
-  const [{ data }, { data: imageData }] = await Promise.all([
-    supabase
-      .from("properties")
-      .select("*")
-      .in("status", publicPropertyStatuses)
+  const [{ data, error: propertyError }, { data: imageData }] = await Promise.all([
+    query
       .order("created_at", { ascending: false }),
     supabase
       .from("property_images")
       .select("property_id,url,is_main,sort_order"),
   ]);
 
+  if (propertyError) throw new Error("Não foi possível consultar a categoria de imóveis.");
   const properties = filterProperties(
     attachPropertyImages(
       (data || []) as Property[],
@@ -112,7 +112,7 @@ export default async function CategoryPage({
     <main className="text-[#030F18]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(itemListJsonLd) }}
       />
       <Navbar />
 

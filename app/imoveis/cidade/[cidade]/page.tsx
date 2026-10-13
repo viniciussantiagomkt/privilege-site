@@ -4,7 +4,9 @@ import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { PropertyCard } from "@/components/PropertyCard";
 import { createServerClient } from "@/lib/supabase-server";
-import { normalizeText, publicPropertyStatuses } from "@/lib/property-filters";
+import { normalizeText } from "@/lib/property-filters";
+import { publicPropertyQuery } from "@/lib/property-publication";
+import { serializeJsonLd } from "@/lib/structured-data";
 import { attachPropertyImages } from "@/lib/property-media";
 import { absoluteUrl, defaultOgImage } from "@/lib/site";
 import { Property, PropertyImage } from "@/types/property";
@@ -60,18 +62,17 @@ export async function generateMetadata({
 export default async function CityPage({ params }: CityPageProps) {
   const { cidade } = await params;
   const supabase = createServerClient();
+  const { query } = await publicPropertyQuery(supabase);
 
-  const [{ data }, { data: imageData }] = await Promise.all([
-    supabase
-      .from("properties")
-      .select("*")
-      .in("status", publicPropertyStatuses)
+  const [{ data, error: propertyError }, { data: imageData }] = await Promise.all([
+    query
       .order("created_at", { ascending: false }),
     supabase
       .from("property_images")
       .select("property_id,url,is_main,sort_order"),
   ]);
 
+  if (propertyError) throw new Error("Não foi possível consultar os imóveis desta cidade.");
   const properties = attachPropertyImages(
     (data || []) as Property[],
     (imageData || []) as PropertyImage[]
@@ -98,7 +99,7 @@ export default async function CityPage({ params }: CityPageProps) {
     <main className="text-[#030F18]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(itemListJsonLd) }}
       />
       <Navbar />
 
