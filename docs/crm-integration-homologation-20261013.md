@@ -127,4 +127,12 @@ Recomendação: disponibilizar o preview para **QA técnico controlado**. Não c
 
 ## Commit e preview
 
-O commit de código e o deployment exatos serão registrados após o salvamento e a conclusão do build remoto. Variáveis criadas somente para preview desta branch, com Supabase staging e analytics/webhook externos desativados. Sem service-role. PRs permanecem em rascunho.
+Commit de código verificado: `72b54202f011052f84ea770e31b01e1ab00f22c6`.
+
+Preview: https://privilege-site-k41rf9x4p-viniciussantiagomkts-projects.vercel.app/login
+
+Deployment `dpl_3ixkz3oSGiYMac8EyXEECaqi9kkQ`, target `staging`, estado `READY`, branch e commit acima confirmados. Build remoto concluído. Verificações HTTP remotas adicionais: login retornou 200 com formulário presente; mídia de token inexistente retornou 404. Essas duas consultas não representam login ou download autorizado e não entram nas 229 assertivas locais/API/SQL listadas.
+
+URL e chave pública do Supabase do preview foram comparadas com o staging e conferem. As oito variáveis são específicas de preview desta branch; analytics/webhook externos desativados. Sem service-role. Proteção Vercel preservada, sem publicação em produção.
+
+PR de correção: https://github.com/viniciussantiagomkt/privilege-site/pull/3 , em rascunho, base `codex/crm-integration-20261013`. PRs #1 e #2 também permanecem em rascunho. Main confirmada em `51aae401901b9af73f596b8d72288cc1117178c5`; o deployment de produção continua `dpl_9LR6GawgwXcnLwTkbjw9L2awm4YU`, sem alteração. Uma atualização posterior apenas deste relatório não altera o código do preview indicado.
