@@ -64,6 +64,22 @@
       "passed": true
     },
     {
+      "name": "mobile without horizontal overflow /",
+      "passed": true
+    },
+    {
+      "name": "mobile without horizontal overflow /imoveis",
+      "passed": true
+    },
+    {
+      "name": "mobile without horizontal overflow /contato",
+      "passed": true
+    },
+    {
+      "name": "mobile without horizontal overflow /login",
+      "passed": true
+    },
+    {
       "name": "no browser runtime exceptions",
       "passed": true,
       "errors": []

@@ -1,23 +1,43 @@
 {
   "results": [
     {
-      "name": "verified staging accepted",
+      "name": "work/crm-staging-audit-20261008: verified staging accepted",
       "passed": true
     },
     {
-      "name": "wrong project blocked",
+      "name": "work/crm-staging-audit-20261008: wrong project blocked",
       "passed": true
     },
     {
-      "name": "production deployment blocked",
+      "name": "work/crm-staging-audit-20261008: production deployment blocked",
       "passed": true
     },
     {
-      "name": "unverified public key blocked",
+      "name": "work/crm-staging-audit-20261008: unverified public key blocked",
       "passed": true
     },
     {
-      "name": "service-role key blocked",
+      "name": "work/crm-staging-audit-20261008: service-role key blocked",
+      "passed": true
+    },
+    {
+      "name": "codex/crm-integration-20261013: verified staging accepted",
+      "passed": true
+    },
+    {
+      "name": "codex/crm-integration-20261013: wrong project blocked",
+      "passed": true
+    },
+    {
+      "name": "codex/crm-integration-20261013: production deployment blocked",
+      "passed": true
+    },
+    {
+      "name": "codex/crm-integration-20261013: unverified public key blocked",
+      "passed": true
+    },
+    {
+      "name": "codex/crm-integration-20261013: service-role key blocked",
       "passed": true
     }
   ]
