@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "name": "verified staging accepted",
+      "passed": true
+    },
+    {
+      "name": "wrong project blocked",
+      "passed": true
+    },
+    {
+      "name": "production deployment blocked",
+      "passed": true
+    },
+    {
+      "name": "unverified public key blocked",
+      "passed": true
+    },
+    {
+      "name": "service-role key blocked",
+      "passed": true
+    }
+  ]
+}

@@ -64,7 +64,7 @@ export const metadata: Metadata = {
 };
 
 const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
-const gtmId = process.env.NEXT_PUBLIC_GTM_ID || "GTM-5FJ54Q2C";
+const gtmId = process.env.VERCEL_ENV === "preview" ? "" : process.env.NEXT_PUBLIC_GTM_ID || "GTM-5FJ54Q2C";
 
 const businessJsonLd = {
   "@context": "https://schema.org",

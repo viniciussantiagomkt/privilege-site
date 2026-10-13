@@ -64,10 +64,24 @@ async function sendWebhook(payload: Record<string, unknown>) {
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as LeadRequestBody;
+  let body: LeadRequestBody;
+  try {
+    const input = await request.json();
+    if (!input || typeof input !== "object" || Array.isArray(input)) {
+      return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
+    }
+    body = input as LeadRequestBody;
+  } catch {
+    return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
+  }
   const submittedAt = new Date().toISOString();
 
-  if (!body.name || !body.phone) {
+  if (typeof body.name !== "string" || !body.name.trim() || body.name.length > 160 ||
+      typeof body.phone !== "string" || !body.phone.trim() || body.phone.length > 30 ||
+      [body.email, body.message, body.source, body.page_path, body.origin_detail,
+        body.property_title, body.property_slug, body.whatsapp_number]
+        .some((value) => value != null && (typeof value !== "string" || value.length > 2000)) ||
+      (body.property_id != null && (!Number.isSafeInteger(body.property_id) || body.property_id < 1))) {
     return NextResponse.json(
       {
         error: "Nome e telefone são obrigatórios.",
@@ -78,14 +92,13 @@ export async function POST(request: Request) {
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
   );
 
   const leadPayload = {
-    name: body.name,
-    phone: body.phone,
+    name: body.name.trim(),
+    phone: body.phone.trim(),
     email: body.email || null,
     message: body.message || null,
     source: body.source || "site",
@@ -104,7 +117,7 @@ export async function POST(request: Request) {
   if (error) {
     return NextResponse.json(
       {
-        error: error.message,
+        error: "Não foi possível registrar o contato. Tente novamente.",
       },
       { status: 500 }
     );

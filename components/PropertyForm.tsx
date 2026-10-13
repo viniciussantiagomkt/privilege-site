@@ -30,7 +30,7 @@ type PropertyFormData = Omit<Property, "id"> & {
 };
 
 interface PropertyFormProps {
-  initialData?: Property | null;
+  initialData?: Partial<Property> | null;
   onSaved?: (property: Property) => void;
   compact?: boolean;
 }
@@ -214,12 +214,27 @@ export function PropertyForm({
   const [dragging, setDragging] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [privatePreviews, setPrivatePreviews] = useState<Record<string, string>>({});
   const [brokers, setBrokers] = useState<Broker[]>([]);
 
   const score = calculateScore(form, imagesText);
   const suggestions = getSuggestions(form, imagesText);
   const imageUrls = imageUrlsFromText(imagesText);
   const videoUrls = urlsFromText(videosText);
+
+  useEffect(() => {
+    let active = true;
+    const urls = imageUrlsFromText(imagesText);
+    void Promise.all(urls.map(async (url) => {
+      const path = url.split("/api/property-media/")[1];
+      if (!path) return null;
+      const { data } = await supabase.storage.from("crm-property-images").createSignedUrl(path, 60);
+      return data ? [url, data.signedUrl] as const : null;
+    })).then((entries) => {
+      if (active) setPrivatePreviews(Object.fromEntries(entries.filter((entry) => entry !== null)));
+    });
+    return () => { active = false; };
+  }, [imagesText]);
 
   useEffect(() => {
     let active = true;
@@ -328,37 +343,24 @@ export function PropertyForm({
     setMessage("");
 
     const uploadedUrls: string[] = [];
-    const folder = form.slug || createSlug(form.title) || "rascunho";
-
-    for (const [index, originalFile] of files.entries()) {
-      const file = await compressImage(originalFile);
-      const path = `${folder}/${file.lastModified}-${index}-${createSlug(file.name)}`;
-      const { error } = await supabase.storage
-        .from("property-images")
-        .upload(path, file, {
-          upsert: true,
-          cacheControl: "31536000",
-        });
-
-      if (error) {
-        setMessage(
-          "Não foi possível enviar. Crie no Supabase Storage um bucket público chamado property-images com política de upload para usuários autenticados."
-        );
-        continue;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Entre novamente para enviar fotos.");
+      for (const originalFile of files) {
+        const file = await compressImage(originalFile);
+        if (file.type !== "image/webp") throw new Error("Não foi possível converter a imagem para WebP.");
+        const path = `${user.id}/${crypto.randomUUID()}.webp`;
+        const { error } = await supabase.storage.from("crm-property-images")
+          .upload(path, file, { upsert: false, cacheControl: "0" });
+        if (error) throw new Error("Não foi possível enviar a foto. Tente novamente.");
+        uploadedUrls.push(`${window.location.origin}/api/property-media/${path}`);
       }
-
-      const { data } = supabase.storage
-        .from("property-images")
-        .getPublicUrl(path);
-
-      uploadedUrls.push(data.publicUrl);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Não foi possível enviar as fotos.");
+    } finally {
+      if (uploadedUrls.length) updateImages([...imageUrls, ...uploadedUrls]);
+      setUploading(false);
     }
-
-    if (uploadedUrls.length) {
-      updateImages([...imageUrls, ...uploadedUrls]);
-    }
-
-    setUploading(false);
   }
 
   async function uploadImages(event: ChangeEvent<HTMLInputElement>) {
@@ -463,35 +465,15 @@ export function PropertyForm({
     if (data) {
       const savedProperty = data as Property;
 
-      await supabase.from("property_images").delete().eq("property_id", savedProperty.id);
-      if (imageUrls.length) {
-        await supabase.from("property_images").insert(
-          imageUrls.map((url, index) => ({
-            property_id: savedProperty.id,
-            url,
-            sort_order: index,
-            is_main: index === 0,
-            alt: `${savedProperty.title} - imagem ${index + 1}`,
-          }))
-        );
-      }
-
-      await supabase.from("property_videos").delete().eq("property_id", savedProperty.id);
-      if (videoUrls.length) {
-        await supabase.from("property_videos").insert(
-          videoUrls.map((url, index) => ({
-            property_id: savedProperty.id,
-            url,
-            sort_order: index,
-            title: `${savedProperty.title} - video ${index + 1}`,
-            provider: url.includes("supabase") ? "upload" : "external",
-          }))
-        );
-      }
-
-      await supabase.rpc("sync_property_media_arrays", {
+      const { error: mediaError } = await supabase.rpc("crm_save_property_media", {
         target_property_id: savedProperty.id,
+        image_urls: imageUrls,
+        video_urls: videoUrls,
       });
+      if (mediaError) {
+        setMessage("O imóvel foi salvo, mas as mídias não foram atualizadas: " + mediaError.message);
+        return;
+      }
 
       onSaved?.(data as Property);
     }
@@ -877,7 +859,8 @@ export function PropertyForm({
               >
                 <div className="relative h-40">
                   <NextImage
-                    src={image}
+                    src={privatePreviews[image] || image}
+                    unoptimized
                     alt=""
                     fill
                     sizes="(min-width: 768px) 33vw, 100vw"

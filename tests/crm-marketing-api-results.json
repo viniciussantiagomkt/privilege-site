@@ -1,0 +1,96 @@
+{
+  "environment": "staging",
+  "authentication": "anonymous and invalid synthetic login",
+  "results": [
+    {
+      "name": "anonymous cannot read developers",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read developments",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read development_units",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read marketing_assets",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read asset_versions",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read asset_relations",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read marketing_collections",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read marketing_collection_items",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read marketing_favorites",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read marketing_shares",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read marketing_share_events",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read crm_automation_preferences",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read crm_event_log",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous cannot read asset_imports",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "unknown token returns no presentation",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "opening without consent not recorded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous cannot confirm presentation share",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "real Auth rejects invalid password",
+      "passed": true,
+      "status": 400
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "environment": "local connected to staging",
+  "results": [
+    {
+      "name": "HTTP /",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "HTTP /imoveis",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "HTTP /contato",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "HTTP /login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "missing presentation renders not-found without indexing",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invalid lead payload rejected",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "invalid lead payload rejected",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "invalid lead payload rejected",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "invalid lead payload rejected",
+      "passed": true,
+      "status": 400
+    }
+  ]
+}
