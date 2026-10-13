@@ -39,6 +39,26 @@
     {
       "name": "codex/crm-integration-20261013: service-role key blocked",
       "passed": true
+    },
+    {
+      "name": "work/crm-integration-security-20261013: verified staging accepted",
+      "passed": true
+    },
+    {
+      "name": "work/crm-integration-security-20261013: wrong project blocked",
+      "passed": true
+    },
+    {
+      "name": "work/crm-integration-security-20261013: production deployment blocked",
+      "passed": true
+    },
+    {
+      "name": "work/crm-integration-security-20261013: unverified public key blocked",
+      "passed": true
+    },
+    {
+      "name": "work/crm-integration-security-20261013: service-role key blocked",
+      "passed": true
     }
   ]
 }

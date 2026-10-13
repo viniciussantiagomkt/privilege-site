@@ -1,0 +1,67 @@
+{
+  "environment": "staging",
+  "readOnly": true,
+  "results": [
+    {
+      "version": "20261008144426",
+      "name": "crm_security_hardening",
+      "passed": true,
+      "comparison": "normalized line endings and outer whitespace, SQL content unchanged"
+    },
+    {
+      "version": "20261008144813",
+      "name": "crm_commercial_relations",
+      "passed": true,
+      "comparison": "normalized line endings and outer whitespace, SQL content unchanged"
+    },
+    {
+      "version": "20261008145320",
+      "passed": true,
+      "comparison": "MD5 of trimmed SQL matched managed statements"
+    },
+    {
+      "version": "20261008150501",
+      "passed": true,
+      "comparison": "MD5 of trimmed SQL matched managed statements"
+    },
+    {
+      "version": "20261008163217",
+      "name": "crm_private_property_storage",
+      "passed": true,
+      "comparison": "normalized line endings and outer whitespace, SQL content unchanged"
+    },
+    {
+      "version": "20261008163432",
+      "passed": true,
+      "comparison": "MD5 of trimmed SQL matched managed statements"
+    },
+    {
+      "version": "20261008163623",
+      "name": "crm_preserve_private_media",
+      "passed": true,
+      "comparison": "normalized line endings and outer whitespace, SQL content unchanged"
+    },
+    {
+      "version": "20261009142538",
+      "passed": true,
+      "comparison": "MD5 of trimmed SQL matched managed statements"
+    },
+    {
+      "version": "20261009144156",
+      "passed": true,
+      "comparison": "MD5 of trimmed SQL matched managed statements"
+    },
+    {
+      "version": "20261009174757",
+      "name": "crm_marketing_presentations",
+      "passed": true,
+      "comparison": "normalized line endings and outer whitespace, SQL content unchanged"
+    },
+    {
+      "version": "20261013180730",
+      "name": "crm_marketing_upload_recovery",
+      "passed": true,
+      "comparison": "normalized line endings and outer whitespace, SQL content unchanged"
+    }
+  ]
+}

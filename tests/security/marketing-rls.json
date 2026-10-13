@@ -1,0 +1,267 @@
+{
+  "environment": "staging",
+  "authentication": "SQL authenticated/anon roles with claims; not successful Auth login",
+  "fixtures": "transaction rolled back, no persistent schema changes",
+  "results": [
+    {
+      "name": "broker creates pending asset",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "broker cannot self approve",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "valid PDF path inserts version",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "foreign owner path denied",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "asset version activated",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "broker links material to own property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "own valid storage upload authorized",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "foreign storage upload denied",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "broker cannot share hidden property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "automation saved",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "personal collection saved",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "collection links own asset",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "favorite saved",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A material",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A version",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A collection",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A favorites",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A storage",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "manager approves material",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "manager approves public presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "wrong lead denied",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "valid share persisted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "generation recorded in lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "automatic followup persisted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "share confirmation succeeds",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "repeat confirmation succeeds",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "confirmation exactly once",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "event log exactly once",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "share payload immutable",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot read A share",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot confirm A share",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anonymous cannot read asset table",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anonymous cannot read share table",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anonymous token returns presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anonymous approved selected asset returned",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anonymous presentation hides client and lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "unknown token denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "no consent no event",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "consented open accepted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "consented open retry accepted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anonymous storage listing denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "consent event exactly once",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "new version upload accepted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "new version requires reapproval",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "unapproved current version removed from presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "expired asset removed from presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "approved current version returns without expired predecessor",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "hiding property blocks existing presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "hiding property blocks public asset",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "revocation succeeds",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "revoked token denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "revoked open denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    }
+  ]
+}

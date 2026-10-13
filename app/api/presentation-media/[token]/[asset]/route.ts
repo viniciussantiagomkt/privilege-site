@@ -1,8 +1,9 @@
+import { streamPublicStorageObject } from "@/lib/storage-stream";
 import { createServerClient } from "@/lib/supabase-server";
 import { UUID, ASSET_PATH, type PublicPresentation } from "@/lib/crm/marketing";
 export const dynamic = "force-dynamic";
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ token: string; asset: string }> },
 ) {
   const { token, asset } = await params;
@@ -23,16 +24,5 @@ export async function GET(
   );
   if (!item || !ASSET_PATH.test(item.path))
     return new Response(null, { status: 404, headers });
-  const { data: file, error: downloadError } = await client.storage
-    .from("crm-marketing")
-    .download(item.path);
-  if (downloadError || !file)
-    return new Response(null, { status: 404, headers });
-  return new Response(file, {
-    headers: {
-      ...headers,
-      "Content-Type": item.mime_type,
-      "Content-Disposition": "inline",
-    },
-  });
+  return streamPublicStorageObject(request, "crm-marketing", item.path, item.mime_type);
 }
