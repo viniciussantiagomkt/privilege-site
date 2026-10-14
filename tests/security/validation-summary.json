@@ -1,0 +1,27 @@
+{
+  "sourceCommit": "0ce9e893a5e969e60b9cf7c83a14be57da216ce8",
+  "branch": "work/crm-integration-security-20261013",
+  "next": "16.4.0",
+  "build": "passed",
+  "lint": "passed",
+  "typescript": "passed",
+  "suites": {
+    "unit": 17,
+    "commercialRLS": 81,
+    "marketingRLS": 52,
+    "commercialAPI": 15,
+    "marketingAPI": 18,
+    "environmentGuards": 15,
+    "http": 9,
+    "anonymousBrowser": 19,
+    "anonymousRealFileUploadDenials": 3
+  },
+  "total": 229,
+  "successfulAuthenticatedJourneys": "blocked: no authorized sessions or credentials",
+  "audit": {
+    "before": 15,
+    "after": 5,
+    "production": 0
+  },
+  "schemaChanges": false
+}

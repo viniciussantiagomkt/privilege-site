@@ -1,0 +1,20 @@
+{
+  "base": "https://privilege-site-k41rf9x4p-viniciussantiagomkts-projects.vercel.app",
+  "results": [
+    {
+      "path": "/login",
+      "passed": false,
+      "blocked": "TimeoutError"
+    },
+    {
+      "path": "/api/presentation-media/00000000-0000-4000-8000-000000099999/1",
+      "passed": false,
+      "blocked": "TimeoutError"
+    },
+    {
+      "path": "/api/presentation-open",
+      "status": 401,
+      "passed": false
+    }
+  ]
+}

@@ -1,5 +1,11 @@
 -- Staging only. All fixtures and events are rolled back.
 begin;
+-- Verify the recreated manager still exists in Auth before simulating claims.
+do $$ begin
+ if not exists(select 1 from auth.users u join public.user_roles r on r.id=u.id
+   where u.id='0d92c58c-d6f0-4465-95e1-303e7d9f9a69' and r.role='manager' and r.disabled_at is null)
+ then raise exception 'Staging manager identity changed; verify Auth before running'; end if;
+end $$;
 create temp table crm_test_results(name text,passed boolean,detail text);
 grant all on crm_test_results to authenticated,anon;
 create function pg_temp.crm_check(label text, statement text, expected_error text default null) returns void language plpgsql security invoker as $$
@@ -42,7 +48,7 @@ select pg_temp.crm_check('B cannot read A collection',$q$select count(*)=0 from 
 select pg_temp.crm_check('B cannot read A favorites',$q$select count(*)=0 from marketing_favorites where asset_id=-920001$q$);
 select pg_temp.crm_check('B cannot read A storage',$q$select count(*)=0 from storage.objects where bucket_id='crm-marketing' and name like '73a767b8-%'$q$);
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 select pg_temp.crm_check('manager approves material',$q$with x as(update marketing_assets set status='aprovado',visibility='public' where id=-920001 returning id) select count(*)=1 from x$q$);
 select pg_temp.crm_check('manager approves public presentation',$q$with x as(update properties set workflow_status='aprovado',approved_by=auth.uid(),approved_at=now(),publish_on_site=true,presentation_enabled=true,status='ativo' where id=-920001 returning id) select count(*)=1 from x$q$);
 set local role authenticated;
@@ -78,18 +84,18 @@ select pg_temp.crm_check('new version upload accepted',$q$with x as(insert into 
 select pg_temp.crm_check('new version requires reapproval',$q$with x as(update marketing_assets set current_version_id=-920002 where id=-920001 returning status) select status='pendente' from x$q$);
 set local role anon;select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('unapproved current version removed from presentation',$q$select jsonb_array_length(crm_public_presentation('00000000-0000-4000-8000-000000092001')->'assets')=0$q$);
-set local role authenticated;select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+set local role authenticated;select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 update marketing_assets set status='aprovado',expires_at=now()-interval '1 day' where id=-920001;
 set local role anon;select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('expired asset removed from presentation',$q$select jsonb_array_length(crm_public_presentation('00000000-0000-4000-8000-000000092001')->'assets')=0$q$);
-set local role authenticated;select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+set local role authenticated;select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 update marketing_assets set expires_at=null where id=-920001;
 select pg_temp.crm_check('approved current version returns without expired predecessor',$q$select (crm_public_presentation('00000000-0000-4000-8000-000000092001')->'assets'->0->>'mime_type')='image/png'$q$);
 update properties set publish_on_site=false where id=-920001;
 set local role anon;select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('hiding property blocks existing presentation',$q$select crm_public_presentation('00000000-0000-4000-8000-000000092001') is null$q$);
 select pg_temp.crm_check('hiding property blocks public asset',$q$select not crm_private.public_asset('73a767b8-218d-4910-a370-2b93cf32bf74/00000000-0000-4000-8000-000000000002.png')$q$);
-set local role authenticated;select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+set local role authenticated;select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 update properties set publish_on_site=true where id=-920001;
 set local role authenticated;select set_config('request.jwt.claims','{"sub":"73a767b8-218d-4910-a370-2b93cf32bf74","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','73a767b8-218d-4910-a370-2b93cf32bf74',true);
 select pg_temp.crm_check('revocation succeeds',$q$with x as(update marketing_shares set revoked_at=now() where id=-920001 returning id) select count(*)=1 from x$q$);

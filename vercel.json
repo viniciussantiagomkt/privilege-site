@@ -3,6 +3,7 @@
   "git": {
     "deploymentEnabled": {
       "work/crm-staging-audit-20261008": false,
+      "work/crm-integration-security-20261013": false,
       "codex/crm-integration-20261013": false
     }
   }

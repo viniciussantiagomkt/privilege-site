@@ -1,5 +1,14 @@
 -- Staging only. All synthetic rows rolled back; sequences can advance.
 begin;
+-- Recreated staging accounts must exist in Auth, not only in user_roles.
+do $$ begin
+ if (select count(*) from auth.users u join public.user_roles r on r.id=u.id
+     where r.disabled_at is null and
+       ((u.id='84c5604b-d728-4759-8572-ea4a832af9ce' and r.role='admin') or
+        (u.id='0d92c58c-d6f0-4465-95e1-303e7d9f9a69' and r.role='manager') or
+        (u.id in ('73a767b8-218d-4910-a370-2b93cf32bf74','779c7220-06dd-4180-8b52-05136bee21cb') and r.role='broker'))) <> 4
+ then raise exception 'Staging test identities changed; verify Auth IDs and roles before running'; end if;
+end $$;
 do $$ begin if current_database() <> 'postgres' then raise exception 'Unexpected database'; end if; end $$;
 create temp table crm_test_results(name text,passed boolean,detail text);
 grant all on crm_test_results to authenticated,anon;
@@ -64,7 +73,7 @@ select pg_temp.crm_check('B cannot see A proposal',$q$select count(*)=0 from pro
 select pg_temp.crm_check('B cannot see A negotiation',$q$select count(*)=0 from negotiations where proposal_id=-910001$q$);
 select pg_temp.crm_check('B sees only own synthetic lead',$q$select count(*)=1 from leads where id between -910003 and -910001$q$);
 select pg_temp.crm_check('B cannot see A followups',$q$select count(*)=0 from tasks where lead_id=-910001$q$);
-set local role authenticated; select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+set local role authenticated; select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 select pg_temp.crm_check('Manager cannot grant roles',$q$with x as (update user_roles set role='admin' where id='73a767b8-218d-4910-a370-2b93cf32bf74' returning id) select count(*)=0 from x$q$);
 select pg_temp.crm_check('Manager cannot use admin role RPC',$q$select set_user_role('synthetic@example.invalid','admin')$q$,'42501');
 select pg_temp.crm_check('visit has audit history',$q$select count(*)>0 from audit_logs where entity='visits' and actor_id='73a767b8-218d-4910-a370-2b93cf32bf74'$q$);
@@ -81,7 +90,7 @@ select pg_temp.crm_check('A loses reassigned lead',$q$select count(*)=0 from lea
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"779c7220-06dd-4180-8b52-05136bee21cb","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','779c7220-06dd-4180-8b52-05136bee21cb',true);
 select pg_temp.crm_check('B receives reassigned lead',$q$select count(*)=1 from leads where id=-910003$q$);
 select pg_temp.crm_check('B receives notification',$q$select count(*)>0 from notifications where user_id=auth.uid() and description='SYNTHETIC CRM institucional'$q$);
-set local role authenticated; select set_config('request.jwt.claims','{"sub":"7753e8d3-725c-44d7-9a55-402272fd95a4","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','7753e8d3-725c-44d7-9a55-402272fd95a4',true);
+set local role authenticated; select set_config('request.jwt.claims','{"sub":"84c5604b-d728-4759-8572-ea4a832af9ce","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','84c5604b-d728-4759-8572-ea4a832af9ce',true);
 select pg_temp.crm_check('Admin reads all synthetic leads',$q$select count(*)=3 from leads where id between -910003 and -910001$q$);
 select pg_temp.crm_check('property codes unique',$q$select count(distinct property_code)=2 from properties where id in (-910001,-910005)$q$);
 select pg_temp.crm_check('Admin archives property',$q$with x as (update properties set deleted_at=now() where id=-910001 returning id) select count(*)=1 from x$q$);
@@ -113,23 +122,23 @@ set local role anon;
 select set_config('request.jwt.claims','{"role":"anon"}',true); select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('storage anon cannot read unlinked photo',$q$select count(*)=0 from storage.objects where bucket_id='crm-property-images'$q$);
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);
-select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);
+select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 select pg_temp.crm_check('storage manager sees private photo',$q$select count(*)=1 from storage.objects where bucket_id='crm-property-images'$q$);
 insert into property_images(property_id,url) values(-910005,'https://preview.invalid/api/property-media/73a767b8-218d-4910-a370-2b93cf32bf74/00000000-0000-0000-0000-000000000001.webp');
 set local role anon;
 select set_config('request.jwt.claims','{"role":"anon"}',true); select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('storage anon reads published photo',$q$select count(*)=1 from storage.objects where bucket_id='crm-property-images'$q$);
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);
-select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);
+select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 update properties set publish_on_site=false where id=-910005;
 set local role anon;
 select set_config('request.jwt.claims','{"role":"anon"}',true); select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('storage hides photo after unpublishing',$q$select count(*)=0 from storage.objects where bucket_id='crm-property-images'$q$);
 set local role authenticated;
-select set_config('request.jwt.claims','{"sub":"f30a18b4-0190-42ed-8657-f9e0dfa5d10b","role":"authenticated"}',true);
-select set_config('request.jwt.claim.sub','f30a18b4-0190-42ed-8657-f9e0dfa5d10b',true);
+select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);
+select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 update properties set broker_id='779c7220-06dd-4180-8b52-05136bee21cb' where id=-910005;
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"779c7220-06dd-4180-8b52-05136bee21cb","role":"authenticated"}',true);
