@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-14",
+  "deployment": "dpl_3ixkz3oSGiYMac8EyXEECaqi9kkQ",
+  "commit": "72b54202f011052f84ea770e31b01e1ab00f22c6",
+  "transport": "Vercel authenticated connector; no Supabase user session",
+  "results": [
+    {
+      "path": "/login",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/presentation-media/00000000-0000-4000-8000-000000099999/1",
+      "status": 404,
+      "passed": true
+    }
+  ]
+}

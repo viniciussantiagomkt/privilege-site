@@ -1,6 +1,6 @@
 # Roteiro de homologação autenticada do CRM integrado
 
-Somente staging `sdpqphiooiuglywcmkxv`. Não executar em produção. Este roteiro está preparado, mas as jornadas autenticadas ainda não foram executadas por falta de sessões dos quatro perfis.
+Somente staging `sdpqphiooiuglywcmkxv`. Não executar em produção. Atualização de 14/10/2026: o usuário confirmou login dos quatro perfis; o executor ainda não tem acesso às sessões para executar as jornadas. Login informado não equivale a autorização homologada. Veja o roteiro operacional detalhado em `docs/crm-operational-manual-20261014.md` e o relatório da rodada em `docs/crm-operational-homologation-20261014.md`.
 
 ## Acesso necessário
 

@@ -5,21 +5,21 @@
     {
       "name": "anonymous image/png upload denied",
       "passed": true,
-      "bytes": 156,
+      "bytes": 3001,
       "status": "403",
       "message": "new row violates row-level security policy"
     },
     {
       "name": "anonymous application/pdf upload denied",
       "passed": true,
-      "bytes": 1388,
+      "bytes": 1382,
       "status": "403",
       "message": "new row violates row-level security policy"
     },
     {
       "name": "anonymous video/mp4 upload denied",
       "passed": true,
-      "bytes": 2247,
+      "bytes": 2325,
       "status": "403",
       "message": "new row violates row-level security policy"
     }
