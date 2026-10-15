@@ -59,6 +59,26 @@
     {
       "name": "work/crm-integration-security-20261013: service-role key blocked",
       "passed": true
+    },
+    {
+      "name": "work/crm-auth-qa-20261015: verified staging accepted",
+      "passed": true
+    },
+    {
+      "name": "work/crm-auth-qa-20261015: wrong project blocked",
+      "passed": true
+    },
+    {
+      "name": "work/crm-auth-qa-20261015: production deployment blocked",
+      "passed": true
+    },
+    {
+      "name": "work/crm-auth-qa-20261015: unverified public key blocked",
+      "passed": true
+    },
+    {
+      "name": "work/crm-auth-qa-20261015: service-role key blocked",
+      "passed": true
     }
   ]
 }
