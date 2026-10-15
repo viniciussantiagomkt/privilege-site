@@ -1,0 +1,1262 @@
+{
+  "date": "2026-10-15",
+  "staging": "sdpqphiooiuglywcmkxv",
+  "baseCommit": "6ccddf5a0bd84d376ccb8f5c4f9c1c4a7ee78cda",
+  "branch": "work/crm-auth-qa-20261015",
+  "browser": {
+    "availableTabs": 0,
+    "authorizedSessions": 0
+  },
+  "accounts": [
+    {
+      "profile": "Administrador",
+      "id": "84c5604b-d728-4759-8572-ea4a832af9ce",
+      "role": "admin",
+      "active": true,
+      "confirmed": true,
+      "brokerId": null
+    },
+    {
+      "profile": "Gestor",
+      "id": "0d92c58c-d6f0-4465-95e1-303e7d9f9a69",
+      "role": "manager",
+      "active": true,
+      "confirmed": true,
+      "brokerId": null
+    },
+    {
+      "profile": "Corretor A",
+      "id": "73a767b8-218d-4910-a370-2b93cf32bf74",
+      "role": "broker",
+      "active": true,
+      "confirmed": true,
+      "brokerId": "73a767b8-218d-4910-a370-2b93cf32bf74"
+    },
+    {
+      "profile": "Corretor B",
+      "id": "779c7220-06dd-4180-8b52-05136bee21cb",
+      "role": "broker",
+      "active": true,
+      "confirmed": true,
+      "brokerId": "779c7220-06dd-4180-8b52-05136bee21cb"
+    }
+  ],
+  "profileResults": [
+    {
+      "profile": "Administrador",
+      "reconciliation": "APROVADO",
+      "sqlPoliciesWithSimulatedClaims": "APROVADO",
+      "loginReportedByUser": true,
+      "loginObservedByExecutor": "BLOQUEADO",
+      "authenticatedDirectAPI": "BLOQUEADO",
+      "navigationAndCRUD": "BLOQUEADO",
+      "sessionRefreshAndLogout": "BLOQUEADO",
+      "disabledDisposableUser": "BLOQUEADO",
+      "commercialJourneyAndAuthorizedUpload": "BLOQUEADO"
+    },
+    {
+      "profile": "Gestor",
+      "reconciliation": "APROVADO",
+      "sqlPoliciesWithSimulatedClaims": "APROVADO",
+      "loginReportedByUser": true,
+      "loginObservedByExecutor": "BLOQUEADO",
+      "authenticatedDirectAPI": "BLOQUEADO",
+      "navigationAndCRUD": "BLOQUEADO",
+      "sessionRefreshAndLogout": "BLOQUEADO",
+      "disabledDisposableUser": "BLOQUEADO",
+      "commercialJourneyAndAuthorizedUpload": "BLOQUEADO"
+    },
+    {
+      "profile": "Corretor A",
+      "reconciliation": "APROVADO",
+      "sqlPoliciesWithSimulatedClaims": "APROVADO",
+      "loginReportedByUser": true,
+      "loginObservedByExecutor": "BLOQUEADO",
+      "authenticatedDirectAPI": "BLOQUEADO",
+      "navigationAndCRUD": "BLOQUEADO",
+      "sessionRefreshAndLogout": "BLOQUEADO",
+      "disabledDisposableUser": "BLOQUEADO",
+      "commercialJourneyAndAuthorizedUpload": "BLOQUEADO"
+    },
+    {
+      "profile": "Corretor B",
+      "reconciliation": "APROVADO",
+      "sqlPoliciesWithSimulatedClaims": "APROVADO",
+      "loginReportedByUser": true,
+      "loginObservedByExecutor": "BLOQUEADO",
+      "authenticatedDirectAPI": "BLOQUEADO",
+      "navigationAndCRUD": "BLOQUEADO",
+      "sessionRefreshAndLogout": "BLOQUEADO",
+      "disabledDisposableUser": "BLOQUEADO",
+      "commercialJourneyAndAuthorizedUpload": "BLOQUEADO"
+    }
+  ],
+  "historicalReferences": {
+    "publicTablesScanned": 40,
+    "oldAuthAccountsFound": 0,
+    "oldRoleLinksFound": 0,
+    "auditHistoryRows": 2,
+    "auditEntity": "user_roles",
+    "auditAction": "INSERT",
+    "historicalStorageReferences": 0,
+    "action": "preserved"
+  },
+  "publishedClient": {
+    "deployment": "dpl_3ixkz3oSGiYMac8EyXEECaqi9kkQ",
+    "commit": "72b54202f011052f84ea770e31b01e1ab00f22c6",
+    "state": "READY",
+    "bundle": "/_next/static/immutable/chunks/3uhkxrrfxgr8f.js",
+    "observedSupabaseHost": "https://sdpqphiooiuglywcmkxv.supabase.co"
+  },
+  "commercialInitial": [
+    {
+      "name": "A sees only own synthetic lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot read B",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot read institutional",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot update B",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot reassign own lead",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A cannot assign via RPC",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A records own contact",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact timestamp and pipeline",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot contact B",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "lost reason required",
+      "passed": true,
+      "detail": "23514"
+    },
+    {
+      "name": "A creates own followup",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot followup B",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A can read only own clients",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A creates own visit",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot link B private client to visit",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A creates own proposal",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot link B private client to proposal",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A creates negotiation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot write sales",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "property code generated",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A creates draft property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A atomically saves own media",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "invalid media rejected",
+      "passed": true,
+      "detail": "23514"
+    },
+    {
+      "name": "invalid media preserves original rows",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot escalate role",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot use admin role RPC",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A cannot approve own property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A cannot archive property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "property code immutable",
+      "passed": true,
+      "detail": "P0001"
+    },
+    {
+      "name": "A cannot publish for other owner",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot alter A media",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot replace A media",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot sync A media",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot see A proposal",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot see A negotiation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B sees only own synthetic lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot see A followups",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager cannot grant roles",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager cannot use admin role RPC",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "visit has audit history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "proposal has audit history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "negotiation has audit history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager reads all synthetic leads",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager assigns institutional",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager reassigns institutional",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager approves and publishes property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager sees assignment history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager sees audit",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A loses reassigned lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B receives reassigned lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B receives notification",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Admin reads all synthetic leads",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "property codes unique",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Admin archives property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon sees approved sold property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read leads",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read hidden archived property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot see private metric property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read hidden media",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot sync hidden media",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anon cannot increment hidden property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anon cannot read clients",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read audits",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon can create safe institutional lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot forge assigned lead",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage owner sees unpublished photo",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage owner cannot upload to colleague folder",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage colleague cannot see unpublished photo",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage colleague cannot attach private photo",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage anon cannot read unlinked photo",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage manager sees private photo",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage anon reads published photo",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage hides photo after unpublishing",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage reassigned broker reads property photos",
+      "passed": false,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage reassigned broker preserves existing photos",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact owner stores proprietor profile",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact links own client and lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact cannot link colleague private client",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "contact cannot link colleague private lead",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "contact colleague cannot read private link",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact anonymous cannot read private links",
+      "passed": true,
+      "detail": "boolean assertion"
+    }
+  ],
+  "commercialCorrected": [
+    {
+      "name": "A sees only own synthetic lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot read B",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot read institutional",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot update B",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot delete B lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot update B client",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot delete B client",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot reassign own lead",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A cannot assign via RPC",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A records own contact",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact timestamp and pipeline",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot contact B",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "lost reason required",
+      "passed": true,
+      "detail": "23514"
+    },
+    {
+      "name": "A creates own followup",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot followup B",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A can read only own clients",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A creates own visit",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot link B private client to visit",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A creates own proposal",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot link B private client to proposal",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A creates negotiation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot write sales",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "property code generated",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A creates draft property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A atomically saves own media",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "invalid media rejected",
+      "passed": true,
+      "detail": "23514"
+    },
+    {
+      "name": "invalid media preserves original rows",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot escalate role",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A cannot use admin role RPC",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A cannot approve own property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "A cannot archive property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "property code immutable",
+      "passed": true,
+      "detail": "P0001"
+    },
+    {
+      "name": "A cannot publish for other owner",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot read A client",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot update A lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot delete A lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot update A client",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot delete A client",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot alter A media",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot replace A media",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot sync A media",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot see A proposal",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot see A negotiation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B sees only own synthetic lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot see A followups",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager cannot grant roles",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager cannot use admin role RPC",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "visit has audit history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "proposal has audit history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "negotiation has audit history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager reads all synthetic leads",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager assigns institutional",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager reassigns institutional",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager approves and publishes property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager sees assignment history",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Manager sees audit",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "A loses reassigned lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B receives reassigned lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B receives notification",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Admin reads all synthetic leads",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "property codes unique",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "Admin archives property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon sees approved sold property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read leads",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read hidden archived property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot see private metric property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read hidden media",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot sync hidden media",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anon cannot increment hidden property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anon cannot read clients",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot read audits",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon can create safe institutional lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anon cannot forge assigned lead",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage owner sees unpublished photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage owner cannot upload to colleague folder",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage colleague cannot see unpublished photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage colleague cannot attach private photo",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "storage anon cannot read unlinked photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage manager sees private photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage anon reads published photo",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage hides photo after unpublishing",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage reassigned broker reads property photos",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "storage reassigned broker preserves existing photos",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact owner stores proprietor profile",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact links own client and lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact cannot link colleague private client",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "contact cannot link colleague private lead",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "contact colleague cannot read private link",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "contact anonymous cannot read private links",
+      "passed": true,
+      "detail": "boolean assertion"
+    }
+  ],
+  "marketing": [
+    {
+      "name": "broker creates pending asset",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "broker cannot self approve",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "valid PDF path inserts version",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "foreign owner path denied",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "asset version activated",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "broker links material to own property",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "own valid storage upload authorized",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "foreign storage upload denied",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "broker cannot share hidden property",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "automation saved",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "personal collection saved",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "collection links own asset",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "favorite saved",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A material",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A version",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A collection",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A favorites",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot read A storage",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "manager approves material",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "manager approves public presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "wrong lead denied",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "valid share persisted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "generation recorded in lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "automatic followup persisted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "share confirmation succeeds",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "repeat confirmation succeeds",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "confirmation exactly once",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "event log exactly once",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "share payload immutable",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "B cannot read A share",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "B cannot confirm A share",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anonymous cannot read asset table",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anonymous cannot read share table",
+      "passed": true,
+      "detail": "42501"
+    },
+    {
+      "name": "anonymous token returns presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anonymous approved selected asset returned",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anonymous presentation hides client and lead",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "unknown token denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "no consent no event",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "consented open accepted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "consented open retry accepted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "anonymous storage listing denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "consent event exactly once",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "new version upload accepted",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "new version requires reapproval",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "unapproved current version removed from presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "expired asset removed from presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "approved current version returns without expired predecessor",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "hiding property blocks existing presentation",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "hiding property blocks public asset",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "revocation succeeds",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "revoked token denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    },
+    {
+      "name": "revoked open denied",
+      "passed": true,
+      "detail": "boolean assertion"
+    }
+  ],
+  "unitTests": {
+    "total": 17,
+    "passed": 17,
+    "authentication": "controlled dependencies, not real sessions"
+  },
+  "persistentChanges": {
+    "auth": false,
+    "permissions": false,
+    "schema": false,
+    "migrations": false,
+    "storageObjectsRemoved": 0
+  },
+  "cleanup": {
+    "fixtureProperties": 0,
+    "fixtureLeads": 0,
+    "fixtureAssets": 0,
+    "propertyStorageObjectCountBefore": 20,
+    "propertyStorageObjectCountAfter": 20,
+    "migrations": 11
+  },
+  "environmentGuards": {
+    "total": 20,
+    "passed": 20,
+    "newBranchAutoDeployment": false
+  },
+  "validation": {
+    "unit": 17,
+    "commercialSQL": 89,
+    "marketingSQL": 52,
+    "environmentGuards": 20,
+    "totalAssertionsPassed": 178,
+    "lint": "passed",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

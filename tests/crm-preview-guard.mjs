@@ -10,7 +10,7 @@ const cases=[
  ["unverified public key blocked",{NEXT_PUBLIC_SUPABASE_ANON_KEY:"synthetic-invalid-key"},false],
  ["service-role key blocked",{SUPABASE_SERVICE_ROLE_KEY:"synthetic-invalid-key"},false]
 ];
-const results=["work/crm-staging-audit-20261008", "codex/crm-integration-20261013", "work/crm-integration-security-20261013"].flatMap(branch => cases.map(([name,extra,expected])=>{
+const results=["work/crm-staging-audit-20261008", "codex/crm-integration-20261013", "work/crm-integration-security-20261013", "work/crm-auth-qa-20261015"].flatMap(branch => cases.map(([name,extra,expected])=>{
  const result=spawnSync(process.execPath,["--env-file=.env.staging.local","--input-type=module","-e","await import('./next.config.ts')"],{env:{...base,VERCEL_GIT_COMMIT_REF:branch,...extra},encoding:"utf8"});
  return {name:`${branch}: ${name}`,passed:(result.status===0)===expected};
 }));
