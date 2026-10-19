@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-19",
+  "branch": "work/crm-integration-security-diagnosis-20261019",
+  "deployed_commit": "9bacbf5235a4745bf26953dc923524a72d685a08",
+  "deployment_id": "dpl_6aUfyJD9YP5eXEFfJtHJByLtL5Y1",
+  "url": "https://privilege-site-q1dj2ljue-viniciussantiagomkts-projects.vercel.app",
+  "state": "READY",
+  "environment": "preview",
+  "api_target": null,
+  "build_seconds": 44,
+  "ci": {
+    "run_id": 39291853127,
+    "conclusion": "success"
+  },
+  "supabase_project": "sdpqphiooiuglywcmkxv",
+  "public_key_sha256": "1d6911a13f337d0eec833199e2ed4b45ad44f2262e0b9a1e5b25c7c33ae131d5",
+  "env_scope": {
+    "target": [
+      "preview"
+    ],
+    "gitBranch": "work/crm-integration-security-diagnosis-20261019",
+    "keys": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "NEXT_PUBLIC_GTM_ID",
+      "NEXT_PUBLIC_GA4_ID",
+      "NEXT_PUBLIC_META_PIXEL_ID",
+      "NEXT_PUBLIC_CLARITY_ID",
+      "LEAD_WEBHOOK_URL",
+      "LEAD_WEBHOOK_SECRET"
+    ],
+    "analytics_and_webhook_disabled": true
+  },
+  "build_staging_guard": "passed",
+  "browser": {
+    "result": "BLOCKED",
+    "observed": "Log in to Vercel",
+    "crm_sessions_tested": false,
+    "temporary_access_link_created": false,
+    "automatic_review": "Rejected tool that would create temporary authentication-bypass link; normal browser navigation confirmed sign-in wall."
+  },
+  "production_changed": false,
+  "database_changed_this_deployment": false,
+  "manual_next_steps": [
+    "Sign in to Vercel with project-authorized account",
+    "Open immutable /login URL",
+    "Use separate CRM sessions for admin, manager, A and B",
+    "Execute 12-step authenticated checklist in operational report"
+  ]
+}

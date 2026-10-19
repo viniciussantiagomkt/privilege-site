@@ -2,7 +2,7 @@
 
 Data: 19/10/2026. Base de produto: PR #3, commit 6ccddf5. Implementação isolada no PR #6 (rascunho), branch `work/crm-integration-security-diagnosis-20261019`.
 
-**Estado atualizado: cinco migrations aplicadas no staging após autorização explícita.** Os registros existentes, as quatro contas e seus papéis foram preservados. Preview novo e homologação com sessões reais continuam pendentes. Produção e main não foram alteradas. O SHA final está registrado na entrega e no histórico do PR.
+**Estado atualizado: cinco migrations aplicadas no staging após autorização explícita.** Os registros existentes, as quatro contas e seus papéis foram preservados. Preview isolado publicado e READY no commit 9bacbf5; homologação com sessões reais continua pendente. Produção e main não foram alteradas. O SHA final está registrado na entrega e no histórico do PR.
 
 ## Diagnóstico e correções
 
@@ -89,8 +89,8 @@ Referência: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm. Relatórios npm 
 
 ## Limitações e impactos deliberados
 
-1. As cinco correções de banco estão ativas no staging. A leitura RLS da gestão agora respeita a privacidade. A interface do preview anterior ainda é antiga; o fluxo completo precisa do preview atualizado e de sessões reais.
-2. O preview anterior não corresponde a este código. Não foi gerada nova URL, e a branch continua com deployment automático desativado.
+1. As cinco correções de banco estão ativas no staging. A leitura RLS da gestão agora respeita a privacidade. O preview atualizado está publicado; o fluxo completo ainda precisa de sessões reais.
+2. O preview correspondente foi publicado manualmente no commit 9bacbf5. A branch continua com deployment automático desativado.
 3. As listas agora carregam somente módulos necessários, com limite de 500 registros e erro explícito ao exceder. Não há paginação navegável completa nesta entrega. Próxima evolução: keyset por (created_at,id), filtros no servidor e contagem agregada, preservando RLS. A fila financeira limita 200 itens recentes.
 4. Pessoal ou destinatários selecionados nunca entram em apresentação pública. Para divulgação pública, o dono precisa pedir mudança para equipe e a gestão aprovar. A alteração de audiência revoga aprovação anterior.
 5. Um material antes pessoal/aprovado/public deixa de ter download anônimo após M5. Registro, arquivo e versão são preservados. Não há publicação automática dos três uploads existentes.
@@ -102,12 +102,12 @@ Referência: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm. Relatórios npm 
 
 ## Implantação controlada no staging
 
-1. Concluído: autorização explícita recebida e cinco migrations aplicadas ao projeto sdpqphiooiuglywcmkxv. A publicação do preview continua exigindo autorização separada.
+1. Concluído: autorização explícita recebida e cinco migrations aplicadas ao projeto sdpqphiooiuglywcmkxv. A publicação do preview também foi autorizada explicitamente e concluída.
 2. Concluído antes da aplicação: preflight com zero drift de funções/policies, 36 funções, 107 policies e exatamente as 11 migrations anteriores. O arquivo de preflight agora é uma referência histórica do baseline, não uma expectativa do schema pós-aplicação.
 3. A exportação completa de dados foi bloqueada pela revisão automática por transferência de dados sensíveis sem autorização específica e não foi realizada. Foi usada a alternativa de preservação por contagens e hashes calculados dentro do banco, além do snapshot de schema já versionado. Isso não equivale a backup restaurável completo; backup do provedor não foi confirmado pelo conector. As transações aditivas foram executadas com os limites de lock/tempo revisados. Não houve reset, push indiscriminado ou repair.
 4. Concluído: M1–M5 aplicadas em ordem e registradas pelo mecanismo gerenciado, com reconferência após cada transação. São 16 migrations registradas, sem repetição das 11 anteriores. Não reaplicar esses arquivos.
 5. Concluído: advisors e verificações de RLS/views/publicação executados; pendências estão descritas abaixo. Nenhuma tabela privada permanece na publicação Realtime. Não adicionar essas tabelas novamente para “resolver” notificações.
-6. Após autorização de preview, usar apenas a URL/key pública já verificadas de staging, sem service-role no cliente. Conferir SHA e ambiente do deployment.
+6. Concluído: preview manual do commit 9bacbf5, com URL e chave pública de staging verificadas e sem service-role. Guard de ambiente e build remoto aprovados.
 7. Executar os testes reais abaixo. Não limpar fixtures por DELETE amplo: usar apenas IDs identificados e operações suportadas.
 
 ### Retorno seguro
@@ -131,7 +131,7 @@ O navegador conectado estava sem abas/sessões. Não envie senhas, access tokens
 11. Repetir navegação e formulários em 390px e 768px. Registrar erro, horário, request ID, operação, UID e fixture, sem cabeçalhos secretos.
 12. Distinguir falha de serviço (5xx/rede/Realtime/Storage indisponível) de negação esperada (RLS/42501/zero linhas). Não contornar com service-role ou desativando RLS.
 
-**Recomendação atualizada:** banco staging atualizado e verificações de preservação/isolamento aprovadas. Uso interno ainda não homologado: faltam preview correspondente e validação com sessões reais. Os alertas de desenvolvimento, advisors e limites de paginação estão explicitamente pendentes.
+**Recomendação atualizada:** banco staging atualizado e verificações de preservação/isolamento aprovadas. Uso interno ainda não homologado: falta validação com sessões reais no preview correspondente já publicado. Os alertas de desenvolvimento, advisors e limites de paginação estão explicitamente pendentes.
 
 ## Aplicação autorizada em 19/10/2026
 
@@ -174,7 +174,19 @@ Esses testes são somente leitura, com claims SQL simuladas no servidor real. N�
 - Funções SECURITY DEFINER executáveis: 16 avisos para anon e 32 para authenticated. Incluem helpers booleanos, triggers e endpoints públicos intencionais de apresentação/consentimento, além de RPCs autenticados com guardas específicas. O linter não atesta exploração, mas esses avisos exigem revisão individual. Nenhum dos 12 RPCs privilegiados novos permite EXECUTE a anon; os guardas positivos/negativos foram testados localmente. [Anon](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable), [autenticados](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable).
 - Proteção contra senhas vazadas está desabilitada. Configuração não alterada porque não integra a autorização das cinco migrations. Revisar impacto e disponibilidade do plano antes de habilitar. [Orientação](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
 - Performance: 39 FKs sem índice correspondente, 68 avisos auth_rls_initplan, 22 índices não usados, 23 avisos de policies permissivas múltiplas e 1 índice duplicado preexistente de slug em properties. Não foram executadas migrations adicionais para isso. O isolamento é imposto pelas policies restritivas mesmo com as permissivas legadas. [FKs](https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys), [InitPlan](https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan), [policies](https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies), [duplicação](https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index).
-- Preview novo continua sem publicação. O código da interface é o do commit 7264db6; esta atualização posterior sincroniza histórico e documenta a aplicação.
+- Preview publicado no commit 9bacbf5, que inclui a interface do commit 7264db6 e a sincronização do histórico de migrations.
 - Evidências adicionais: tests/security/crm-operational-staging-application-20261019.json e crm-operational-staging-anon-readonly-20261019.json. Não contêm senhas, tokens, chaves ou cópia dos registros comerciais.
 
-Próxima etapa: autorizar preview isolado da branch, conferir seu commit/ambiente e executar a jornada autenticada com as quatro sessões.
+## Preview autorizado e publicado
+
+- URL imutável: https://privilege-site-q1dj2ljue-viniciussantiagomkts-projects.vercel.app/login
+- Deployment: dpl_6aUfyJD9YP5eXEFfJtHJByLtL5Y1, estado READY, ambiente preview (target nulo na API), região iad1.
+- Commit publicado: 9bacbf5235a4745bf26953dc923524a72d685a08. Commits posteriores de documentação não alteram este deployment.
+- Build remoto concluído em 44s. Logs confirmam branch e commit; CI GitHub 39291853127 concluiu com success nesse SHA.
+- Nove variáveis configuradas exclusivamente para preview desta branch: URL e duas variantes de chave pública do Supabase staging; quatro IDs de analytics vazios; URL e segredo de webhook vazios. Nenhuma variável de produção foi alterada.
+- URL de banco: https://sdpqphiooiuglywcmkxv.supabase.co. SHA-256 da chave pública validada: 1d6911a13f337d0eec833199e2ed4b45ad44f2262e0b9a1e5b25c7c33ae131d5. Guard de build rejeita outro banco, produção ou service-role.
+- Abertura normal em navegador retornou “Log in to Vercel”. Não havia sessão Vercel disponível; não foi possível chegar ao login do CRM ou testar as quatro contas.
+- A revisão automática rejeitou a ferramenta de acesso que criaria link temporário para contornar a proteção Vercel. Nenhum link desse tipo foi criado e a proteção permanece ativa.
+- Produção, main, usuários e banco não foram alterados nesta publicação. Evidência sanitizada: tests/security/crm-operational-preview-20261019.json.
+
+Próxima etapa: abrir a URL com uma conta Vercel autorizada ao projeto, depois entrar no CRM com cada perfil em sessões separadas e seguir os 12 passos do roteiro acima. Não enviar senhas ou tokens no chat. A disponibilidade do preview não equivale à aprovação operacional.
