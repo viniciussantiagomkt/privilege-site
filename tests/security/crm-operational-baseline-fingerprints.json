@@ -1,0 +1,874 @@
+{
+  "project": "sdpqphiooiuglywcmkxv",
+  "captured_at": "2026-10-19",
+  "preflight_line_endings": "Function hashes in preflight normalize CRLF to LF; raw md5 values below preserve the original catalog bytes.",
+  "impact": {
+    "leads": 4,
+    "sales": 1,
+    "clients": 4,
+    "assets_total": 3,
+    "institutional_backfill": 0
+  },
+  "policies": [
+    {
+      "md5": "cbdb6e414fde5a39ddccbff05b698d7b",
+      "name": "imports_owner",
+      "table": "asset_imports",
+      "schema": "public"
+    },
+    {
+      "md5": "0442ba4093fdb4348fcf8180db4cef6d",
+      "name": "relations_read",
+      "table": "asset_relations",
+      "schema": "public"
+    },
+    {
+      "md5": "98cb8f5d2a16bd4c3b3a70132bb10634",
+      "name": "relations_write",
+      "table": "asset_relations",
+      "schema": "public"
+    },
+    {
+      "md5": "66ab85222192eed7461e0d34eb1d89f0",
+      "name": "versions_insert",
+      "table": "asset_versions",
+      "schema": "public"
+    },
+    {
+      "md5": "182f6735393b7131dfca62743f5b9518",
+      "name": "versions_read",
+      "table": "asset_versions",
+      "schema": "public"
+    },
+    {
+      "md5": "8145b675aaac04ab8943e0e74bb8a406",
+      "name": "CRM audit read",
+      "table": "audit_logs",
+      "schema": "public"
+    },
+    {
+      "md5": "1e50f9c510adba85b084d67a7516a698",
+      "name": "Admins and owners insert brokers",
+      "table": "brokers",
+      "schema": "public"
+    },
+    {
+      "md5": "b323c7e857419a35f1a295ca98c31822",
+      "name": "Admins and owners update brokers",
+      "table": "brokers",
+      "schema": "public"
+    },
+    {
+      "md5": "e14d25b77def46c173df1bc6f86eb92f",
+      "name": "Admins delete brokers",
+      "table": "brokers",
+      "schema": "public"
+    },
+    {
+      "md5": "b06cc94b62b84cbb59bf40c0692fd8ab",
+      "name": "CRM read own broker",
+      "table": "brokers",
+      "schema": "public"
+    },
+    {
+      "md5": "769b38d546d6311ba0c0b7e378398e15",
+      "name": "Public can read active brokers",
+      "table": "brokers",
+      "schema": "public"
+    },
+    {
+      "md5": "5d9d79724c8fc1fde5e36744bc5edcac",
+      "name": "Admins manage cities",
+      "table": "cities",
+      "schema": "public"
+    },
+    {
+      "md5": "769b38d546d6311ba0c0b7e378398e15",
+      "name": "Public can read cities",
+      "table": "cities",
+      "schema": "public"
+    },
+    {
+      "md5": "bdc39502e8f88b2f75011a68779e76fb",
+      "name": "commercial read clients",
+      "table": "clients",
+      "schema": "public"
+    },
+    {
+      "md5": "9b4618dff114582020fc72b52b94bd69",
+      "name": "commercial write clients",
+      "table": "clients",
+      "schema": "public"
+    },
+    {
+      "md5": "cbdb6e414fde5a39ddccbff05b698d7b",
+      "name": "automation_owner",
+      "table": "crm_automation_preferences",
+      "schema": "public"
+    },
+    {
+      "md5": "457c4cf062388f6a010a58e46e0bb197",
+      "name": "CRM contact relationships",
+      "table": "crm_contact_links",
+      "schema": "public"
+    },
+    {
+      "md5": "62cc8f02524c46ca3e95ea4d6f19b2de",
+      "name": "event_log_read",
+      "table": "crm_event_log",
+      "schema": "public"
+    },
+    {
+      "md5": "0e6a683ab01c4f32750f64f0ed2d6a9b",
+      "name": "developers_read",
+      "table": "developers",
+      "schema": "public"
+    },
+    {
+      "md5": "8f4ca6a92bcb4d7e9bb4ab2e6a9e738a",
+      "name": "developers_write",
+      "table": "developers",
+      "schema": "public"
+    },
+    {
+      "md5": "bad0ad78875aedb7576b5c82e437d50c",
+      "name": "units_read",
+      "table": "development_units",
+      "schema": "public"
+    },
+    {
+      "md5": "8f4ca6a92bcb4d7e9bb4ab2e6a9e738a",
+      "name": "units_write",
+      "table": "development_units",
+      "schema": "public"
+    },
+    {
+      "md5": "0e6a683ab01c4f32750f64f0ed2d6a9b",
+      "name": "developments_read",
+      "table": "developments",
+      "schema": "public"
+    },
+    {
+      "md5": "8f4ca6a92bcb4d7e9bb4ab2e6a9e738a",
+      "name": "developments_write",
+      "table": "developments",
+      "schema": "public"
+    },
+    {
+      "md5": "978a30909dbe68c825f8445ae337e2f9",
+      "name": "commercial read lead activities",
+      "table": "lead_activities",
+      "schema": "public"
+    },
+    {
+      "md5": "8fea21715c44a8cf212d99c5623d9a65",
+      "name": "commercial write lead activities",
+      "table": "lead_activities",
+      "schema": "public"
+    },
+    {
+      "md5": "3949f8357961ff26eb9eecc5d3fb6577",
+      "name": "CRM assignment history",
+      "table": "lead_assignments",
+      "schema": "public"
+    },
+    {
+      "md5": "95e3ee1211abbc75bdbfb43539aee8c2",
+      "name": "CRM lead delete boundary",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "1f8ebb4cef03b74189e78ce3207c8d8f",
+      "name": "CRM lead insert boundary",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "c852823d40459a65630b124f434ed87d",
+      "name": "CRM lead read boundary",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "803f4036fdc065342cdfc8a9f1ded3d4",
+      "name": "CRM lead update boundary",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "bdc39502e8f88b2f75011a68779e76fb",
+      "name": "CRM read own leads",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "aa65d21861dc960cc43380289d29131b",
+      "name": "CRM update own leads",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "69833a1017e318ffcae992160f9ce51f",
+      "name": "Public can create leads",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "91b27e60895df25535bf0bacae9869e8",
+      "name": "Staff can read leads",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "8491c093dd011520e6845c7eb2b5e7b0",
+      "name": "Staff can update leads",
+      "table": "leads",
+      "schema": "public"
+    },
+    {
+      "md5": "5c9e4f14fe4c22c0dfcb4defcde0e4eb",
+      "name": "assets_insert",
+      "table": "marketing_assets",
+      "schema": "public"
+    },
+    {
+      "md5": "4ce0fbc86a8e1b5f7087aa4646f94bf0",
+      "name": "assets_read",
+      "table": "marketing_assets",
+      "schema": "public"
+    },
+    {
+      "md5": "bbeb3ccf95bcaa1a8d0d02203dfe2aff",
+      "name": "assets_update",
+      "table": "marketing_assets",
+      "schema": "public"
+    },
+    {
+      "md5": "012722513b87c832054b74bf3ad88acd",
+      "name": "collection_items_owner",
+      "table": "marketing_collection_items",
+      "schema": "public"
+    },
+    {
+      "md5": "cbdb6e414fde5a39ddccbff05b698d7b",
+      "name": "collections_owner",
+      "table": "marketing_collections",
+      "schema": "public"
+    },
+    {
+      "md5": "23055e0a4c886f64a350ea6621d91167",
+      "name": "favorites_owner",
+      "table": "marketing_favorites",
+      "schema": "public"
+    },
+    {
+      "md5": "28792da12976344179c5c68a5fb76eb4",
+      "name": "share_events_read",
+      "table": "marketing_share_events",
+      "schema": "public"
+    },
+    {
+      "md5": "1b1ae8b11b98bea8bbad522bb555691b",
+      "name": "shares_insert",
+      "table": "marketing_shares",
+      "schema": "public"
+    },
+    {
+      "md5": "62cc8f02524c46ca3e95ea4d6f19b2de",
+      "name": "shares_read",
+      "table": "marketing_shares",
+      "schema": "public"
+    },
+    {
+      "md5": "bbeb3ccf95bcaa1a8d0d02203dfe2aff",
+      "name": "shares_update",
+      "table": "marketing_shares",
+      "schema": "public"
+    },
+    {
+      "md5": "a7033082339ef89f843a89c6f9e373df",
+      "name": "commercial manage negotiations",
+      "table": "negotiations",
+      "schema": "public"
+    },
+    {
+      "md5": "5d9d79724c8fc1fde5e36744bc5edcac",
+      "name": "Admins manage neighborhoods",
+      "table": "neighborhoods",
+      "schema": "public"
+    },
+    {
+      "md5": "769b38d546d6311ba0c0b7e378398e15",
+      "name": "Public can read neighborhoods",
+      "table": "neighborhoods",
+      "schema": "public"
+    },
+    {
+      "md5": "8f4ca6a92bcb4d7e9bb4ab2e6a9e738a",
+      "name": "operations write notifications",
+      "table": "notifications",
+      "schema": "public"
+    },
+    {
+      "md5": "1ee1d0155d3d06d889ecccaee27a7a7a",
+      "name": "users read own notifications",
+      "table": "notifications",
+      "schema": "public"
+    },
+    {
+      "md5": "0e6a683ab01c4f32750f64f0ed2d6a9b",
+      "name": "CRM read organization",
+      "table": "organizations",
+      "schema": "public"
+    },
+    {
+      "md5": "e14d25b77def46c173df1bc6f86eb92f",
+      "name": "Admins can delete properties",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "fceb4ae1d4776f47147b1ad4d2c7f572",
+      "name": "CRM properties insert",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "aa27444d1b8ead501f12569db2e6585d",
+      "name": "CRM properties read",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "f9f668211c5a0c68fe7182fcf5d0ffbf",
+      "name": "CRM properties update",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "2311b5f06a0fe05811788ba24259552d",
+      "name": "CRM property insert boundary",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "0523e91d9f5b7f405df5f82485cc9392",
+      "name": "CRM property update boundary",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "96d26b771b010eb27125a60cfde300a3",
+      "name": "CRM publication boundary",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "3b5fc5a9cc7b6e6676aaca5ec5d9533a",
+      "name": "Public can read published properties",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "8532bc38e079d18fa742523e781b4710",
+      "name": "Staff can create properties",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "90ba9540bc1c631adf47daaee9e93497",
+      "name": "Staff can update allowed properties",
+      "table": "properties",
+      "schema": "public"
+    },
+    {
+      "md5": "5d9d79724c8fc1fde5e36744bc5edcac",
+      "name": "Admins manage categories",
+      "table": "property_categories",
+      "schema": "public"
+    },
+    {
+      "md5": "769b38d546d6311ba0c0b7e378398e15",
+      "name": "Public can read categories",
+      "table": "property_categories",
+      "schema": "public"
+    },
+    {
+      "md5": "3cd0337fda73335ee625a0b9265bf678",
+      "name": "Public can create comparisons",
+      "table": "property_comparisons",
+      "schema": "public"
+    },
+    {
+      "md5": "135f6c07e3a3745038b77db71be2531b",
+      "name": "Users can delete own comparisons",
+      "table": "property_comparisons",
+      "schema": "public"
+    },
+    {
+      "md5": "e545ee25c9db43da3b29498a019f9ea1",
+      "name": "Users can read own comparisons and staff can read all",
+      "table": "property_comparisons",
+      "schema": "public"
+    },
+    {
+      "md5": "3cd0337fda73335ee625a0b9265bf678",
+      "name": "Public can create favorites",
+      "table": "property_favorites",
+      "schema": "public"
+    },
+    {
+      "md5": "135f6c07e3a3745038b77db71be2531b",
+      "name": "Users can delete own favorites",
+      "table": "property_favorites",
+      "schema": "public"
+    },
+    {
+      "md5": "e545ee25c9db43da3b29498a019f9ea1",
+      "name": "Users can read own favorites and staff can read all",
+      "table": "property_favorites",
+      "schema": "public"
+    },
+    {
+      "md5": "0b986d62297a42353b31a93176b255b4",
+      "name": "CRM property_images delete boundary",
+      "table": "property_images",
+      "schema": "public"
+    },
+    {
+      "md5": "dfdf50fedc02543bc54ae49c0751621b",
+      "name": "CRM property_images insert boundary",
+      "table": "property_images",
+      "schema": "public"
+    },
+    {
+      "md5": "6a0421997182263de51494e4a5ab88db",
+      "name": "CRM property_images update boundary",
+      "table": "property_images",
+      "schema": "public"
+    },
+    {
+      "md5": "fef953250a4dc637490617963535c7d5",
+      "name": "CRM property_images visibility boundary",
+      "table": "property_images",
+      "schema": "public"
+    },
+    {
+      "md5": "6faabba9dd7a2f5df86c407f87a8240c",
+      "name": "Public can read property images",
+      "table": "property_images",
+      "schema": "public"
+    },
+    {
+      "md5": "61f2d72b68fadf3ac010978b0c892280",
+      "name": "Staff can manage property images",
+      "table": "property_images",
+      "schema": "public"
+    },
+    {
+      "md5": "82106df6c24c32f12ab6af84fa74bb35",
+      "name": "CRM property_videos delete boundary",
+      "table": "property_videos",
+      "schema": "public"
+    },
+    {
+      "md5": "2b6bcb6db5dc1236209df2054cd89e0b",
+      "name": "CRM property_videos insert boundary",
+      "table": "property_videos",
+      "schema": "public"
+    },
+    {
+      "md5": "51f0ba1a28670d7abbcc9d9a08fc1565",
+      "name": "CRM property_videos update boundary",
+      "table": "property_videos",
+      "schema": "public"
+    },
+    {
+      "md5": "be12c8f6b1771e911accdf89cd5a5e6b",
+      "name": "CRM property_videos visibility boundary",
+      "table": "property_videos",
+      "schema": "public"
+    },
+    {
+      "md5": "6faabba9dd7a2f5df86c407f87a8240c",
+      "name": "Public can read property videos",
+      "table": "property_videos",
+      "schema": "public"
+    },
+    {
+      "md5": "61f2d72b68fadf3ac010978b0c892280",
+      "name": "Staff can manage property videos",
+      "table": "property_videos",
+      "schema": "public"
+    },
+    {
+      "md5": "69833a1017e318ffcae992160f9ce51f",
+      "name": "Public can create property views",
+      "table": "property_views",
+      "schema": "public"
+    },
+    {
+      "md5": "84f958cce2776262998514e44f3cc84c",
+      "name": "Staff can read property views",
+      "table": "property_views",
+      "schema": "public"
+    },
+    {
+      "md5": "e52c397b0babeb2ea3f1a2e862338556",
+      "name": "CRM proposals related client boundary",
+      "table": "proposals",
+      "schema": "public"
+    },
+    {
+      "md5": "9b4618dff114582020fc72b52b94bd69",
+      "name": "commercial manage own proposals",
+      "table": "proposals",
+      "schema": "public"
+    },
+    {
+      "md5": "bdc39502e8f88b2f75011a68779e76fb",
+      "name": "commercial read sales",
+      "table": "sales",
+      "schema": "public"
+    },
+    {
+      "md5": "8f4ca6a92bcb4d7e9bb4ab2e6a9e738a",
+      "name": "operations write sales",
+      "table": "sales",
+      "schema": "public"
+    },
+    {
+      "md5": "e14d25b77def46c173df1bc6f86eb92f",
+      "name": "Admins delete site settings",
+      "table": "site_settings",
+      "schema": "public"
+    },
+    {
+      "md5": "68a853a7fca9e89dbccaa8ce0af15d93",
+      "name": "Admins insert site settings",
+      "table": "site_settings",
+      "schema": "public"
+    },
+    {
+      "md5": "c744a01ea77cc49861a6083ca0f497c1",
+      "name": "Admins update site settings",
+      "table": "site_settings",
+      "schema": "public"
+    },
+    {
+      "md5": "6faabba9dd7a2f5df86c407f87a8240c",
+      "name": "Public can read site settings",
+      "table": "site_settings",
+      "schema": "public"
+    },
+    {
+      "md5": "b22ee025fd7c18162a28bf884c6f55fb",
+      "name": "CRM tasks",
+      "table": "tasks",
+      "schema": "public"
+    },
+    {
+      "md5": "cdaaafee7d8e5960fb797accf313dda8",
+      "name": "Admins delete roles",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "68a853a7fca9e89dbccaa8ce0af15d93",
+      "name": "Admins insert roles",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "7ec27761a6ac16ebe383968068e22ce0",
+      "name": "Admins read roles",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "c744a01ea77cc49861a6083ca0f497c1",
+      "name": "Admins update roles",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "037249e5f0e71d7193dd0ecef1d8fda1",
+      "name": "CRM role delete boundary",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "19472c61fd0c0bcc779d78ca1e2191b3",
+      "name": "CRM role insert boundary",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "b06cc94b62b84cbb59bf40c0692fd8ab",
+      "name": "Users can read own role",
+      "table": "user_roles",
+      "schema": "public"
+    },
+    {
+      "md5": "5978db404d304da9a5251453e037f15b",
+      "name": "CRM visits related client boundary",
+      "table": "visits",
+      "schema": "public"
+    },
+    {
+      "md5": "9b4618dff114582020fc72b52b94bd69",
+      "name": "commercial manage own visits",
+      "table": "visits",
+      "schema": "public"
+    },
+    {
+      "md5": "4bf61837e393061bca60af41e2178f22",
+      "name": "CRM private media read",
+      "table": "objects",
+      "schema": "storage"
+    },
+    {
+      "md5": "4386a573625b4cf4f3f7707915483566",
+      "name": "CRM private media upload",
+      "table": "objects",
+      "schema": "storage"
+    },
+    {
+      "md5": "37a84740b020982be6d335bbfaa0a0a8",
+      "name": "marketing_storage_public",
+      "table": "objects",
+      "schema": "storage"
+    },
+    {
+      "md5": "da2b7e62394d69390ae69b81bc350b0d",
+      "name": "marketing_storage_read",
+      "table": "objects",
+      "schema": "storage"
+    },
+    {
+      "md5": "4f2b39eb0fadd6d211f8269fe428855a",
+      "name": "marketing_storage_upload",
+      "table": "objects",
+      "schema": "storage"
+    }
+  ],
+  "functions": [
+    {
+      "md5": "fb63c0c6d33a7d1b95d78fb0c318058d",
+      "name": "guard_asset",
+      "schema": "crm_private",
+      "signature": ""
+    },
+    {
+      "md5": "33633973b60cefce3b3aa3aa4910c5d0",
+      "name": "guard_share",
+      "schema": "crm_private",
+      "signature": ""
+    },
+    {
+      "md5": "fc6465a79a572bc2063d4c5dd579285f",
+      "name": "public_asset",
+      "schema": "crm_private",
+      "signature": "path text"
+    },
+    {
+      "md5": "ad343a82c8cede06cb0a41ab4878a71d",
+      "name": "share_created",
+      "schema": "crm_private",
+      "signature": ""
+    },
+    {
+      "md5": "7ea0b7f4dd75a4820c2d0fdefa6f6154",
+      "name": "valid_share",
+      "schema": "crm_private",
+      "signature": "target_token uuid"
+    },
+    {
+      "md5": "f8452e4390dedff39d0afcd6c466f5ec",
+      "name": "can_manage_commercial",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "93920e26b8fb60cde2739a1d131b3430",
+      "name": "can_manage_operations",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "d4053b67feba7c6a9eff7861f4e77e99",
+      "name": "crm_assign_lead",
+      "schema": "public",
+      "signature": "target_lead bigint, target_broker uuid, assignment_reason text"
+    },
+    {
+      "md5": "d7c36db1c7757dfd604e1e568ed939c6",
+      "name": "crm_audit_change",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "5b389dcb3cd4843ff270a0ad8c5dd220",
+      "name": "crm_confirm_presentation_share",
+      "schema": "public",
+      "signature": "target_share bigint"
+    },
+    {
+      "md5": "b8e0780d78ed45b91cc7c4d856fc3ed9",
+      "name": "crm_followup_timeline",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "c9148002d93a59373a3a14ef9827250a",
+      "name": "crm_lead_timeline",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "25e9efab4b119bb4c7234ceb63796f63",
+      "name": "crm_prevent_property_delete",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "945739a2131589825ac4f85b7b057463",
+      "name": "crm_protect_broker_active",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "e3fa71c16bd81c90ef11382666ac8e5e",
+      "name": "crm_protect_property_approval",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "4425421a8ab2141f9b97a8d0b47f5fd7",
+      "name": "crm_protect_property_archive",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "a469038f59008d1addb40e0e0262745f",
+      "name": "crm_protect_property_assignment",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "55822b156a00a0592d5f4999d75fbd82",
+      "name": "crm_protect_role_changes",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "01559ff2def19819c5d5698ccaf585f7",
+      "name": "crm_public_presentation",
+      "schema": "public",
+      "signature": "target_token uuid"
+    },
+    {
+      "md5": "2233820c4a193b92a338020f604f73d8",
+      "name": "crm_read_notification",
+      "schema": "public",
+      "signature": "target_notification bigint"
+    },
+    {
+      "md5": "306b799ac0e321716481dd5c284501e0",
+      "name": "crm_record_contact",
+      "schema": "public",
+      "signature": "target_lead bigint"
+    },
+    {
+      "md5": "60db5785c8bb1db2ab9fd36b9d34bc79",
+      "name": "crm_record_presentation_open",
+      "schema": "public",
+      "signature": "target_token uuid, event_nonce uuid, consented boolean"
+    },
+    {
+      "md5": "33ec64951cb93757ae7257d6a6a36ed2",
+      "name": "crm_save_property_media",
+      "schema": "public",
+      "signature": "target_property_id bigint, image_urls text[], video_urls text[]"
+    },
+    {
+      "md5": "c00d75db057edd505e2d2ed0c6771f93",
+      "name": "crm_set_property_code",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "71a74b6511e2583a4698e329bd8b3bec",
+      "name": "crm_validate_lead_progress",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "1582b84698bf6731a8d890298f5def39",
+      "name": "crm_validate_private_media_owner",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "a61158fb845547f7fcc5732f8d740d83",
+      "name": "current_user_role",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "7e4bdc9c577b8b4da3930fca4c359eaf",
+      "name": "handle_new_auth_user",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "4fe169f0fc54c07c3afb49d7c1137fc0",
+      "name": "increment_property_view",
+      "schema": "public",
+      "signature": "target_property_id bigint, source_value text, page_path_value text"
+    },
+    {
+      "md5": "02307f50736e4a7bbbe85c7b1ca25474",
+      "name": "is_admin",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "b6c97bd6553215df0cfb8b6cd58f22d8",
+      "name": "is_privilege_admin",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "7a840e3c4112666a791382b4a045aa1b",
+      "name": "is_staff",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "7b1c8880bec09cdfe3d27ab372b89fb3",
+      "name": "protect_lead_assignment",
+      "schema": "public",
+      "signature": ""
+    },
+    {
+      "md5": "33d4f7561271020bb54e2a2b24d37d6e",
+      "name": "set_user_role",
+      "schema": "public",
+      "signature": "target_email text, new_role text"
+    },
+    {
+      "md5": "6437fcda75f6798954f98645143daf89",
+      "name": "sync_property_media_arrays",
+      "schema": "public",
+      "signature": "target_property_id bigint"
+    },
+    {
+      "md5": "3198da39f36d279e2c36edcca2e0a47a",
+      "name": "touch_updated_at",
+      "schema": "public",
+      "signature": ""
+    }
+  ]
+}

@@ -1,0 +1,2533 @@
+{
+  "project": "sdpqphiooiuglywcmkxv",
+  "date": "2026-10-19",
+  "source_commit": "7264db615d72f9fcfd8df6d8ad03053bb0ab132f",
+  "authorization": "User explicitly authorized the five migrations only; no Auth account/role edits or preview publication.",
+  "preflight": {
+    "function_drift": 0,
+    "policy_drift": 0,
+    "functions": 36,
+    "policies": 107,
+    "prior_migration_count": 11
+  },
+  "applied_migrations": [
+    {
+      "version": "20261019165011",
+      "name": "crm_private_portfolios_and_transfers",
+      "statement_count": 1,
+      "stored_sql_md5": "1982c573bde56c71f8c0938bd5755fd2"
+    },
+    {
+      "version": "20261019165034",
+      "name": "crm_management_aggregates",
+      "statement_count": 1,
+      "stored_sql_md5": "ed4404e8edfccd119fd742a5130677c0"
+    },
+    {
+      "version": "20261019165057",
+      "name": "crm_commercial_sale_ownership",
+      "statement_count": 1,
+      "stored_sql_md5": "b5e9f1b605facb52f75ca89328757234"
+    },
+    {
+      "version": "20261019165119",
+      "name": "crm_property_review_notifications",
+      "statement_count": 1,
+      "stored_sql_md5": "d0cce9c383b5749ffa10003f95d81518"
+    },
+    {
+      "version": "20261019170348",
+      "name": "crm_approved_marketing_audience",
+      "statement_count": 1,
+      "stored_sql_md5": "300bb1e220774b704e762d7649dc89da"
+    }
+  ],
+  "preservation": {
+    "tables": 40,
+    "changed": [],
+    "counts": [
+      {
+        "table": "crm_contact_links",
+        "records": 2
+      },
+      {
+        "table": "property_views",
+        "records": 0
+      },
+      {
+        "table": "cities",
+        "records": 0
+      },
+      {
+        "table": "property_comparisons",
+        "records": 0
+      },
+      {
+        "table": "property_images",
+        "records": 20
+      },
+      {
+        "table": "property_favorites",
+        "records": 0
+      },
+      {
+        "table": "property_categories",
+        "records": 0
+      },
+      {
+        "table": "property_videos",
+        "records": 0
+      },
+      {
+        "table": "neighborhoods",
+        "records": 0
+      },
+      {
+        "table": "site_settings",
+        "records": 0
+      },
+      {
+        "table": "brokers",
+        "records": 2
+      },
+      {
+        "table": "user_roles",
+        "records": 4
+      },
+      {
+        "table": "properties",
+        "records": 2
+      },
+      {
+        "table": "organizations",
+        "records": 1
+      },
+      {
+        "table": "tasks",
+        "records": 1
+      },
+      {
+        "table": "visits",
+        "records": 1
+      },
+      {
+        "table": "proposals",
+        "records": 2
+      },
+      {
+        "table": "negotiations",
+        "records": 2
+      },
+      {
+        "table": "sales",
+        "records": 1
+      },
+      {
+        "table": "notifications",
+        "records": 0
+      },
+      {
+        "table": "lead_activities",
+        "records": 14
+      },
+      {
+        "table": "clients",
+        "records": 4
+      },
+      {
+        "table": "audit_logs",
+        "records": 58
+      },
+      {
+        "table": "leads",
+        "records": 4
+      },
+      {
+        "table": "lead_assignments",
+        "records": 0
+      },
+      {
+        "table": "property_code_registry",
+        "records": 2
+      },
+      {
+        "table": "developers",
+        "records": 0
+      },
+      {
+        "table": "developments",
+        "records": 0
+      },
+      {
+        "table": "development_units",
+        "records": 0
+      },
+      {
+        "table": "marketing_assets",
+        "records": 3
+      },
+      {
+        "table": "asset_versions",
+        "records": 3
+      },
+      {
+        "table": "asset_relations",
+        "records": 1
+      },
+      {
+        "table": "marketing_collections",
+        "records": 0
+      },
+      {
+        "table": "marketing_collection_items",
+        "records": 0
+      },
+      {
+        "table": "marketing_favorites",
+        "records": 0
+      },
+      {
+        "table": "marketing_shares",
+        "records": 2
+      },
+      {
+        "table": "crm_automation_preferences",
+        "records": 0
+      },
+      {
+        "table": "asset_imports",
+        "records": 4
+      },
+      {
+        "table": "marketing_share_events",
+        "records": 2
+      },
+      {
+        "table": "crm_event_log",
+        "records": 3
+      }
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "admin",
+      "auth_uid": "84c5604b-d728-4759-8572-ea4a832af9ce",
+      "resolved_role": "admin",
+      "can_approve": true,
+      "eligible_active_brokers": 2,
+      "leads_visible": 1,
+      "personal_leads_of_other_users": 0,
+      "company_queue_visible": 1,
+      "clients_visible": 0,
+      "clients_of_other_users": 0,
+      "marketing_visible": 0
+    },
+    {
+      "profile": "manager",
+      "auth_uid": "0d92c58c-d6f0-4465-95e1-303e7d9f9a69",
+      "resolved_role": "manager",
+      "can_approve": true,
+      "eligible_active_brokers": 2,
+      "leads_visible": 1,
+      "personal_leads_of_other_users": 0,
+      "company_queue_visible": 1,
+      "clients_visible": 1,
+      "clients_of_other_users": 0,
+      "marketing_visible": 3
+    },
+    {
+      "profile": "broker_a",
+      "auth_uid": "73a767b8-218d-4910-a370-2b93cf32bf74",
+      "resolved_role": "broker",
+      "can_approve": false,
+      "eligible_active_brokers": 2,
+      "leads_visible": 1,
+      "personal_leads_of_other_users": 0,
+      "company_queue_visible": 0,
+      "clients_visible": 1,
+      "clients_of_other_users": 0,
+      "marketing_visible": 0
+    },
+    {
+      "profile": "broker_b",
+      "auth_uid": "779c7220-06dd-4180-8b52-05136bee21cb",
+      "resolved_role": "broker",
+      "can_approve": false,
+      "eligible_active_brokers": 2,
+      "leads_visible": 2,
+      "personal_leads_of_other_users": 0,
+      "company_queue_visible": 0,
+      "clients_visible": 2,
+      "clients_of_other_users": 0,
+      "marketing_visible": 0
+    }
+  ],
+  "related_data": [
+    {
+      "profile": "admin",
+      "eligible_directory_count": 2,
+      "foreign_tasks": 0,
+      "foreign_visits": 0,
+      "foreign_proposals": 0,
+      "foreign_sales": 0,
+      "foreign_shares": 0,
+      "foreign_notifications": 0,
+      "team_lead_count": 4
+    },
+    {
+      "profile": "manager",
+      "eligible_directory_count": 2,
+      "foreign_tasks": 0,
+      "foreign_visits": 0,
+      "foreign_proposals": 0,
+      "foreign_sales": 0,
+      "foreign_shares": 0,
+      "foreign_notifications": 0,
+      "team_lead_count": 4
+    },
+    {
+      "profile": "broker_a",
+      "eligible_directory_count": 1,
+      "foreign_tasks": 0,
+      "foreign_visits": 0,
+      "foreign_proposals": 0,
+      "foreign_sales": 0,
+      "foreign_shares": 0,
+      "foreign_notifications": 0,
+      "team_lead_count": null
+    },
+    {
+      "profile": "broker_b",
+      "eligible_directory_count": 1,
+      "foreign_tasks": 0,
+      "foreign_visits": 0,
+      "foreign_proposals": 0,
+      "foreign_sales": 0,
+      "foreign_shares": 0,
+      "foreign_notifications": 0,
+      "team_lead_count": null
+    }
+  ],
+  "security_advisors": {
+    "lints": [
+      {
+        "name": "rls_enabled_no_policy",
+        "title": "RLS Enabled No Policy",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+        "count": 1,
+        "findings": [
+          {
+            "detail": "Table \\`public.property_code_registry\\` has RLS enabled, but no policies exist",
+            "metadata": {
+              "name": "property_code_registry",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          }
+        ]
+      },
+      {
+        "name": "anon_security_definer_function_executable",
+        "title": "Public Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable without signing in. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if it is not meant to be public.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+        "count": 16,
+        "findings": [
+          {
+            "detail": "Function `public.can_manage_commercial()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_commercial`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "can_manage_commercial",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.can_manage_operations()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_operations`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "can_manage_operations",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_audit_change()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_audit_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_audit_change",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_followup_timeline()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_followup_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_followup_timeline",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_lead_timeline()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_lead_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_lead_timeline",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_public_presentation(target_token uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_public_presentation`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_public_presentation",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "target_token uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_record_presentation_open(target_token uuid, event_nonce uuid, consented boolean)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_record_presentation_open`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_record_presentation_open",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_set_property_code()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_set_property_code`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_set_property_code",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.current_user_role()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "current_user_role",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.handle_new_auth_user()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/handle_new_auth_user`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "handle_new_auth_user",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.increment_property_view(target_property_id bigint, source_value text, page_path_value text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/increment_property_view`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "increment_property_view",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_property_id bigint, source_value text, page_path_value text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.is_admin()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.is_privilege_admin()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_privilege_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_privilege_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.is_staff()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_staff`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_staff",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.set_user_role(target_email text, new_role text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/set_user_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "set_user_role",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_email text, new_role text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.sync_property_media_arrays(target_property_id bigint)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/sync_property_media_arrays`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "sync_property_media_arrays",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_property_id bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          }
+        ]
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Detects `SECURITY DEFINER` functions that are callable by signed-in users. Revoke `EXECUTE`, switch the function to `SECURITY INVOKER`, or move it out of your exposed API schema if signed-in users should not call it.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "count": 32,
+        "findings": [
+          {
+            "detail": "Function `public.can_manage_commercial()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_commercial`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "can_manage_commercial",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.can_manage_operations()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/can_manage_operations`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "can_manage_operations",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_accept_lead_transfer(target_request bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_accept_lead_transfer`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_accept_lead_transfer",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_request bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_archive_client(target_client bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_archive_client`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_archive_client",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_client bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_archive_lead(target_lead bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_archive_lead`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_archive_lead",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_lead bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_assign_lead(target_lead bigint, target_broker uuid, assignment_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_assign_lead`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_assign_lead",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_lead bigint, target_broker uuid, assignment_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_audit_change()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_audit_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_audit_change",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_confirm_presentation_share(target_share bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_confirm_presentation_share`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_confirm_presentation_share",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_share bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_eligible_brokers()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_eligible_brokers`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_eligible_brokers",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_followup_timeline()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_followup_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_followup_timeline",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_lead_timeline()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_lead_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_lead_timeline",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_management_metrics(period_days integer)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_management_metrics`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_management_metrics",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "period_days integer",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_public_presentation(target_token uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_public_presentation`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_public_presentation",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "target_token uuid",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_read_notification(target_notification bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_read_notification`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_read_notification",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_notification bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_record_contact(target_lead bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_record_contact`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_record_contact",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_lead bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_record_presentation_open(target_token uuid, event_nonce uuid, consented boolean)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_record_presentation_open`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_record_presentation_open",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_request_lead_transfer(target_lead bigint, target_broker uuid, transfer_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_request_lead_transfer`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_request_lead_transfer",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_lead bigint, target_broker uuid, transfer_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_restore_client(target_client bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_restore_client`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_restore_client",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_client bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_restore_lead(target_lead bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_restore_lead`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_restore_lead",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_lead bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_review_sale(target_sale bigint, expected_revision integer, decision text, review_reason text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_review_sale`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_review_sale",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_sale bigint, expected_revision integer, decision text, review_reason text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_sale_review_queue()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_sale_review_queue`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_sale_review_queue",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_set_asset_audience(target_asset bigint, new_audience text, recipients uuid[])` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_set_asset_audience`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_set_asset_audience",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_asset bigint, new_audience text, recipients uuid[]",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_set_property_code()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_set_property_code`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_set_property_code",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.crm_transfer_candidates()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_transfer_candidates`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_transfer_candidates",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.current_user_role()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/current_user_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "current_user_role",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.handle_new_auth_user()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/handle_new_auth_user`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "handle_new_auth_user",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.increment_property_view(target_property_id bigint, source_value text, page_path_value text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/increment_property_view`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "increment_property_view",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_property_id bigint, source_value text, page_path_value text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.is_admin()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.is_privilege_admin()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_privilege_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_privilege_admin",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.is_staff()` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_staff`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "is_staff",
+              "schema": "public",
+              "language": "sql",
+              "arguments": "",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.set_user_role(target_email text, new_role text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/set_user_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "set_user_role",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_email text, new_role text",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          },
+          {
+            "detail": "Function `public.sync_property_media_arrays(target_property_id bigint)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/sync_property_media_arrays`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "sync_property_media_arrays",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_property_id bigint",
+              "security_definer": true
+            },
+            "observed_at": "2026-10-19T17:04:00.834Z"
+          }
+        ]
+      },
+      {
+        "name": "auth_leaked_password_protection",
+        "title": "Leaked Password Protection Disabled",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "SECURITY"
+        ],
+        "description": "Leaked password protection is currently disabled.",
+        "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+        "count": 1,
+        "findings": [
+          {
+            "detail": "Supabase Auth prevents the use of compromised passwords by checking against HaveIBeenPwned.org. Enable this feature to enhance security.",
+            "metadata": {
+              "type": "auth",
+              "entity": "Auth"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "performance_advisors": {
+    "lints": [
+      {
+        "name": "unindexed_foreign_keys",
+        "title": "Unindexed foreign keys",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "PERFORMANCE"
+        ],
+        "description": "Identifies foreign key constraints without a covering index, which can impact database performance.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+        "count": 39,
+        "findings": [
+          {
+            "detail": "Table \\`public.asset_imports\\` has a foreign key \\`asset_imports_asset_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "asset_imports",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "asset_imports_asset_id_fkey",
+              "fkey_columns": [
+                5
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.asset_imports\\` has a foreign key \\`asset_imports_owner_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "asset_imports",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "asset_imports_owner_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.audit_logs\\` has a foreign key \\`audit_logs_actor_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "audit_logs",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "audit_logs_actor_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.clients\\` has a foreign key \\`clients_organization_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "clients_organization_id_fkey",
+              "fkey_columns": [
+                9
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.crm_event_log\\` has a foreign key \\`crm_event_log_owner_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "crm_event_log",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "crm_event_log_owner_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_activities\\` has a foreign key \\`lead_activities_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_activities",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_activities_user_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_assignments\\` has a foreign key \\`lead_assignments_assigned_by_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_assignments",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_assignments_assigned_by_fkey",
+              "fkey_columns": [
+                5
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_assignments\\` has a foreign key \\`lead_assignments_broker_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_assignments",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_assignments_broker_id_fkey",
+              "fkey_columns": [
+                4
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_assignments\\` has a foreign key \\`lead_assignments_lead_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_assignments",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_assignments_lead_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_assignments\\` has a foreign key \\`lead_assignments_previous_broker_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_assignments",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_assignments_previous_broker_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_transfer_requests\\` has a foreign key \\`lead_transfer_requests_from_user_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_transfer_requests",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_transfer_requests_from_user_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_transfer_requests\\` has a foreign key \\`lead_transfer_requests_to_user_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "lead_transfer_requests",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "lead_transfer_requests_to_user_fkey",
+              "fkey_columns": [
+                4
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_asset_recipients\\` has a foreign key \\`marketing_asset_recipients_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_asset_recipients",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_asset_recipients_user_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_assets\\` has a foreign key \\`marketing_current_version_fk\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_assets",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_current_version_fk",
+              "fkey_columns": [
+                12
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_collection_items\\` has a foreign key \\`marketing_collection_items_asset_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_collection_items",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_collection_items_asset_id_fkey",
+              "fkey_columns": [
+                4
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_collection_items\\` has a foreign key \\`marketing_collection_items_property_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_collection_items",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_collection_items_property_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_collections\\` has a foreign key \\`marketing_collections_owner_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_collections",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_collections_owner_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_favorites\\` has a foreign key \\`marketing_favorites_asset_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_favorites",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_favorites_asset_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_shares\\` has a foreign key \\`marketing_shares_client_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_shares_client_id_fkey",
+              "fkey_columns": [
+                5
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_shares\\` has a foreign key \\`marketing_shares_collection_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "marketing_shares_collection_id_fkey",
+              "fkey_columns": [
+                6
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a foreign key \\`properties_approved_by_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "properties_approved_by_fkey",
+              "fkey_columns": [
+                44
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a foreign key \\`properties_broker_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "properties_broker_id_fkey",
+              "fkey_columns": [
+                17
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a foreign key \\`properties_organization_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "properties_organization_id_fkey",
+              "fkey_columns": [
+                54
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a foreign key \\`properties_submitted_by_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "properties_submitted_by_fkey",
+              "fkey_columns": [
+                43
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_comparisons\\` has a foreign key \\`property_comparisons_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "property_comparisons",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "property_comparisons_user_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_favorites\\` has a foreign key \\`property_favorites_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "property_favorites",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "property_favorites_user_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_views\\` has a foreign key \\`property_views_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "property_views",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "property_views_user_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.proposals\\` has a foreign key \\`proposals_client_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "proposals",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "proposals_client_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sale_confirmations\\` has a foreign key \\`sale_confirmations_reviewed_by_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "sale_confirmations",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "sale_confirmations_reviewed_by_fkey",
+              "fkey_columns": [
+                4
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a foreign key \\`sales_broker_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "sales_broker_id_fkey",
+              "fkey_columns": [
+                4
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a foreign key \\`sales_client_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "sales_client_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a foreign key \\`sales_property_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "sales_property_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a foreign key \\`sales_recorded_by_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "sales_recorded_by_fkey",
+              "fkey_columns": [
+                8
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.tasks\\` has a foreign key \\`tasks_client_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "tasks",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "tasks_client_id_fkey",
+              "fkey_columns": [
+                6
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.tasks\\` has a foreign key \\`tasks_lead_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "tasks",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "tasks_lead_id_fkey",
+              "fkey_columns": [
+                5
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.tasks\\` has a foreign key \\`tasks_organization_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "tasks",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "tasks_organization_id_fkey",
+              "fkey_columns": [
+                11
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.tasks\\` has a foreign key \\`tasks_property_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "tasks",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "tasks_property_id_fkey",
+              "fkey_columns": [
+                7
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.visits\\` has a foreign key \\`visits_client_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "visits",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "visits_client_id_fkey",
+              "fkey_columns": [
+                2
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.visits\\` has a foreign key \\`visits_property_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+            "metadata": {
+              "name": "visits",
+              "type": "table",
+              "schema": "public",
+              "fkey_name": "visits_property_id_fkey",
+              "fkey_columns": [
+                3
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          }
+        ]
+      },
+      {
+        "name": "auth_rls_initplan",
+        "title": "Auth RLS Initialization Plan",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "PERFORMANCE"
+        ],
+        "description": "Detects if calls to \\`current_setting()\\` and \\`auth.<function>()\\` in RLS policies are being unnecessarily re-evaluated for each row",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan",
+        "count": 68,
+        "findings": [
+          {
+            "detail": "Table \\`public.brokers\\` has a row level security policy \\`Admins and owners insert brokers\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "brokers",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.brokers\\` has a row level security policy \\`Admins and owners update brokers\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "brokers",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.user_roles\\` has a row level security policy \\`Admins delete roles\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "user_roles",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_comparisons\\` has a row level security policy \\`Public can create comparisons\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_comparisons",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.brokers\\` has a row level security policy \\`CRM read own broker\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "brokers",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_favorites\\` has a row level security policy \\`Public can create favorites\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_favorites",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`Staff can read leads\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`Staff can update allowed properties\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`Staff can update leads\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_comparisons\\` has a row level security policy \\`Users can delete own comparisons\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_comparisons",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_favorites\\` has a row level security policy \\`Users can delete own favorites\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_favorites",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_comparisons\\` has a row level security policy \\`Users can read own comparisons and staff can read all\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_comparisons",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_favorites\\` has a row level security policy \\`Users can read own favorites and staff can read all\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_favorites",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.user_roles\\` has a row level security policy \\`Users can read own role\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "user_roles",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.clients\\` has a row level security policy \\`commercial read clients\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.clients\\` has a row level security policy \\`commercial write clients\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_activities\\` has a row level security policy \\`commercial write lead activities\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "lead_activities",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.visits\\` has a row level security policy \\`commercial manage own visits\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "visits",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.proposals\\` has a row level security policy \\`commercial manage own proposals\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "proposals",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a row level security policy \\`commercial read sales\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`CRM read own leads\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`CRM update own leads\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.tasks\\` has a row level security policy \\`CRM tasks\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "tasks",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.notifications\\` has a row level security policy \\`users read own notifications\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "notifications",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`CRM property insert boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`CRM property update boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`CRM properties read\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`CRM properties insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`CRM properties update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has a row level security policy \\`CRM publication boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`CRM lead insert boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_images\\` has a row level security policy \\`CRM property_images insert boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_images",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_images\\` has a row level security policy \\`CRM property_images update boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_images",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_images\\` has a row level security policy \\`CRM property_images delete boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_images",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_videos\\` has a row level security policy \\`CRM property_videos insert boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_videos",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_videos\\` has a row level security policy \\`CRM property_videos update boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_videos",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_videos\\` has a row level security policy \\`CRM property_videos delete boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "property_videos",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.crm_contact_links\\` has a row level security policy \\`CRM contact relationships\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "crm_contact_links",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_assets\\` has a row level security policy \\`assets_read\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_assets",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_assets\\` has a row level security policy \\`assets_insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_assets",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_assets\\` has a row level security policy \\`assets_update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_assets",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.asset_versions\\` has a row level security policy \\`versions_insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "asset_versions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.asset_relations\\` has a row level security policy \\`relations_write\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "asset_relations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_collections\\` has a row level security policy \\`collections_owner\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_collections",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_favorites\\` has a row level security policy \\`favorites_owner\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_favorites",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_shares\\` has a row level security policy \\`shares_read\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_shares\\` has a row level security policy \\`shares_insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_shares\\` has a row level security policy \\`shares_update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.crm_automation_preferences\\` has a row level security policy \\`automation_owner\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "crm_automation_preferences",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.crm_event_log\\` has a row level security policy \\`event_log_read\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "crm_event_log",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.asset_imports\\` has a row level security policy \\`imports_owner\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "asset_imports",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`CRM lead read boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has a row level security policy \\`CRM lead update boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.clients\\` has a row level security policy \\`crm_client_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.tasks\\` has a row level security policy \\`crm_task_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "tasks",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.visits\\` has a row level security policy \\`crm_visit_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "visits",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.proposals\\` has a row level security policy \\`crm_proposal_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "proposals",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a row level security policy \\`crm_sale_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.notifications\\` has a row level security policy \\`crm_notification_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "notifications",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_shares\\` has a row level security policy \\`crm_share_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.crm_event_log\\` has a row level security policy \\`crm_event_private_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "crm_event_log",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.lead_transfer_requests\\` has a row level security policy \\`crm_transfer_participants\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "lead_transfer_requests",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has a row level security policy \\`crm_broker_register_sale\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sale_confirmations\\` has a row level security policy \\`crm_sale_confirmation_owner\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "sale_confirmations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_asset_recipients\\` has a row level security policy \\`crm_asset_recipient_read\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_asset_recipients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_assets\\` has a row level security policy \\`crm_asset_audience_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_assets",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.marketing_assets\\` has a row level security policy \\`crm_asset_change_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "marketing_assets",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.asset_versions\\` has a row level security policy \\`crm_version_audience_boundary\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+            "metadata": {
+              "name": "asset_versions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          }
+        ]
+      },
+      {
+        "name": "unused_index",
+        "title": "Unused Index",
+        "level": "INFO",
+        "facing": "EXTERNAL",
+        "categories": [
+          "PERFORMANCE"
+        ],
+        "description": "Detects if an index has never been used and may be a candidate for removal.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+        "count": 22,
+        "findings": [
+          {
+            "detail": "Index \\`crm_contact_links_lead_idx\\` on table \\`public.crm_contact_links\\` has not been used",
+            "metadata": {
+              "name": "crm_contact_links",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`cities_slug_idx\\` on table \\`public.cities\\` has not been used",
+            "metadata": {
+              "name": "cities",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`leads_created_at_idx\\` on table \\`public.leads\\` has not been used",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`leads_status_idx\\` on table \\`public.leads\\` has not been used",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`neighborhoods_slug_idx\\` on table \\`public.neighborhoods\\` has not been used",
+            "metadata": {
+              "name": "neighborhoods",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_category_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_city_slug_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_created_at_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_neighborhood_slug_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_owner_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_slug_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`properties_view_count_idx\\` on table \\`public.properties\\` has not been used",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`property_categories_slug_idx\\` on table \\`public.property_categories\\` has not been used",
+            "metadata": {
+              "name": "property_categories",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`clients_phone_idx\\` on table \\`public.clients\\` has not been used",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`clients_email_idx\\` on table \\`public.clients\\` has not been used",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`visits_scheduled_at_idx\\` on table \\`public.visits\\` has not been used",
+            "metadata": {
+              "name": "visits",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`asset_versions_asset_idx\\` on table \\`public.asset_versions\\` has not been used",
+            "metadata": {
+              "name": "asset_versions",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`asset_relations_development_idx\\` on table \\`public.asset_relations\\` has not been used",
+            "metadata": {
+              "name": "asset_relations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`marketing_shares_lead_idx\\` on table \\`public.marketing_shares\\` has not been used",
+            "metadata": {
+              "name": "marketing_shares",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`developments_developer_idx\\` on table \\`public.developments\\` has not been used",
+            "metadata": {
+              "name": "developments",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`development_units_development_idx\\` on table \\`public.development_units\\` has not been used",
+            "metadata": {
+              "name": "development_units",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Index \\`collection_items_collection_idx\\` on table \\`public.marketing_collection_items\\` has not been used",
+            "metadata": {
+              "name": "marketing_collection_items",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          }
+        ]
+      },
+      {
+        "name": "multiple_permissive_policies",
+        "title": "Multiple Permissive Policies",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "PERFORMANCE"
+        ],
+        "description": "Detects if multiple permissive row level security policies are present on a table for the same \\`role\\` and \\`action\\` (e.g. insert). Multiple permissive policies are suboptimal for performance as each policy must be executed for every relevant query.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies",
+        "count": 23,
+        "findings": [
+          {
+            "detail": "Table \\`public.asset_relations\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{relations_read,relations_write}\\`",
+            "metadata": {
+              "name": "asset_relations",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.brokers\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"CRM read own broker\",\"Public can read active brokers\"}\\`",
+            "metadata": {
+              "name": "brokers",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.cities\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"Admins manage cities\",\"Public can read cities\"}\\`",
+            "metadata": {
+              "name": "cities",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.clients\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"commercial read clients\",\"commercial write clients\"}\\`",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.developers\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{developers_read,developers_write}\\`",
+            "metadata": {
+              "name": "developers",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.development_units\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{units_read,units_write}\\`",
+            "metadata": {
+              "name": "development_units",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.developments\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{developments_read,developments_write}\\`",
+            "metadata": {
+              "name": "developments",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"CRM read own leads\",\"Staff can read leads\"}\\`",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.leads\\` has multiple permissive policies for role \\`authenticated\\` for action \\`UPDATE\\`. Policies include \\`{\"CRM update own leads\",\"Staff can update leads\"}\\`",
+            "metadata": {
+              "name": "leads",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.neighborhoods\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"Admins manage neighborhoods\",\"Public can read neighborhoods\"}\\`",
+            "metadata": {
+              "name": "neighborhoods",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.notifications\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"operations write notifications\",\"users read own notifications\"}\\`",
+            "metadata": {
+              "name": "notifications",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has multiple permissive policies for role \\`anon\\` for action \\`SELECT\\`. Policies include \\`{\"CRM properties read\",\"Public can read published properties\"}\\`",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has multiple permissive policies for role \\`authenticated\\` for action \\`INSERT\\`. Policies include \\`{\"CRM properties insert\",\"Staff can create properties\"}\\`",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"CRM properties read\",\"Public can read published properties\"}\\`",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.properties\\` has multiple permissive policies for role \\`authenticated\\` for action \\`UPDATE\\`. Policies include \\`{\"CRM properties update\",\"Staff can update allowed properties\"}\\`",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_categories\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"Admins manage categories\",\"Public can read categories\"}\\`",
+            "metadata": {
+              "name": "property_categories",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_images\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"Public can read property images\",\"Staff can manage property images\"}\\`",
+            "metadata": {
+              "name": "property_images",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.property_videos\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"Public can read property videos\",\"Staff can manage property videos\"}\\`",
+            "metadata": {
+              "name": "property_videos",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has multiple permissive policies for role \\`authenticated\\` for action \\`DELETE\\`. Policies include \\`{crm_broker_register_sale,\"operations write sales\"}\\`",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has multiple permissive policies for role \\`authenticated\\` for action \\`INSERT\\`. Policies include \\`{crm_broker_register_sale,\"operations write sales\"}\\`",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"commercial read sales\",crm_broker_register_sale,\"operations write sales\"}\\`",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.sales\\` has multiple permissive policies for role \\`authenticated\\` for action \\`UPDATE\\`. Policies include \\`{crm_broker_register_sale,\"operations write sales\"}\\`",
+            "metadata": {
+              "name": "sales",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          },
+          {
+            "detail": "Table \\`public.user_roles\\` has multiple permissive policies for role \\`authenticated\\` for action \\`SELECT\\`. Policies include \\`{\"Admins read roles\",\"Users can read own role\"}\\`",
+            "metadata": {
+              "name": "user_roles",
+              "type": "table",
+              "schema": "public"
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          }
+        ]
+      },
+      {
+        "name": "duplicate_index",
+        "title": "Duplicate Index",
+        "level": "WARN",
+        "facing": "EXTERNAL",
+        "categories": [
+          "PERFORMANCE"
+        ],
+        "description": "Detects cases where two ore more identical indexes exist.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index",
+        "count": 1,
+        "findings": [
+          {
+            "detail": "Table \\`public.properties\\` has identical indexes {properties_slug_key,properties_slug_unique_idx}. Drop all except one of them",
+            "metadata": {
+              "name": "properties",
+              "type": "table",
+              "schema": "public",
+              "indexes": [
+                "properties_slug_key",
+                "properties_slug_unique_idx"
+              ]
+            },
+            "observed_at": "2026-10-19T17:06:41.085Z"
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "Read-only SET ROLE and synthetic claims on real staging do not authenticate as the four users.",
+    "No staging business fixtures were inserted/updated/deleted.",
+    "Full local data export was blocked by automatic approval review and not performed.",
+    "M5 connector requestState expired before execution; history and schema absence verified, then exactly one successful application.",
+    "No preview deployment, no production/main changes."
+  ]
+}

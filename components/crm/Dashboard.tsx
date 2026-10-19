@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { ManagementOverview } from "./ManagementOverview";
 import { useState } from "react";
 import {
   ArrowUpRight,
@@ -26,7 +27,8 @@ import { supabase } from "@/lib/supabase";
 export function Dashboard() {
   const { data, userId, operations, loading, busy, run } = useWorkspace();
   const [scope, setScope] = useState("team");
-  const mine = !operations || scope === "mine";
+  if (operations && scope === "team") return <ManagementOverview onPersonal={() => setScope("mine")} />;
+  const mine = true;
   const leads = data.leads.filter((l) => !mine || l.broker_id === userId);
   const properties = data.properties.filter(
     (p) => !mine || p.broker_id === userId || p.owner_id === userId,

@@ -2,6 +2,7 @@ import type { BaseRow, CrmProperty } from "./model";
 export interface Asset extends BaseRow {
   owner_id: string;
   scope: string;
+  audience?: "owner" | "team" | "selected";
   title: string;
   category: string;
   tags: string[];
@@ -109,6 +110,8 @@ export const eligibleProperty = (p: CrmProperty) =>
   ["aprovado", "publicado"].includes(p.workflow_status) &&
   ["ativo", "reservado", "vendido", "alugado"].includes(p.status || "");
 export const approvedAsset = (a: Asset, now = Date.now()) =>
+  a.scope === "institutional" &&
+  a.audience === "team" &&
   a.status === "aprovado" &&
   a.visibility === "public" &&
   !!a.current_version_id &&

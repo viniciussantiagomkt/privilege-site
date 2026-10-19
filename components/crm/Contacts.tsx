@@ -292,12 +292,7 @@ export function Contacts() {
                 if (
                   await ctx.run(
                     () =>
-                      supabase
-                        .from("clients")
-                        .update({ deleted_at: new Date().toISOString() })
-                        .eq("id", archive.id)
-                        .select("id")
-                        .single(),
+                      supabase.rpc("crm_archive_client", { target_client: archive.id }),
                     "Contato arquivado.",
                   )
                 )

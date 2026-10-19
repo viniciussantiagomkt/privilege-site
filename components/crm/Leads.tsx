@@ -11,6 +11,7 @@ import {
   CheckCheck,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { LeadTransfer, TransferInbox } from "./LeadTransfer";
 import { ShareComposer } from "./ShareComposer";
 import { useWorkspace } from "./Workspace";
 import {
@@ -80,6 +81,7 @@ export function Leads() {
     );
   }
   const fields: Field[] = [
+    ...(ctx.operations ? [{ name: "portfolio", label: "Destino", value: "company", options: [{ value: "company", label: "Fila institucional" }, { value: "personal", label: "Minha carteira pessoal" }] }] : []),
     { name: "name", label: "Nome do lead", required: true },
     { name: "phone", label: "WhatsApp", type: "tel", required: true },
     { name: "email", label: "E-mail", type: "email" },
@@ -177,6 +179,7 @@ export function Leads() {
           </button>
         </div>
       </div>
+      <TransferInbox />
       <SectionState tables={["leads", "brokers"]}>
         {view === "kanban" ? (
           <div className="crm-kanban">
@@ -341,8 +344,8 @@ export function Leads() {
                       source: text(f, "source"),
                       message: optional(f, "message"),
                       property_id: numberId(f, "property_id"),
-                      broker_id: ctx.userId,
-                      origin_type: "personal",
+                      broker_id: ctx.operations && text(f, "portfolio") === "company" ? null : ctx.userId,
+                      origin_type: ctx.operations && text(f, "portfolio") === "company" ? "company" : "personal",
                     })
                     .select("id")
                     .single(),
@@ -386,6 +389,7 @@ export function Leads() {
       )}
       {selected && ctx.data.leads.find((l) => l.id === selected) && (
         <LeadDetail
+          key={selected}
           onShare={() => {
             setShareLead(selected);
             setSelected(null);
@@ -412,6 +416,7 @@ function LeadDetail({
   const [note, setNote] = useState("");
   const [form, setForm] = useState("");
   const [edit, setEdit] = useState(false);
+  const [transfer, setTransfer] = useState(false);
   useEffect(() => {
     let active = true;
     async function load() {
@@ -421,7 +426,7 @@ function LeadDetail({
         .eq("lead_id", lead.id)
         .order("created_at", { ascending: false });
       if (!active) return;
-      if (error) setHistoryError(error.message);
+      if (error) { setHistoryError(error.message); setActivities([]); }
       else {
         setHistoryError("");
         setActivities(data || []);
@@ -558,7 +563,7 @@ function LeadDetail({
           <CalendarPlus size={15} />
           Agendar retorno
         </Button>
-        {ctx.operations && (
+        {ctx.operations && lead.origin_type === "company" && (
           <Button
             secondary
             onClick={() => setForm(form === "assign" ? "" : "assign")}
@@ -566,10 +571,13 @@ function LeadDetail({
             Atribuir corretor
           </Button>
         )}
+        {lead.broker_id === ctx.userId && <Button secondary disabled={ctx.busy} onClick={async () => { if (await ctx.run(() => supabase.rpc("crm_archive_lead", { target_lead: lead.id }), "Lead arquivado.")) onClose(); }}>Arquivar lead</Button>}
         <Button secondary onClick={() => setEdit(!edit)}>
           Editar dados
         </Button>
       </div>
+      {lead.broker_id === ctx.userId && lead.origin_type === "personal" && <Button secondary onClick={() => setTransfer(!transfer)}>Solicitar transferência</Button>}
+      {transfer && lead.broker_id === ctx.userId && lead.origin_type === "personal" && <LeadTransfer leadId={lead.id} onDone={() => setTransfer(false)} />}
       {edit && (
         <EntityForm
           fields={[

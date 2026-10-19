@@ -1,0 +1,483 @@
+{
+  "date": "2026-10-19",
+  "project": "sdpqphiooiuglywcmkxv",
+  "baseCommit": "6ccddf5a0bd84d376ccb8f5c4f9c1c4a7ee78cda",
+  "branch": "work/crm-integration-security-diagnosis-20261019",
+  "mode": "read-only database inspection, no inserts/updates/deletes/schema/account changes",
+  "migrations": 11,
+  "publicRlsTables": 40,
+  "policyCount": 107,
+  "functionCount": 36,
+  "views": 4,
+  "viewsUseSecurityInvoker": true,
+  "roleResolution": [
+    {
+      "profile": "admin",
+      "auth_uid": "84c5604b-d728-4759-8572-ea4a832af9ce",
+      "resolved_role": "admin",
+      "can_approve": true,
+      "eligible_active_brokers": 2,
+      "leads_visible": 4,
+      "personal_leads_of_other_users": 3,
+      "company_queue_visible": 1,
+      "clients_visible": 4,
+      "clients_of_other_users": 4,
+      "marketing_visible": 3,
+      "can_call_assign_rpc": true,
+      "has_insert_clients": true,
+      "has_insert_sales": true
+    },
+    {
+      "profile": "manager",
+      "auth_uid": "0d92c58c-d6f0-4465-95e1-303e7d9f9a69",
+      "resolved_role": "manager",
+      "can_approve": true,
+      "eligible_active_brokers": 2,
+      "leads_visible": 4,
+      "personal_leads_of_other_users": 3,
+      "company_queue_visible": 1,
+      "clients_visible": 4,
+      "clients_of_other_users": 3,
+      "marketing_visible": 3,
+      "can_call_assign_rpc": true,
+      "has_insert_clients": true,
+      "has_insert_sales": true
+    },
+    {
+      "profile": "broker_a",
+      "auth_uid": "73a767b8-218d-4910-a370-2b93cf32bf74",
+      "resolved_role": "broker",
+      "can_approve": false,
+      "eligible_active_brokers": 2,
+      "leads_visible": 1,
+      "personal_leads_of_other_users": 0,
+      "company_queue_visible": 0,
+      "clients_visible": 1,
+      "clients_of_other_users": 0,
+      "marketing_visible": 0,
+      "can_call_assign_rpc": true,
+      "has_insert_clients": true,
+      "has_insert_sales": true
+    },
+    {
+      "profile": "broker_b",
+      "auth_uid": "779c7220-06dd-4180-8b52-05136bee21cb",
+      "resolved_role": "broker",
+      "can_approve": false,
+      "eligible_active_brokers": 2,
+      "leads_visible": 2,
+      "personal_leads_of_other_users": 0,
+      "company_queue_visible": 0,
+      "clients_visible": 2,
+      "clients_of_other_users": 0,
+      "marketing_visible": 0,
+      "can_call_assign_rpc": true,
+      "has_insert_clients": true,
+      "has_insert_sales": true
+    }
+  ],
+  "assertions": [
+    {
+      "name": "admin: papel real",
+      "passed": true,
+      "scope": "SQL READ ONLY, claims simuladas"
+    },
+    {
+      "name": "admin: leads pessoais alheios inacessíveis",
+      "passed": false,
+      "observed": 3,
+      "expected": 0
+    },
+    {
+      "name": "admin: clientes alheios inacessíveis",
+      "passed": false,
+      "observed": 4,
+      "expected": 0
+    },
+    {
+      "name": "admin: diretório dos dois corretores ativos",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "name": "admin: capacidade de aprovação",
+      "passed": true,
+      "scope": "helper somente; não executou UPDATE"
+    },
+    {
+      "name": "manager: papel real",
+      "passed": true,
+      "scope": "SQL READ ONLY, claims simuladas"
+    },
+    {
+      "name": "manager: leads pessoais alheios inacessíveis",
+      "passed": false,
+      "observed": 3,
+      "expected": 0
+    },
+    {
+      "name": "manager: clientes alheios inacessíveis",
+      "passed": false,
+      "observed": 3,
+      "expected": 0
+    },
+    {
+      "name": "manager: diretório dos dois corretores ativos",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "name": "manager: capacidade de aprovação",
+      "passed": true,
+      "scope": "helper somente; não executou UPDATE"
+    },
+    {
+      "name": "broker_a: papel real",
+      "passed": true,
+      "scope": "SQL READ ONLY, claims simuladas"
+    },
+    {
+      "name": "broker_a: leads pessoais alheios inacessíveis",
+      "passed": true,
+      "observed": 0,
+      "expected": 0
+    },
+    {
+      "name": "broker_a: clientes alheios inacessíveis",
+      "passed": true,
+      "observed": 0,
+      "expected": 0
+    },
+    {
+      "name": "broker_a: diretório dos dois corretores ativos",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "name": "broker_a: capacidade de aprovação",
+      "passed": true,
+      "scope": "helper somente; não executou UPDATE"
+    },
+    {
+      "name": "broker_b: papel real",
+      "passed": true,
+      "scope": "SQL READ ONLY, claims simuladas"
+    },
+    {
+      "name": "broker_b: leads pessoais alheios inacessíveis",
+      "passed": true,
+      "observed": 0,
+      "expected": 0
+    },
+    {
+      "name": "broker_b: clientes alheios inacessíveis",
+      "passed": true,
+      "observed": 0,
+      "expected": 0
+    },
+    {
+      "name": "broker_b: diretório dos dois corretores ativos",
+      "passed": true,
+      "observed": 2
+    },
+    {
+      "name": "broker_b: capacidade de aprovação",
+      "passed": true,
+      "scope": "helper somente; não executou UPDATE"
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "passed": 16,
+    "failed": 4
+  },
+  "observations": {
+    "managementSeesPersonalLeads": true,
+    "brokerCrossLeadReadReproduced": false,
+    "brokerCrossClientReadReproduced": false,
+    "approvalErrorWithCurrentManagementSessionReproduced": false,
+    "clientInsertErrorReproduced": false,
+    "approvedPersonalMarketingAssetVisibleToBrokers": false,
+    "marketingScopeImmutable": true,
+    "propertyPendingNotificationTriggerExists": false,
+    "notifications": 0
+  },
+  "limitations": [
+    "No real user session or JWT tested in this phase",
+    "INSERT/UPDATE/DELETE/RPC mutations and Realtime delivery were not executed",
+    "Table INSERT grant does not imply RLS authorization",
+    "Management expected privacy follows the newly requested ownership rules"
+  ],
+  "policies": [
+    {
+      "schemaname": "public",
+      "tablename": "clients",
+      "policyname": "commercial read clients",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "clients",
+      "policyname": "commercial write clients",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "CRM lead delete boundary",
+      "roles": "{anon,authenticated}",
+      "cmd": "DELETE",
+      "qual": "false",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "CRM lead insert boundary",
+      "roles": "{anon,authenticated}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "(can_manage_operations() OR (can_manage_commercial() AND (broker_id = auth.uid()) AND (origin_type = 'personal'::text) AND (assigned_at IS NULL) AND (first_contact_at IS NULL)) OR ((NOT can_manage_commercial()) AND (broker_id IS NULL) AND (origin_type = 'company'::text) AND (status = 'novo'::text) AND (notes IS NULL) AND (assigned_at IS NULL) AND (first_contact_at IS NULL) AND (lost_reason IS NULL)))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "CRM lead read boundary",
+      "roles": "{anon,authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "CRM lead update boundary",
+      "roles": "{anon,authenticated}",
+      "cmd": "UPDATE",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "CRM read own leads",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "CRM update own leads",
+      "roles": "{authenticated}",
+      "cmd": "UPDATE",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "Public can create leads",
+      "roles": "{anon,authenticated}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "true"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "Staff can read leads",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(is_admin() OR (broker_id = auth.uid()) OR (broker_id IS NULL))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "leads",
+      "policyname": "Staff can update leads",
+      "roles": "{authenticated}",
+      "cmd": "UPDATE",
+      "qual": "(is_admin() OR (broker_id = auth.uid()) OR (broker_id IS NULL))",
+      "with_check": "(is_admin() OR (broker_id = auth.uid()) OR (broker_id IS NULL))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "marketing_assets",
+      "policyname": "assets_insert",
+      "roles": "{authenticated}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "(can_manage_commercial() AND (owner_id = auth.uid()) AND ((scope = 'personal'::text) OR can_manage_operations()))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "marketing_assets",
+      "policyname": "assets_read",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND ((owner_id = auth.uid()) OR can_manage_operations() OR ((scope = 'institutional'::text) AND (status = 'aprovado'::text))))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "marketing_assets",
+      "policyname": "assets_update",
+      "roles": "{authenticated}",
+      "cmd": "UPDATE",
+      "qual": "(can_manage_commercial() AND ((owner_id = auth.uid()) OR can_manage_operations()))",
+      "with_check": "(can_manage_commercial() AND ((owner_id = auth.uid()) OR can_manage_operations()))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "marketing_shares",
+      "policyname": "shares_insert",
+      "roles": "{authenticated}",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "(can_manage_commercial() AND (owner_id = auth.uid()))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "marketing_shares",
+      "policyname": "shares_read",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND ((owner_id = auth.uid()) OR can_manage_operations()))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "marketing_shares",
+      "policyname": "shares_update",
+      "roles": "{authenticated}",
+      "cmd": "UPDATE",
+      "qual": "(can_manage_commercial() AND ((owner_id = auth.uid()) OR can_manage_operations()))",
+      "with_check": "(can_manage_commercial() AND ((owner_id = auth.uid()) OR can_manage_operations()))"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "operations write notifications",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "can_manage_operations()",
+      "with_check": "can_manage_operations()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "notifications",
+      "policyname": "users read own notifications",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND ((user_id = auth.uid()) OR can_manage_operations()))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "sales",
+      "policyname": "commercial read sales",
+      "roles": "{authenticated}",
+      "cmd": "SELECT",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": null
+    },
+    {
+      "schemaname": "public",
+      "tablename": "sales",
+      "policyname": "operations write sales",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "can_manage_operations()",
+      "with_check": "can_manage_operations()"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "tasks",
+      "policyname": "CRM tasks",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())))",
+      "with_check": "(can_manage_commercial() AND (can_manage_operations() OR (broker_id = auth.uid())) AND ((lead_id IS NULL) OR (EXISTS ( SELECT 1\n   FROM leads l\n  WHERE (l.id = tasks.lead_id)))) AND ((client_id IS NULL) OR (EXISTS ( SELECT 1\n   FROM clients c\n  WHERE (c.id = tasks.client_id)))))"
+    }
+  ],
+  "functions": [
+    {
+      "schema": "crm_private",
+      "proname": "guard_asset",
+      "signature": "crm_private.guard_asset()",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION crm_private.guard_asset()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$ begin\nif tg_op='UPDATE' then\n if new.owner_id<>old.owner_id or new.scope<>old.scope then raise exception using errcode='42501',message='Proprietário e escopo são permanentes.'; end if;\n if (new.status is distinct from old.status and new.status='aprovado') or(new.visibility is distinct from old.visibility and new.visibility='public') then if not public.can_manage_operations() then raise exception using errcode='42501',message='A gestão deve aprovar a divulgação.'; end if; end if;\n -- Changing the file of approved material always requires reapproval, including manager uploads.\n if new.current_version_id is distinct from old.current_version_id then new.status:='pendente'; end if;\nelse if (new.status='aprovado' or new.visibility='public') and not public.can_manage_operations() then raise exception using errcode='42501',message='A gestão deve aprovar a divulgação.'; end if;\nend if;\nif new.current_version_id is not null and not exists(select 1 from public.asset_versions v where v.id=new.current_version_id and v.asset_id=new.id) then raise exception using errcode='23514',message='Versão inválida.'; end if;\nnew.updated_at:=now();return new;end $function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "can_manage_operations",
+      "signature": "can_manage_operations()",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.can_manage_operations()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select public.current_user_role() in ('admin', 'manager');\n$function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "crm_assign_lead",
+      "signature": "crm_assign_lead(bigint,uuid,text)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.crm_assign_lead(target_lead bigint, target_broker uuid, assignment_reason text)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare previous_broker uuid; lead_name text; begin\n  if not public.can_manage_operations() then raise exception 'Acesso negado' using errcode = '42501'; end if;\n  if length(trim(coalesce(assignment_reason,''))) not between 1 and 500 then raise exception 'Informe o motivo da atribuicao'; end if;\n  if not exists (select 1 from public.brokers b join public.user_roles r on r.id = b.id\n    where b.id = target_broker and r.disabled_at is null and r.role in ('admin','manager','broker','corretor')) then\n    raise exception 'Corretor invalido ou inativo';\n  end if;\n  select broker_id, name into previous_broker, lead_name from public.leads where id = target_lead for update;\n  if not found then raise exception 'Lead nao encontrado'; end if;\n  if previous_broker is not distinct from target_broker then return; end if;\n  update public.leads set broker_id = target_broker, assigned_at = now() where id = target_lead;\n  insert into public.lead_assignments(lead_id, previous_broker_id, broker_id, assigned_by, reason)\n    values(target_lead, previous_broker, target_broker, auth.uid(), trim(assignment_reason));\n  insert into public.lead_activities(lead_id,user_id,type,description)\n    values(target_lead,auth.uid(),'lead_assigned',trim(assignment_reason));\n  insert into public.notifications(user_id,title,description,type)\n    values(target_broker,'Novo lead atribuido',lead_name,'lead_atribuido');\n  update public.tasks set deleted_at = now(), updated_at = now() where lead_id = target_lead and broker_id = previous_broker and status <> 'concluida';\n  insert into public.tasks(title,broker_id,lead_id,due_at)\n    values('Primeiro contato: ' || left(coalesce(lead_name, 'Cliente'),120),target_broker,target_lead,now());\nend $function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "crm_confirm_presentation_share",
+      "signature": "crm_confirm_presentation_share(bigint)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.crm_confirm_presentation_share(target_share bigint)\n RETURNS boolean\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare s public.marketing_shares; inserted_id bigint;\nbegin\n if not public.can_manage_commercial() then raise exception using errcode='42501',message='Sessão comercial necessária.';end if;\n select * into s from public.marketing_shares where id=target_share and(owner_id=auth.uid() or public.can_manage_operations());\n if s.id is null then raise exception using errcode='42501',message='Apresentação não autorizada.';end if;\n if s.lead_id is not null and not exists(select 1 from public.leads l where l.id=s.lead_id and(l.broker_id=auth.uid() or public.can_manage_operations())) then raise exception using errcode='42501',message='Lead não autorizado.';end if;\n insert into public.crm_event_log(owner_id,event_type,entity_id,idempotency_key) values(auth.uid(),'presentation_shared',s.id,'share-confirmed:'||s.id) on conflict(idempotency_key) do nothing returning id into inserted_id;\n if inserted_id is not null and s.lead_id is not null then insert into public.lead_activities(lead_id,user_id,type,description) values(s.lead_id,auth.uid(),'note','Envio confirmado pelo corretor: '||s.title||' · canal '||s.channel||' · link /apresentacoes/'||s.token::text);end if;\n return true;\nend $function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "crm_protect_property_approval",
+      "signature": "crm_protect_property_approval()",
+      "security_definer": false,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.crm_protect_property_approval()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public'\nAS $function$\nbegin\n if auth.uid() is not null and not public.can_manage_operations() then\n  if tg_op='INSERT' then\n   if new.approved_by is not null or new.approved_at is not null then\n    raise exception 'Somente a gestao pode aprovar imoveis.' using errcode='42501';\n   end if;\n   new.workflow_status := 'rascunho';\n   new.publish_on_site := false;\n   new.submitted_by := auth.uid();\n  else\n   if new.approved_by is distinct from old.approved_by\n      or new.approved_at is distinct from old.approved_at\n      or (new.workflow_status is distinct from old.workflow_status\n          and new.workflow_status not in ('rascunho','pendente')) then\n    raise exception 'Somente a gestao pode aprovar imoveis.' using errcode='42501';\n   end if;\n   if new.publish_on_site and new.workflow_status not in ('aprovado','publicado') then\n    raise exception 'Imovel precisa de aprovacao para publicacao.' using errcode='42501';\n   end if;\n  end if;\n end if;\n return new;\nend $function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "crm_record_contact",
+      "signature": "crm_record_contact(bigint)",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.crm_record_contact(target_lead bigint)\n RETURNS void\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\ndeclare l public.leads; begin\n  if not public.can_manage_commercial() then raise exception 'Acesso negado' using errcode = '42501'; end if;\n  select * into l from public.leads where id = target_lead for update;\n  if not found or (not public.can_manage_operations() and l.broker_id is distinct from auth.uid()) then\n    raise exception 'Lead nao encontrado ou sem permissao' using errcode = '42501';\n  end if;\n  if l.first_contact_at is not null then return; end if;\n  update public.leads set first_contact_at = now(), status = case when status = 'novo' then 'em atendimento' else status end where id = target_lead;\nend $function$\n"
+    },
+    {
+      "schema": "public",
+      "proname": "current_user_role",
+      "signature": "current_user_role()",
+      "security_definer": true,
+      "proconfig": [
+        "search_path=public"
+      ],
+      "definition": "CREATE OR REPLACE FUNCTION public.current_user_role()\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public'\nAS $function$\n  select coalesce(\n    (\n      select role::text\n      from public.user_roles\n      where id = auth.uid()\n        and disabled_at is null\n      limit 1\n    ),\n    'visitor'\n  );\n$function$\n"
+    }
+  ]
+}

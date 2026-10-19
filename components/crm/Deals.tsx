@@ -1,4 +1,5 @@
 "use client";
+import { SaleReview } from "./SaleReview";
 import { useState } from "react";
 import { Handshake, FileText, Wallet, TrendingUp } from "lucide-react";
 import { useWorkspace } from "./Workspace";
@@ -27,6 +28,7 @@ import {
 } from "@/lib/crm/model";
 export function Deals() {
   const ctx = useWorkspace();
+  const canRegisterSale = ["broker", "corretor"].includes(ctx.role) && ctx.data.brokers.some(b => b.id === ctx.userId && b.active);
   const [tab, setTab] = useState("proposals");
   const [form, setForm] = useState("");
   const [selected, setSelected] = useState<
@@ -114,7 +116,7 @@ export function Deals() {
               selected && "property_id" in selected
                 ? selected.property_id
                 : null,
-            options: ctx.data.properties.map((p) => ({
+            options: ctx.data.properties.filter((p) => form !== "sale" || p.owner_id === ctx.userId || p.broker_id === ctx.userId || (p.shareable_by_other_brokers && ctx.data.proposals.some(pr => pr.property_id === p.id && pr.broker_id === ctx.userId && pr.status === "aceita"))).map((p) => ({
               value: p.id,
               label: `${p.property_code} · ${p.title}`,
             })),
@@ -141,20 +143,6 @@ export function Deals() {
               ]
             : []),
         ];
-  if (ctx.operations && form !== "negotiation")
-    fields.push({
-      name: "broker_id",
-      label: "Corretor responsável",
-      required: true,
-      value:
-        selected && "broker_id" in selected ? selected.broker_id : ctx.userId,
-      options: [
-        ...ctx.data.brokers.map((b) => ({ value: b.id, label: b.name })),
-        ...(!ctx.data.brokers.some((b) => b.id === ctx.userId)
-          ? [{ value: ctx.userId, label: "Minha conta" }]
-          : []),
-      ],
-    });
   async function save(f: FormData) {
     if (form === "negotiation") {
       const payload = {
@@ -176,7 +164,7 @@ export function Deals() {
       client_id: numberId(f, "client_id"),
       property_id: numberId(f, "property_id"),
       value: Number(text(f, "value")),
-      broker_id: ctx.operations ? text(f, "broker_id") : ctx.userId,
+      broker_id: ctx.userId,
       ...(form === "sale" ? { date: text(f, "date") } : {}),
     };
     const table = form === "sale" ? "sales" : "proposals";
@@ -210,14 +198,14 @@ export function Deals() {
             >
               Abrir negociação
             </Button>
-            <NewButton
+            {(tab !== "sales" || canRegisterSale) && <NewButton
               onClick={() => {
                 setSelected(null);
                 setForm(tab === "sales" ? "sale" : "proposal");
               }}
             >
               {tab === "sales" ? "Registrar venda" : "Nova proposta"}
-            </NewButton>
+            </NewButton>}
           </>
         }
       />
@@ -310,6 +298,7 @@ export function Deals() {
           </select>
         </div>
       )}
+      {ctx.operations && tab === "sales" && <SaleReview />}
       <SectionState tables={["proposals", "negotiations", "sales"]}>
         <div className="crm-panel crm-table-wrap">
           <table className="crm-table">
@@ -460,7 +449,7 @@ export function Deals() {
                           )}
                         </td>
                         <td>
-                          {ctx.operations ? (
+                          {canRegisterSale && s.broker_id === ctx.userId ? (
                             <button
                               className="crm-link-button"
                               onClick={() => {
@@ -489,19 +478,13 @@ export function Deals() {
             />
           )}
         </div>
-        {tab === "sales" && !ctx.operations && (
-          <p className="crm-detail-pill">
-            O registro de vendas é feito pelo gestor. Você acompanha aqui as
-            vendas do seu portfólio.
-          </p>
-        )}
       </SectionState>
       {form && (
         <Modal
           title={`${selected ? "Editar" : "Nova"} ${form === "proposal" ? "proposta" : form === "negotiation" ? "negociação" : "venda"}`}
           description={
             form === "sale"
-              ? "Registre apenas uma venda confirmada. Este registro não altera automaticamente o status do imóvel."
+              ? "Registre seu fechamento comercial. A confirmação financeira será feita separadamente pela gestão."
               : "Relacionamentos preservados e acesso controlado por perfil."
           }
           onClose={() => {
@@ -509,12 +492,6 @@ export function Deals() {
             setSelected(null);
           }}
         >
-          {form === "sale" && !ctx.operations ? (
-            <Empty
-              title="Acesso gerencial necessário"
-              description="Peça ao gestor para registrar o fechamento."
-            />
-          ) : (
             <EntityForm
               fields={fields}
               onSubmit={save}
@@ -523,7 +500,6 @@ export function Deals() {
                 setSelected(null);
               }}
             />
-          )}
         </Modal>
       )}
     </>

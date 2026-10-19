@@ -1,0 +1,96 @@
+{
+  "project": "sdpqphiooiuglywcmkxv",
+  "mode": "HTTP GET only, no writes or authenticated sessions",
+  "results": [
+    {
+      "test": "anonymous cannot read leads",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read clients",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read tasks",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read visits",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read proposals",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read negotiations",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read sales",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read audit_logs",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read lead_assignments",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read notifications",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read lead_transfer_requests",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read sale_confirmations",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read marketing_asset_recipients",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read marketing_assets",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read asset_versions",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read asset_relations",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read marketing_shares",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "test": "anonymous cannot read marketing_share_events",
+      "status": 401,
+      "passed": true
+    }
+  ]
+}
