@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FileImage,
   Link2,
@@ -28,7 +28,11 @@ import {
   numberId,
   type Field,
 } from "./UI";
-import { AssetAudience } from "./AssetAudience";
+import {
+  AssetAudience,
+  AudienceFields,
+  AssetRecipientSummary,
+} from "./AssetAudience";
 import { Collections } from "./Collections";
 import { ShareComposer } from "./ShareComposer";
 export function Marketing() {
@@ -40,7 +44,20 @@ export function Marketing() {
   const [development, setDevelopment] = useState("");
   const [collection, setCollection] = useState("");
   const [upload, setUpload] = useState<Asset | "new" | null>(null);
-  const [edit, setEdit] = useState<Asset | null>(null);
+  const [editRecord, setEdit] = useState<Asset | null>(null);
+  const edit =
+    ctx.data.marketing_assets.find((a) => a.id === editRecord?.id) || null;
+  const openedMaterial = useRef<number | null>(null);
+  useEffect(() => {
+    const id = Number(
+      new URLSearchParams(window.location.search).get("material"),
+    );
+    const record = ctx.data.marketing_assets.find((a) => a.id === id);
+    if (record && openedMaterial.current !== id) {
+      openedMaterial.current = id;
+      queueMicrotask(() => setEdit(record));
+    }
+  }, [ctx.data.marketing_assets]);
   const [manageCollections, setManageCollections] = useState(false);
   const [newCollection, setNewCollection] = useState(false);
   const [share, setShare] = useState(false);
@@ -535,7 +552,26 @@ export function Marketing() {
           onClose={() => setUpload(null)}
         />
       )}
-      {edit && (
+      {edit && !(ctx.operations || edit.owner_id === ctx.userId) && (
+        <Modal
+          title={edit.title}
+          description={`Material compartilhado · ${edit.status}`}
+          onClose={() => setEdit(null)}
+        >
+          <p>{edit.description}</p>
+          <Button
+            disabled={ctx.busy || !edit.current_version_id}
+            onClick={() => {
+              const material = edit;
+              setEdit(null);
+              void openAsset(material);
+            }}
+          >
+            Visualizar arquivo
+          </Button>
+        </Modal>
+      )}
+      {edit && (ctx.operations || edit.owner_id === ctx.userId) && (
         <Modal
           title="Editar material"
           description="Mudanças no arquivo exigem nova aprovação. Vincule o material antes de compartilhá-lo."
@@ -567,6 +603,10 @@ export function Marketing() {
               )
             }
           />
+          <AssetRecipientSummary
+            key={`${edit.id}:${edit.updated_at}`}
+            asset={edit}
+          />
           <div className="crm-detail-actions">
             <Button
               secondary
@@ -585,15 +625,17 @@ export function Marketing() {
                     () =>
                       supabase
                         .from("marketing_assets")
-                        .update({ status: "aprovado", visibility: edit.scope === "institutional" && edit.audience === "team" ? "public" : "internal" })
+                        .update({ status: "aprovado", visibility: "internal" })
                         .eq("id", edit.id)
+                        .eq("status", "pendente")
+                        .eq("current_version_id", edit.current_version_id)
                         .select("id")
                         .single(),
-                    "Material aprovado para divulgação.",
+                    "Material aprovado. Acesso liberado conforme a audiência; publicação na internet é uma ação separada.",
                   )
                 }
               >
-                Aprovar divulgação
+                Confirmar aprovação para a audiência
               </Button>
             )}
             <Button
@@ -613,7 +655,40 @@ export function Marketing() {
               Arquivar material
             </Button>
           </div>
-          {(ctx.operations || edit.owner_id === ctx.userId) && <AssetAudience key={edit.id} asset={edit} />}
+          {edit.owner_id === ctx.userId && (
+            <AssetAudience key={`${edit.id}:${edit.updated_at}`} asset={edit} />
+          )}
+          {ctx.operations &&
+            edit.scope === "institutional" &&
+            edit.audience === "team" &&
+            edit.status === "aprovado" &&
+            edit.visibility !== "public" && (
+              <Button
+                secondary
+                disabled={ctx.busy}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Autorizar uso deste material em apresentações públicas de imóveis? Isso permite acesso sem login quando houver vínculo com imóvel público.",
+                    )
+                  )
+                    void ctx.run(
+                      () =>
+                        supabase
+                          .from("marketing_assets")
+                          .update({ visibility: "public" })
+                          .eq("id", edit.id)
+                          .eq("status", "aprovado")
+                          .eq("current_version_id", edit.current_version_id)
+                          .select("id")
+                          .single(),
+                      "Divulgação em apresentações públicas autorizada.",
+                    );
+                }}
+              >
+                Autorizar apresentações públicas
+              </Button>
+            )}
           <MaterialRelations asset={edit} />
         </Modal>
       )}
@@ -789,6 +864,18 @@ function UploadMaterials({
                     "Selecione até 20 arquivos, ou um arquivo para substituir uma versão.",
                 },
               };
+            if (
+              !asset &&
+              (f.get("audienceReady") !== "yes" ||
+                (f.get("audience") === "selected" &&
+                  !f.getAll("recipient").length))
+            )
+              return {
+                error: {
+                  message:
+                    "Carregue o diretório e selecione os destinatários antes de importar.",
+                },
+              };
             for (const [index, file] of files.entries()) {
               setProgress(`${index + 1}/${files.length} · ${file.name}`);
               let assetId: number | null = asset?.id || null;
@@ -841,8 +928,8 @@ function UploadMaterials({
                           : file.type === "video/mp4"
                             ? "video"
                             : "foto",
-                      scope: String(f.get("scope") || "personal"),
-                      audience: f.get("scope") === "institutional" ? "team" : "owner",
+                      scope: "personal",
+                      audience: "owner",
                     })
                     .select("id")
                     .single();
@@ -877,6 +964,23 @@ function UploadMaterials({
                   .select("id")
                   .single();
                 if (updateError) throw updateError;
+                if (!asset && f.get("audience") !== "owner") {
+                  const { error: audienceError } = await supabase.rpc(
+                    "crm_set_asset_audience",
+                    {
+                      target_asset: assetId,
+                      new_audience: String(f.get("audience")),
+                      recipients:
+                        f.get("audience") === "selected"
+                          ? f.getAll("recipient")
+                          : [],
+                    },
+                  );
+                  if (audienceError)
+                    throw new Error(
+                      `Arquivo preservado. Compartilhamento não concluído: ${audienceError.message}. Edite a audiência para tentar novamente.`,
+                    );
+                }
                 const { error: importError } = await supabase
                   .from("asset_imports")
                   .insert({
@@ -929,16 +1033,13 @@ function UploadMaterials({
               required
             />
           </label>
-          {!asset && ctx.operations && (
-            <label>
-              Escopo
-              <select name="scope">
-                <option value="personal">Pessoal</option>
-                <option value="institutional">Institucional para equipe (após aprovação)</option>
-              </select>
-            </label>
-          )}
+          {!asset && <AudienceFields />}
           <p role="status">{progress}</p>
+          {ctx.notice && (
+            <p role={ctx.notice.error ? "alert" : "status"}>
+              {ctx.notice.text}
+            </p>
+          )}
           <div className="crm-form-actions">
             <Button secondary onClick={onClose}>
               Fechar

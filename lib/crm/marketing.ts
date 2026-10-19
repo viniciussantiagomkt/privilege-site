@@ -1,5 +1,6 @@
 import type { BaseRow, CrmProperty } from "./model";
 export interface Asset extends BaseRow {
+  updated_at?: string;
   owner_id: string;
   scope: string;
   audience?: "owner" | "team" | "selected";

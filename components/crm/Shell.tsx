@@ -57,7 +57,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const active = NAV.find((n) => n.href === path) || NAV[0];
   const me = ctx.data.brokers.find((b) => b.id === ctx.userId);
-  const unread = ctx.data.notifications.filter((n) => !n.read);
+  const unreadCount = ctx.unreadCount;
   const results = ctx.query
     ? [
         ...ctx.data.leads
@@ -244,11 +244,11 @@ export function CrmShell({ children }: { children: ReactNode }) {
             </button>
             <button
               className="crm-icon-button crm-notification-button"
-              aria-label={`Notificações: ${unread.length} não lidas`}
+              aria-label={`Notificações: ${unreadCount ?? "indisponível"} não lidas`}
               onClick={() => setNotifications(true)}
             >
               <Bell size={20} />
-              {unread.length > 0 && <i>{unread.length}</i>}
+              {unreadCount !== null && unreadCount > 0 && <i>{unreadCount}</i>}
             </button>
             <span className="crm-user-avatar">
               {initials(me?.name || ctx.email || "P")}
@@ -257,7 +257,13 @@ export function CrmShell({ children }: { children: ReactNode }) {
               <strong>
                 {me?.name || ctx.email.split("@")[0] || "Sua conta"}
               </strong>
-              <small>{ctx.role === "admin" ? "Administrador" : ctx.role === "manager" ? "Gestor" : "Corretor"}</small>
+              <small>
+                {ctx.role === "admin"
+                  ? "Administrador"
+                  : ctx.role === "manager"
+                    ? "Gestor"
+                    : "Corretor"}
+              </small>
             </div>
           </div>
         </header>
@@ -300,45 +306,60 @@ export function CrmShell({ children }: { children: ReactNode }) {
       {notifications && (
         <Modal
           title="Sua central de notificações"
-          description={`${unread.length} não lidas`}
+          description={`${unreadCount ?? "indisponível"} não lidas`}
           onClose={() => setNotifications(false)}
         >
+          <p>
+            Últimas 100 notificações. Atualização automática a cada 30 segundos
+            e ao voltar à janela.
+          </p>
+          {ctx.errors.notifications && (
+            <p role="alert">{ctx.errors.notifications}</p>
+          )}
           {ctx.data.notifications.length ? (
-            ctx.data.notifications
-              .slice()
-              .reverse()
-              .map((n) => (
-                <div key={n.id} className="crm-notification-row">
-                  <div>
-                    <strong>{n.title}</strong>
-                    <p>{n.description}</p>
-                    <small>{dateTime(n.created_at)}</small>
-                    {n.target_path && /^\/admin\/imoveis\?imovel=\d+$/.test(n.target_path) && <Link href={n.target_path} onClick={() => setNotifications(false)}>Abrir imóvel</Link>}
-                  </div>
-                  {n.read ? (
-                    <Badge tone="muted">Lida</Badge>
-                  ) : (
-                    <Button
-                      secondary
-                      disabled={ctx.busy}
-                      onClick={() =>
-                        void ctx.run(() =>
-                          supabase.rpc("crm_read_notification", {
-                            target_notification: n.id,
-                          }),
-                        )
-                      }
-                    >
-                      <CheckCheck size={16} />
-                      Ler
-                    </Button>
-                  )}
+            ctx.data.notifications.slice().map((n) => (
+              <div key={n.id} className="crm-notification-row">
+                <div>
+                  <strong>{n.title}</strong>
+                  <p>{n.description}</p>
+                  <small>{dateTime(n.created_at)}</small>
+                  {n.target_path &&
+                    /^\/admin\/(imoveis\?imovel|marketing\?material|leads\?(lead|transferencia))=\d+$/.test(
+                      n.target_path,
+                    ) && <a href={n.target_path}>Abrir registro</a>}
                 </div>
-              ))
+                {n.read ? (
+                  <Badge tone="muted">Lida</Badge>
+                ) : (
+                  <Button
+                    secondary
+                    disabled={ctx.busy}
+                    onClick={() =>
+                      void ctx.run(() =>
+                        supabase.rpc("crm_read_notification", {
+                          target_notification: n.id,
+                        }),
+                      )
+                    }
+                  >
+                    <CheckCheck size={16} />
+                    Ler
+                  </Button>
+                )}
+              </div>
+            ))
           ) : (
             <Empty
-              title="Tudo em dia"
-              description="Suas notificações aparecerão aqui."
+              title={
+                ctx.errors.notifications
+                  ? "Consulta indisponível"
+                  : "Tudo em dia"
+              }
+              description={
+                ctx.errors.notifications
+                  ? "Atualize para tentar carregar suas notificações novamente."
+                  : "Suas notificações aparecerão aqui."
+              }
             />
           )}
         </Modal>

@@ -35,6 +35,7 @@ interface Workspace {
   setNotice: (n: { text: string; error: boolean } | null) => void;
   updatedAt: Date | null;
   realtimeStatus: string;
+  unreadCount: number | null;
 }
 const Context = createContext<Workspace | null>(null);
 export const useWorkspace = () => {
@@ -83,6 +84,16 @@ const modules: Record<string, (keyof WorkspaceData)[]> = {
   "/admin/equipe": ["leads", "properties", "sales", "tasks"],
 };
 async function allRows(table: keyof WorkspaceData) {
+  if (table === "notifications") {
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: false })
+      .limit(100);
+    if (error) throw new Error(error.message);
+    return data || [];
+  }
   const rows: unknown[] = [];
   // Bound the read. Larger portfolios need server pagination, not an unlimited loop.
   for (let start = 0; start < 500; start += 500) {
@@ -112,6 +123,7 @@ async function allRows(table: keyof WorkspaceData) {
 }
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState<number | null>(null);
   const [data, setData] = useState<WorkspaceData>(EMPTY_DATA);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -132,6 +144,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     generation.current++;
     identity.current = null;
     setData(EMPTY_DATA);
+    setUnreadCount(null);
     setUserId("");
     setEmail("");
     setRole("");
@@ -184,7 +197,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         ...(modules[pathname] || []),
       ]),
     ];
-    const result = await Promise.allSettled(requested.map(allRows));
+    const [result, countResult] = await Promise.all([
+      Promise.allSettled(requested.map(allRows)),
+      supabase.rpc("crm_unread_notification_count"),
+    ]);
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -196,6 +212,10 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       return;
     }
     const nextErrors: Record<string, string> = {};
+    setUnreadCount(countResult.error ? null : Number(countResult.data));
+    if (countResult.error)
+      nextErrors.notifications =
+        "Não foi possível atualizar a contagem de notificações.";
     const next: Record<string, unknown> = {};
     result.forEach((r, i) => {
       if (r.status === "fulfilled") next[requested[i]] = r.value;
@@ -232,7 +252,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     const refresh = () => {
       if (document.visibilityState === "visible") void reload();
     };
-    const timer = setInterval(refresh, 60000);
+    const timer = setInterval(refresh, 30000);
     window.addEventListener("focus", refresh);
     return () => {
       mounted.current = false;
@@ -343,6 +363,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         setNotice,
         updatedAt,
         realtimeStatus,
+        unreadCount,
       }}
     >
       {children}
