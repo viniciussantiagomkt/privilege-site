@@ -2,23 +2,23 @@
   "environment": "isolated PGlite PostgreSQL, synthetic SQL claims; NOT Auth HTTP, Storage bytes, Realtime or staging",
   "migrations": [
     {
-      "name": "20261019160810_crm_private_portfolios_and_transfers.sql",
+      "name": "20261019165011_crm_private_portfolios_and_transfers.sql",
       "sha256": "70fd88052343db601bc656f891fecc5d8a40d9db2c54cc75c59459a38efbccc1"
     },
     {
-      "name": "20261019160914_crm_management_aggregates.sql",
+      "name": "20261019165034_crm_management_aggregates.sql",
       "sha256": "616ecd96838e74f87ec5c36642eb2174287de7717c941674d3cc2ccb08419b0f"
     },
     {
-      "name": "20261019160943_crm_commercial_sale_ownership.sql",
+      "name": "20261019165057_crm_commercial_sale_ownership.sql",
       "sha256": "84f4f0217215e618b1a022c4f061f70eeee84ecf6fd9513e5cd333a55e8b4b7d"
     },
     {
-      "name": "20261019161013_crm_property_review_notifications.sql",
+      "name": "20261019165119_crm_property_review_notifications.sql",
       "sha256": "edddd6c61bbc1895791424435d1ae81404dc9b4f34f1158e95f58322c8bf649d"
     },
     {
-      "name": "20261019161031_crm_approved_marketing_audience.sql",
+      "name": "20261019170348_crm_approved_marketing_audience.sql",
       "sha256": "4be46c1b9004396682655f3f8a2344c4df317648f4bfbe091c8156de967c3b6c"
     }
   ],

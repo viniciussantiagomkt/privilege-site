@@ -2,7 +2,7 @@
 
 Data: 19/10/2026. Base de produto: PR #3, commit 6ccddf5. Implementação isolada no PR #6 (rascunho), branch `work/crm-integration-security-diagnosis-20261019`.
 
-**Estado: código e cinco migrations preparados; implantação e homologação autenticada pendentes.** Nenhuma migration foi aplicada, nenhuma conta ou permissão foi modificada no staging, nenhum preview foi publicado e produção/main não foram alteradas. O SHA final está registrado na entrega e no histórico do PR.
+**Estado atualizado: cinco migrations aplicadas no staging após autorização explícita.** Os registros existentes, as quatro contas e seus papéis foram preservados. Preview novo e homologação com sessões reais continuam pendentes. Produção e main não foram alteradas. O SHA final está registrado na entrega e no histórico do PR.
 
 ## Diagnóstico e correções
 
@@ -31,15 +31,15 @@ A primeira versão local das novas policies também revelou uma regressão de IN
 - Gestão agregada: components/crm/ManagementOverview.tsx, Dashboard.tsx e Team.tsx.
 - Contratos: lib/crm/model.ts; PGlite foi acrescentado somente como dependência de desenvolvimento, fixada em 0.3.14, com lockfile.
 
-## SQL proposto para autorização específica
+## SQL aplicado exclusivamente no staging
 
 | Ordem | Arquivo em supabase/migrations | Impacto |
 |---|---|---|
-| M1 | 20261019160810_crm_private_portfolios_and_transfers.sql | Privacidade, RPCs, arquivamento/restauração, consentimento de transferência, privilégios e retirada de tabelas privadas da publicação Realtime |
-| M2 | 20261019160914_crm_management_aggregates.sql | Indicadores agregados em períodos permitidos de 30/90/180/365 dias, sem pessoas, notas, tokens ou IDs de negócios privados |
-| M3 | 20261019160943_crm_commercial_sale_ownership.sql | Registro próprio, autoria/revisão, confirmação independente e revisão financeira com controle de versão |
-| M4 | 20261019161013_crm_property_review_notifications.sql | Diretório elegível, validação de responsável, autoria da aprovação no servidor, ciclos e notificações persistentes |
-| M5 | 20261019161031_crm_approved_marketing_audience.sql | Audiência/destinatários, nova revisão, versão atual, Storage e apresentação pública |
+| M1 | 20261019165011_crm_private_portfolios_and_transfers.sql | Privacidade, RPCs, arquivamento/restauração, consentimento de transferência, privilégios e retirada de tabelas privadas da publicação Realtime |
+| M2 | 20261019165034_crm_management_aggregates.sql | Indicadores agregados em períodos permitidos de 30/90/180/365 dias, sem pessoas, notas, tokens ou IDs de negócios privados |
+| M3 | 20261019165057_crm_commercial_sale_ownership.sql | Registro próprio, autoria/revisão, confirmação independente e revisão financeira com controle de versão |
+| M4 | 20261019165119_crm_property_review_notifications.sql | Diretório elegível, validação de responsável, autoria da aprovação no servidor, ciclos e notificações persistentes |
+| M5 | 20261019170348_crm_approved_marketing_audience.sql | Audiência/destinatários, nova revisão, versão atual, Storage e apresentação pública |
 
 Todas foram geradas com Supabase CLI 2.121.0 e testadas sobre snapshot de catálogo, sem recriar tabelas do staging. Cada arquivo é transacional, com lock_timeout de 5s e statement_timeout de 30s. M1 exige exatamente as 11 versões anteriores; divergência interrompe a aplicação.
 
@@ -89,7 +89,7 @@ Referência: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm. Relatórios npm 
 
 ## Limitações e impactos deliberados
 
-1. Nenhuma dessas correções está ativa no staging. A reprovação anterior de privacidade da gestão continua relevante até implantar e testar.
+1. As cinco correções de banco estão ativas no staging. A leitura RLS da gestão agora respeita a privacidade. A interface do preview anterior ainda é antiga; o fluxo completo precisa do preview atualizado e de sessões reais.
 2. O preview anterior não corresponde a este código. Não foi gerada nova URL, e a branch continua com deployment automático desativado.
 3. As listas agora carregam somente módulos necessários, com limite de 500 registros e erro explícito ao exceder. Não há paginação navegável completa nesta entrega. Próxima evolução: keyset por (created_at,id), filtros no servidor e contagem agregada, preservando RLS. A fila financeira limita 200 itens recentes.
 4. Pessoal ou destinatários selecionados nunca entram em apresentação pública. Para divulgação pública, o dono precisa pedir mudança para equipe e a gestão aprovar. A alteração de audiência revoga aprovação anterior.
@@ -102,11 +102,11 @@ Referência: https://github.com/advisories/GHSA-vfj7-8cjw-p6xm. Relatórios npm 
 
 ## Implantação controlada no staging
 
-1. Revisar o diff SQL dos cinco arquivos e este relatório. Obter autorização específica para aplicar ao projeto sdpqphiooiuglywcmkxv; publicação do preview é uma autorização separada.
-2. Executar somente o preflight de leitura tests/crm-operational-preflight-readonly.sql. Exigir zero drift de funções/policies, as mesmas 11 migrations e volumes conferidos. Comparar também a quantidade de objetos com o JSON de fingerprints. Mudanças paralelas exigem reconciliação.
-3. Confirmar backup/snapshot e disponibilidade para breves locks. Não executar db reset, db push indiscriminado, repair ou migrations antigas.
-4. Aplicar M1–M5 em ordem, com registro gerenciado das versões e reconferência após cada transação. Não publicar cliente novo antes das dependências SQL.
-5. Rodar advisors e verificar grants, funções, views security_invoker, RLS e publicação Realtime. Não adicionar novamente tabelas privadas à publicação para “resolver” notificações.
+1. Concluído: autorização explícita recebida e cinco migrations aplicadas ao projeto sdpqphiooiuglywcmkxv. A publicação do preview continua exigindo autorização separada.
+2. Concluído antes da aplicação: preflight com zero drift de funções/policies, 36 funções, 107 policies e exatamente as 11 migrations anteriores. O arquivo de preflight agora é uma referência histórica do baseline, não uma expectativa do schema pós-aplicação.
+3. A exportação completa de dados foi bloqueada pela revisão automática por transferência de dados sensíveis sem autorização específica e não foi realizada. Foi usada a alternativa de preservação por contagens e hashes calculados dentro do banco, além do snapshot de schema já versionado. Isso não equivale a backup restaurável completo; backup do provedor não foi confirmado pelo conector. As transações aditivas foram executadas com os limites de lock/tempo revisados. Não houve reset, push indiscriminado ou repair.
+4. Concluído: M1–M5 aplicadas em ordem e registradas pelo mecanismo gerenciado, com reconferência após cada transação. São 16 migrations registradas, sem repetição das 11 anteriores. Não reaplicar esses arquivos.
+5. Concluído: advisors e verificações de RLS/views/publicação executados; pendências estão descritas abaixo. Nenhuma tabela privada permanece na publicação Realtime. Não adicionar essas tabelas novamente para “resolver” notificações.
 6. Após autorização de preview, usar apenas a URL/key pública já verificadas de staging, sem service-role no cliente. Conferir SHA e ambiente do deployment.
 7. Executar os testes reais abaixo. Não limpar fixtures por DELETE amplo: usar apenas IDs identificados e operações suportadas.
 
@@ -131,5 +131,50 @@ O navegador conectado estava sem abas/sessões. Não envie senhas, access tokens
 11. Repetir navegação e formulários em 390px e 768px. Registrar erro, horário, request ID, operação, UID e fixture, sem cabeçalhos secretos.
 12. Distinguir falha de serviço (5xx/rede/Realtime/Storage indisponível) de negação esperada (RLS/42501/zero linhas). Não contornar com service-role ou desativando RLS.
 
-**Recomendação:** implementação pronta para revisão de SQL e implantação controlada autorizada. Uso interno ainda não homologado: faltam aplicação no staging, preview correspondente e validação autenticada real. Os alertas de desenvolvimento e limites de paginação estão explicitamente pendentes.
+**Recomendação atualizada:** banco staging atualizado e verificações de preservação/isolamento aprovadas. Uso interno ainda não homologado: faltam preview correspondente e validação com sessões reais. Os alertas de desenvolvimento, advisors e limites de paginação estão explicitamente pendentes.
 
+## Aplicação autorizada em 19/10/2026
+
+As cinco migrations foram registradas com timestamps emitidos pelo Supabase. Os arquivos locais foram renomeados para essas versões reais. O SQL foi preservado byte a byte, com MD5 comparado ao statement do histórico gerenciado. Os comentários “PROPOSED ONLY” dos arquivos preservam a origem da revisão; o estado atual é o registro de aplicação abaixo.
+
+| Pacote | Versão originalmente revisada | Versão registrada |
+|---|---|---|
+| M1 | 20261019160810 | 20261019165011 |
+| M2 | 20261019160914 | 20261019165034 |
+| M3 | 20261019160943 | 20261019165057 |
+| M4 | 20261019161013 | 20261019165119 |
+| M5 | 20261019161031 | 20261019170348 |
+
+Na primeira tentativa de M5, o conector retornou “Invalid or expired requestState”. Histórico e ausência da coluna/tabela/RPC foram conferidos antes de tentar novamente. A tentativa seguinte teve sucesso. Há apenas um registro de M5; nenhuma migration aplicada foi repetida.
+
+### Preservação e verificações no staging
+
+- Contagens e hashes de todos os registros originais das 40 tabelas públicas permaneceram idênticos, descontando somente as colunas novas com defaults previstos.
+- Os 4 leads, 4 clientes, 1 venda e 3 materiais foram preservados. Nenhuma autoria/confirmação financeira foi inventada para a venda antiga.
+- IDs, papéis, estado habilitado e vínculo Auth dos quatro usuários continuaram iguais. Os corretores A/B continuam ativos. Nenhuma conta, senha ou configuração de Auth foi alterada.
+- Todos os três materiais existentes continuam pessoais, com audiência owner. Nenhum foi convertido automaticamente para equipe ou público.
+- Todas as tabelas públicas estão com RLS, as views verificadas usam security_invoker e nenhuma tabela privada permanece publicada em Realtime.
+- Testes reais de HTTP GET anônimo: **18/18 aprovados**, sem inserir ou modificar dados.
+- Regressão local após sincronização de versões: **211/211 aprovadas**.
+
+| Perfil simulado via SET ROLE no staging real | Leads visíveis | Clientes visíveis | Leads/clientes privados alheios | Fila institucional | Pode aprovar |
+|---|---:|---:|---:|---:|---|
+| Administrador | 1 | 0 | 0 | 1 | Sim |
+| Gestor | 1 | 1 | 0 | 1 | Sim |
+| Corretor A | 1 | 1 | 0 | 0 | Não |
+| Corretor B | 2 | 2 | 0 | 0 | Não |
+
+Todos os quatro perfis retornaram zero tarefas, visitas, propostas, vendas, shares e notificações pertencentes a terceiros. O diretório de atribuição gerencial retornou os dois corretores; o diretório do corretor retornou somente ele. A agregação gerencial contou os quatro leads sem retornar suas pessoas.
+
+Esses testes são somente leitura, com claims SQL simuladas no servidor real. Não são login, token JWT real, mutações comerciais, renovação de sessão ou homologação visual.
+
+### Advisors e pendências
+
+- RLS habilitado sem policy em property_code_registry: informação esperada para registro interno sem acesso direto. Não foi aberta policy permissiva. [Orientação](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy).
+- Funções SECURITY DEFINER executáveis: 16 avisos para anon e 32 para authenticated. Incluem helpers booleanos, triggers e endpoints públicos intencionais de apresentação/consentimento, além de RPCs autenticados com guardas específicas. O linter não atesta exploração, mas esses avisos exigem revisão individual. Nenhum dos 12 RPCs privilegiados novos permite EXECUTE a anon; os guardas positivos/negativos foram testados localmente. [Anon](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable), [autenticados](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable).
+- Proteção contra senhas vazadas está desabilitada. Configuração não alterada porque não integra a autorização das cinco migrations. Revisar impacto e disponibilidade do plano antes de habilitar. [Orientação](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+- Performance: 39 FKs sem índice correspondente, 68 avisos auth_rls_initplan, 22 índices não usados, 23 avisos de policies permissivas múltiplas e 1 índice duplicado preexistente de slug em properties. Não foram executadas migrations adicionais para isso. O isolamento é imposto pelas policies restritivas mesmo com as permissivas legadas. [FKs](https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys), [InitPlan](https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan), [policies](https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies), [duplicação](https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index).
+- Preview novo continua sem publicação. O código da interface é o do commit 7264db6; esta atualização posterior sincroniza histórico e documenta a aplicação.
+- Evidências adicionais: tests/security/crm-operational-staging-application-20261019.json e crm-operational-staging-anon-readonly-20261019.json. Não contêm senhas, tokens, chaves ou cópia dos registros comerciais.
+
+Próxima etapa: autorizar preview isolado da branch, conferir seu commit/ambiente e executar a jornada autenticada com as quatro sessões.
