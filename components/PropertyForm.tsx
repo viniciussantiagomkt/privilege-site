@@ -7,6 +7,7 @@ import {
   FormEvent,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -216,6 +217,8 @@ export function PropertyForm({
   const [message, setMessage] = useState("");
   const [privatePreviews, setPrivatePreviews] = useState<Record<string, string>>({});
   const [brokers, setBrokers] = useState<Broker[]>([]);
+  const formIdentity = useRef<string | null>(null);
+  const [directoryError, setDirectoryError] = useState("");
 
   const score = calculateScore(form, imagesText);
   const suggestions = getSuggestions(form, imagesText);
@@ -240,20 +243,20 @@ export function PropertyForm({
     let active = true;
 
     async function loadBrokers() {
-      const { data: { session } } = await supabase.auth.getSession();
-      const { data: role } = await supabase.rpc("current_user_role");
-      const canManage = role === "admin" || role === "manager";
-      let query = supabase
-        .from("brokers")
-        .select("id,name,email,phone,whatsapp,active")
-        .order("name", { ascending: true });
-      if (!canManage) query = query.eq("id", session?.user.id || "00000000-0000-4000-8000-000000000000");
-      const { data } = await query;
-
-      if (active) {
-        setBrokers((data || []) as Broker[]);
-        if (session && !initialData?.id && !canManage) setForm(current => ({ ...current, broker_id: session.user.id }));
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      const { data: role, error: roleError } = await supabase.rpc("current_user_role");
+      if (!active) return;
+      if (authError || !user || roleError || !["admin","manager","broker","corretor"].includes(role)) {
+        setDirectoryError("Não foi possível validar sua permissão. Reabra o formulário após entrar novamente.");
+        return;
       }
+      const { data, error } = await supabase.rpc("crm_eligible_brokers");
+      if (!active) return;
+      if (error) { setDirectoryError("Não foi possível carregar os corretores elegíveis: " + error.message); return; }
+      formIdentity.current = user.id + ":" + role;
+      setDirectoryError("");
+      setBrokers((data || []) as Broker[]);
+      if (!initialData?.id && !["admin","manager"].includes(role)) setForm(current => ({ ...current, broker_id: user.id }));
     }
 
     void loadBrokers();
@@ -383,6 +386,12 @@ export function PropertyForm({
     setSaving(true);
     setMessage("");
 
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const { data: role, error: roleError } = await supabase.rpc("current_user_role");
+    if (directoryError || authError || roleError || !user || formIdentity.current !== user.id + ":" + role) {
+      setMessage(directoryError || "Sua sessão mudou. Reabra o formulário.");
+      setSaving(false); return;
+    }
     const basePayload = {
       slug: form.slug || createSlug(form.title),
       title: form.title,
@@ -938,6 +947,7 @@ export function PropertyForm({
                 className="admin-input"
               />
             </Field>
+            {directoryError && <p role="alert">{directoryError}</p>}
             <Field label="Corretor responsável" help="Vincula leads e edição operacional ao corretor.">
               <select
                 value={form.broker_id ?? ""}

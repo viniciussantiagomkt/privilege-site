@@ -257,7 +257,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
               <strong>
                 {me?.name || ctx.email.split("@")[0] || "Sua conta"}
               </strong>
-              <small>{ctx.operations ? "Gestão" : "Corretor"}</small>
+              <small>{ctx.role === "admin" ? "Administrador" : ctx.role === "manager" ? "Gestor" : "Corretor"}</small>
             </div>
           </div>
         </header>
@@ -313,6 +313,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
                     <strong>{n.title}</strong>
                     <p>{n.description}</p>
                     <small>{dateTime(n.created_at)}</small>
+                    {n.target_path && /^\/admin\/imoveis\?imovel=\d+$/.test(n.target_path) && <Link href={n.target_path} onClick={() => setNotifications(false)}>Abrir imóvel</Link>}
                   </div>
                   {n.read ? (
                     <Badge tone="muted">Lida</Badge>

@@ -1,4 +1,5 @@
--- Staging only. All fixtures and events are rolled back.
+-- POST-MIGRATION. Requires explicit staging fixture authorization.
+-- SQL claims only, not Auth HTTP or Storage file upload. Fixtures roll back.
 begin;
 -- Verify the recreated manager still exists in Auth before simulating claims.
 do $$ begin
@@ -22,7 +23,7 @@ begin
  end;
  insert into crm_test_results values(label,coalesce(ok,false),coalesce(err,'boolean assertion'));
 end $$;
-insert into public.leads(id,name,broker_id) overriding system value values(-920001,'SYNTHETIC Marketing A','73a767b8-218d-4910-a370-2b93cf32bf74'),(-920002,'SYNTHETIC Marketing B','779c7220-06dd-4180-8b52-05136bee21cb');
+insert into public.leads(id,name,broker_id,origin_type) overriding system value values(-920001,'SYNTHETIC Marketing A','73a767b8-218d-4910-a370-2b93cf32bf74','personal'),(-920002,'SYNTHETIC Marketing B','779c7220-06dd-4180-8b52-05136bee21cb','personal');
 insert into public.properties(id,title,slug,description,location,category,price,owner_id,broker_id,publish_on_site) overriding system value values(-920001,'SYNTHETIC Marketing imóvel','synthetic-marketing-20261013','Descrição pública','Localização pública','Casa','R$ 500.000','73a767b8-218d-4910-a370-2b93cf32bf74','73a767b8-218d-4910-a370-2b93cf32bf74',false);
 set local role authenticated;
 select set_config('request.jwt.claims','{"sub":"73a767b8-218d-4910-a370-2b93cf32bf74","role":"authenticated"}',true);
@@ -37,6 +38,7 @@ select pg_temp.crm_check('own valid storage upload authorized',$q$with x as(inse
 select pg_temp.crm_check('foreign storage upload denied',$q$insert into storage.objects(bucket_id,name) values('crm-marketing','779c7220-06dd-4180-8b52-05136bee21cb/00000000-0000-4000-8000-000000000099.pdf')$q$,'42501');
 select pg_temp.crm_check('broker cannot share hidden property',$q$insert into marketing_shares(property_ids,title) values(array[-920001]::bigint[],'SYNTHETIC denied')$q$,'42501');
 select pg_temp.crm_check('automation saved',$q$with x as(insert into crm_automation_preferences(owner_id,share_followup,followup_days) values(auth.uid(),true,2) on conflict(owner_id) do update set share_followup=true,followup_days=2 returning owner_id) select count(*)=1 from x$q$);
+select pg_temp.crm_check('owner consents to team review',$q$select crm_set_asset_audience(-920001,'team','{}'::uuid[])$q$);
 select pg_temp.crm_check('personal collection saved',$q$with x as(insert into marketing_collections(id,name) overriding system value values(-920001,'SYNTHETIC coleção') returning id) select count(*)=1 from x$q$);
 select pg_temp.crm_check('collection links own asset',$q$with x as(insert into marketing_collection_items(collection_id,asset_id) values(-920001,-920001) returning id) select count(*)=1 from x$q$);
 select pg_temp.crm_check('favorite saved',$q$with x as(insert into marketing_favorites(asset_id) values(-920001) returning asset_id) select count(*)=1 from x$q$);
@@ -85,11 +87,13 @@ select pg_temp.crm_check('new version requires reapproval',$q$with x as(update m
 set local role anon;select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('unapproved current version removed from presentation',$q$select jsonb_array_length(crm_public_presentation('00000000-0000-4000-8000-000000092001')->'assets')=0$q$);
 set local role authenticated;select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
-update marketing_assets set status='aprovado',expires_at=now()-interval '1 day' where id=-920001;
+update marketing_assets set expires_at=now()-interval '1 day' where id=-920001;
+update marketing_assets set status='aprovado',visibility='public' where id=-920001;
 set local role anon;select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);
 select pg_temp.crm_check('expired asset removed from presentation',$q$select jsonb_array_length(crm_public_presentation('00000000-0000-4000-8000-000000092001')->'assets')=0$q$);
 set local role authenticated;select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true);select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 update marketing_assets set expires_at=null where id=-920001;
+update marketing_assets set status='aprovado',visibility='public' where id=-920001;
 select pg_temp.crm_check('approved current version returns without expired predecessor',$q$select (crm_public_presentation('00000000-0000-4000-8000-000000092001')->'assets'->0->>'mime_type')='image/png'$q$);
 update properties set publish_on_site=false where id=-920001;
 set local role anon;select set_config('request.jwt.claims','{"role":"anon"}',true);select set_config('request.jwt.claim.sub','',true);

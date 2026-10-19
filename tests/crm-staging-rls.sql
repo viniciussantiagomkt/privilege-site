@@ -1,4 +1,5 @@
--- Staging only. All synthetic rows rolled back; sequences can advance.
+-- POST-MIGRATION suite. Do not execute on staging without fixture authorization.
+-- SQL-claims tests, not Auth HTTP. All synthetic rows rolled back; sequences can advance.
 begin;
 -- Recreated staging accounts must exist in Auth, not only in user_roles.
 do $$ begin
@@ -28,8 +29,8 @@ begin
  end;
  insert into crm_test_results values(label,coalesce(ok,false),coalesce(err,'boolean assertion'));
 end $$;
-insert into public.leads(id,name,broker_id) overriding system value values
-(-910001,'SYNTHETIC CRM A','73a767b8-218d-4910-a370-2b93cf32bf74'),(-910002,'SYNTHETIC CRM B','779c7220-06dd-4180-8b52-05136bee21cb'),(-910003,'SYNTHETIC CRM institucional',null);
+insert into public.leads(id,name,broker_id,origin_type) overriding system value values
+(-910001,'SYNTHETIC CRM A','73a767b8-218d-4910-a370-2b93cf32bf74','personal'),(-910002,'SYNTHETIC CRM B','779c7220-06dd-4180-8b52-05136bee21cb','personal'),(-910003,'SYNTHETIC CRM institucional',null,'company');
 insert into public.properties(id,title,slug,description,location,category,price,owner_id,broker_id,publish_on_site) overriding system value
 values(-910001,'SYNTHETIC CRM oculto','synthetic-crm-hidden-20261008','Ficticio','Ficticio','Casa','1','73a767b8-218d-4910-a370-2b93cf32bf74','73a767b8-218d-4910-a370-2b93cf32bf74',false);
 insert into clients(id,name,broker_id) overriding system value values(-910001,'SYNTHETIC Client A','73a767b8-218d-4910-a370-2b93cf32bf74'),(-910002,'SYNTHETIC Client B','779c7220-06dd-4180-8b52-05136bee21cb');
@@ -53,7 +54,7 @@ select pg_temp.crm_check('A cannot link B private client to visit',$q$insert int
 select pg_temp.crm_check('A creates own proposal',$q$with x as (insert into proposals(id,client_id,property_id,broker_id,value) overriding system value values(-910001,-910001,-910001,'73a767b8-218d-4910-a370-2b93cf32bf74',1) returning id) select count(*)=1 from x$q$);
 select pg_temp.crm_check('A cannot link B private client to proposal',$q$insert into proposals(client_id,property_id,broker_id,value) values(-910002,-910001,'73a767b8-218d-4910-a370-2b93cf32bf74',1)$q$,'42501');
 select pg_temp.crm_check('A creates negotiation',$q$with x as (insert into negotiations(proposal_id,notes) values(-910001,'SYNTHETIC negotiation') returning id) select count(*)=1 from x$q$);
-select pg_temp.crm_check('A cannot write sales',$q$insert into sales(property_id,client_id,broker_id) values(-910001,-910001,'73a767b8-218d-4910-a370-2b93cf32bf74')$q$,'42501');
+select pg_temp.crm_check('A records own commercial sale',$q$with x as (insert into sales(property_id,client_id,broker_id,value) values(-910001,-910001,'73a767b8-218d-4910-a370-2b93cf32bf74',1) returning id) select count(*)=1 from x$q$);
 select pg_temp.crm_check('property code generated',$q$select property_code like 'PRI-%' from properties where id=-910001$q$);
 select pg_temp.crm_check('A creates draft property',$q$with x as (insert into properties(id,title,slug,description,location,category,price,owner_id,broker_id) overriding system value values(-910005,'SYNTHETIC own','synthetic-crm-draft-20261008','x','x','Casa','1','73a767b8-218d-4910-a370-2b93cf32bf74','73a767b8-218d-4910-a370-2b93cf32bf74') returning workflow_status,publish_on_site) select workflow_status='rascunho' and not publish_on_site from x$q$);
 select pg_temp.crm_check('A atomically saves own media',$q$select true from crm_save_property_media(-910001,array['https://example.invalid/synthetic-hidden.jpg'],array['https://example.invalid/synthetic-video.mp4'])$q$);
@@ -76,22 +77,22 @@ select pg_temp.crm_check('B cannot see A followups',$q$select count(*)=0 from ta
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"0d92c58c-d6f0-4465-95e1-303e7d9f9a69","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','0d92c58c-d6f0-4465-95e1-303e7d9f9a69',true);
 select pg_temp.crm_check('Manager cannot grant roles',$q$with x as (update user_roles set role='admin' where id='73a767b8-218d-4910-a370-2b93cf32bf74' returning id) select count(*)=0 from x$q$);
 select pg_temp.crm_check('Manager cannot use admin role RPC',$q$select set_user_role('synthetic@example.invalid','admin')$q$,'42501');
-select pg_temp.crm_check('visit has audit history',$q$select count(*)>0 from audit_logs where entity='visits' and actor_id='73a767b8-218d-4910-a370-2b93cf32bf74'$q$);
-select pg_temp.crm_check('proposal has audit history',$q$select count(*)>0 from audit_logs where entity='proposals' and entity_id='-910001'$q$);
-select pg_temp.crm_check('negotiation has audit history',$q$select count(*)>0 from audit_logs where entity='negotiations' and actor_id='73a767b8-218d-4910-a370-2b93cf32bf74'$q$);
-select pg_temp.crm_check('Manager reads all synthetic leads',$q$select count(*)=3 from leads where id between -910003 and -910001$q$);
+select pg_temp.crm_check('visit has audit history remains private',$q$select count(*)=0 from audit_logs where entity='visits' and actor_id='73a767b8-218d-4910-a370-2b93cf32bf74'$q$);
+select pg_temp.crm_check('proposal has audit history remains private',$q$select count(*)=0 from audit_logs where entity='proposals' and entity_id='-910001'$q$);
+select pg_temp.crm_check('negotiation has audit history remains private',$q$select count(*)=0 from audit_logs where entity='negotiations' and actor_id='73a767b8-218d-4910-a370-2b93cf32bf74'$q$);
+select pg_temp.crm_check('Manager reads only institutional queue',$q$select count(*)=1 from leads where id between -910003 and -910001$q$);
 select pg_temp.crm_check('Manager assigns institutional',$q$select true from crm_assign_lead(-910003,'73a767b8-218d-4910-a370-2b93cf32bf74','SYNTHETIC assignment')$q$);
 select pg_temp.crm_check('Manager reassigns institutional',$q$select true from crm_assign_lead(-910003,'779c7220-06dd-4180-8b52-05136bee21cb','SYNTHETIC reassignment')$q$);
 select pg_temp.crm_check('Manager approves and publishes property',$q$with x as (update properties set approved_by=auth.uid(),approved_at=now(),workflow_status='publicado',publish_on_site=true,status='vendido' where id=-910005 returning id) select count(*)=1 from x$q$);
-select pg_temp.crm_check('Manager sees assignment history',$q$select count(*)=2 from lead_assignments where lead_id=-910003$q$);
-select pg_temp.crm_check('Manager sees audit',$q$select count(*)>0 from audit_logs where entity='leads' and entity_id='-910003'$q$);
+select pg_temp.crm_check('Manager cannot read private assignment history',$q$select count(*)=0 from lead_assignments where lead_id=-910003$q$);
+select pg_temp.crm_check('Manager sees audit remains private',$q$select count(*)=0 from audit_logs where entity='leads' and entity_id='-910003'$q$);
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"73a767b8-218d-4910-a370-2b93cf32bf74","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','73a767b8-218d-4910-a370-2b93cf32bf74',true);
 select pg_temp.crm_check('A loses reassigned lead',$q$select count(*)=0 from leads where id=-910003$q$);
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"779c7220-06dd-4180-8b52-05136bee21cb","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','779c7220-06dd-4180-8b52-05136bee21cb',true);
 select pg_temp.crm_check('B receives reassigned lead',$q$select count(*)=1 from leads where id=-910003$q$);
-select pg_temp.crm_check('B receives notification',$q$select count(*)>0 from notifications where user_id=auth.uid() and description='SYNTHETIC CRM institucional'$q$);
+select pg_temp.crm_check('B receives notification',$q$select count(*)>0 from notifications where user_id=auth.uid() and type='lead_atribuido'$q$);
 set local role authenticated; select set_config('request.jwt.claims','{"sub":"84c5604b-d728-4759-8572-ea4a832af9ce","role":"authenticated"}',true); select set_config('request.jwt.claim.sub','84c5604b-d728-4759-8572-ea4a832af9ce',true);
-select pg_temp.crm_check('Admin reads all synthetic leads',$q$select count(*)=3 from leads where id between -910003 and -910001$q$);
+select pg_temp.crm_check('Admin cannot read assigned private leads',$q$select count(*)=0 from leads where id between -910003 and -910001$q$);
 select pg_temp.crm_check('property codes unique',$q$select count(distinct property_code)=2 from properties where id in (-910001,-910005)$q$);
 select pg_temp.crm_check('Admin archives property',$q$with x as (update properties set deleted_at=now() where id=-910001 returning id) select count(*)=1 from x$q$);
 set local role anon; select set_config('request.jwt.claims','{"role":"anon"}',true); select set_config('request.jwt.claim.sub','',true);

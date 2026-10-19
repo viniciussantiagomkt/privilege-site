@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { ManagementOverview } from "./ManagementOverview";
 import { Users, Target, Wallet, Clock, Download } from "lucide-react";
 import { useWorkspace } from "./Workspace";
 import { supabase } from "@/lib/supabase";
@@ -22,6 +23,7 @@ export function Team() {
   const ctx = useWorkspace();
   const [edit, setEdit] = useState<Broker | null>(null);
   const [period, setPeriod] = useState("month");
+  if (ctx.operations) return <ManagementOverview />;
   const now = new Date();
   const since =
     period === "month"

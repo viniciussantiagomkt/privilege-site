@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { supabase } from "@/lib/supabase";
@@ -15,17 +15,22 @@ export function AdminGuard({
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
+  const [identityKey, setIdentityKey] = useState("");
 
   useEffect(() => {
     let active = true;
+    let generation = 0;
 
     async function validateSession() {
+      const current = ++generation;
+      setAuthorized(false);
+      setLoading(true);
       const {
         data: { user },
         error,
       } = await supabase.auth.getUser();
 
-      if (!active) return;
+      if (!active || current !== generation) return;
 
       if (error || !user) {
         setAuthorized(false);
@@ -34,13 +39,14 @@ export function AdminGuard({
       }
 
       const { data: role, error: roleError } = await supabase.rpc("current_user_role");
-      if (!active) return;
+      if (!active || current !== generation) return;
       if (roleError || !["admin", "manager", "broker", "corretor"].includes(role)) {
         setAuthorized(false);
         setLoading(false);
         return;
       }
       setAuthorized(true);
+      setIdentityKey(user.id + ":" + role);
       setLoading(false);
     }
 
@@ -50,7 +56,9 @@ export function AdminGuard({
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!session) {
+        generation++;
         setAuthorized(false);
+        setLoading(false);
         router.replace("/login");
       } else {
         queueMicrotask(() => { void validateSession(); });
@@ -75,5 +83,5 @@ export function AdminGuard({
     return <main className="min-h-screen flex items-center justify-center">Sua conta não tem acesso ao CRM.</main>;
   }
 
-  return <>{children}</>;
+  return <Fragment key={identityKey}>{children}</Fragment>;
 }

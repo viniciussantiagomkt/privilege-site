@@ -20,6 +20,7 @@ export interface BaseRow {
   created_at: string;
 }
 export interface Lead extends BaseRow {
+  origin_type: "personal" | "company";
   name: string;
   phone: string | null;
   email: string | null;
@@ -98,6 +99,7 @@ export interface Notification extends BaseRow {
   title: string;
   description: string | null;
   read: boolean;
+  target_path?: string | null;
 }
 export interface ContactLink extends BaseRow {
   contact_id: number;

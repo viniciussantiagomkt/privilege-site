@@ -28,6 +28,7 @@ import {
   numberId,
   type Field,
 } from "./UI";
+import { AssetAudience } from "./AssetAudience";
 import { Collections } from "./Collections";
 import { ShareComposer } from "./ShareComposer";
 export function Marketing() {
@@ -584,7 +585,7 @@ export function Marketing() {
                     () =>
                       supabase
                         .from("marketing_assets")
-                        .update({ status: "aprovado", visibility: "public" })
+                        .update({ status: "aprovado", visibility: edit.scope === "institutional" && edit.audience === "team" ? "public" : "internal" })
                         .eq("id", edit.id)
                         .select("id")
                         .single(),
@@ -612,6 +613,7 @@ export function Marketing() {
               Arquivar material
             </Button>
           </div>
+          {(ctx.operations || edit.owner_id === ctx.userId) && <AssetAudience key={edit.id} asset={edit} />}
           <MaterialRelations asset={edit} />
         </Modal>
       )}
@@ -840,6 +842,7 @@ function UploadMaterials({
                             ? "video"
                             : "foto",
                       scope: String(f.get("scope") || "personal"),
+                      audience: f.get("scope") === "institutional" ? "team" : "owner",
                     })
                     .select("id")
                     .single();
@@ -931,7 +934,7 @@ function UploadMaterials({
               Escopo
               <select name="scope">
                 <option value="personal">Pessoal</option>
-                <option value="institutional">Institucional</option>
+                <option value="institutional">Institucional para equipe (após aprovação)</option>
               </select>
             </label>
           )}
