@@ -1,11 +1,15 @@
 # Local-only restore rehearsal. No remote credentials, migrations or cleanup.
 [CmdletBinding()]
 param(
-    [string]$BackupDirectory = (Join-Path $env:LOCALAPPDATA 'PrivilegeCRM-Backups\staging-20261028-100029-f606b014')
+    [string]$BackupDirectory = (Join-Path $env:LOCALAPPDATA 'PrivilegeCRM-Backups\staging-20261028-100029-f606b014'),
+    [ValidatePattern('^[A-Fa-f0-9]{64}$')]
+    [string]$ExpectedArchiveSha256 = 'A40307EE86FF4D128168DBAA6C47EC431C57721440651AFBD352AB403C6A72E8',
+    [ValidateRange(1, [long]::MaxValue)]
+    [long]$ExpectedArchiveBytes = 764683
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$expectedHash = 'A40307EE86FF4D128168DBAA6C47EC431C57721440651AFBD352AB403C6A72E8'
+$expectedHash = $ExpectedArchiveSha256.ToUpperInvariant()
 $expectedImage = 'supabase/postgres@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00'
 $containerName = 'privilege-crm-restore-20261028'
 $projectRef = 'sdpqphiooiuglywcmkxv'
@@ -44,7 +48,7 @@ try {
     $manifest = Get-Content -LiteralPath $manifestFile -Raw | ConvertFrom-Json
     if ($manifest.project -ne $projectRef -or $manifest.archive_list_and_decode -ne 'PASS') { throw 'Backup manifest is not the expected staging backup.' }
     if ($manifest.archive_sha256 -ne $expectedHash -or (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -ne $expectedHash) { throw 'Backup SHA-256 mismatch. Nothing will be restored.' }
-    if ((Get-Item -LiteralPath $archiveFile).Length -ne 764683) { throw 'Unexpected archive size.' }
+    if ((Get-Item -LiteralPath $archiveFile).Length -ne $ExpectedArchiveBytes -or $manifest.archive_bytes -ne $ExpectedArchiveBytes) { throw 'Unexpected archive size.' }
     $contextName = (Invoke-LocalDocker 'Docker context check' @('context','show')).Trim()
     if ($contextName -ne 'desktop-linux') { throw 'Only the local desktop-linux Docker context is allowed.' }
     $endpoint = (Invoke-LocalDocker 'Local Docker endpoint check' @('context','inspect','desktop-linux','--format','{{.Endpoints.docker.Host}}')).Trim()
