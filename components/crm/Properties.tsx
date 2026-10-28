@@ -459,64 +459,10 @@ export function Properties() {
                 )}
               </div>
               {canEdit(p) && (
-                <div className="crm-toolbar">
-                  <label>
-                    Disponibilidade{" "}
-                    <select
-                      aria-label="Disponibilidade comercial"
-                      className="crm-compact-status"
-                      value={p.status}
-                      disabled={ctx.busy}
-                      onChange={(e) => {
-                        const status = e.currentTarget.value;
-                        void ctx.run(() =>
-                          supabase
-                            .from("properties")
-                            .update({ status })
-                            .eq("id", p.id)
-                            .select("id")
-                            .single(),
-                        );
-                      }}
-                    >
-                      {[
-                        "ativo",
-                        "reservado",
-                        "vendido",
-                        "alugado",
-                        "rascunho",
-                        "inativo",
-                      ].map((s) => (
-                        <option key={s}>{s}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    Apresentação{" "}
-                    <select
-                      aria-label="Habilitar página de apresentação"
-                      className="crm-compact-status"
-                      value={String(p.presentation_enabled)}
-                      disabled={ctx.busy}
-                      onChange={(e) => {
-                        const presentationEnabled = e.currentTarget.value === "true";
-                        void ctx.run(() =>
-                          supabase
-                            .from("properties")
-                            .update({
-                              presentation_enabled: presentationEnabled,
-                            })
-                            .eq("id", p.id)
-                            .select("id")
-                            .single(),
-                        );
-                      }}
-                    >
-                      <option value="true">Habilitada</option>
-                      <option value="false">Desabilitada</option>
-                    </select>
-                  </label>
-                </div>
+                <PropertySettings
+                  key={`${p.id}:${p.status}:${p.presentation_enabled}`}
+                  property={p}
+                />
               )}
               <h3>Apresentação compartilhável</h3>
               <p
@@ -670,5 +616,56 @@ function PropertyContactForm({ property }: { property: CrmProperty }) {
     <Button secondary onClick={() => setOpen(true)}>
       Vincular proprietário ou cliente
     </Button>
+  );
+}
+
+export function PropertySettings({ property }: { property: CrmProperty }) {
+  const ctx = useWorkspace();
+  const [status, setStatus] = useState(property.status);
+  const [presentationEnabled, setPresentationEnabled] = useState(property.presentation_enabled);
+  const changed = status !== property.status || presentationEnabled !== property.presentation_enabled;
+  return (
+    <form className="crm-form" onSubmit={async (event) => {
+      event.preventDefault();
+      if (!changed || ctx.busy) return;
+      const patch = { status, presentation_enabled: presentationEnabled };
+      await ctx.run(async () => {
+        const { data, error } = await supabase.from("properties")
+          .update(patch).eq("id", property.id)
+          .select("id,status,presentation_enabled").single();
+        if (error) return { error };
+        if (!data || data.status !== patch.status || data.presentation_enabled !== patch.presentation_enabled) {
+          return { error: { message: "O banco não confirmou as opções escolhidas. Atualize a página e tente novamente." } };
+        }
+        return { error: null };
+      }, "Disponibilidade e apresentação salvas.");
+    }}>
+      <fieldset disabled={ctx.busy}>
+        <div className="crm-form-grid">
+          <label>Disponibilidade
+            <select aria-label="Disponibilidade comercial" value={status}
+              onChange={(event) => setStatus(event.currentTarget.value)}>
+              {["ativo", "reservado", "vendido", "alugado", "rascunho", "inativo"].map(value => (
+                <option key={value} value={value}>{value}</option>
+              ))}
+            </select>
+          </label>
+          <label>Apresentação
+            <select aria-label="Habilitar página de apresentação" value={String(presentationEnabled)}
+              onChange={(event) => setPresentationEnabled(event.currentTarget.value === "true")}>
+              <option value="true">Habilitada</option>
+              <option value="false">Desabilitada</option>
+            </select>
+          </label>
+        </div>
+        <p role="status">{ctx.busy ? "Salvando opções…" : changed ? "Alterações ainda não salvas." : "As opções exibidas estão salvas."}</p>
+        <p>A apresentação pública também exige aprovação e publicação no site.</p>
+        <div className="crm-form-actions">
+          <Button type="submit" disabled={ctx.busy || !changed}>
+            {ctx.busy ? "Salvando…" : "Salvar disponibilidade e apresentação"}
+          </Button>
+        </div>
+      </fieldset>
+    </form>
   );
 }
