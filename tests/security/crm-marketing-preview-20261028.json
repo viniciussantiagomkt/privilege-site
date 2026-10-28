@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-28",
+  "project": "privilege-site",
+  "branch": "work/crm-marketing-notifications-20261019",
+  "deployed_commit": "ae5ab0c1d5a9f647e05201eda52200ec3204b74d",
+  "deployment_id": "dpl_73cWfhtj6FMj9CHCG1zfxmk8z4V4",
+  "url": "https://privilege-site-gyuklg1hy-viniciussantiagomkts-projects.vercel.app",
+  "state": "READY",
+  "environment": "preview",
+  "api_target": null,
+  "build_seconds": 40,
+  "ci": {
+    "run_id": 40708696155,
+    "conclusion": "success"
+  },
+  "supabase_project": "sdpqphiooiuglywcmkxv",
+  "public_key_sha256": "1d6911a13f337d0eec833199e2ed4b45ad44f2262e0b9a1e5b25c7c33ae131d5",
+  "applied_migration": "20261028143926_crm_marketing_delivery_notifications",
+  "env_scope": {
+    "target": [
+      "preview"
+    ],
+    "gitBranch": "work/crm-marketing-notifications-20261019",
+    "keys": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+      "NEXT_PUBLIC_GTM_ID",
+      "NEXT_PUBLIC_GA4_ID",
+      "NEXT_PUBLIC_META_PIXEL_ID",
+      "NEXT_PUBLIC_CLARITY_ID",
+      "LEAD_WEBHOOK_URL",
+      "LEAD_WEBHOOK_SECRET"
+    ],
+    "analytics_and_external_webhook_disabled": true,
+    "production_modified": false
+  },
+  "build_staging_guard": "passed",
+  "browser": {
+    "normal_navigation": "Vercel sign-in wall observed",
+    "crm_login_page_reached": false,
+    "authenticated_crm_tests": "BLOCKED_NO_SESSIONS",
+    "protection_preserved": true,
+    "temporary_bypass_link_created": false
+  },
+  "production_changed": false,
+  "main_merged": false,
+  "database_changed_this_deployment": false,
+  "manual_next_steps": [
+    "Open deployment with a project-authorized Vercel account, then sign in to CRM.",
+    "Run four isolated CRM sessions: admin, manager, broker A and broker B.",
+    "Start with private upload, team/selected audiences, approval and Storage access.",
+    "Check persisted notifications, unread count, exact record links, refresh and logout/account switching."
+  ]
+}

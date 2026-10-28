@@ -1,6 +1,6 @@
 # Central de Marketing e notificações: correção proposta
 
-19/10/2026. Base: PR #6, commit `14758f9d39b0e982b33d8f839793173910dbe563`. Branch isolada `work/crm-marketing-notifications-20261019`. **Atualização de 28/10/2026: migration aplicada exclusivamente no staging após confirmação específica. Nenhum usuário/papel foi alterado e nenhum novo preview foi publicado.** O preview anterior e a homologação do PR #6 foram preservados.
+19/10/2026. Base: PR #6, commit `14758f9d39b0e982b33d8f839793173910dbe563`. Branch isolada `work/crm-marketing-notifications-20261019`. **Atualização de 28/10/2026: migration aplicada exclusivamente no staging após confirmação específica. Nenhum usuário/papel foi alterado. Preview isolado publicado após autorização separada, conforme registro ao final.** O preview anterior e a homologação do PR #6 foram preservados.
 
 ## Diagnóstico comprovado
 
@@ -97,4 +97,17 @@ Após o bloqueio, o usuário confirmou especificamente a aplicação do arquivo 
 
 Evidência: tests/security/crm-marketing-staging-application-20261028.json. O arquivo de preflight/bloqueio anterior é histórico, não o estado atual. O backup privado permaneceu no Windows e seu ensaio local não valida bytes Storage/configurações externas/HTTP Auth.
 
-**Próximo passo atual:** autorização separada para preview do PR #7. O preview anterior não contém a interface nova deste PR. Após publicar e conferir commit/staging, executar o roteiro dos quatro usuários acima. Não declarar uso interno homologado antes dos testes reais. Produção/main permanecem inalteradas e o PR continua em rascunho.
+**Próximo passo atual:** executar o roteiro dos quatro usuários no preview atualizado do PR #7, já autorizado/publicado conforme a seção seguinte. Não declarar uso interno homologado antes dos testes reais. Produção/main permanecem inalteradas e o PR continua em rascunho.
+
+## Preview autorizado e publicado em 28/10/2026
+
+- URL imutável: https://privilege-site-gyuklg1hy-viniciussantiagomkts-projects.vercel.app/login
+- Deployment dpl_73cWfhtj6FMj9CHCG1zfxmk8z4V4, **READY**, ambiente preview (target nulo na API).
+- Commit publicado **ae5ab0c1d5a9f647e05201eda52200ec3204b74d**. Logs do build confirmam a branch work/crm-marketing-notifications-20261019 e ae5ab0c; build remoto 40s. CI GitHub 40708696155 concluiu com success para esse SHA. Commits posteriores exclusivamente documentais não alteram o conteúdo deste deployment.
+- Nove variáveis configuradas exclusivamente para preview desta branch. URL e chave pública de staging validadas; hash da chave: 1d6911a13f337d0eec833199e2ed4b45ad44f2262e0b9a1e5b25c7c33ae131d5. Analytics e webhook externo desativados; nenhuma variável de produção foi alterada. Sem credencial administrativa de Supabase no preview.
+- Guard de build de staging aprovado: impede produção, outro projeto/chave e service-role. A migration 20261028143926 já está aplicada; nenhuma migration foi executada nesta publicação.
+- Abertura normal do /login em navegador retornou **Log in to Vercel**. Proteção preservada, sem sessão disponível neste navegador. Nenhum link temporário de bypass foi criado. Isso é um bloqueio de autenticação Vercel, não evidência de falha do CRM.
+- Testes reais de CRM/Storage/mobile com quatro usuários continuam BLOQUEADOS sem sessões; o deployment READY não homologa esses fluxos. O usuário deve abrir a URL com sua conta Vercel autorizada ao projeto e depois entrar no CRM em sessões separadas.
+- Evidência sanitizada: tests/security/crm-marketing-preview-20261028.json. O PR #7 permanece em rascunho; produção/main e preview do PR #6 preservados.
+
+Próxima etapa: executar o roteiro dos quatro perfis descrito acima. Priorizar upload privado, equipe e selecionados (incluindo admin/gestor), aprovação, revogação/versões/Storage e notificações persistentes após reload/troca de usuário. Autorizar nova publicação não substitui essas verificações.
