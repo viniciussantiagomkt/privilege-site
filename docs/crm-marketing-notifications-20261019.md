@@ -139,3 +139,17 @@ Esta seção atualiza o estado operacional; as seções anteriores são evidênc
 - Validação final com Next 16.4.3: **build, ESLint e TypeScript aprovados**, 253 verificações PGlite e 23 testes de código aprovados; `npm audit` completo e de runtime sem vulnerabilidades reportadas. Não foi repetido o bloqueio da UI por outro caminho.
 
 Evidência sanitizada: `tests/security/crm-optional-reasons-staging-application-20261028.json`. PR #7 permanece em rascunho. Próximo passo: solicitar autorização separada para publicar o commit reconciliado em novo preview; nenhum deploy autorizado ou executado nesta continuidade. Depois, ampliar evidência de API/Storage/expiração e fallback de Realtime com sessões autorizadas, sem tratar toda a homologação como concluída.
+
+## Novo preview autorizado: motivos opcionais e patch de segurança
+
+Após autorização separada do usuário, foi publicado **somente o commit 5c2abc92122d5f9335554f907f309530d69e62e7**, ambiente preview, ligado ao Supabase staging. Deployment **dpl_94YD58VCYh83m3kEsRRRBbxBSqpm**, estado **READY**:
+
+https://privilege-site-4wj0neynt-viniciussantiagomkts-projects.vercel.app/login
+
+Os logs confirmam branch/commit, Next.js 16.4.3, compilação concluída e build em `/vercel/output` (29s). Nove variáveis específicas de preview foram conferidas sem divulgação de valores: projeto/chave pública de staging corretos; analytics e webhook externo desativados. A guarda de build permaneceu ativa. Nenhuma configuração de projeto ou variável foi modificada.
+
+A listagem do deployment de produção antes/depois permaneceu idêntica. Nenhuma migration, merge na main, promoção, publicação de produção ou mensagem externa foi executada nesta publicação. O deployment automático da branch continua desativado; o alias de preview da branch acompanha o novo deployment, sem alterar domínios de produção.
+
+Proteção Vercel preservada: requisição anônima ao `/login` recebeu 302 para vercel.com. Nenhum link de compartilhamento/bypass foi criado. Abrir com conta Vercel autorizada e depois sessão CRM de homologação. READY não significa homologação funcional integral; os cenários autenticados adicionais continuam pendentes. Os commits documentais posteriores não alteram o código do preview publicado.
+
+Evidência: `tests/security/crm-optional-reasons-preview-20261028.json`. PR #7 permanece em rascunho.
