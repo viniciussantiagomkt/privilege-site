@@ -1,5 +1,13 @@
 # Central de Marketing e notificações: correção proposta
 
+## Ajuste visual de audiência em 28/10/2026
+
+O usuário informou aprovação dos cenários de material privado e destinatários selecionados orientados no chat. Essa evidência é manual e não equivale à execução pelo agente nem à aprovação de todo o roteiro.
+
+A captura enviada mostrou o formulário de audiência sem estilos: seletor inline, destinatários sem espaçamento e ação encostada na borda do painel. O componente não usava as classes do formulário do CRM. Foram adicionados estilos específicos, cartões de destinatários com checkbox e papel, grade adaptável, espaçamento do formulário, foco visível e quebra do texto do botão. O legend agora pertence ao fieldset de destinatários. O resumo usa papéis em português. Nenhuma migration necessária.
+
+TypeScript, ESLint do componente e os 19 testes de código passaram. O build compilou, mas não concluiu a geração de páginas por ausência das variáveis públicas Supabase neste ambiente. Validação visual ainda pendente: Playwright não encontrou Chromium instalado e o download retornou arquivo inválido. Nenhuma sessão autenticada foi exercitada nesta rodada. O preview publicado anteriormente não contém este ajuste; uma nova publicação exige autorização específica.
+
 19/10/2026. Base: PR #6, commit `14758f9d39b0e982b33d8f839793173910dbe563`. Branch isolada `work/crm-marketing-notifications-20261019`. **Atualização de 28/10/2026: migration aplicada exclusivamente no staging após confirmação específica. Nenhum usuário/papel foi alterado. Preview isolado publicado após autorização separada, conforme registro ao final.** O preview anterior e a homologação do PR #6 foram preservados.
 
 ## Diagnóstico comprovado

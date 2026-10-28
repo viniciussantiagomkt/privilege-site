@@ -46,7 +46,7 @@ export function AudienceFields({
     };
   }, [ctx.userId, assetId]);
   return (
-    <fieldset disabled={ctx.busy || loading}>
+    <fieldset className="crm-audience-fields" disabled={ctx.busy || loading}>
       <label>
         Quem pode acessar?
         <select
@@ -67,10 +67,10 @@ export function AudienceFields({
         </p>
       )}
       {audience === "selected" && (
-        <>
+        <fieldset className="crm-audience-recipients">
           <legend>Destinatários atuais</legend>
           {candidates.map((m) => (
-            <label key={m.id}>
+            <label className="crm-audience-recipient" key={m.id}>
               <input
                 type="checkbox"
                 name="recipient"
@@ -84,15 +84,15 @@ export function AudienceFields({
                   )
                 }
               />
-              {m.name} ·{" "}
+              <span>{m.name}<small>
               {m.role === "admin"
                 ? "Administrador"
                 : m.role === "manager"
                   ? "Gestor"
-                  : "Corretor"}
+                  : "Corretor"}</small></span>
             </label>
           ))}
-        </>
+        </fieldset>
       )}
       <p>
         Você conserva acesso ao próprio material. Mudanças de audiência exigem
@@ -120,6 +120,7 @@ export function AssetAudience({ asset }: { asset: Asset }) {
         <p role={ctx.notice.error ? "alert" : "status"}>{ctx.notice.text}</p>
       )}
       <form
+        className="crm-audience-form"
         onSubmit={async (e) => {
           e.preventDefault();
           const f = new FormData(e.currentTarget);
@@ -195,7 +196,7 @@ export function AssetRecipientSummary({ asset }: { asset: Asset }) {
       setLabels(
         (directory.data || [])
           .filter((m: { id: string }) => ids.has(m.id))
-          .map((m: { name: string; role: string }) => `${m.name} (${m.role})`),
+          .map((m: { name: string; role: string }) => `${m.name} (${m.role === "admin" ? "Administrador" : m.role === "manager" ? "Gestor" : "Corretor"})`),
       );
     });
     return () => {
