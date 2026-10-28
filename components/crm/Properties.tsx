@@ -95,7 +95,7 @@ export function Properties() {
     setEdit(null);
     setCreate(false);
     void ctx.reload();
-    ctx.setNotice({ text: "Cadastro do imóvel salvo.", error: false });
+    ctx.setNotice({ text: "Cadastro salvo. Novos imóveis ficam em rascunho; abra o imóvel e envie para aprovação para notificar a gestão.", error: false });
   }
   async function approve(p: CrmProperty) {
     await ctx.run(
@@ -353,6 +353,11 @@ export function Properties() {
               onClose={() => setSelected(null)}
               wide
             >
+              {ctx.notice && !ctx.notice.error && (
+                <div className="crm-alert" role="status">
+                  {ctx.notice.text}
+                </div>
+              )}
               <div className="crm-detail-grid">
                 <div>
                   <small>Disponibilidade</small>
@@ -432,6 +437,7 @@ export function Properties() {
                           .eq("id", p.id)
                           .select("id")
                           .single(),
+                        "Imóvel enviado para aprovação. A gestão foi notificada.",
                       )
                     }
                   >
@@ -461,16 +467,17 @@ export function Properties() {
                       className="crm-compact-status"
                       value={p.status}
                       disabled={ctx.busy}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const status = e.currentTarget.value;
                         void ctx.run(() =>
                           supabase
                             .from("properties")
-                            .update({ status: e.target.value })
+                            .update({ status })
                             .eq("id", p.id)
                             .select("id")
                             .single(),
-                        )
-                      }
+                        );
+                      }}
                     >
                       {[
                         "ativo",
@@ -491,18 +498,19 @@ export function Properties() {
                       className="crm-compact-status"
                       value={String(p.presentation_enabled)}
                       disabled={ctx.busy}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        const presentationEnabled = e.currentTarget.value === "true";
                         void ctx.run(() =>
                           supabase
                             .from("properties")
                             .update({
-                              presentation_enabled: e.target.value === "true",
+                              presentation_enabled: presentationEnabled,
                             })
                             .eq("id", p.id)
                             .select("id")
                             .single(),
-                        )
-                      }
+                        );
+                      }}
                     >
                       <option value="true">Habilitada</option>
                       <option value="false">Desabilitada</option>
