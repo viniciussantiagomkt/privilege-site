@@ -7,6 +7,9 @@ const { PGlite } = await import(
 );
 const db = new PGlite();
 const results = [];
+// Git checkouts on Windows can use CRLF inside dollar-quoted function bodies.
+// Replay the canonical LF SQL so PostgreSQL fingerprints stay platform-independent.
+const readSql = (path) => readFileSync(path, "utf8").replace(/\r\n/g, "\n");
 const ids = {
   admin: "11111111-1111-4111-8111-111111111111",
   manager: "22222222-2222-4222-8222-222222222222",
@@ -60,12 +63,12 @@ async function denied(who, sql, params = []) {
 }
 let migrations = [];
 try {
-  await db.exec(readFileSync("tests/fixtures/crm-schema-20261019.sql", "utf8"));
+  await db.exec(readSql("tests/fixtures/crm-schema-20261019.sql"));
   await check(
     "schema adapter: preflight baseline has no function/policy drift",
     async () => {
       const out = await db.exec(
-        readFileSync("tests/crm-operational-preflight-readonly.sql", "utf8"),
+        readSql("tests/crm-operational-preflight-readonly.sql"),
       );
       const drift = out.filter((r) =>
         r.fields?.some((f) => f.name === "expected_md5"),
@@ -78,10 +81,10 @@ try {
     },
   );
   migrations = readdirSync("supabase/migrations")
-    .filter((f) => f.startsWith("20261019") || f === "20261028143926_crm_marketing_delivery_notifications.sql" || f === "20261028173753_crm_optional_lead_reasons.sql")
+    .filter((f) => f.startsWith("20261019") || f === "20261028143926_crm_marketing_delivery_notifications.sql" || f.endsWith("_crm_optional_lead_reasons.sql"))
     .sort();
   for (const name of migrations)
-    await db.exec(readFileSync("supabase/migrations/" + name, "utf8"));
+    await db.exec(readSql("supabase/migrations/" + name));
   await db.exec(
     "insert into organizations(id,name) values('00000000-0000-4000-8000-000000000001','Local fictitious organization')",
   );
@@ -1517,7 +1520,7 @@ try {
   });
   for (const file of ["crm-staging-rls.sql", "crm-marketing-rls.sql"]) {
     await check("SQL regression suite " + file, async () => {
-      let sql = readFileSync("tests/" + file, "utf8");
+      let sql = readSql("tests/" + file);
       for (const [from, to] of Object.entries(historicalIds))
         sql = sql.replaceAll(from, to);
       const localDb = (await db.query("select current_database() name")).rows[0]
@@ -1564,7 +1567,7 @@ const report = {
   migrations: migrations.map((name) => ({
     name,
     sha256: createHash("sha256")
-      .update(readFileSync("supabase/migrations/" + name))
+      .update(readSql("supabase/migrations/" + name))
       .digest("hex"),
   })),
   results,
