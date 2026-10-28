@@ -5,6 +5,7 @@ param([string]$PgBin = 'C:\Program Files\PostgreSQL\17\bin')
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $projectRef = 'sdpqphiooiuglywcmkxv'
+$expectedMigrationVersions = '20261008144426,20261008144813,20261008145320,20261008150501,20261008163217,20261008163432,20261008163623,20261009142538,20261009144156,20261009174757,20261013180730,20261019165011,20261019165034,20261019165057,20261019165119,20261019170348,20261028143926'
 $backupDirectory = $null
 $completed = $false
 $priorEnvironment = @{}
@@ -75,6 +76,7 @@ try {
 select json_build_object(
  'server_version',current_setting('server_version'),
  'migration_count',(select count(*) from supabase_migrations.schema_migrations),
+ 'migration_versions',(select string_agg(version,',' order by version) from supabase_migrations.schema_migrations),
  'm5_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261019170348'),
  'new_migration_present',to_regprocedure('public.crm_marketing_recipients()') is not null,
  'auth_users',(select count(*) from auth.users),
@@ -86,7 +88,7 @@ select json_build_object(
     $inspectionFile = Join-Path $backupDirectory 'source-counts.json'
     Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--command',$inspection)) $inspectionFile
     $source = Get-Content -LiteralPath $inspectionFile -Raw | ConvertFrom-Json
-    if ($source.server_version -notmatch '^17\.' -or !$source.m5_present -or $source.migration_count -ne 16 -or $source.new_migration_present) {
+    if ($source.server_version -notmatch '^17\.' -or !$source.m5_present -or $source.migration_count -ne 17 -or !$source.new_migration_present -or $source.migration_versions -ne $expectedMigrationVersions) {
         throw 'Source history differs from the authorized baseline. Stop; do not apply or repeat any migration.'
     }
     $dumpFile = Join-Path $backupDirectory 'staging-database.dump'
