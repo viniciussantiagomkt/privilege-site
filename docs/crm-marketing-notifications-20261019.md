@@ -71,3 +71,13 @@ Após autorização específica da migration e, separadamente, do novo preview:
 ## Próximo passo seguro
 
 Revisar este pacote e autorizar especificamente apenas a nova migration no staging, condicionada à conferência de drift e backup adequado. Depois da verificação do banco, obter autorização separada do preview desta branch, com variáveis restritas a staging. O deployment automático da branch está desativado e seu build bloqueia produção/outro projeto/chave administrativa. Não houve merge nem alteração de produção. Prontidão: correção preparada e testes locais aprovados; homologação operacional ainda pendente.
+
+## Atualização de 28/10/2026: backup ensaiado, aplicação bloqueada
+
+O usuário informou RESTORE PASS do backup SHA-256 A40307EE86FF4D128168DBAA6C47EC431C57721440651AFBD352AB403C6A72E8, 764683 bytes, criado em 2026-10-28T13:01:25.5280876Z. Restauração local no banco privilege_restore_0584dc840775, no contêiner sem rede/portas. Foi necessário criar somente no contêiner o papel interno supabase_realtime_admin com os atributos NOLOGIN/NOSUPERUSER registrados no roles.sql. Nenhum papel/usuário foi criado ou alterado no staging. O agente não recebeu o dump nem o relatório privado: a evidência da execução é a saída enviada pelo usuário. Não confundir este ensaio de banco com validação de Auth HTTP, bytes Storage, chaves Vault ou configurações externas.
+
+Preflight remoto renovado contra o commit a052928693195705dc0b4758c274cc15ff2bfc6d do PR #7: zero drift nas três funções e três policies substituídas; 16 migrations anteriores, novo RPC/coluna ausentes; zero locks aguardando e zero transações com mais de um minuto no instante da leitura. Regressão local reexecutada: 242 aprovadas, zero falhas. SQL candidato preservado, SHA-256 2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563.
+
+A tentativa de aplicar crm_marketing_delivery_notifications foi rejeitada pela revisão automática antes da execução. Motivo informado: não reconheceu autorização explícita e inequívoca para exatamente esta migration. Não foi tentado outro caminho. É necessária confirmação explícita do nome do arquivo/projeto antes de nova tentativa; o preflight será reconferido.
+
+Leitura após a rejeição: histórico permanece com 16 migrations, novo RPC e coluna continuam ausentes, contagens e fingerprints das 43 tabelas públicas inalterados; fingerprint das identidades/papéis e quatro usuários Auth preservado. Nenhuma migration, publicação de preview ou alteração de produção foi realizada. Evidência sanitizada: tests/security/crm-marketing-preflight-20261028.json. PR #7 continua em rascunho. O SQL preparado não deve ser marcado como aplicado nem renomeado para uma versão gerenciada inexistente.
