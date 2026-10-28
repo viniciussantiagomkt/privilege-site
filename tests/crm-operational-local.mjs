@@ -78,7 +78,7 @@ try {
     },
   );
   migrations = readdirSync("supabase/migrations")
-    .filter((f) => f.startsWith("20261019"))
+    .filter((f) => f.startsWith("20261019") || f === "20261028143926_crm_marketing_delivery_notifications.sql")
     .sort();
   for (const name of migrations)
     await db.exec(readFileSync("supabase/migrations/" + name, "utf8"));

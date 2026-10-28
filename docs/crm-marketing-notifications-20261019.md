@@ -1,6 +1,6 @@
 # Central de Marketing e notificações: correção proposta
 
-19/10/2026. Base: PR #6, commit `14758f9d39b0e982b33d8f839793173910dbe563`. Branch isolada `work/crm-marketing-notifications-20261019`. Não implantada: nenhuma migration executada, nenhum usuário ou papel alterado e nenhum preview publicado nesta entrega. O preview anterior e a homologação do PR #6 foram preservados.
+19/10/2026. Base: PR #6, commit `14758f9d39b0e982b33d8f839793173910dbe563`. Branch isolada `work/crm-marketing-notifications-20261019`. **Atualização de 28/10/2026: migration aplicada exclusivamente no staging após confirmação específica. Nenhum usuário/papel foi alterado e nenhum novo preview foi publicado.** O preview anterior e a homologação do PR #6 foram preservados.
 
 ## Diagnóstico comprovado
 
@@ -30,13 +30,13 @@ Staging inspecionado somente por SELECT e catálogo: `sdpqphiooiuglywcmkxv`. Há
 - Diretório não depende da quantidade de imóveis/materiais. Fallback de identificação de administrador/gestor usa papel + trecho do UUID, sem expor e-mail; cadastros não foram alterados para obter nomes.
 - A interface de rejeição existente arquiva o material (estado permitido pelo schema). A notificação de resultado acompanha o arquivamento. Não foi inventado estado rejeitado incompatível.
 
-## Migration proposta, não aplicada
+## Migration revisada (aplicada em 28/10/2026)
 
-`supabase/migrations/20261019184002_crm_marketing_delivery_notifications.sql`, gerada pelo CLI 2.121.0.
+Preparada como `20261019184002_crm_marketing_delivery_notifications.sql` pelo CLI 2.121.0; registrada como `supabase/migrations/20261028143926_crm_marketing_delivery_notifications.sql`. SQL preservado byte a byte, MD5 conferido no histórico gerenciado. Não reaplicar.
 
 Acrescenta delivery_cycle em materiais, índice parcial de não lidas, diretório/RPC de submissão e contagem, helpers/triggers de eventos. Substitui asset_readable, crm_set_asset_audience e crm_assign_lead; ajusta as policies de destinatários durante revisão e de versões/Storage para que destinatários, inclusive gestores, recebam somente a versão atual aprovada. Não altera auth.users/user_roles, não desativa RLS, não recria tabelas e não reaplica M1–M5.
 
-Precondição transacional verifica hashes das três funções substituídas. Antes de aplicar: conferir também as 16 migrations registradas, policies, grants e triggers, alterações concorrentes da homologação e backup restaurável do provedor. Não usar o antigo preflight de 11 migrations como se o staging ainda estivesse anterior à M1. O backup restaurável não foi confirmado por este trabalho.
+Precondição transacional verifica hashes das três funções substituídas. Antes de aplicar: conferir também as 16 migrations registradas, policies, grants e triggers, alterações concorrentes da homologação e backup restaurável do provedor. Não usar o antigo preflight de 11 migrations como se o staging ainda estivesse anterior à M1. O usuário executou e informou RESTORE PASS do backup manual no contêiner local isolado; escopo e limites estão registrados abaixo.
 
 Locks: ALTER TABLE/CREATE INDEX/CREATE TRIGGER requerem locks; limites de 5s de lock e 30s de statement abortam o pacote. Conferir volumes e transações ativas imediatamente antes da implantação. Sem atualização em massa, backfill de notificações ou publicação histórica. Tudo está em uma transação.
 
@@ -72,7 +72,7 @@ Após autorização específica da migration e, separadamente, do novo preview:
 
 Revisar este pacote e autorizar especificamente apenas a nova migration no staging, condicionada à conferência de drift e backup adequado. Depois da verificação do banco, obter autorização separada do preview desta branch, com variáveis restritas a staging. O deployment automático da branch está desativado e seu build bloqueia produção/outro projeto/chave administrativa. Não houve merge nem alteração de produção. Prontidão: correção preparada e testes locais aprovados; homologação operacional ainda pendente.
 
-## Atualização de 28/10/2026: backup ensaiado, aplicação bloqueada
+## Histórico de 28/10/2026: bloqueio anterior à confirmação específica
 
 O usuário informou RESTORE PASS do backup SHA-256 A40307EE86FF4D128168DBAA6C47EC431C57721440651AFBD352AB403C6A72E8, 764683 bytes, criado em 2026-10-28T13:01:25.5280876Z. Restauração local no banco privilege_restore_0584dc840775, no contêiner sem rede/portas. Foi necessário criar somente no contêiner o papel interno supabase_realtime_admin com os atributos NOLOGIN/NOSUPERUSER registrados no roles.sql. Nenhum papel/usuário foi criado ou alterado no staging. O agente não recebeu o dump nem o relatório privado: a evidência da execução é a saída enviada pelo usuário. Não confundir este ensaio de banco com validação de Auth HTTP, bytes Storage, chaves Vault ou configurações externas.
 
@@ -81,3 +81,20 @@ Preflight remoto renovado contra o commit a052928693195705dc0b4758c274cc15ff2bfc
 A tentativa de aplicar crm_marketing_delivery_notifications foi rejeitada pela revisão automática antes da execução. Motivo informado: não reconheceu autorização explícita e inequívoca para exatamente esta migration. Não foi tentado outro caminho. É necessária confirmação explícita do nome do arquivo/projeto antes de nova tentativa; o preflight será reconferido.
 
 Leitura após a rejeição: histórico permanece com 16 migrations, novo RPC e coluna continuam ausentes, contagens e fingerprints das 43 tabelas públicas inalterados; fingerprint das identidades/papéis e quatro usuários Auth preservado. Nenhuma migration, publicação de preview ou alteração de produção foi realizada. Evidência sanitizada: tests/security/crm-marketing-preflight-20261028.json. PR #7 continua em rascunho. O SQL preparado não deve ser marcado como aplicado nem renomeado para uma versão gerenciada inexistente.
+
+
+## Estado final em 28/10/2026: migration aplicada
+
+Após o bloqueio, o usuário confirmou especificamente a aplicação do arquivo revisado, incluindo schema/funções/policies/triggers, somente no staging. O preflight foi reconferido: zero drift, 16 versões, sem objetos novos ou locks/transações longas. A chamada gerenciada seguinte retornou success.
+
+- Versão real: **20261028143926_crm_marketing_delivery_notifications**. Histórico agora tem **17 migrations**, com um único registro deste pacote. M1–M5 não foram repetidas.
+- Arquivo renomeado para o timestamp emitido pelo Supabase. MD5 local/gerenciado **aef87907d0a1e92fd52bc3adf945324f**; SHA-256 do SQL **2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563**, sem alteração dos bytes. O comentário PROPOSED ONLY preserva a origem da revisão, não o estado atual.
+- Contagens e fingerprints dos registros das **43 tabelas públicas** permaneceram iguais, excluindo só a coluna delivery_cycle adicionada com default previsto. Identidades, papéis, vínculos e quatro usuários Auth preservados. Nenhum material pessoal foi publicado e nenhuma notificação histórica foi inventada.
+- Coluna e quatro triggers instalados. Três novos RPCs públicos sem EXECUTE para anon, com grant autenticado e search_path fixo. Nenhuma tabela pública sem RLS.
+- Leitura por SET ROLE e claims simuladas no staging real: admin resolveu admin, gestor resolveu manager, A/B resolveram broker. Todos receberam diretório com quatro membros: 1 admin, 1 manager e 2 brokers. Contagem não lida retornou zero para os quatro. Não são sessões JWT nem homologação de interface.
+- Regressão local após renomear o arquivo: **242/242 aprovadas**; runner atualizado para incluir esta versão gerenciada posterior às cinco de 19/10. O SQL não foi executado novamente no staging para testar.
+- Advisors: 1 informação de RLS sem policy no registro interno property_code_registry, 16 avisos de funções SECURITY DEFINER anônimas e 34 autenticadas; proteção contra senhas vazadas continua desabilitada. Os dois RPCs SECURITY DEFINER públicos novos são intencionais, com guardas e sem acesso anônimo; a contagem usa SECURITY INVOKER. Revisão individual dos avisos legados permanece pendente. Nenhuma configuração Auth foi alterada. Remediações estão na evidência JSON.
+
+Evidência: tests/security/crm-marketing-staging-application-20261028.json. O arquivo de preflight/bloqueio anterior é histórico, não o estado atual. O backup privado permaneceu no Windows e seu ensaio local não valida bytes Storage/configurações externas/HTTP Auth.
+
+**Próximo passo atual:** autorização separada para preview do PR #7. O preview anterior não contém a interface nova deste PR. Após publicar e conferir commit/staging, executar o roteiro dos quatro usuários acima. Não declarar uso interno homologado antes dos testes reais. Produção/main permanecem inalteradas e o PR continua em rascunho.

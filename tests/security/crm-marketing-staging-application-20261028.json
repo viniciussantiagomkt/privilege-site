@@ -1,0 +1,196 @@
+{
+  "date": "2026-10-28",
+  "project": "sdpqphiooiuglywcmkxv",
+  "source_commit": "174201d8d56a30f4c3b5dd74d7d22ecaefafeaf9",
+  "migration_reviewed_file": "20261019184002_crm_marketing_delivery_notifications.sql",
+  "sql_sha256": "2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563",
+  "backup": {
+    "evidence": "user-reported local restore output; backup/report not transferred to agent",
+    "created_utc": "2026-10-28T13:01:25.5280876Z",
+    "bytes": 764683,
+    "sha256": "A40307EE86FF4D128168DBAA6C47EC431C57721440651AFBD352AB403C6A72E8",
+    "archive_list_decode": "PASS",
+    "restore": "PASS reported by user",
+    "local_database": "privilege_restore_0584dc840775",
+    "missing_role_fixed_only_locally": "supabase_realtime_admin NOLOGIN NOSUPERUSER NOINHERIT NOCREATEROLE NOCREATEDB NOREPLICATION NOBYPASSRLS",
+    "limits": "Database rehearsal; no Auth HTTP/Storage bytes/Vault decryption/external service recovery validated."
+  },
+  "preflight": {
+    "function_drift": [],
+    "policy_drift": [],
+    "migration_count": 16,
+    "long_transactions": 0,
+    "waiting_locks": 0,
+    "tables": [
+      {
+        "bytes": 81920,
+        "table": "asset_versions"
+      },
+      {
+        "bytes": 24576,
+        "table": "lead_transfer_requests"
+      },
+      {
+        "bytes": 147456,
+        "table": "leads"
+      },
+      {
+        "bytes": 8192,
+        "table": "marketing_asset_recipients"
+      },
+      {
+        "bytes": 65536,
+        "table": "marketing_assets"
+      },
+      {
+        "bytes": 57344,
+        "table": "notifications"
+      },
+      {
+        "bytes": 245760,
+        "table": "properties"
+      }
+    ]
+  },
+  "local_regression": {
+    "passed": 242,
+    "failed": 0
+  },
+  "application": {
+    "status": "APPLIED",
+    "applied": true,
+    "version": "20261028143926",
+    "name": "crm_marketing_delivery_notifications",
+    "stored_sql_md5": "aef87907d0a1e92fd52bc3adf945324f",
+    "sql_bytes_match": true,
+    "previous_attempt": "Auto-review rejected; user subsequently explicitly confirmed the named migration and staging-only scope."
+  },
+  "preview_published": false,
+  "production_changed": false,
+  "migration_recorded_file": "20261028143926_crm_marketing_delivery_notifications.sql",
+  "post_application": {
+    "migration_count": 17,
+    "public_tables": 43,
+    "records_fingerprints_unchanged": true,
+    "identity_unchanged": true,
+    "auth_user_count": 4,
+    "new_column": true,
+    "new_triggers": 4,
+    "public_tables_without_rls": 0,
+    "new_public_rpcs_anon_execute": false
+  },
+  "profile_readonly_checks": [
+    {
+      "unread": 0,
+      "profile": "admin",
+      "resolved_role": "admin",
+      "directory_count": 4,
+      "directory_roles": [
+        {
+          "role": "admin",
+          "members": 1
+        },
+        {
+          "role": "broker",
+          "members": 2
+        },
+        {
+          "role": "manager",
+          "members": 1
+        }
+      ]
+    },
+    {
+      "unread": 0,
+      "profile": "manager",
+      "resolved_role": "manager",
+      "directory_count": 4,
+      "directory_roles": [
+        {
+          "role": "admin",
+          "members": 1
+        },
+        {
+          "role": "broker",
+          "members": 2
+        },
+        {
+          "role": "manager",
+          "members": 1
+        }
+      ]
+    },
+    {
+      "unread": 0,
+      "profile": "broker_a",
+      "resolved_role": "broker",
+      "directory_count": 4,
+      "directory_roles": [
+        {
+          "role": "admin",
+          "members": 1
+        },
+        {
+          "role": "broker",
+          "members": 2
+        },
+        {
+          "role": "manager",
+          "members": 1
+        }
+      ]
+    },
+    {
+      "unread": 0,
+      "profile": "broker_b",
+      "resolved_role": "broker",
+      "directory_count": 4,
+      "directory_roles": [
+        {
+          "role": "admin",
+          "members": 1
+        },
+        {
+          "role": "broker",
+          "members": 2
+        },
+        {
+          "role": "manager",
+          "members": 1
+        }
+      ]
+    }
+  ],
+  "security_advisors": [
+    {
+      "name": "rls_enabled_no_policy",
+      "level": "INFO",
+      "count": 1,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "level": "WARN",
+      "count": 16,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "count": 34,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "level": "WARN",
+      "count": 1,
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+    }
+  ],
+  "limitations": [
+    "Live profile checks use read-only SQL role/claims, not real Auth JWT or browser sessions.",
+    "No commercial staging fixtures were inserted/updated/deleted for testing.",
+    "Backup restore was reported by the user; private backup/report not transferred.",
+    "Preview remains unpublished; production and main untouched."
+  ]
+}
