@@ -78,7 +78,7 @@ try {
     },
   );
   migrations = readdirSync("supabase/migrations")
-    .filter((f) => f.startsWith("20261019") || f === "20261028143926_crm_marketing_delivery_notifications.sql")
+    .filter((f) => f.startsWith("20261019") || f === "20261028143926_crm_marketing_delivery_notifications.sql" || f === "20261028173753_crm_optional_lead_reasons.sql")
     .sort();
   for (const name of migrations)
     await db.exec(readFileSync("supabase/migrations/" + name, "utf8"));
@@ -1479,6 +1479,42 @@ try {
     "73a767b8-218d-4910-a370-2b93cf32bf74": ids.a,
     "779c7220-06dd-4180-8b52-05136bee21cb": ids.b,
   };
+  for (const [index, reason] of ["", "   ", null, "x".repeat(500), undefined].entries()) {
+    const companyId = 8000 + index;
+    const personalId = 8100 + index;
+    await db.query("insert into leads(id,name,broker_id,origin_type) values($1,'Optional reason fixture',null,'company'),($2,'Optional transfer fixture',$3,'personal')", [companyId, personalId, ids.a]);
+    await check(`optional assignment reason variant ${index}: audit, notification and retry`, async () => {
+      const sql = reason === undefined ? "select crm_assign_lead($1,$2)" : "select crm_assign_lead($1,$2,$3)";
+      const params = reason === undefined ? [companyId, ids.b] : [companyId, ids.b, reason];
+      await actor("manager", sql, params);
+      await actor("manager", sql, params);
+      const rows = (await db.query("select reason from lead_assignments where lead_id=$1", [companyId])).rows;
+      assert.equal(rows.length, 1);
+      assert.equal(rows[0].reason, (reason || "").trim());
+      assert.equal((await db.query("select count(*)::int n from notifications where entity_type='lead' and entity_id=$1", [companyId])).rows[0].n, 1);
+    });
+    await check(`optional transfer reason variant ${index}: consent, accept, isolation and idempotency`, async () => {
+      const sql = reason === undefined ? "select crm_request_lead_transfer($1,$2) id" : "select crm_request_lead_transfer($1,$2,$3) id";
+      const params = reason === undefined ? [personalId, ids.b] : [personalId, ids.b, reason];
+      const [request] = await actor("a", sql, params);
+      assert.equal((await db.query("select broker_id from leads where id=$1", [personalId])).rows[0].broker_id, ids.a);
+      await denied("a", "select crm_accept_lead_transfer($1)", [request.id]);
+      await actor("b", "select crm_accept_lead_transfer($1)", [request.id]);
+      await actor("b", "select crm_accept_lead_transfer($1)", [request.id]);
+      const rows = (await db.query("select reason from lead_assignments where lead_id=$1", [personalId])).rows;
+      assert.equal(rows.length, 1);
+      assert.equal(rows[0].reason, (reason || "").trim());
+      await denied("a", "select id from leads where id=$1", [personalId]);
+      assert.equal((await actor("b", "select id from leads where id=$1", [personalId])).length, 1);
+    });
+  }
+  await check("optional reasons do not bypass authorization, eligibility or length limits", async () => {
+    await denied("a", "select crm_assign_lead(8000,$1,'')", [ids.a]);
+    await denied("manager", "select crm_assign_lead(8000,$1,'')", [ids.disabled]);
+    await denied("manager", "select crm_assign_lead(8000,$1,$2)", [ids.a, "x".repeat(501)]);
+    await denied("b", "select crm_request_lead_transfer(8100,$1,$2)", [ids.a, "x".repeat(501)]);
+    await denied("a", "select crm_request_lead_transfer(8100,$1,'')", [ids.b]);
+  });
   for (const file of ["crm-staging-rls.sql", "crm-marketing-rls.sql"]) {
     await check("SQL regression suite " + file, async () => {
       let sql = readFileSync("tests/" + file, "utf8");

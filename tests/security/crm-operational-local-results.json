@@ -24,6 +24,10 @@
     {
       "name": "20261028143926_crm_marketing_delivery_notifications.sql",
       "sha256": "2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563"
+    },
+    {
+      "name": "20261028173753_crm_optional_lead_reasons.sql",
+      "sha256": "abfd8a328a802ad57ca2671b6abee992fc262abac03bbbf73d83388a071f9359"
     }
   ],
   "results": [
@@ -449,6 +453,50 @@
     },
     {
       "name": "delivery guard: client cannot forge notification cycles or approve missing bytes",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 0: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 0: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 1: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 1: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 2: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 2: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 3: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 3: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 4: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 4: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional reasons do not bypass authorization, eligibility or length limits",
       "result": "APROVADO"
     },
     {
@@ -997,7 +1045,7 @@
     }
   ],
   "summary": {
-    "passed": 242,
+    "passed": 253,
     "failed": 0
   }
 }

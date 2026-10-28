@@ -36,9 +36,9 @@ export function LeadTransfer({
     },
     {
       name: "reason",
-      label: "Motivo e consentimento para transferir este lead",
+      label: "Motivo da transferência (opcional)",
       type: "textarea",
-      required: true,
+      maxLength: 500,
     },
   ];
   return (
@@ -118,7 +118,7 @@ export function TransferInbox() {
           className="crm-detail-pill"
         >
           <span>
-            Solicitação #{r.id} · {r.status}: {r.reason}
+            Solicitação #{r.id} · {r.status}: {r.reason || "Sem motivo informado"}
           </span>{" "}
           {r.to_user === ctx.userId &&
             r.status === "pending" &&
