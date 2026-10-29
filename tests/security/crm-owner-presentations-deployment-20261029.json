@@ -1,0 +1,530 @@
+{
+  "date": "2026-10-29",
+  "repository": "viniciussantiagomkt/privilege-site",
+  "pr": 7,
+  "pr_draft": true,
+  "remote_base_at_start": "b7621bb22405c58f1a7cabdbfc7fb2c87da73cb9",
+  "authorized_implementation": "6cc3c4dbc028a5ce8a089aa454c68ecef67d4f5b",
+  "project": "sdpqphiooiuglywcmkxv",
+  "backup": {
+    "result": "PASS",
+    "project": "sdpqphiooiuglywcmkxv",
+    "created_utc": "2026-10-29T17:35:41.4736385Z",
+    "archive_bytes": 787769,
+    "archive_sha256": "0DCF13B6F547608D88A2C21FAE30EE5556EA867C4F25EE258E0A2E06F913B45A",
+    "local_database": "privilege_restore_4f46d8e8cc97",
+    "network": "none",
+    "restore_exit": 0,
+    "manifest_differences": [],
+    "archive_unchanged": true,
+    "source_migrations": 18,
+    "script_source_commit": "b7621bb22405c58f1a7cabdbfc7fb2c87da73cb9",
+    "script_required_exact_migrations": 18,
+    "private_directory": "C:\\Users\\GERENCIA\\AppData\\Local\\PrivilegeCRM-Backups\\staging-20261029-143447-eeea9907",
+    "private_acl_inheritance_disabled": true,
+    "storage_file_bytes_included": false,
+    "external_configuration_included": false,
+    "password_entry": "user manually entered masked local dialog; not sent in chat, command arguments, files or repository"
+  },
+  "restore": {
+    "result": "PASS",
+    "local_database": "privilege_restore_4f46d8e8cc97",
+    "container": "privilege-crm-restore-20261028",
+    "context": "desktop-linux",
+    "endpoint": "local Windows named pipe",
+    "image": "supabase/postgres@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "postgres_version_num": "170006",
+    "network": "none",
+    "published_ports": [],
+    "bind_mounts": [],
+    "privileged": false,
+    "transaction_exit": 0,
+    "manifest_differences": [],
+    "archive_unchanged": true,
+    "remote_restore": false
+  },
+  "preflight": {
+    "observed_utc": "2026-10-29T17:37:31.001271+00:00",
+    "exact_migration_versions": [
+      "20261008144426",
+      "20261008144813",
+      "20261008145320",
+      "20261008150501",
+      "20261008163217",
+      "20261008163432",
+      "20261008163623",
+      "20261009142538",
+      "20261009144156",
+      "20261009174757",
+      "20261013180730",
+      "20261019165011",
+      "20261019165034",
+      "20261019165057",
+      "20261019165119",
+      "20261019170348",
+      "20261028143926",
+      "20261028180043"
+    ],
+    "candidate_absent": true,
+    "functions": [
+      {
+        "acl": null,
+        "md5": "81301941b77674dc2388e33bc3beac1f",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_private.guard_share()",
+        "anon_execute": true,
+        "security_definer": false,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres}",
+        "md5": "b2f3998bdfc561a3edda8aa50720e7f0",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_private.valid_share(uuid)",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": false
+      },
+      {
+        "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "md5": "01559ff2def19819c5d5698ccaf585f7",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_public_presentation(uuid)",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      }
+    ],
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "other_active_transactions": 0,
+    "public_tables_without_rls": 0
+  },
+  "migration": {
+    "result": "PASS",
+    "applied_once": true,
+    "proposed_file": "20261029170649_crm_owner_draft_presentations.sql",
+    "managed_version": "20261029173752",
+    "managed_name": "crm_owner_draft_presentations",
+    "git_file": "supabase/migrations/20261029173752_crm_owner_draft_presentations.sql",
+    "source_sha256": "71d7e86a9953fd4362ac8b2755774bf56a1ac7bda0c3d2d81717ba3a6e2519d2",
+    "stored_sql_md5": "a203bfff560d33c59bbdb78b8b74b7c2",
+    "stored_sql_matches_authorized_git_blob": true,
+    "migration_count_after": 19,
+    "renamed_without_reapplying": true
+  },
+  "edge": {
+    "result": "PASS",
+    "name": "crm-presentation-media",
+    "id": "f6e16870-98b6-421c-8ba4-69d8563e433d",
+    "status": "ACTIVE",
+    "version": 1,
+    "verify_jwt": false,
+    "files": [
+      {
+        "name": "crm-presentation-media/index.ts",
+        "exactMatch": true
+      },
+      {
+        "name": "_shared/presentation-media.ts",
+        "exactMatch": true
+      }
+    ],
+    "ezbr_sha256": "e6784312f85a04794267eb628026d224c8c6150b24a6de90edea63769370102e",
+    "verify_jwt_false_intentional": true,
+    "capability_revalidated_with_public_key": true,
+    "privileged_secret_read_by_agent": false,
+    "privileged_key_added_to_vercel_or_browser": false
+  },
+  "postflight": {
+    "observed_utc": "2026-10-29T17:41:56.644644+00:00",
+    "migration_versions": [
+      "20261008144426",
+      "20261008144813",
+      "20261008145320",
+      "20261008150501",
+      "20261008163217",
+      "20261008163432",
+      "20261008163623",
+      "20261009142538",
+      "20261009144156",
+      "20261009174757",
+      "20261013180730",
+      "20261019165011",
+      "20261019165034",
+      "20261019165057",
+      "20261019165119",
+      "20261019170348",
+      "20261028143926",
+      "20261028180043",
+      "20261029173752"
+    ],
+    "relations_compared": 49,
+    "all_data_counts_and_fingerprints_unchanged": true,
+    "data": [
+      {
+        "count": 4,
+        "relation": "auth.identities",
+        "fingerprint": "7b21299422662ba2d3667d5d5e50c44b"
+      },
+      {
+        "count": 3,
+        "relation": "auth.refresh_tokens",
+        "fingerprint": "887d458deb0595be8a0de74195cdb17d"
+      },
+      {
+        "count": 2,
+        "relation": "auth.sessions",
+        "fingerprint": "149255733e987a738251cfcb079ff8a0"
+      },
+      {
+        "count": 4,
+        "relation": "auth.users",
+        "fingerprint": "717d37a86bc5e7dc0f791237fa9598e5"
+      },
+      {
+        "count": 6,
+        "relation": "public.asset_imports",
+        "fingerprint": "ada34d1b907026343747267347142372"
+      },
+      {
+        "count": 2,
+        "relation": "public.asset_relations",
+        "fingerprint": "594fada9e8fdcc093d764072960e4b23"
+      },
+      {
+        "count": 5,
+        "relation": "public.asset_versions",
+        "fingerprint": "31d7272c556c9d7eeacac68180c9c25b"
+      },
+      {
+        "count": 121,
+        "relation": "public.audit_logs",
+        "fingerprint": "c373f230d0e35549478adda76f48ffd6"
+      },
+      {
+        "count": 2,
+        "relation": "public.brokers",
+        "fingerprint": "fe2463a257f4f01ed37cebdb1a3a9c1a"
+      },
+      {
+        "count": 0,
+        "relation": "public.cities",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 5,
+        "relation": "public.clients",
+        "fingerprint": "71bf45500e6eb040d76f7762faee7124"
+      },
+      {
+        "count": 0,
+        "relation": "public.crm_automation_preferences",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 2,
+        "relation": "public.crm_contact_links",
+        "fingerprint": "19f0399dc2c7734e8e8a936c0dc83c2f"
+      },
+      {
+        "count": 5,
+        "relation": "public.crm_event_log",
+        "fingerprint": "54372a73614d9d2628550a2c59f3d951"
+      },
+      {
+        "count": 0,
+        "relation": "public.developers",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 0,
+        "relation": "public.development_units",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 0,
+        "relation": "public.developments",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 25,
+        "relation": "public.lead_activities",
+        "fingerprint": "2ec1b7a094ade6cfc5d1ee8e38ab0522"
+      },
+      {
+        "count": 3,
+        "relation": "public.lead_assignments",
+        "fingerprint": "11850c36cb1b08c8301725b59d73d234"
+      },
+      {
+        "count": 1,
+        "relation": "public.lead_transfer_requests",
+        "fingerprint": "4879ee9453c7d46001cc851386dee90f"
+      },
+      {
+        "count": 6,
+        "relation": "public.leads",
+        "fingerprint": "cf2a25a3f0b876c8e9fe5f758021458e"
+      },
+      {
+        "count": 1,
+        "relation": "public.marketing_asset_recipients",
+        "fingerprint": "c3e25422ea51ba98654c246b1483c4d6"
+      },
+      {
+        "count": 5,
+        "relation": "public.marketing_assets",
+        "fingerprint": "d7ea7f3dd42b4634228db1ffca098983"
+      },
+      {
+        "count": 0,
+        "relation": "public.marketing_collection_items",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 0,
+        "relation": "public.marketing_collections",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 0,
+        "relation": "public.marketing_favorites",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 2,
+        "relation": "public.marketing_share_events",
+        "fingerprint": "eefa898db39e7ed35630dffb64468664"
+      },
+      {
+        "count": 3,
+        "relation": "public.marketing_shares",
+        "fingerprint": "17b3fcf4931ddf77bd641c2dcffa5a0a"
+      },
+      {
+        "count": 2,
+        "relation": "public.negotiations",
+        "fingerprint": "54a2927dde886ca8d75335757fe078db"
+      },
+      {
+        "count": 0,
+        "relation": "public.neighborhoods",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 18,
+        "relation": "public.notifications",
+        "fingerprint": "6b98a5e66ce1e7a2550530932b99d476"
+      },
+      {
+        "count": 1,
+        "relation": "public.organizations",
+        "fingerprint": "51694e1a76c5c92ea19b708948a91e75"
+      },
+      {
+        "count": 5,
+        "relation": "public.properties",
+        "fingerprint": "32fed571ca072bdf95c0f5e40deb9df6"
+      },
+      {
+        "count": 0,
+        "relation": "public.property_categories",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 5,
+        "relation": "public.property_code_registry",
+        "fingerprint": "de85a97398c426d524db8f1b5dd91375"
+      },
+      {
+        "count": 0,
+        "relation": "public.property_comparisons",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 0,
+        "relation": "public.property_favorites",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 22,
+        "relation": "public.property_images",
+        "fingerprint": "2cf800d375dc780db90f5cc7f265025b"
+      },
+      {
+        "count": 0,
+        "relation": "public.property_videos",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 0,
+        "relation": "public.property_views",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 2,
+        "relation": "public.proposals",
+        "fingerprint": "006badec7c13968bd36dcac349ee172f"
+      },
+      {
+        "count": 0,
+        "relation": "public.sale_confirmations",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 1,
+        "relation": "public.sales",
+        "fingerprint": "77239855986fdbb163c65c729198ca31"
+      },
+      {
+        "count": 0,
+        "relation": "public.site_settings",
+        "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      {
+        "count": 3,
+        "relation": "public.tasks",
+        "fingerprint": "dd51838bbbaa474418351db5218b8785"
+      },
+      {
+        "count": 4,
+        "relation": "public.user_roles",
+        "fingerprint": "0a62096c5d66bda38e9ef579203e34bf"
+      },
+      {
+        "count": 1,
+        "relation": "public.visits",
+        "fingerprint": "c48a8fd0e632e0b5dbda6461e062b339"
+      },
+      {
+        "count": 2,
+        "relation": "storage.buckets",
+        "fingerprint": "ae76d6bde09e49b94f8a7dab63d9f779"
+      },
+      {
+        "count": 27,
+        "relation": "storage.objects",
+        "fingerprint": "c67c129acea0acf7914b7b8793304154"
+      }
+    ],
+    "security_fingerprint_before": "17039917e0270cccfcdf92252b2b9534",
+    "security_fingerprint_after": "17039917e0270cccfcdf92252b2b9534",
+    "function_security_fingerprint_before": "149aed7f5e59bdba2c6fd2756e8bdcf7",
+    "function_security_fingerprint_after": "149aed7f5e59bdba2c6fd2756e8bdcf7",
+    "schema_grants_fingerprint_before": "c44a5153a801bb5afcf72e564a3df0ee",
+    "schema_grants_fingerprint_after": "c44a5153a801bb5afcf72e564a3df0ee",
+    "postgres_roles_fingerprint_before": "6801cb6348f1d13240582f854a1e6e42",
+    "postgres_roles_fingerprint_after": "6801cb6348f1d13240582f854a1e6e42",
+    "functions": [
+      {
+        "acl": null,
+        "md5": "c3251269e06ca76b75dafe3b582502c2",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_private.guard_share()",
+        "anon_execute": true,
+        "security_definer": false,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres}",
+        "md5": "f09bf3b93f64effc6085ee90467da861",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_private.valid_share(uuid)",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": false
+      },
+      {
+        "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "md5": "dc4141880a3a02f64c8cdb9a3bdae55e",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_public_presentation(uuid)",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      }
+    ],
+    "public_tables_without_rls": 0
+  },
+  "tests": {
+    "isolated_pglite": {
+      "result": "PASS",
+      "passed": 259,
+      "failed": 0,
+      "identity": "synthetic SQL claims, NOT real JWT"
+    },
+    "code": {
+      "result": "PASS",
+      "passed": 31,
+      "failed": 0,
+      "transport": "includes mocked Storage/streaming/Range"
+    },
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "production_build": "PASS, Next.js 16.4.3; staging guard, no deployment",
+    "runtime_audit": "PASS, zero reported vulnerabilities",
+    "real_edge_http_negative": {
+      "result": "PASS",
+      "passed": 11,
+      "failed": 0,
+      "authentication": "no user JWT or API key"
+    },
+    "real_private_media_bytes": "BLOCKED; no legitimate CRM session/fixture used; CRM target window not identified in current Computer Use inventory",
+    "real_http_expired_revoked_and_unselected_capabilities": "BLOCKED; unknown random capability is not a real expired/revoked/selected fixture",
+    "real_http_206_streaming": "BLOCKED; Range unit tests passed, HTTP invalid-Range denial passed, no successful real Storage byte stream",
+    "authenticated_visual_homologation": "BLOCKED; new preview not authorized or published"
+  },
+  "security_advisors": [
+    {
+      "name": "rls_enabled_no_policy",
+      "level": "INFO",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+    }
+  ],
+  "limits": {
+    "production_or_main_modified": false,
+    "new_vercel_preview_published": false,
+    "accounts_passwords_or_permissions_changed": false,
+    "buckets_made_public": false,
+    "policies_widened": false,
+    "external_messages_sent": false,
+    "merge_executed": false,
+    "dumps_roles_decoded_sql_private_logs_or_credentials_committed": false,
+    "existing_dirty_worktree_preserved": true
+  },
+  "status": "STAGING_DATABASE_AND_EDGE_DEPLOYED; AUTHENTICATED_HOMOLOGATION_PENDING; PREVIEW_REQUIRES_SEPARATE_AUTHORIZATION"
+}

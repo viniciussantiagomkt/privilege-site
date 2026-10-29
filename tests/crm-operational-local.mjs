@@ -1551,7 +1551,9 @@ try {
       }
     });
   }
-  const draftMigration = "20261029170649_crm_owner_draft_presentations.sql";
+  const draftMigrations = readdirSync("supabase/migrations").filter((name) => name.endsWith("_crm_owner_draft_presentations.sql"));
+  assert.equal(draftMigrations.length, 1, "Exactly one managed owner-presentation migration is required");
+  const draftMigration = draftMigrations[0];
   await db.exec(readSql("supabase/migrations/" + draftMigration));
   migrations.push(draftMigration);
   for (const [index, workflow] of ["rascunho", "pendente", "aprovado", "publicado"].entries()) {
@@ -1625,7 +1627,7 @@ const report = {
   },
 };
 writeFileSync(
-  "tests/security/crm-operational-local-results.json",
+  process.env.CRM_LOCAL_REPORT_PATH || "tests/security/crm-operational-local-results.json",
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report.summary);

@@ -1,11 +1,11 @@
 # Local-only restore rehearsal. No remote credentials, migrations or cleanup.
 [CmdletBinding()]
 param(
-    [string]$BackupDirectory = (Join-Path $env:LOCALAPPDATA 'PrivilegeCRM-Backups\staging-20261028-144845-72824083'),
+    [string]$BackupDirectory = (Join-Path $env:LOCALAPPDATA 'PrivilegeCRM-Backups\staging-20261029-143447-eeea9907'),
     [ValidatePattern('^[A-Fa-f0-9]{64}$')]
-    [string]$ExpectedArchiveSha256 = 'ACB3D4B0C0033D8BB4D88134BA3BE3B5E99E28E01EE741D64581D58C5D23A6A5',
+    [string]$ExpectedArchiveSha256 = '0DCF13B6F547608D88A2C21FAE30EE5556EA867C4F25EE258E0A2E06F913B45A',
     [ValidateRange(1, [long]::MaxValue)]
-    [long]$ExpectedArchiveBytes = 783325
+    [long]$ExpectedArchiveBytes = 787769
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'

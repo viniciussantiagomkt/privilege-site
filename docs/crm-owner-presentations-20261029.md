@@ -1,5 +1,15 @@
 # Apresentações de imóveis da própria carteira
 
+## Atualização operacional de 29/10/2026
+
+Backup novo e restauração local executados pelo agente no Windows: **RESTORE PASS**. Migration aplicada uma única vez somente no staging como `20261029173752_crm_owner_draft_presentations`; SQL autorizado preservado. Edge Function `crm-presentation-media` ACTIVE, versão 1, `verify_jwt=false` intencionalmente, fontes idênticas ao commit autorizado `6cc3c4d`.
+
+As 49 relações monitoradas, contas, grants, RLS e papéis foram preservados. Onze negativas HTTP reais passaram, além de 259 checks SQL locais e 31 testes de código. Mídia privada real, Range 206 real e fluxos autenticados continuam pendentes. Nenhum preview novo foi publicado.
+
+Relatório atual: [implantação no staging](crm-owner-presentations-staging-deployment-20261029.md). Evidência: `tests/security/crm-owner-presentations-deployment-20261029.json`.
+
+As seções abaixo registram a preparação anterior; referências ao arquivo proposto e à implantação ainda não executada são históricas, não o estado atual.
+
 ## Regra autorizada
 
 O corretor pode gerar link de apresentação para imóveis dos quais é proprietário ou responsável, inclusive rascunho e pendente, independentemente de publicação no site. presentation_enabled continua sendo a opção explícita para habilitar o compartilhamento. Imóveis arquivados/deletados não são elegíveis. A apresentação não aprova nem publica o imóvel.
