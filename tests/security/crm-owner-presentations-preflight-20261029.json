@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-29",
+  "project": "sdpqphiooiuglywcmkxv",
+  "authorized_commit": "6cc3c4dbc028a5ce8a089aa454c68ecef67d4f5b",
+  "authorization": "User authorized migration 20261029170649_crm_owner_draft_presentations.sql and function crm-presentation-media in staging, conditional on preflight and adequate backup. Preview not authorized.",
+  "preflight": {
+    "migration_count": 18,
+    "candidate_absent": true,
+    "functions": {
+      "crm_private.guard_share": "81301941b77674dc2388e33bc3beac1f",
+      "crm_private.valid_share": "b2f3998bdfc561a3edda8aa50720e7f0",
+      "public.crm_public_presentation": "01559ff2def19819c5d5698ccaf585f7"
+    },
+    "function_drift": false,
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "edge_functions": [],
+    "candidate_edge_function_exists": false
+  },
+  "backup": {
+    "last_verified_archive_created_utc": "2026-10-28T17:49:30.3238971Z",
+    "last_verified_archive_predates_optional_reasons_migration": true,
+    "current_18_version_backup_restore": "not available to this executor",
+    "script": "Repository backup script already validates exact 18-version baseline; fetched and made available without changing its contents."
+  },
+  "execution_environment": {
+    "windows_filesystem_access": false,
+    "docker_available": false,
+    "pg_dump_available": false
+  },
+  "status": "BLOCKED_CURRENT_BACKUP_VALIDATION",
+  "database_written": false,
+  "edge_function_deployed": false,
+  "new_preview_published": false,
+  "production_changed": false
+}
