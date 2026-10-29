@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "b6969d8a05613d2e256fcf76c35d6bb01940be24",
+  "branch": "work/crm-campaign-attribution-20261029",
+  "feature": "Authenticated CRM campaign registration and manual attributed lead capture",
+  "checks": {
+    "pglite": {
+      "passed": 274,
+      "failed": 0,
+      "claims": "synthetic, not Auth HTTP"
+    },
+    "code": {
+      "passed": 38,
+      "failed": 0,
+      "component_handlers": "mocked dependencies, not browser"
+    },
+    "build": "PASS Next.js 16.4.3 with exact lock and staging guard",
+    "lint": "PASS",
+    "typescript": "PASS",
+    "branch_guard": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "remote_baseline": {
+    "migrations": 19,
+    "campaign_table_exists": false,
+    "attribution_table_exists": false,
+    "capture_rpc_exists": false
+  },
+  "pending": [
+    "Authenticated browser and API against staged schema",
+    "Visual desktop/mobile",
+    "Real multi-connection concurrency",
+    "Provider integrations intentionally not implemented"
+  ],
+  "database_written": false,
+  "preview_published": false,
+  "account_connected": false,
+  "external_message_sent": false,
+  "production_changed": false,
+  "migration_proposed": "20261029180616_crm_campaign_attribution.sql",
+  "automatic_deployment_disabled_in_first_branch_commit": true
+}

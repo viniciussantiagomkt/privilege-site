@@ -1,3 +1,4 @@
+import type { Campaign, LeadAttribution } from "./campaigns";
 import type {
   Asset,
   AssetVersion,
@@ -112,6 +113,8 @@ export interface Activity extends BaseRow {
   type: string;
 }
 export interface WorkspaceData {
+  crm_campaigns: Campaign[];
+  crm_lead_attributions: LeadAttribution[];
   marketing_assets: Asset[];
   asset_versions: AssetVersion[];
   asset_relations: AssetRelation[];
@@ -140,6 +143,8 @@ export interface WorkspaceData {
   crm_contact_links: ContactLink[];
 }
 export const EMPTY_DATA: WorkspaceData = {
+  crm_campaigns: [],
+  crm_lead_attributions: [],
   marketing_assets: [],
   asset_versions: [],
   asset_relations: [],

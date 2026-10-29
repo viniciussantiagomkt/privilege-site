@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-29",
+  "project": "sdpqphiooiuglywcmkxv",
+  "pr": 8,
+  "branch": "work/crm-campaign-attribution-20261029",
+  "authorized_code_commit": "b4bf2d42e86838d543127ae53b5c1907df41ce75",
+  "authorized_migration": "20261029180616_crm_campaign_attribution.sql",
+  "authorization": "User explicitly authorized only this migration, including new tables/RLS/RPCs in staging, after preflight and validated backup. No preview authorization.",
+  "checks": {
+    "migration_count": 19,
+    "proposed_objects_absent": true,
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "public_tables_without_rls": 0,
+    "ci": {
+      "run_id": 40930860664,
+      "conclusion": "success"
+    }
+  },
+  "backup": {
+    "current_19_version_restore_evidence_available": false,
+    "repository_backup_script_matches_19_version_baseline": true,
+    "windows_disk_access": false,
+    "docker_command_available": false,
+    "pg_dump_available": false
+  },
+  "status": "PENDING_CURRENT_BACKUP_RESTORE",
+  "database_written": false,
+  "new_preview_published": false,
+  "production_changed": false
+}

@@ -1,0 +1,764 @@
+{
+  "date": "2026-10-29",
+  "repository": "viniciussantiagomkt/privilege-site",
+  "pr": 8,
+  "pr_draft": true,
+  "branch": "work/crm-campaign-attribution-20261029",
+  "initial_remote_head": "e05f75e85eab556b1f021057e596e8b5e81231e3",
+  "authorized_code_commit": "b4bf2d42e86838d543127ae53b5c1907df41ce75",
+  "project": "sdpqphiooiuglywcmkxv",
+  "authorization": "Existing authorization for this campaign migration retained; executed after fresh backup/restore and renewed preflight. No preview authorization.",
+  "backup": {
+    "project": "sdpqphiooiuglywcmkxv",
+    "created_utc": "2026-10-29T18:37:10.209216Z",
+    "archive_bytes": 785674,
+    "archive_sha256": "826428489C618FC194E1653F0374D408D5864EDD30E3CA26F9EEA41DD37181BE",
+    "source_migrations": 19,
+    "restore_result": "PASS",
+    "local_database": "privilege_restore_7d11c2d2ae08",
+    "restore_exit": 0,
+    "manifest_differences": [],
+    "archive_unchanged": true,
+    "local_regression": {
+      "result": "PASS",
+      "identity": "synthetic SQL claims, not real JWT",
+      "fixture_cleanup": "transaction rollback follows",
+      "scenario_groups": 11,
+      "accounts_changed": false
+    },
+    "script_commit": "e05f75e85eab556b1f021057e596e8b5e81231e3",
+    "required_exact_versions_at_execution": 19,
+    "private_directory": "C:\\Users\\GERENCIA\\AppData\\Local\\PrivilegeCRM-Backups\\staging-20261029-153607-7a198aaf",
+    "private_acl_inheritance_disabled": true,
+    "storage_file_bytes_included": false,
+    "external_service_configuration_included": false,
+    "secret_entry": "User typed database password into masked local dialog; helper outside Git; no credential printed or added to command arguments"
+  },
+  "restore": {
+    "result": "PASS",
+    "container": "privilege-crm-restore-20261028",
+    "context": "desktop-linux",
+    "endpoint": "local Windows named pipe",
+    "image": "supabase/postgres@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "network": "none",
+    "published_ports": [],
+    "bind_mounts": [],
+    "privileged": false,
+    "local_database": "privilege_restore_7d11c2d2ae08",
+    "transaction_exit": 0,
+    "manifest_differences": [],
+    "archive_unchanged": true
+  },
+  "local_restored_database_regression": {
+    "result": "PASS",
+    "scenario_groups": 11,
+    "identity": "synthetic SQL claims for existing restored profiles; NOT Auth JWT",
+    "candidate_sql_applied_only_to_local_copy_before_staging": true,
+    "fixtures_rolled_back": true,
+    "accounts_or_roles_modified": false,
+    "concurrent_sessions_tested": false,
+    "local_identity_sequence_increments_may_remain": true
+  },
+  "preflight": {
+    "observed_utc": "2026-10-29T18:42:10.210588+00:00",
+    "exact_migration_versions": [
+      "20261008144426",
+      "20261008144813",
+      "20261008145320",
+      "20261008150501",
+      "20261008163217",
+      "20261008163432",
+      "20261008163623",
+      "20261009142538",
+      "20261009144156",
+      "20261009174757",
+      "20261013180730",
+      "20261019165011",
+      "20261019165034",
+      "20261019165057",
+      "20261019165119",
+      "20261019170348",
+      "20261028143926",
+      "20261028180043",
+      "20261029173752"
+    ],
+    "dependencies": [
+      {
+        "exists": true,
+        "signature": "auth.uid()"
+      },
+      {
+        "exists": true,
+        "signature": "crm_private.eligible_broker(uuid)"
+      },
+      {
+        "exists": true,
+        "signature": "crm_private.lead_readable(bigint)"
+      },
+      {
+        "exists": true,
+        "signature": "public.can_manage_commercial()"
+      },
+      {
+        "exists": true,
+        "signature": "public.can_manage_operations()"
+      },
+      {
+        "exists": true,
+        "signature": "public.crm_assign_lead(bigint,uuid,text)"
+      },
+      {
+        "exists": true,
+        "signature": "public.current_user_role()"
+      }
+    ],
+    "candidate_relations": [
+      {
+        "name": "crm_private.campaign_receipts",
+        "exists": false
+      },
+      {
+        "name": "public.crm_attribution_lead",
+        "exists": false
+      },
+      {
+        "name": "public.crm_campaigns",
+        "exists": false
+      },
+      {
+        "name": "public.crm_campaigns_id_seq",
+        "exists": false
+      },
+      {
+        "name": "public.crm_campaigns_owner_scope",
+        "exists": false
+      },
+      {
+        "name": "public.crm_lead_attributions",
+        "exists": false
+      },
+      {
+        "name": "public.crm_lead_attributions_id_seq",
+        "exists": false
+      }
+    ],
+    "candidate_function_count": 0,
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "other_active_transactions": 0,
+    "public_tables_without_rls": 0
+  },
+  "migration": {
+    "result": "PASS",
+    "applied_once_to_staging": true,
+    "proposed_file": "20261029180616_crm_campaign_attribution.sql",
+    "managed_version": "20261029184222",
+    "managed_name": "crm_campaign_attribution",
+    "git_file": "supabase/migrations/20261029184222_crm_campaign_attribution.sql",
+    "authorized_source_sha256": "a0acf515abe9c3fa0e225edfdfb47e747ac44cb2f03e6dea5d4f507fe4b118b3",
+    "stored_sql_md5": "fed8a4f7ed76df9162dbe5542a7c6400",
+    "stored_sql_identical_to_authorized": true,
+    "reconciled_by_rename_without_reapply": true,
+    "history_count_after": 20
+  },
+  "new_object_security": {
+    "tables": [
+      {
+        "rls": true,
+        "name": "crm_private.campaign_receipts",
+        "public_privileges": [],
+        "anon_any_privilege": false,
+        "authenticated_select": false,
+        "authenticated_any_write": false
+      },
+      {
+        "rls": true,
+        "name": "public.crm_campaigns",
+        "public_privileges": [],
+        "anon_any_privilege": false,
+        "authenticated_select": true,
+        "authenticated_any_write": false
+      },
+      {
+        "rls": true,
+        "name": "public.crm_lead_attributions",
+        "public_privileges": [],
+        "anon_any_privilege": false,
+        "authenticated_select": true,
+        "authenticated_any_write": false
+      }
+    ],
+    "policies": [
+      {
+        "name": "crm_campaign_read",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "crm_campaigns",
+        "schema": "public",
+        "command": "SELECT"
+      },
+      {
+        "name": "crm_attribution_read",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "crm_lead_attributions",
+        "schema": "public",
+        "command": "SELECT"
+      }
+    ],
+    "functions": [
+      {
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_capture_campaign_lead(bigint,uuid,text,text,jsonb)",
+        "anon_execute": false,
+        "definition_md5": "30390ee5c3100e66593aa14e412b16b4",
+        "security_definer": true,
+        "public_privileges": [],
+        "authenticated_execute": true
+      },
+      {
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "signature": "crm_save_campaign(bigint,jsonb)",
+        "anon_execute": false,
+        "definition_md5": "6d7dd12b20d156c26fab8cc6e9e5d46c",
+        "security_definer": true,
+        "public_privileges": [],
+        "authenticated_execute": true
+      }
+    ],
+    "migration": {
+      "name": "crm_campaign_attribution",
+      "sql_md5": "fed8a4f7ed76df9162dbe5542a7c6400",
+      "version": "20261029184222",
+      "statement_count": 1
+    },
+    "sequences": [
+      {
+        "name": "crm_campaigns_id_seq",
+        "public_privileges": [],
+        "anon_any_privilege": false,
+        "authenticated_any_privilege": false
+      },
+      {
+        "name": "crm_lead_attributions_id_seq",
+        "public_privileges": [],
+        "anon_any_privilege": false,
+        "authenticated_any_privilege": false
+      }
+    ],
+    "row_counts": {
+      "crm_campaigns": 0,
+      "campaign_receipts": 0,
+      "crm_lead_attributions": 0
+    }
+  },
+  "preservation": {
+    "relations_compared": 49,
+    "data": [
+      {
+        "relation": "auth.identities",
+        "before_count": 4,
+        "after_count": 4,
+        "before_fingerprint": "7b21299422662ba2d3667d5d5e50c44b",
+        "after_fingerprint": "7b21299422662ba2d3667d5d5e50c44b",
+        "unchanged": true
+      },
+      {
+        "relation": "auth.refresh_tokens",
+        "before_count": 5,
+        "after_count": 5,
+        "before_fingerprint": "1583b4dc41a2ed66907897df5feeb364",
+        "after_fingerprint": "1583b4dc41a2ed66907897df5feeb364",
+        "unchanged": true
+      },
+      {
+        "relation": "auth.sessions",
+        "before_count": 3,
+        "after_count": 3,
+        "before_fingerprint": "f0857f00a6d3dfd36a7950b7354139be",
+        "after_fingerprint": "f0857f00a6d3dfd36a7950b7354139be",
+        "unchanged": true
+      },
+      {
+        "relation": "auth.users",
+        "before_count": 4,
+        "after_count": 4,
+        "before_fingerprint": "17d227bd9697a4cc65e3a82770de5c7d",
+        "after_fingerprint": "17d227bd9697a4cc65e3a82770de5c7d",
+        "unchanged": true
+      },
+      {
+        "relation": "public.asset_imports",
+        "before_count": 6,
+        "after_count": 6,
+        "before_fingerprint": "ada34d1b907026343747267347142372",
+        "after_fingerprint": "ada34d1b907026343747267347142372",
+        "unchanged": true
+      },
+      {
+        "relation": "public.asset_relations",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "594fada9e8fdcc093d764072960e4b23",
+        "after_fingerprint": "594fada9e8fdcc093d764072960e4b23",
+        "unchanged": true
+      },
+      {
+        "relation": "public.asset_versions",
+        "before_count": 5,
+        "after_count": 5,
+        "before_fingerprint": "31d7272c556c9d7eeacac68180c9c25b",
+        "after_fingerprint": "31d7272c556c9d7eeacac68180c9c25b",
+        "unchanged": true
+      },
+      {
+        "relation": "public.audit_logs",
+        "before_count": 122,
+        "after_count": 122,
+        "before_fingerprint": "8c4c81c292493d791662343f0e88c760",
+        "after_fingerprint": "8c4c81c292493d791662343f0e88c760",
+        "unchanged": true
+      },
+      {
+        "relation": "public.brokers",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "fe2463a257f4f01ed37cebdb1a3a9c1a",
+        "after_fingerprint": "fe2463a257f4f01ed37cebdb1a3a9c1a",
+        "unchanged": true
+      },
+      {
+        "relation": "public.cities",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.clients",
+        "before_count": 5,
+        "after_count": 5,
+        "before_fingerprint": "71bf45500e6eb040d76f7762faee7124",
+        "after_fingerprint": "71bf45500e6eb040d76f7762faee7124",
+        "unchanged": true
+      },
+      {
+        "relation": "public.crm_automation_preferences",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.crm_contact_links",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "19f0399dc2c7734e8e8a936c0dc83c2f",
+        "after_fingerprint": "19f0399dc2c7734e8e8a936c0dc83c2f",
+        "unchanged": true
+      },
+      {
+        "relation": "public.crm_event_log",
+        "before_count": 6,
+        "after_count": 6,
+        "before_fingerprint": "3da4c95c465ff3f87649442302f0727b",
+        "after_fingerprint": "3da4c95c465ff3f87649442302f0727b",
+        "unchanged": true
+      },
+      {
+        "relation": "public.developers",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.development_units",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.developments",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.lead_activities",
+        "before_count": 25,
+        "after_count": 25,
+        "before_fingerprint": "2ec1b7a094ade6cfc5d1ee8e38ab0522",
+        "after_fingerprint": "2ec1b7a094ade6cfc5d1ee8e38ab0522",
+        "unchanged": true
+      },
+      {
+        "relation": "public.lead_assignments",
+        "before_count": 3,
+        "after_count": 3,
+        "before_fingerprint": "11850c36cb1b08c8301725b59d73d234",
+        "after_fingerprint": "11850c36cb1b08c8301725b59d73d234",
+        "unchanged": true
+      },
+      {
+        "relation": "public.lead_transfer_requests",
+        "before_count": 1,
+        "after_count": 1,
+        "before_fingerprint": "4879ee9453c7d46001cc851386dee90f",
+        "after_fingerprint": "4879ee9453c7d46001cc851386dee90f",
+        "unchanged": true
+      },
+      {
+        "relation": "public.leads",
+        "before_count": 6,
+        "after_count": 6,
+        "before_fingerprint": "cf2a25a3f0b876c8e9fe5f758021458e",
+        "after_fingerprint": "cf2a25a3f0b876c8e9fe5f758021458e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_asset_recipients",
+        "before_count": 1,
+        "after_count": 1,
+        "before_fingerprint": "c3e25422ea51ba98654c246b1483c4d6",
+        "after_fingerprint": "c3e25422ea51ba98654c246b1483c4d6",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_assets",
+        "before_count": 5,
+        "after_count": 5,
+        "before_fingerprint": "d7ea7f3dd42b4634228db1ffca098983",
+        "after_fingerprint": "d7ea7f3dd42b4634228db1ffca098983",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_collection_items",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_collections",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_favorites",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_share_events",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "eefa898db39e7ed35630dffb64468664",
+        "after_fingerprint": "eefa898db39e7ed35630dffb64468664",
+        "unchanged": true
+      },
+      {
+        "relation": "public.marketing_shares",
+        "before_count": 4,
+        "after_count": 4,
+        "before_fingerprint": "ee50673cff7347c018bdbed1fa60740e",
+        "after_fingerprint": "ee50673cff7347c018bdbed1fa60740e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.negotiations",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "54a2927dde886ca8d75335757fe078db",
+        "after_fingerprint": "54a2927dde886ca8d75335757fe078db",
+        "unchanged": true
+      },
+      {
+        "relation": "public.neighborhoods",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.notifications",
+        "before_count": 18,
+        "after_count": 18,
+        "before_fingerprint": "6b98a5e66ce1e7a2550530932b99d476",
+        "after_fingerprint": "6b98a5e66ce1e7a2550530932b99d476",
+        "unchanged": true
+      },
+      {
+        "relation": "public.organizations",
+        "before_count": 1,
+        "after_count": 1,
+        "before_fingerprint": "51694e1a76c5c92ea19b708948a91e75",
+        "after_fingerprint": "51694e1a76c5c92ea19b708948a91e75",
+        "unchanged": true
+      },
+      {
+        "relation": "public.properties",
+        "before_count": 5,
+        "after_count": 5,
+        "before_fingerprint": "32fed571ca072bdf95c0f5e40deb9df6",
+        "after_fingerprint": "32fed571ca072bdf95c0f5e40deb9df6",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_categories",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_code_registry",
+        "before_count": 5,
+        "after_count": 5,
+        "before_fingerprint": "de85a97398c426d524db8f1b5dd91375",
+        "after_fingerprint": "de85a97398c426d524db8f1b5dd91375",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_comparisons",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_favorites",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_images",
+        "before_count": 22,
+        "after_count": 22,
+        "before_fingerprint": "2cf800d375dc780db90f5cc7f265025b",
+        "after_fingerprint": "2cf800d375dc780db90f5cc7f265025b",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_videos",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.property_views",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.proposals",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "006badec7c13968bd36dcac349ee172f",
+        "after_fingerprint": "006badec7c13968bd36dcac349ee172f",
+        "unchanged": true
+      },
+      {
+        "relation": "public.sale_confirmations",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.sales",
+        "before_count": 1,
+        "after_count": 1,
+        "before_fingerprint": "77239855986fdbb163c65c729198ca31",
+        "after_fingerprint": "77239855986fdbb163c65c729198ca31",
+        "unchanged": true
+      },
+      {
+        "relation": "public.site_settings",
+        "before_count": 0,
+        "after_count": 0,
+        "before_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "after_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+        "unchanged": true
+      },
+      {
+        "relation": "public.tasks",
+        "before_count": 3,
+        "after_count": 3,
+        "before_fingerprint": "dd51838bbbaa474418351db5218b8785",
+        "after_fingerprint": "dd51838bbbaa474418351db5218b8785",
+        "unchanged": true
+      },
+      {
+        "relation": "public.user_roles",
+        "before_count": 4,
+        "after_count": 4,
+        "before_fingerprint": "0a62096c5d66bda38e9ef579203e34bf",
+        "after_fingerprint": "0a62096c5d66bda38e9ef579203e34bf",
+        "unchanged": true
+      },
+      {
+        "relation": "public.visits",
+        "before_count": 1,
+        "after_count": 1,
+        "before_fingerprint": "c48a8fd0e632e0b5dbda6461e062b339",
+        "after_fingerprint": "c48a8fd0e632e0b5dbda6461e062b339",
+        "unchanged": true
+      },
+      {
+        "relation": "storage.buckets",
+        "before_count": 2,
+        "after_count": 2,
+        "before_fingerprint": "ae76d6bde09e49b94f8a7dab63d9f779",
+        "after_fingerprint": "ae76d6bde09e49b94f8a7dab63d9f779",
+        "unchanged": true
+      },
+      {
+        "relation": "storage.objects",
+        "before_count": 27,
+        "after_count": 27,
+        "before_fingerprint": "c67c129acea0acf7914b7b8793304154",
+        "after_fingerprint": "c67c129acea0acf7914b7b8793304154",
+        "unchanged": true
+      }
+    ],
+    "existing_security_fingerprints": [
+      {
+        "name": "security_fingerprint",
+        "before": "fb12d4512c02ae512159b1057a8ac30e",
+        "after": "fb12d4512c02ae512159b1057a8ac30e",
+        "unchanged": true
+      },
+      {
+        "name": "function_security_fingerprint",
+        "before": "149aed7f5e59bdba2c6fd2756e8bdcf7",
+        "after": "149aed7f5e59bdba2c6fd2756e8bdcf7",
+        "unchanged": true
+      },
+      {
+        "name": "existing_function_definitions_fingerprint",
+        "before": "183f2d901c910d17fae2c87f54519f6a",
+        "after": "183f2d901c910d17fae2c87f54519f6a",
+        "unchanged": true
+      },
+      {
+        "name": "schema_grants_fingerprint",
+        "before": "c44a5153a801bb5afcf72e564a3df0ee",
+        "after": "c44a5153a801bb5afcf72e564a3df0ee",
+        "unchanged": true
+      },
+      {
+        "name": "postgres_roles_fingerprint",
+        "before": "6801cb6348f1d13240582f854a1e6e42",
+        "after": "6801cb6348f1d13240582f854a1e6e42",
+        "unchanged": true
+      }
+    ],
+    "public_tables_without_rls": 0,
+    "after_anonymous_http_new_tables_still_empty": true
+  },
+  "tests": {
+    "pglite": {
+      "passed": 274,
+      "failed": 0,
+      "identity": "synthetic SQL claims"
+    },
+    "code": {
+      "passed": 38,
+      "failed": 0,
+      "transport": "includes mocked form handlers"
+    },
+    "restored_postgres": {
+      "scenario_groups": 11,
+      "result": "PASS",
+      "fixtures": "transaction rollback"
+    },
+    "anonymous_real_http": {
+      "passed": 7,
+      "failed": 0,
+      "authentication": "public anon key; no user JWT",
+      "fixtures_created": false
+    },
+    "staging_build_guard": {
+      "passed": 5,
+      "failed": 0,
+      "environment": "local only, no deployment"
+    },
+    "lint": "PASS",
+    "typescript": "PASS",
+    "build": "PASS, Next.js 16.4.3 with campaign branch staging guard",
+    "npm_audit_runtime": "PASS, zero reported vulnerabilities",
+    "authenticated_http_jwt": "BLOCKED; no legitimate four-profile sessions used",
+    "desktop_mobile_preview": "BLOCKED; preview outside authorization",
+    "real_multisession_concurrency": "BLOCKED; sequential replay is not concurrency proof"
+  },
+  "security_advisors": [
+    {
+      "name": "rls_enabled_no_policy",
+      "level": "INFO",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+    }
+  ],
+  "limits": {
+    "new_preview_published": false,
+    "vercel_configuration_or_integrations_changed": false,
+    "edge_functions_redeployed": false,
+    "production_main_or_accounts_changed": false,
+    "existing_permissions_changed": false,
+    "remote_fixtures_or_commercial_data_created": false,
+    "external_messages_sent": false,
+    "merge_performed": false,
+    "private_logs_dumps_roles_credentials_or_sessions_committed": false
+  },
+  "status": "CAMPAIGN_MIGRATION_APPLIED_TO_STAGING; POSTFLIGHT_PASS; AUTHENTICATED_UI_AND_CONCURRENCY_HOMOLOGATION_PENDING",
+  "report": "docs/crm-campaign-staging-deployment-20261029.md"
+}

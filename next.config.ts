@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 
 // Fail before build-time data fetching if this review branch is accidentally deployed.
 const reviewBranch =
+  process.env.VERCEL_GIT_COMMIT_REF?.startsWith("work/crm-campaign-") ||
   process.env.VERCEL_GIT_COMMIT_REF ===
     "work/crm-marketing-notifications-20261019" ||
   process.env.VERCEL_GIT_COMMIT_REF === "work/crm-staging-audit-20261008" ||

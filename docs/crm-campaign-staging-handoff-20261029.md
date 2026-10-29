@@ -1,0 +1,30 @@
+# Continuidade autorizada: campanhas no staging
+
+## Execução concluída em 29/10/2026
+
+O Codex executou o backup novo de 19 versões, a restauração local com **RESTORE PASS**, 11 grupos de cenários na cópia restaurada com rollback e o preflight renovado. A migration autorizada foi aplicada **uma única vez** somente no staging como `20261029184222_crm_campaign_attribution`. O SQL aprovado foi preservado e o arquivo apenas renomeado. Histórico com 20 versões.
+
+Postflight: três tabelas novas vazias e com RLS, permissões conforme a revisão e 49 relações anteriores preservadas; nenhuma função existente substituída. Passaram 274 checks PGlite, 38 testes de código, 7 negativas HTTP anônimas reais e 5 checks do guard, além de lint/TypeScript/build. Nenhum preview, merge ou alteração de produção.
+
+Relatório atual: [implantação de campanhas](crm-campaign-staging-deployment-20261029.md). Evidência: `tests/security/crm-campaign-staging-deployment-20261029.json`.
+
+As instruções abaixo são o handoff anterior, preservado como histórico. Não reaplicar a migration. O backup atual validado é o snapshot de 19 versões anterior à aplicação; o script foi atualizado para exigir 20 em backups futuros.
+
+O usuário autorizou especificamente a migration 20261029180616_crm_campaign_attribution.sql do PR #8, commit de código b4bf2d42e86838d543127ae53b5c1907df41ce75, incluindo tabelas/RLS/RPCs somente no staging sdpqphiooiuglywcmkxv, após preflight e backup validado. A autorização permanece válida. Não pedir nova aprovação dessa mesma operação. Não publicar preview, não fazer merge, não tocar produção ou contas.
+
+Branch: work/crm-campaign-attribution-20261029, com base no PR #7. Conferir HEAD remoto e preservar trabalho posterior/local. CI 40930860664 passou. 274 verificações SQL locais e 38 testes de código, lint, TypeScript e build já aprovados. Commits posteriores a b4bf2d4 são evidências/documentação, salvo nova alteração verificada pelo executor.
+
+Preflight read-only desta conversa confirmou 19 migrations, ausência das duas tabelas públicas, do recibo privado e dos dois RPCs propostos, zero locks aguardando/transações longas, zero tabelas públicas sem RLS. Nenhuma escrita no banco ocorreu. O ambiente remoto desta conversa não possui acesso ao Windows, Docker ou pg_dump. Não existe evidência acessível de restauração de cópia atual com essas 19 versões.
+
+## Executar pelo Codex no Windows
+
+1. Conferir recursos disponíveis e usar o script scripts/backup-crm-staging.ps1 da branch atual, não Downloads antigo. Ele já confere as 19 versões exatas, terminando em 20261029173752. Gerar cópia nova em pasta privada. Reutilizar autenticação local autorizada; se faltar senha, solicitar somente digitação local oculta, sem expor credenciais.
+2. Validar hash/tamanho/manifesto e executar scripts/restore-crm-backup-local.ps1 com BackupDirectory, ExpectedArchiveSha256 e ExpectedArchiveBytes extraídos da cópia nova. Não usar os parâmetros padrão do backup antigo. Conferir contêiner privilege-crm-restore-20261028, contexto local desktop-linux, rede none, sem portas/binds, imagem previamente fixada. Restaurar em banco local novo. Exigir RESTORE PASS sem apagar/reescrever o arquivo original ou manifesto.
+3. Renovar preflight imediatamente antes da implantação: projeto, histórico exato de 19 versões, ausência de objetos/versão proposta, dependências de roles/atribuição existentes, locks, grants e RLS. Registrar contagens/fingerprints sanitizados das relações existentes para postflight. Se houver divergência ou backup falhar, parar sem contornar guardas.
+4. Aplicar somente o SQL aprovado do PR #8 uma única vez, pela ferramenta de migration. A autorização cobre essa escrita após as condições acima. Não repetir migrations anteriores nem aplicar sobre produção.
+5. Conferir versão real no histórico e SQL preservado. Reconciliar apenas o nome do arquivo conforme a versão gerenciada, sem reaplicar. Atualizar o runner local que referencia o nome proposto para carregar exatamente uma versão gerenciada da migration de campanhas.
+6. Postflight: novas tabelas vazias e com RLS, recibos privados sem leitura direta, novas sequências sem privilégios públicos/auth, RPCs sem EXECUTE anônimo, execução autenticada concedida somente aos RPCs. Conferir preservação dos registros/ACL/contas existentes. Nenhuma integração externa ou mensagem deve ser acionada.
+7. Executar cenários positivos/negativos preferencialmente na cópia restaurada local, com fixtures e rollback. Negativas HTTP anônimas no staging podem verificar ACL sem criar contatos. Distinguir claims sintéticas de JWT real. Não criar dados comerciais ou fixtures remotas fora do escopo aprovado.
+8. Salvar evidências sanitizadas no PR #8, manter em rascunho e apresentar o commit exato pronto para solicitar autorização separada do preview. Configuração da nova branch já desativa deployment automático e o build exige staging verificado; não publicar sobre banco antigo.
+
+Não enviar dumps, senhas, tokens, HAR bruto ou logs privados. Não modificar contas, permissões existentes, produção/main, Vercel ou integrações. Se acesso local faltar, concluir etapas independentes e indicar somente a ação mínima necessária. Nenhum sucesso deve ser presumido sem evidência da execução.

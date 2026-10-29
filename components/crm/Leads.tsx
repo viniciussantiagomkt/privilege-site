@@ -10,6 +10,7 @@ import {
   CalendarPlus,
   CheckCheck,
 } from "lucide-react";
+import { ATTRIBUTION_FIELDS, campaignLabel } from "@/lib/crm/campaigns";
 import { supabase } from "@/lib/supabase";
 import { LeadTransfer, TransferInbox } from "./LeadTransfer";
 import { ShareComposer } from "./ShareComposer";
@@ -44,6 +45,9 @@ export function Leads() {
   const [stage, setStage] = useState("");
   const [broker, setBroker] = useState("");
   const [source, setSource] = useState("");
+  const [campaign, setCampaign] = useState("");
+  const campaignIds = new Set(ctx.data.crm_lead_attributions.filter(a=>String(a.campaign_id)===campaign).map(a=>a.lead_id));
+  const campaignNames = Array.from(new Map(ctx.data.crm_lead_attributions.map(a=>[a.campaign_id,a.campaign_name])).entries());
   const [selected, setSelected] = useState<number | null>(null);
   const [create, setCreate] = useState(false);
   const [lost, setLost] = useState<Lead | null>(null);
@@ -61,7 +65,7 @@ export function Leads() {
         : broker
           ? l.broker_id === broker
           : true) &&
-      (!source || l.source === source),
+      (!source || l.source === source) && (!campaign || campaignIds.has(l.id)),
   );
   async function move(lead: Lead, status: string) {
     if (normalizeStage(lead.status) === status) return;
@@ -122,6 +126,7 @@ export function Leads() {
         }
       />
       <div className="crm-toolbar">
+        <select aria-label="Filtrar campanha" value={campaign} onChange={e=>setCampaign(e.currentTarget.value)}><option value="">Todas as campanhas</option>{campaignNames.map(([id,name])=><option key={id} value={id}>{name}</option>)}</select>
         <select
           aria-label="Filtrar etapa"
           value={stage}
@@ -180,7 +185,7 @@ export function Leads() {
         </div>
       </div>
       <TransferInbox />
-      <SectionState tables={["leads", "brokers"]}>
+      <SectionState tables={["leads", "brokers", "crm_lead_attributions"]}>
         {view === "kanban" ? (
           <div className="crm-kanban">
             {STAGES.map((s) => (
@@ -520,6 +525,14 @@ function LeadDetail({
           </strong>
         </div>
       </div>
+      {ctx.data.crm_lead_attributions.filter(a=>a.lead_id===lead.id).map(a=>(
+        <div className="crm-detail-pill crm-attribution" key={a.id}>
+          <strong>{a.campaign_name} · {campaignLabel(a.platform)}</strong>
+          <p>Origem informada em registro manual. Não verificada pela plataforma.</p>
+          {Object.entries(a.details).map(([key,value])=><p key={key}>{ATTRIBUTION_FIELDS[key as keyof typeof ATTRIBUTION_FIELDS] || key}: {value}</p>)}
+          {a.routing_result==="fallback_queue"&&<p>Encaminhado à recepção institucional: corretor indisponível.</p>}
+        </div>
+      ))}
       {lead.message && <p className="crm-detail-pill">{lead.message}</p>}
       <div className="crm-detail-actions">
         <Button secondary onClick={onShare}>

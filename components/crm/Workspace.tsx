@@ -49,7 +49,9 @@ const marketingTables: (keyof WorkspaceData)[] = tables.filter((t) =>
 );
 const modules: Record<string, (keyof WorkspaceData)[]> = {
   "/admin": ["leads", "properties", "sales", "tasks", "visits"],
+  "/admin/campanhas": ["crm_campaigns", "crm_lead_attributions", "leads", "properties", "developments"],
   "/admin/leads": [
+    "crm_lead_attributions",
     "leads",
     "clients",
     "properties",

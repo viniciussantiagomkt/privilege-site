@@ -1,0 +1,25 @@
+{
+  "environment": "local config checks only; no deployment",
+  "results": [
+    {
+      "name": "verified staging",
+      "passed": true
+    },
+    {
+      "name": "production denied",
+      "passed": true
+    },
+    {
+      "name": "other project denied",
+      "passed": true
+    },
+    {
+      "name": "unknown key denied",
+      "passed": true
+    },
+    {
+      "name": "privileged credential denied",
+      "passed": true
+    }
+  ]
+}
