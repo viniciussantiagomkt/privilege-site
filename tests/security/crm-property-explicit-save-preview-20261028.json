@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-28",
+  "deployment_id": "dpl_6i3JvQKd5Cv1nf7G5uMFWKqXKhsS",
+  "url": "https://privilege-site-koad9zybp-viniciussantiagomkts-projects.vercel.app",
+  "commit": "2433384fc19a5fd83f48ef5193ad241116815eb6",
+  "environment": "preview",
+  "state": "READY",
+  "supabase_project": "sdpqphiooiuglywcmkxv",
+  "staging_build_guard": "passed",
+  "build": "remote passed; output 13s",
+  "local_checks": {
+    "tests": 23,
+    "typescript": "passed",
+    "eslint": "passed"
+  },
+  "authenticated_browser": "pending; prior user failure not declared resolved",
+  "database_changed": false,
+  "production_changed": false,
+  "main_merged": false
+}

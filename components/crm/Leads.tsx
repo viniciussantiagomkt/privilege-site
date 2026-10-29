@@ -458,8 +458,8 @@ function LeadDetail({
           },
           {
             name: "reason",
-            label: "Motivo da atribuição",
-            required: true,
+            label: "Motivo da atribuição (opcional)",
+            maxLength: 500,
             type: "textarea",
           },
         ]

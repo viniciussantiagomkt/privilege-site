@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-28",
+  "deployment_id": "dpl_9mz7iPdjwc5LyRfprhh3RGhzVoaM",
+  "url": "https://privilege-site-4jm8l1o0s-viniciussantiagomkts-projects.vercel.app",
+  "commit": "c58c52790b4792378de818bbfa5e38a2256f7166",
+  "state": "READY",
+  "environment": "preview",
+  "supabase_project": "sdpqphiooiuglywcmkxv",
+  "build": "passed; Vercel output 10s",
+  "staging_guard": "passed during Next.js build",
+  "local_checks": {
+    "tests": 22,
+    "typescript": "passed",
+    "eslint": "passed"
+  },
+  "real_sessions": "pending user verification of new draft submission and notifications to both reviewers, availability/presentation persistence",
+  "database_changed": false,
+  "production_changed": false,
+  "main_merged": false
+}

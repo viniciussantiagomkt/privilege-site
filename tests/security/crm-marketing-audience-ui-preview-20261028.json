@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-28",
+  "deployment_id": "dpl_3vg9SGhbzPzmkFZtZukUTyv98TuV",
+  "url": "https://privilege-site-dprdiy0ss-viniciussantiagomkts-projects.vercel.app",
+  "state": "READY",
+  "environment": "preview",
+  "commit": "c00e24d1701c2fd030b66e6bfdc128cb22c1eab0",
+  "branch": "work/crm-marketing-notifications-20261019",
+  "supabase_project": "sdpqphiooiuglywcmkxv",
+  "staging_build_guard": "passed; next.config.ts rejects production, wrong project/public key and service-role",
+  "build": "remote passed; Build Completed in /vercel/output [12s]",
+  "checks": {
+    "typescript": "passed locally",
+    "eslint_component": "passed locally",
+    "code_tests": "19 passed locally",
+    "local_build": "compiled; prerender blocked by missing local Supabase public env",
+    "visual_browser": "pending; Chromium unavailable and download invalid",
+    "authenticated_sessions": "not executed by agent"
+  },
+  "protection": "existing project SSO protection preserved",
+  "database_changed": false,
+  "production_changed": false,
+  "main_merged": false,
+  "user_report": "User confirmed private and selected-recipient scenarios; full homologation not inferred"
+}

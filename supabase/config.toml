@@ -1,0 +1,6 @@
+project_id = "privilege-site"
+
+# Public capability endpoint: requests are authorized by the unguessable share token,
+# revalidated through the anonymous RPC before any privileged file read.
+[functions.crm-presentation-media]
+verify_jwt = false

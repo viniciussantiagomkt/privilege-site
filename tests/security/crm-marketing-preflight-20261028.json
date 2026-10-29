@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-28",
+  "project": "sdpqphiooiuglywcmkxv",
+  "source_commit": "a052928693195705dc0b4758c274cc15ff2bfc6d",
+  "migration_reviewed_file": "20261019184002_crm_marketing_delivery_notifications.sql",
+  "sql_sha256": "2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563",
+  "backup": {
+    "evidence": "user-reported local restore output; backup/report not transferred to agent",
+    "created_utc": "2026-10-28T13:01:25.5280876Z",
+    "bytes": 764683,
+    "sha256": "A40307EE86FF4D128168DBAA6C47EC431C57721440651AFBD352AB403C6A72E8",
+    "archive_list_decode": "PASS",
+    "restore": "PASS reported by user",
+    "local_database": "privilege_restore_0584dc840775",
+    "missing_role_fixed_only_locally": "supabase_realtime_admin NOLOGIN NOSUPERUSER NOINHERIT NOCREATEROLE NOCREATEDB NOREPLICATION NOBYPASSRLS",
+    "limits": "Database rehearsal; no Auth HTTP/Storage bytes/Vault decryption/external service recovery validated."
+  },
+  "preflight": {
+    "function_drift": [],
+    "policy_drift": [],
+    "migration_count": 16,
+    "long_transactions": 0,
+    "waiting_locks": 0,
+    "tables": [
+      {
+        "bytes": 81920,
+        "table": "asset_versions"
+      },
+      {
+        "bytes": 24576,
+        "table": "lead_transfer_requests"
+      },
+      {
+        "bytes": 147456,
+        "table": "leads"
+      },
+      {
+        "bytes": 8192,
+        "table": "marketing_asset_recipients"
+      },
+      {
+        "bytes": 65536,
+        "table": "marketing_assets"
+      },
+      {
+        "bytes": 57344,
+        "table": "notifications"
+      },
+      {
+        "bytes": 245760,
+        "table": "properties"
+      }
+    ]
+  },
+  "local_regression": {
+    "passed": 242,
+    "failed": 0
+  },
+  "application": {
+    "status": "BLOCKED_AUTO_REVIEW",
+    "applied": false,
+    "reason": "Automatic approval review requires explicit unambiguous authorization for this exact migration; no alternative execution attempted."
+  },
+  "post_rejection": {
+    "migration_count": 16,
+    "new_rpc_present": false,
+    "new_column_present": false,
+    "public_tables": 43,
+    "records_fingerprints_unchanged": true,
+    "identity_unchanged": true,
+    "auth_user_count": 4
+  },
+  "preview_published": false,
+  "production_changed": false
+}

@@ -36,9 +36,9 @@ export function LeadTransfer({
     },
     {
       name: "reason",
-      label: "Motivo e consentimento para transferir este lead",
+      label: "Motivo da transferência (opcional)",
       type: "textarea",
-      required: true,
+      maxLength: 500,
     },
   ];
   return (
@@ -73,17 +73,21 @@ export function LeadTransfer({
 export function TransferInbox() {
   const ctx = useWorkspace();
   const [requests, setRequests] = useState<
-    { id: number; lead_id: number; reason: string }[]
+    {
+      id: number;
+      lead_id: number;
+      reason: string;
+      status: string;
+      to_user: string;
+      expires_at: string;
+    }[]
   >([]);
   useEffect(() => {
     let active = true;
     void supabase
       .from("lead_transfer_requests")
-      .select("id,lead_id,reason")
-      .eq("to_user", ctx.userId)
-      .eq("status", "pending")
-      .gt("expires_at", new Date().toISOString())
-      .order("id")
+      .select("id,lead_id,reason,status,to_user,expires_at")
+      .order("id", { ascending: false })
       .limit(100)
       .then(({ data, error }) => {
         if (active) setRequests(error ? [] : data || []);
@@ -92,31 +96,49 @@ export function TransferInbox() {
       active = false;
     };
   }, [ctx.userId, ctx.updatedAt]);
+  useEffect(() => {
+    const id = Number(
+      new URLSearchParams(window.location.search).get("transferencia"),
+    );
+    if (id)
+      document
+        .getElementById(`transferencia-${id}`)
+        ?.scrollIntoView({ block: "center" });
+  }, [requests]);
   if (!requests.length) return null;
   return (
     <Panel
-      title="Transferências aguardando seu aceite"
+      title="Transferências da sua carteira"
       description="Aceitar transfere a responsabilidade do lead e preserva a carteira de clientes do remetente."
     >
       {requests.map((r) => (
-        <div key={r.id} className="crm-detail-pill">
+        <div
+          id={`transferencia-${r.id}`}
+          key={r.id}
+          className="crm-detail-pill"
+        >
           <span>
-            Lead #{r.lead_id}: {r.reason}
+            Solicitação #{r.id} · {r.status}: {r.reason || "Sem motivo informado"}
           </span>{" "}
-          <Button
-            disabled={ctx.busy}
-            onClick={() =>
-              void ctx.run(
-                () =>
-                  supabase.rpc("crm_accept_lead_transfer", {
-                    target_request: r.id,
-                  }),
-                "Transferência aceita.",
-              )
-            }
-          >
-            Aceitar transferência
-          </Button>
+          {r.to_user === ctx.userId &&
+            r.status === "pending" &&
+            new Date(r.expires_at).getTime() >
+              (ctx.updatedAt?.getTime() || 0) && (
+              <Button
+                disabled={ctx.busy}
+                onClick={() =>
+                  void ctx.run(
+                    () =>
+                      supabase.rpc("crm_accept_lead_transfer", {
+                        target_request: r.id,
+                      }),
+                    "Transferência aceita.",
+                  )
+                }
+              >
+                Aceitar transferência
+              </Button>
+            )}
         </div>
       ))}
     </Panel>

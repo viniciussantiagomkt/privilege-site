@@ -445,7 +445,12 @@ export function PropertyForm({
           .eq("id", existingId)
           .select()
           .single()
-      : supabase.from("properties").insert(extendedPayload).select().single();
+      : supabase.from("properties").insert({
+          ...extendedPayload,
+          workflow_status: "rascunho",
+          publish_on_site: false,
+          presentation_enabled: false,
+        }).select().single();
 
     let { data, error } = await query;
 
@@ -462,7 +467,12 @@ export function PropertyForm({
             .eq("id", existingId)
             .select()
             .single()
-        : supabase.from("properties").insert(legacyPayload).select().single();
+        : supabase.from("properties").insert({
+            ...legacyPayload,
+            workflow_status: "rascunho",
+            publish_on_site: false,
+            presentation_enabled: false,
+          }).select().single();
 
       const fallback = await query;
       data = fallback.data;
@@ -997,6 +1007,13 @@ export function PropertyForm({
         </div>
       )}
 
+      {!form.id && !initialData?.id && (
+        <p role="note">
+          O imóvel será salvo como rascunho, sem publicação no site. Depois de
+          salvar, abra o imóvel no CRM e escolha “Enviar para aprovação” para
+          notificar a gestão.
+        </p>
+      )}
       <button
         type="submit"
         disabled={saving || uploading}

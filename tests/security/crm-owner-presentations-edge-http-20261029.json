@@ -1,0 +1,103 @@
+{
+  "executed_at": "2026-10-29T17:40:18.356Z",
+  "environment": "Supabase staging sdpqphiooiuglywcmkxv, deployed Edge version 1",
+  "authentication": "anonymous, no API key or user JWT supplied",
+  "limitation": "Unknown capability is not a real revoked/expired link. No positive bytes/206 streaming, selected record or old-version authorization tested over HTTP.",
+  "fixtures_created": false,
+  "secrets_or_usable_capability_urls_saved": false,
+  "results": [
+    {
+      "name": "missing capability",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "malformed capability",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "unknown capability image",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "unknown capability material",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "ambiguous image and material",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "negative property id",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "non-numeric image index",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "multiple ranges rejected",
+      "expected": 400,
+      "status": 400,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "valid Range does not bypass unknown capability",
+      "expected": 404,
+      "status": 404,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "POST unsupported",
+      "expected": 405,
+      "status": 405,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    },
+    {
+      "name": "HEAD unsupported",
+      "expected": 405,
+      "status": 405,
+      "response_bytes": 0,
+      "no_store": true,
+      "result": "PASS"
+    }
+  ],
+  "summary": {
+    "PASS": 11,
+    "FAIL": 0,
+    "BLOCKED": 0
+  }
+}

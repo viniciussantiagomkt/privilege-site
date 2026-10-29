@@ -20,6 +20,14 @@
     {
       "name": "20261019170348_crm_approved_marketing_audience.sql",
       "sha256": "4be46c1b9004396682655f3f8a2344c4df317648f4bfbe091c8156de967c3b6c"
+    },
+    {
+      "name": "20261028143926_crm_marketing_delivery_notifications.sql",
+      "sha256": "2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563"
+    },
+    {
+      "name": "20261028180043_crm_optional_lead_reasons.sql",
+      "sha256": "abfd8a328a802ad57ca2671b6abee992fc262abac03bbbf73d83388a071f9359"
     }
   ],
   "results": [
@@ -321,6 +329,174 @@
     },
     {
       "name": "new privileged RPCs: anonymous execute revoked and search_path fixed",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery: selected manager cannot download superseded version",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery notifications: exact unread count, mark read and cross-user denial",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: property result persists once and contains no private title",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: assignment has persistent exact link and idempotent retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: transfer request and acceptance notify only participants without private lead data",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: explicit submission for old pending material is idempotent",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery guard: client cannot forge notification cycles or approve missing bytes",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 0: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 0: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 1: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 1: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 2: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 2: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 3: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 3: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 4: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 4: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional reasons do not bypass authorization, eligibility or length limits",
       "result": "APROVADO"
     },
     {
@@ -869,7 +1045,7 @@
     }
   ],
   "summary": {
-    "passed": 211,
+    "passed": 253,
     "failed": 0
   }
 }

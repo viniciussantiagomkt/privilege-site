@@ -238,6 +238,7 @@ export type Field = {
   options?: { value: string | number; label: string }[];
   value?: string | number | null;
   placeholder?: string;
+  maxLength?: number;
 };
 export function EntityForm({
   fields,
@@ -283,7 +284,7 @@ export function EntityForm({
                 <textarea
                   name={f.name}
                   rows={4}
-                  maxLength={2000}
+                  maxLength={f.maxLength ?? 2000}
                   defaultValue={f.value ?? ""}
                 />
               ) : (

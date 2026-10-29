@@ -28,7 +28,7 @@ export function ShareComposer({
     ctx.data.development_units,
     Number(selectedProperty),
   );
-  const properties = ctx.data.properties.filter(eligibleProperty);
+  const properties = ctx.data.properties.filter((p) => eligibleProperty(p, ctx.userId));
   const [copied, setCopied] = useState(false);
   const [sending, setSending] = useState(false);
   const [shareError, setShareError] = useState("");
@@ -264,7 +264,7 @@ export function ShareComposer({
             {!properties.length && (
               <Empty
                 title="Nenhum imóvel elegível"
-                description="A gestão precisa aprovar, publicar e habilitar a apresentação de um imóvel."
+                description="Habilite a apresentação de um imóvel do qual você seja proprietário ou responsável. Ele pode estar em rascunho, pendente ou oculto do site."
               />
             )}
             <div className="crm-form-actions">

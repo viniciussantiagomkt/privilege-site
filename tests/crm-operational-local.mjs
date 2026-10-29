@@ -7,6 +7,9 @@ const { PGlite } = await import(
 );
 const db = new PGlite();
 const results = [];
+// Git checkouts on Windows can use CRLF inside dollar-quoted function bodies.
+// Replay the canonical LF SQL so PostgreSQL fingerprints stay platform-independent.
+const readSql = (path) => readFileSync(path, "utf8").replace(/\r\n/g, "\n");
 const ids = {
   admin: "11111111-1111-4111-8111-111111111111",
   manager: "22222222-2222-4222-8222-222222222222",
@@ -60,12 +63,12 @@ async function denied(who, sql, params = []) {
 }
 let migrations = [];
 try {
-  await db.exec(readFileSync("tests/fixtures/crm-schema-20261019.sql", "utf8"));
+  await db.exec(readSql("tests/fixtures/crm-schema-20261019.sql"));
   await check(
     "schema adapter: preflight baseline has no function/policy drift",
     async () => {
       const out = await db.exec(
-        readFileSync("tests/crm-operational-preflight-readonly.sql", "utf8"),
+        readSql("tests/crm-operational-preflight-readonly.sql"),
       );
       const drift = out.filter((r) =>
         r.fields?.some((f) => f.name === "expected_md5"),
@@ -78,10 +81,10 @@ try {
     },
   );
   migrations = readdirSync("supabase/migrations")
-    .filter((f) => f.startsWith("20261019"))
+    .filter((f) => f.startsWith("20261019") || f === "20261028143926_crm_marketing_delivery_notifications.sql" || f.endsWith("_crm_optional_lead_reasons.sql"))
     .sort();
   for (const name of migrations)
-    await db.exec(readFileSync("supabase/migrations/" + name, "utf8"));
+    await db.exec(readSql("supabase/migrations/" + name));
   await db.exec(
     "insert into organizations(id,name) values('00000000-0000-4000-8000-000000000001','Local fictitious organization')",
   );
@@ -959,6 +962,9 @@ try {
         "crm_restore_client",
         "crm_set_asset_audience",
         "crm_transfer_candidates",
+        "crm_marketing_recipients",
+        "crm_submit_asset_review",
+        "crm_unread_notification_count",
       ];
       const found = (
         await db.query(
@@ -973,15 +979,548 @@ try {
       }
     },
   );
+  // Delivery regression: a fresh fixture owned by each real role equivalent.
+  for (const owner of ["admin", "manager", "a", "b"]) {
+    await check(
+      `delivery ${owner}: directory includes all four roles, excludes disabled`,
+      async () => {
+        const rows = await actor(
+          owner,
+          "select * from crm_marketing_recipients()",
+        );
+        assert.deepEqual(
+          rows.map((r) => r.id).sort(),
+          [ids.admin, ids.manager, ids.a, ids.b].sort(),
+        );
+      },
+    );
+    const material = (
+      await actor(
+        owner,
+        "insert into marketing_assets(title) values('Fictitious delivery') returning id",
+      )
+    )[0];
+    const path = `${ids[owner]}/00000000-0000-4000-8000-${String(material.id).padStart(12, "0")}.pdf`;
+    const v = (
+      await actor(
+        owner,
+        "insert into asset_versions(asset_id,storage_path,mime_type,size_bytes,checksum,original_name) values($1,$2,'application/pdf',100,repeat('d',64),'fictitious.pdf') returning id",
+        [material.id, path],
+      )
+    )[0];
+    await actor(
+      owner,
+      "update marketing_assets set current_version_id=$1 where id=$2",
+      [v.id, material.id],
+    );
+    await db.query(
+      "insert into storage.objects(bucket_id,name) values('crm-marketing',$1)",
+      [path],
+    );
+    await check(
+      `delivery ${owner}: private material and Storage denied to all others`,
+      async () => {
+        for (const who of ["admin", "manager", "a", "b"].filter(
+          (x) => x !== owner,
+        )) {
+          assert.equal(
+            (
+              await actor(who, "select id from marketing_assets where id=$1", [
+                material.id,
+              ])
+            ).length,
+            0,
+          );
+          assert.equal(
+            (
+              await actor(
+                who,
+                "select name from storage.objects where name=$1",
+                [path],
+              )
+            ).length,
+            0,
+          );
+        }
+      },
+    );
+    await check(
+      `delivery ${owner}: team pending invisible to brokers, persistent review once`,
+      async () => {
+        await actor(owner, "select crm_set_asset_audience($1,'team','{}')", [
+          material.id,
+        ]);
+        await actor(owner, "select crm_set_asset_audience($1,'team','{}')", [
+          material.id,
+        ]);
+        const notes = (
+          await db.query(
+            "select * from notifications where entity_type='marketing_asset' and entity_id=$1 and type='asset_review'",
+            [material.id],
+          )
+        ).rows;
+        assert.equal(notes.length, 2);
+        for (const who of ["a", "b"].filter((x) => x !== owner))
+          assert.equal(
+            (
+              await actor(who, "select id from marketing_assets where id=$1", [
+                material.id,
+              ])
+            ).length,
+            0,
+          );
+      },
+    );
+    await actor(
+      "manager",
+      "update marketing_assets set status='aprovado' where id=$1",
+      [material.id],
+    );
+    await check(
+      `delivery ${owner}: approved team and Storage visible to all, never anonymous`,
+      async () => {
+        for (const who of ["admin", "manager", "a", "b"]) {
+          assert.equal(
+            (
+              await actor(who, "select id from marketing_assets where id=$1", [
+                material.id,
+              ])
+            ).length,
+            1,
+          );
+          assert.equal(
+            (
+              await actor(
+                who,
+                "select name from storage.objects where name=$1",
+                [path],
+              )
+            ).length,
+            1,
+          );
+        }
+        assert.equal(
+          (
+            await actor(
+              "anon",
+              "select name from storage.objects where name=$1",
+              [path],
+            )
+          ).length,
+          0,
+        );
+        assert.equal(
+          (
+            await db.query(
+              "select count(*)::int n from notifications where entity_id=$1 and type in ('asset_approved','asset_shared')",
+              [material.id],
+            )
+          ).rows[0].n,
+          4,
+        );
+      },
+    );
+    const recipient = owner === "admin" ? "manager" : "admin";
+    const outsider = ["a", "b"].find((x) => x !== owner);
+    await check(
+      `delivery ${owner}: selected administrator/manager allowed, unselected blocked, owner retained`,
+      async () => {
+        await actor(
+          owner,
+          "select crm_set_asset_audience($1,'selected',array[$2]::uuid[])",
+          [material.id, ids[recipient]],
+        );
+        await denied(
+          owner,
+          "select crm_set_asset_audience($1,'selected',array[$2]::uuid[])",
+          [material.id, ids.disabled],
+        );
+        await actor(
+          "manager",
+          "update marketing_assets set status='aprovado' where id=$1",
+          [material.id],
+        );
+        for (const who of [owner, recipient])
+          assert.equal(
+            (
+              await actor(
+                who,
+                "select name from storage.objects where name=$1",
+                [path],
+              )
+            ).length,
+            1,
+          );
+        assert.equal(
+          (
+            await actor(
+              outsider,
+              "select name from storage.objects where name=$1",
+              [path],
+            )
+          ).length,
+          0,
+        );
+        const unselectedManager = ["admin", "manager"].find(
+          (x) => x !== recipient && x !== owner,
+        );
+        if (unselectedManager)
+          assert.equal(
+            (
+              await actor(
+                unselectedManager,
+                "select id from marketing_assets where id=$1",
+                [material.id],
+              )
+            ).length,
+            0,
+          );
+        await denied(
+          outsider,
+          "select crm_set_asset_audience($1,'team','{}')",
+          [material.id],
+        );
+      },
+    );
+    await check(
+      `delivery ${owner}: revoke to owner removes recipient Storage immediately`,
+      async () => {
+        await actor(owner, "select crm_set_asset_audience($1,'owner','{}')", [
+          material.id,
+        ]);
+        assert.equal(
+          (
+            await actor(
+              recipient,
+              "select name from storage.objects where name=$1",
+              [path],
+            )
+          ).length,
+          0,
+        );
+        assert.equal(
+          (
+            await actor(
+              owner,
+              "select name from storage.objects where name=$1",
+              [path],
+            )
+          ).length,
+          1,
+        );
+      },
+    );
+  }
+  await check(
+    "delivery: selected manager cannot download superseded version",
+    async () => {
+      const a = (
+        await actor(
+          "a",
+          "insert into marketing_assets(title) values('Fictitious version isolation') returning id",
+        )
+      )[0];
+      const versions = [];
+      for (const suffix of ["8888", "8889"]) {
+        const path =
+          ids.a + "/00000000-0000-4000-8000-00000000" + suffix + ".pdf";
+        const v = (
+          await actor(
+            "a",
+            "insert into asset_versions(asset_id,storage_path,mime_type,size_bytes,checksum,original_name) values($1,$2,'application/pdf',100,repeat($3,64),'fictitious.pdf') returning id",
+            [a.id, path, suffix === "8888" ? "e" : "a"],
+          )
+        )[0];
+        await db.query(
+          "insert into storage.objects(bucket_id,name) values('crm-marketing',$1)",
+          [path],
+        );
+        versions.push({ ...v, path });
+      }
+      await actor(
+        "a",
+        "update marketing_assets set current_version_id=$1 where id=$2",
+        [versions[1].id, a.id],
+      );
+      await actor(
+        "a",
+        "select crm_set_asset_audience($1,'selected',array[$2]::uuid[])",
+        [a.id, ids.manager],
+      );
+      await actor(
+        "manager",
+        "update marketing_assets set status='aprovado' where id=$1",
+        [a.id],
+      );
+      assert.equal(
+        (
+          await actor(
+            "manager",
+            "select id from asset_versions where asset_id=$1",
+            [a.id],
+          )
+        ).length,
+        1,
+      );
+      assert.equal(
+        (
+          await actor(
+            "manager",
+            "select name from storage.objects where name=$1",
+            [versions[0].path],
+          )
+        ).length,
+        0,
+      );
+      assert.equal(
+        (
+          await actor(
+            "manager",
+            "select name from storage.objects where name=$1",
+            [versions[1].path],
+          )
+        ).length,
+        1,
+      );
+      assert.equal(
+        (
+          await actor("a", "select id from asset_versions where asset_id=$1", [
+            a.id,
+          ])
+        ).length,
+        2,
+      );
+    },
+  );
+  await check(
+    "delivery notifications: exact unread count, mark read and cross-user denial",
+    async () => {
+      for (const who of ["admin", "manager", "a", "b"]) {
+        const expected = (
+          await actor(
+            who,
+            "select count(*)::int n from notifications where not read",
+          )
+        )[0].n;
+        assert.equal(
+          Number(
+            (await actor(who, "select crm_unread_notification_count() n"))[0].n,
+          ),
+          expected,
+        );
+        const note = (
+          await actor(
+            who,
+            "select id from notifications where not read limit 1",
+          )
+        )[0];
+        assert(note);
+        await actor(who, "select crm_read_notification($1)", [note.id]);
+        assert.equal(
+          Number(
+            (await actor(who, "select crm_unread_notification_count() n"))[0].n,
+          ),
+          expected - 1,
+        );
+        const other = who === "a" ? "b" : "a";
+        await denied(other, "select crm_read_notification($1)", [note.id]);
+      }
+      await denied("anon", "select crm_marketing_recipients()");
+      await denied("anon", "select crm_unread_notification_count()");
+    },
+  );
+  await check(
+    "delivery events: property result persists once and contains no private title",
+    async () => {
+      const notes = (
+        await db.query(
+          "select * from notifications where entity_type='property' and entity_id=100 and type='property_result'",
+        )
+      ).rows;
+      assert.equal(notes.length, 1);
+      assert.equal(notes[0].user_id, ids.a);
+      assert.equal(notes[0].target_path, "/admin/imoveis?imovel=100");
+      assert.equal(notes[0].title, "Revisão do imóvel atualizada");
+    },
+  );
+  await check(
+    "delivery events: assignment has persistent exact link and idempotent retry",
+    async () => {
+      const before = (
+        await db.query(
+          "select count(*)::int n from notifications where entity_type='lead' and entity_id=3000",
+        )
+      ).rows[0].n;
+      const assigned = (
+        await db.query("select broker_id from leads where id=3000")
+      ).rows[0].broker_id;
+      await actor(
+        "manager",
+        "select crm_assign_lead(3000,$1,'Retry fixture')",
+        [assigned],
+      );
+      const notes = (
+        await db.query(
+          "select * from notifications where entity_type='lead' and entity_id=3000",
+        )
+      ).rows;
+      assert(before > 0);
+      assert.equal(notes.length, before);
+      assert.equal(notes[0].target_path, "/admin/leads?lead=3000");
+    },
+  );
+  await check(
+    "delivery events: transfer request and acceptance notify only participants without private lead data",
+    async () => {
+      const request = (
+        await db.query(
+          "select * from lead_transfer_requests where lead_id=1000 and status='accepted' limit 1",
+        )
+      ).rows[0];
+      assert(request);
+      const notes = (
+        await db.query(
+          "select * from notifications where entity_type='lead_transfer' and entity_id=$1",
+          [request.id],
+        )
+      ).rows;
+      assert.equal(notes.length, 3);
+      assert(
+        notes.every((n) =>
+          [request.from_user, request.to_user].includes(n.user_id),
+        ),
+      );
+      assert(
+        notes.every(
+          (n) => !n.title.includes("1000") && !n.description.includes("1000"),
+        ),
+      );
+      const before = notes.length;
+      await actor("b", "select crm_accept_lead_transfer($1)", [request.id]);
+      assert.equal(
+        (
+          await db.query(
+            "select count(*)::int n from notifications where entity_type='lead_transfer' and entity_id=$1",
+            [request.id],
+          )
+        ).rows[0].n,
+        before,
+      );
+    },
+  );
+  await check(
+    "delivery events: explicit submission for old pending material is idempotent",
+    async () => {
+      const asset = (
+        await actor(
+          "a",
+          "insert into marketing_assets(title) values('Old fictitious pending') returning id",
+        )
+      )[0];
+      await denied(
+        "a",
+        "update marketing_assets set status='aprovado' where id=$1 returning id",
+        [asset.id],
+      );
+      const v = (
+        await actor(
+          "a",
+          "insert into asset_versions(asset_id,storage_path,mime_type,size_bytes,checksum,original_name) values($1,$2,'image/png',100,repeat('f',64),'fictitious.png') returning id",
+          [asset.id, ids.a + "/00000000-0000-4000-8000-000000009999.png"],
+        )
+      )[0];
+      await actor(
+        "a",
+        "update marketing_assets set current_version_id=$1 where id=$2",
+        [v.id, asset.id],
+      );
+      await actor("a", "select crm_set_asset_audience($1,'team','{}')", [
+        asset.id,
+      ]);
+      await db.query(
+        "delete from notifications where entity_type='marketing_asset' and entity_id=$1",
+        [asset.id],
+      );
+      await actor("a", "select crm_submit_asset_review($1)", [asset.id]);
+      await actor("a", "select crm_submit_asset_review($1)", [asset.id]);
+      assert.equal(
+        (
+          await db.query(
+            "select count(*)::int n from notifications where entity_type='marketing_asset' and entity_id=$1 and type='asset_review'",
+            [asset.id],
+          )
+        ).rows[0].n,
+        2,
+      );
+      await denied("b", "select crm_submit_asset_review($1)", [asset.id]);
+    },
+  );
+  await check(
+    "delivery guard: client cannot forge notification cycles or approve missing bytes",
+    async () => {
+      const asset = (
+        await actor(
+          "a",
+          "insert into marketing_assets(title) values('Fictitious cycle forgery') returning id",
+        )
+      )[0];
+      await denied(
+        "a",
+        "update marketing_assets set delivery_cycle=999 where id=$1 returning id",
+        [asset.id],
+      );
+      await denied(
+        "admin",
+        "update marketing_assets set status='aprovado' where id=$1 returning id",
+        [asset.id],
+      );
+    },
+  );
   const historicalIds = {
     "84c5604b-d728-4759-8572-ea4a832af9ce": ids.admin,
     "0d92c58c-d6f0-4465-95e1-303e7d9f9a69": ids.manager,
     "73a767b8-218d-4910-a370-2b93cf32bf74": ids.a,
     "779c7220-06dd-4180-8b52-05136bee21cb": ids.b,
   };
+  for (const [index, reason] of ["", "   ", null, "x".repeat(500), undefined].entries()) {
+    const companyId = 8000 + index;
+    const personalId = 8100 + index;
+    await db.query("insert into leads(id,name,broker_id,origin_type) values($1,'Optional reason fixture',null,'company'),($2,'Optional transfer fixture',$3,'personal')", [companyId, personalId, ids.a]);
+    await check(`optional assignment reason variant ${index}: audit, notification and retry`, async () => {
+      const sql = reason === undefined ? "select crm_assign_lead($1,$2)" : "select crm_assign_lead($1,$2,$3)";
+      const params = reason === undefined ? [companyId, ids.b] : [companyId, ids.b, reason];
+      await actor("manager", sql, params);
+      await actor("manager", sql, params);
+      const rows = (await db.query("select reason from lead_assignments where lead_id=$1", [companyId])).rows;
+      assert.equal(rows.length, 1);
+      assert.equal(rows[0].reason, (reason || "").trim());
+      assert.equal((await db.query("select count(*)::int n from notifications where entity_type='lead' and entity_id=$1", [companyId])).rows[0].n, 1);
+    });
+    await check(`optional transfer reason variant ${index}: consent, accept, isolation and idempotency`, async () => {
+      const sql = reason === undefined ? "select crm_request_lead_transfer($1,$2) id" : "select crm_request_lead_transfer($1,$2,$3) id";
+      const params = reason === undefined ? [personalId, ids.b] : [personalId, ids.b, reason];
+      const [request] = await actor("a", sql, params);
+      assert.equal((await db.query("select broker_id from leads where id=$1", [personalId])).rows[0].broker_id, ids.a);
+      await denied("a", "select crm_accept_lead_transfer($1)", [request.id]);
+      await actor("b", "select crm_accept_lead_transfer($1)", [request.id]);
+      await actor("b", "select crm_accept_lead_transfer($1)", [request.id]);
+      const rows = (await db.query("select reason from lead_assignments where lead_id=$1", [personalId])).rows;
+      assert.equal(rows.length, 1);
+      assert.equal(rows[0].reason, (reason || "").trim());
+      await denied("a", "select id from leads where id=$1", [personalId]);
+      assert.equal((await actor("b", "select id from leads where id=$1", [personalId])).length, 1);
+    });
+  }
+  await check("optional reasons do not bypass authorization, eligibility or length limits", async () => {
+    await denied("a", "select crm_assign_lead(8000,$1,'')", [ids.a]);
+    await denied("manager", "select crm_assign_lead(8000,$1,'')", [ids.disabled]);
+    await denied("manager", "select crm_assign_lead(8000,$1,$2)", [ids.a, "x".repeat(501)]);
+    await denied("b", "select crm_request_lead_transfer(8100,$1,$2)", [ids.a, "x".repeat(501)]);
+    await denied("a", "select crm_request_lead_transfer(8100,$1,'')", [ids.b]);
+  });
   for (const file of ["crm-staging-rls.sql", "crm-marketing-rls.sql"]) {
     await check("SQL regression suite " + file, async () => {
-      let sql = readFileSync("tests/" + file, "utf8");
+      let sql = readSql("tests/" + file);
       for (const [from, to] of Object.entries(historicalIds))
         sql = sql.replaceAll(from, to);
       const localDb = (await db.query("select current_database() name")).rows[0]
@@ -1012,6 +1551,56 @@ try {
       }
     });
   }
+  const draftMigrations = readdirSync("supabase/migrations").filter((name) => name.endsWith("_crm_owner_draft_presentations.sql"));
+  assert.equal(draftMigrations.length, 1, "Exactly one managed owner-presentation migration is required");
+  const draftMigration = draftMigrations[0];
+  await db.exec(readSql("supabase/migrations/" + draftMigration));
+  migrations.push(draftMigration);
+  for (const [index, workflow] of ["rascunho", "pendente", "aprovado", "publicado"].entries()) {
+    const pid = 9000 + index;
+    await db.query("insert into properties(id,title,slug,description,location,category,price,owner_id,broker_id,workflow_status,publish_on_site,presentation_enabled) overriding system value values($1,'Draft presentation fixture',$2,'Fixture only','Fixture','casas','100000',$3,$3,$4,false,true)", [pid,"draft-presentation-"+pid,ids.a,workflow]);
+    await check(`owner presentation ${workflow}: hidden from anonymous listing, link allowed, other broker denied`, async () => {
+      const [share] = await actor("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[$1::bigint],'Private presentation fixture',now()+interval '1 day') returning id,token", [pid]);
+      const [payload] = await actor("anon", "select crm_public_presentation($1) data", [share.token]);
+      assert.equal(payload.data.properties[0].id, pid);
+      assert.equal(payload.data.properties[0].owner_id, undefined);
+      assert.equal((await actor("anon", "select id from properties where id=$1", [pid])).length, 0);
+      await denied("b", "insert into marketing_shares(property_ids,title,expires_at) values(array[$1::bigint],'Forbidden',now()+interval '1 day') returning id", [pid]);
+      await actor("a", "update marketing_shares set revoked_at=now() where id=$1 returning id", [share.id]);
+      assert.equal((await actor("anon", "select crm_public_presentation($1) data", [share.token]))[0].data, null);
+    });
+  }
+  await check("owner presentation: disable, expiry and ownership transfer invalidate capability", async () => {
+    const make = async (pid) => (await actor("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[$1::bigint],'Capability fixture',now()+interval '1 day') returning token", [pid]))[0].token;
+    const token = await make(9000);
+    await actor("a", "update properties set presentation_enabled=false where id=9000 returning id");
+    assert.equal((await actor("anon", "select crm_public_presentation($1) data", [token]))[0].data,null);
+    await denied("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[9000::bigint],'Disabled',now()+interval '1 day') returning id");
+    const transferred = await make(9001);
+    await actor("manager", "update properties set owner_id=$1,broker_id=$1 where id=9001 returning id", [ids.b]);
+    assert.equal((await actor("anon", "select crm_public_presentation($1) data", [transferred]))[0].data,null);
+    const [expired] = await actor("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[9002::bigint],'Short fixture',now()+interval '100 milliseconds') returning token");
+    await new Promise(resolve => setTimeout(resolve,150));
+    assert.equal((await actor("anon", "select crm_public_presentation($1) data", [expired.token]))[0].data,null);
+  });
+  await check("owner presentation: hidden property accepts only approved public team material; direct Storage stays private", async () => {
+    const [material] = await actor("a", "insert into marketing_assets(title) values('Owner presentation material fixture') returning id");
+    const storagePath=ids.a+"/99999999-9999-4999-8999-999999999999.pdf";
+    const [version] = await actor("a", "insert into asset_versions(asset_id,storage_path,mime_type,size_bytes,checksum,original_name) values($1,$2,'application/pdf',100,repeat('e',64),'presentation-fixture.pdf') returning id", [material.id,storagePath]);
+    await actor("a", "update marketing_assets set current_version_id=$1 where id=$2", [version.id,material.id]);
+    await actor("a", "insert into asset_relations(asset_id,property_id) values($1,9003)", [material.id]);
+    await db.query("insert into storage.objects(bucket_id,name) values('crm-marketing',$1)", [storagePath]);
+    await actor("a", "select crm_set_asset_audience($1,'team','{}'::uuid[])", [material.id]);
+    const create = "insert into marketing_shares(property_ids,asset_ids,title,expires_at) values(array[9003::bigint],array[$1::bigint],'Approved hidden material',now()+interval '1 day') returning token";
+    await denied("a",create,[material.id]);
+    await actor("manager", "update marketing_assets set status='aprovado',visibility='public' where id=$1", [material.id]);
+    const [share]=await actor("a",create,[material.id]);
+    const payload=(await actor("anon","select crm_public_presentation($1) data",[share.token]))[0].data;
+    assert.equal(payload.assets.length,1);assert.equal(payload.assets[0].path,storagePath);
+    await denied("anon","select name from storage.objects where bucket_id='crm-marketing' and name=$1",[storagePath]);
+    await actor("a","select crm_set_asset_audience($1,'owner','{}'::uuid[])",[material.id]);
+    assert.equal((await actor("anon","select crm_public_presentation($1) data",[share.token]))[0].data.assets.length,0);
+  });
 } catch (e) {
   results.push({
     name: "suite infrastructure/fixture",
@@ -1028,7 +1617,7 @@ const report = {
   migrations: migrations.map((name) => ({
     name,
     sha256: createHash("sha256")
-      .update(readFileSync("supabase/migrations/" + name))
+      .update(readSql("supabase/migrations/" + name))
       .digest("hex"),
   })),
   results,
@@ -1038,7 +1627,7 @@ const report = {
   },
 };
 writeFileSync(
-  "tests/security/crm-operational-local-results.json",
+  process.env.CRM_LOCAL_REPORT_PATH || "tests/security/crm-operational-local-results.json",
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report.summary);

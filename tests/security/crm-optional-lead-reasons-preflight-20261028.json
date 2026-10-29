@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-28",
+  "candidate_commit": "c2abe3b8cc6f302e6393d13ba744c738da108983",
+  "project": "sdpqphiooiuglywcmkxv",
+  "candidate_migration": "20261028173753_crm_optional_lead_reasons.sql",
+  "authorization": "User confirmed exact file and staging scope; pending backup condition",
+  "preflight": {
+    "function_drift": false,
+    "migration_count": 17,
+    "candidate_applied": false,
+    "anon_execute": false,
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "transfer_requests": 1,
+    "transfer_table_bytes": 49152,
+    "requests_created_after_prior_backup": 1
+  },
+  "backup": {
+    "prior_created_utc": "2026-10-28T13:01:25.5280876Z",
+    "prior_restore": "PASS reported by user",
+    "coverage": "Predates latest applied migration and new transfer fixture; fresh backup/restore pending"
+  },
+  "restore_script_update": "Accept explicitly supplied SHA-256 and byte count, both matched against manifest/archive. Existing isolation unchanged. Static review only; PowerShell unavailable here.",
+  "database_written": false,
+  "production_changed": false,
+  "preview_published": false
+}

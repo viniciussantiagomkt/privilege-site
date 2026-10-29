@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { eligibleProperty } from "@/lib/crm/marketing";
 import { ShareComposer } from "./ShareComposer";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -11,7 +12,6 @@ import {
   Maximize,
   Car,
   ExternalLink,
-  Copy,
   Check,
   EyeOff,
   Archive,
@@ -95,7 +95,7 @@ export function Properties() {
     setEdit(null);
     setCreate(false);
     void ctx.reload();
-    ctx.setNotice({ text: "Cadastro do imóvel salvo.", error: false });
+    ctx.setNotice({ text: "Cadastro salvo. Novos imóveis ficam em rascunho; abra o imóvel e envie para aprovação para notificar a gestão.", error: false });
   }
   async function approve(p: CrmProperty) {
     await ctx.run(
@@ -340,9 +340,7 @@ export function Properties() {
             ctx.data.properties.find((p) => p.id === selected.id);
           if (!p) return null;
           const linkEnabled =
-            p.presentation_enabled &&
-            p.publish_on_site &&
-            ["aprovado", "publicado"].includes(p.workflow_status);
+            eligibleProperty(p, ctx.userId);
           const links = ctx.data.crm_contact_links.filter(
             (l) => l.property_id === p.id,
           );
@@ -353,6 +351,11 @@ export function Properties() {
               onClose={() => setSelected(null)}
               wide
             >
+              {ctx.notice && !ctx.notice.error && (
+                <div className="crm-alert" role="status">
+                  {ctx.notice.text}
+                </div>
+              )}
               <div className="crm-detail-grid">
                 <div>
                   <small>Disponibilidade</small>
@@ -432,6 +435,7 @@ export function Properties() {
                           .eq("id", p.id)
                           .select("id")
                           .single(),
+                        "Imóvel enviado para aprovação. A gestão foi notificada.",
                       )
                     }
                   >
@@ -453,111 +457,23 @@ export function Properties() {
                 )}
               </div>
               {canEdit(p) && (
-                <div className="crm-toolbar">
-                  <label>
-                    Disponibilidade{" "}
-                    <select
-                      aria-label="Disponibilidade comercial"
-                      className="crm-compact-status"
-                      value={p.status}
-                      disabled={ctx.busy}
-                      onChange={(e) =>
-                        void ctx.run(() =>
-                          supabase
-                            .from("properties")
-                            .update({ status: e.target.value })
-                            .eq("id", p.id)
-                            .select("id")
-                            .single(),
-                        )
-                      }
-                    >
-                      {[
-                        "ativo",
-                        "reservado",
-                        "vendido",
-                        "alugado",
-                        "rascunho",
-                        "inativo",
-                      ].map((s) => (
-                        <option key={s}>{s}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    Apresentação{" "}
-                    <select
-                      aria-label="Habilitar página de apresentação"
-                      className="crm-compact-status"
-                      value={String(p.presentation_enabled)}
-                      disabled={ctx.busy}
-                      onChange={(e) =>
-                        void ctx.run(() =>
-                          supabase
-                            .from("properties")
-                            .update({
-                              presentation_enabled: e.target.value === "true",
-                            })
-                            .eq("id", p.id)
-                            .select("id")
-                            .single(),
-                        )
-                      }
-                    >
-                      <option value="true">Habilitada</option>
-                      <option value="false">Desabilitada</option>
-                    </select>
-                  </label>
-                </div>
+                <PropertySettings
+                  key={`${p.id}:${p.status}:${p.presentation_enabled}`}
+                  property={p}
+                />
               )}
               <h3>Apresentação compartilhável</h3>
               <p
                 style={{ fontSize: 12, color: "#8098a7", margin: "8px 0 15px" }}
               >
-                A página contém os campos públicos do imóvel e acompanha sua
-                visibilidade no site.
+                O link mostra os dados de apresentação e as fotos do imóvel.
+                Aprovação e publicação no site são independentes.
               </p>
-              {linkEnabled ? (
-                <div className="crm-detail-actions">
-                  <a
-                    className="crm-button secondary"
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`/apresentacao/${p.slug}`}
-                  >
-                    <ExternalLink size={15} />
-                    Abrir apresentação
-                  </a>
-                  <Button
-                    secondary
-                    onClick={() => {
-                      void navigator.clipboard
-                        .writeText(
-                          `${window.location.origin}/apresentacao/${p.slug}`,
-                        )
-                        .then(() =>
-                          ctx.setNotice({
-                            text: "Link copiado.",
-                            error: false,
-                          }),
-                        )
-                        .catch(() =>
-                          ctx.setNotice({
-                            text: "Não foi possível copiar. Abra a apresentação e copie o endereço.",
-                            error: true,
-                          }),
-                        );
-                    }}
-                  >
-                    <Copy size={15} />
-                    Copiar link
-                  </Button>
-                </div>
-              ) : (
-                <Badge tone="amber">
-                  A apresentação exige aprovação e publicação
-                </Badge>
-              )}
+              <p>
+                {linkEnabled
+                  ? "Use Compartilhar apresentação para criar um link individual com validade e revogação, sem publicar o imóvel no site."
+                  : "Habilite a apresentação de um imóvel do qual você seja proprietário ou responsável."}
+              </p>
               <p className="crm-detail-pill" style={{ margin: "20px 0" }}>
                 {p.description}
               </p>
@@ -662,5 +578,56 @@ function PropertyContactForm({ property }: { property: CrmProperty }) {
     <Button secondary onClick={() => setOpen(true)}>
       Vincular proprietário ou cliente
     </Button>
+  );
+}
+
+export function PropertySettings({ property }: { property: CrmProperty }) {
+  const ctx = useWorkspace();
+  const [status, setStatus] = useState(property.status);
+  const [presentationEnabled, setPresentationEnabled] = useState(property.presentation_enabled);
+  const changed = status !== property.status || presentationEnabled !== property.presentation_enabled;
+  return (
+    <form className="crm-form" onSubmit={async (event) => {
+      event.preventDefault();
+      if (!changed || ctx.busy) return;
+      const patch = { status, presentation_enabled: presentationEnabled };
+      await ctx.run(async () => {
+        const { data, error } = await supabase.from("properties")
+          .update(patch).eq("id", property.id)
+          .select("id,status,presentation_enabled").single();
+        if (error) return { error };
+        if (!data || data.status !== patch.status || data.presentation_enabled !== patch.presentation_enabled) {
+          return { error: { message: "O banco não confirmou as opções escolhidas. Atualize a página e tente novamente." } };
+        }
+        return { error: null };
+      }, "Disponibilidade e apresentação salvas.");
+    }}>
+      <fieldset disabled={ctx.busy}>
+        <div className="crm-form-grid">
+          <label>Disponibilidade
+            <select aria-label="Disponibilidade comercial" value={status}
+              onChange={(event) => setStatus(event.currentTarget.value)}>
+              {["ativo", "reservado", "vendido", "alugado", "rascunho", "inativo"].map(value => (
+                <option key={value} value={value}>{value}</option>
+              ))}
+            </select>
+          </label>
+          <label>Apresentação
+            <select aria-label="Habilitar página de apresentação" value={String(presentationEnabled)}
+              onChange={(event) => setPresentationEnabled(event.currentTarget.value === "true")}>
+              <option value="true">Habilitada</option>
+              <option value="false">Desabilitada</option>
+            </select>
+          </label>
+        </div>
+        <p role="status">{ctx.busy ? "Salvando opções…" : changed ? "Alterações ainda não salvas." : "As opções exibidas estão salvas."}</p>
+        <p>Gerar uma apresentação não aprova nem publica o imóvel no site.</p>
+        <div className="crm-form-actions">
+          <Button type="submit" disabled={ctx.busy || !changed}>
+            {ctx.busy ? "Salvando…" : "Salvar disponibilidade e apresentação"}
+          </Button>
+        </div>
+      </fieldset>
+    </form>
   );
 }

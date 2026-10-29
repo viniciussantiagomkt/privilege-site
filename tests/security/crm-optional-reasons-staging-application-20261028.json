@@ -1,0 +1,89 @@
+{
+  "date": "2026-10-28",
+  "project": "sdpqphiooiuglywcmkxv",
+  "initial_remote_head": "743b5356f6127d81e297758d655eacdce03f0609",
+  "authorized_implementation_commit": "c2abe3b8cc6f302e6393d13ba744c738da108983",
+  "authorization": "User explicitly authorized this migration in staging after fresh backup restoration and renewed preflight. No new preview authorization.",
+  "restore": {
+    "executor": "agent on Windows; not user-reported",
+    "backup_created_utc": "2026-10-28T17:49:30.3238971Z",
+    "archive_bytes": 783325,
+    "archive_sha256": "ACB3D4B0C0033D8BB4D88134BA3BE3B5E99E28E01EE741D64581D58C5D23A6A5",
+    "result": "RESTORE PASS; single transaction completed; manifest counts and schema checks match",
+    "original_archive_and_manifest_preserved": true,
+    "private_artifacts_uploaded": false,
+    "docker_context": "desktop-linux",
+    "container": "privilege-crm-restore-20261028",
+    "local_database": "privilege_restore_1f7178826be2",
+    "network": "none",
+    "published_ports": [],
+    "new_roles_created": false,
+    "limits": "Database restore only; excludes Storage bytes, HTTP Auth and external settings."
+  },
+  "renewed_preflight": {
+    "exact_expected_17_versions_matched": true,
+    "candidate_absent": true,
+    "assignment_fingerprint": "0f587cadfdba9ddeb12f9e07cc216b91",
+    "transfer_fingerprint": "0edfb30fb7f2d0e54542dc028031f0c8",
+    "constraint_minimum_trimmed_length": 1,
+    "anon_execute": false,
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "transfer_requests": 1,
+    "transfer_table_bytes": 49152
+  },
+  "application": {
+    "status": "APPLIED ONCE",
+    "version": "20261028180043",
+    "name": "crm_optional_lead_reasons",
+    "proposed_filename": "20261028173753_crm_optional_lead_reasons.sql",
+    "managed_filename": "20261028180043_crm_optional_lead_reasons.sql",
+    "stored_sql_md5": "f49239be81391911ea31ff0b142935ba",
+    "stored_sql_matches_approved_git_blob": true,
+    "filename_reconciled_without_reapplying": true
+  },
+  "postflight": {
+    "migration_count": 18,
+    "trimmed_reason_length": "0 through 500",
+    "optional_argument_defaults": true,
+    "anon_execute": false,
+    "authenticated_execute": true,
+    "function_acls_owner_security_and_search_path_preserved": true,
+    "public_tables_without_rls": 0,
+    "public_tables_compared": 43,
+    "total_relations_compared": 47,
+    "row_counts_and_fingerprints_unchanged": true,
+    "auth_identities_roles_and_notifications_preserved": true,
+    "read_only_anonymous_execution_negative_test": "PASS for both RPCs with omitted optional argument"
+  },
+  "local_tests": {
+    "pglite": { "passed": 253, "failed": 0 },
+    "code": { "passed": 23, "failed": 0 },
+    "restored_postgres17": "PASS: six reason variants, consent/repeated accept, 501-character limit, invalid recipient/self-transfer, broker assignment denial, isolation, audit, notification idempotency and expiry",
+    "local_fixtures_rolled_back": true,
+    "staging_fixtures_created": false,
+    "sql_claims_are_not_auth_http": true,
+    "windows_runner_fix": "Canonical LF SQL for fingerprint parity; preconditions retained."
+  },
+  "manual_confirmation": {
+    "executor": "user; not agent",
+    "reported_passed": ["private, selected recipients, team and revocation", "visual controls", "property availability/presentation with explicit save", "submission/approval notifications", "institutional assignment and consented personal transfer", "oriented isolation, persistence, read/count and no duplication"],
+    "entire_homologation_complete": false
+  },
+  "browser_session_inspection": "Stopped by Computer Use URL-policy guard on Windows. Not bypassed; authenticated browser tests not claimed.",
+  "final_validation": {
+    "lint": "PASS",
+    "typescript": "PASS",
+    "build": "PASS after patch upgrade; initial vulnerable version build rejected",
+    "next_and_eslint_config": "16.4.3",
+    "zod_transitive": "4.6.7",
+    "npm_audit_total_vulnerabilities": 0,
+    "pglite_passed_after_reconciliation": 253,
+    "code_tests_passed": 23,
+    "no_forced_dependency_update": true
+  },
+  "new_preview_published": false,
+  "production_changed": false,
+  "staging_users_passwords_or_roles_modified": false,
+  "external_messages_sent": false
+}

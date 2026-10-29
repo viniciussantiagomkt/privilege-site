@@ -930,6 +930,92 @@
   padding: 0;
   margin: 0;
 }
+.crm-audience-form {
+  padding: 24px;
+}
+.crm-audience-fields,
+.crm-form .crm-audience-fields {
+  display: grid;
+  gap: 18px;
+  border: 0;
+  padding: 0;
+  margin: 0 0 20px;
+  min-width: 0;
+  color: #284b60;
+  font-size: 14px;
+}
+.crm-audience-fields > label {
+  display: grid;
+  gap: 8px;
+}
+.crm-audience-fields select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #dbe6eb;
+  border-radius: 8px;
+  background: #fafcfd;
+  color: #284b60;
+}
+.crm-audience-recipients,
+.crm-form .crm-audience-recipients {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 10px;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.crm-audience-recipients legend {
+  padding: 0 0 12px;
+  font-weight: 600;
+}
+.crm-audience-recipients .crm-audience-recipient {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px;
+  border: 1px solid #dbe6eb;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.crm-audience-recipient:has(input:checked) {
+  background: #edf5f8;
+  border-color: #284b60;
+}
+.crm-audience-recipient input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  flex: 0 0 18px;
+  accent-color: #284b60;
+}
+.crm-audience-recipient > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #284b60;
+}
+.crm-audience-recipient small {
+  display: block;
+  margin-top: 4px;
+  color: #5f7b8c;
+}
+.crm-audience-fields p {
+  margin: 0;
+  line-height: 1.6;
+}
+.crm-audience-form .crm-button {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+.crm-audience-fields :is(select, input):focus-visible {
+  outline: 2px solid #284b60;
+  outline-offset: 3px;
+}
 .crm-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

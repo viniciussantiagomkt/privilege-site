@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-28",
+  "project": "sdpqphiooiuglywcmkxv",
+  "backup": {
+    "source": "user-reported Windows backup",
+    "created_utc": "2026-10-28T17:49:30.3238971Z",
+    "archive_bytes": 783325,
+    "archive_sha256": "ACB3D4B0C0033D8BB4D88134BA3BE3B5E99E28E01EE741D64581D58C5D23A6A5",
+    "archive_list_and_decode": "PASS reported by user",
+    "restore_validation": "PENDING; no result received for this archive",
+    "private_dump_transferred": false
+  },
+  "preflight": {
+    "migrations": 17,
+    "optional_migration_applied": false,
+    "function_drift": false,
+    "waiting_locks": 0,
+    "long_transactions": 0
+  },
+  "execution_environment": {
+    "windows_drive_access": false,
+    "docker_command_available": false,
+    "postgres_clients_available": false,
+    "new_archive_available": false
+  },
+  "authorization": "Specific migration authorization retained; backup restore prerequisite outstanding. Production and merge excluded.",
+  "database_written": false,
+  "new_preview_published": false
+}
