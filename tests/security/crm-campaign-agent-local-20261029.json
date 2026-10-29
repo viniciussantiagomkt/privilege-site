@@ -1,0 +1,1143 @@
+{
+  "environment": "isolated PGlite PostgreSQL, synthetic SQL claims; NOT Auth HTTP, Storage bytes, Realtime or staging",
+  "migrations": [
+    {
+      "name": "20261019165011_crm_private_portfolios_and_transfers.sql",
+      "sha256": "70fd88052343db601bc656f891fecc5d8a40d9db2c54cc75c59459a38efbccc1"
+    },
+    {
+      "name": "20261019165034_crm_management_aggregates.sql",
+      "sha256": "616ecd96838e74f87ec5c36642eb2174287de7717c941674d3cc2ccb08419b0f"
+    },
+    {
+      "name": "20261019165057_crm_commercial_sale_ownership.sql",
+      "sha256": "84f4f0217215e618b1a022c4f061f70eeee84ecf6fd9513e5cd333a55e8b4b7d"
+    },
+    {
+      "name": "20261019165119_crm_property_review_notifications.sql",
+      "sha256": "edddd6c61bbc1895791424435d1ae81404dc9b4f34f1158e95f58322c8bf649d"
+    },
+    {
+      "name": "20261019170348_crm_approved_marketing_audience.sql",
+      "sha256": "4be46c1b9004396682655f3f8a2344c4df317648f4bfbe091c8156de967c3b6c"
+    },
+    {
+      "name": "20261028143926_crm_marketing_delivery_notifications.sql",
+      "sha256": "2792d6e169a6aa617e4bf4d968e5ac72f815afc88d2f73ade34d22bdc5cbc563"
+    },
+    {
+      "name": "20261028180043_crm_optional_lead_reasons.sql",
+      "sha256": "abfd8a328a802ad57ca2671b6abee992fc262abac03bbbf73d83388a071f9359"
+    },
+    {
+      "name": "20261029173752_crm_owner_draft_presentations.sql",
+      "sha256": "71d7e86a9953fd4362ac8b2755774bf56a1ac7bda0c3d2d81717ba3a6e2519d2"
+    },
+    {
+      "name": "20261029184222_crm_campaign_attribution.sql",
+      "sha256": "a0acf515abe9c3fa0e225edfdfb47e747ac44cb2f03e6dea5d4f507fe4b118b3"
+    }
+  ],
+  "results": [
+    {
+      "name": "schema adapter: preflight baseline has no function/policy drift",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: effective role",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: private leads and institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: private client isolation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: create own client exact form payload",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: deny forged client owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: cannot read foreign lead activities",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: cannot update foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: cannot delete foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: cannot invoke privileged contact RPC for foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "admin: no foreign task/visit/proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: effective role",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: private leads and institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: private client isolation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: create own client exact form payload",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: deny forged client owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: cannot read foreign lead activities",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: cannot update foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: cannot delete foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: cannot invoke privileged contact RPC for foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: no foreign task/visit/proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: effective role",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: private leads and institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: private client isolation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: create own client exact form payload",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: deny forged client owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: cannot read foreign lead activities",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: cannot update foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: cannot delete foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: cannot invoke privileged contact RPC for foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "a: no foreign task/visit/proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: effective role",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: private leads and institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: private client isolation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: create own client exact form payload",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: deny forged client owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: cannot read foreign lead activities",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: cannot update foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: cannot delete foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: cannot invoke privileged contact RPC for foreign lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "b: no foreign task/visit/proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "disabled: no authorized role or data",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: cannot distribute personal lead by guessed ID",
+      "result": "APROVADO"
+    },
+    {
+      "name": "manager: assign queue, then loses all PII access",
+      "result": "APROVADO"
+    },
+    {
+      "name": "broker: direct reassignment denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "broker: consent transfer, acceptance and retry are atomic/idempotent",
+      "result": "APROVADO"
+    },
+    {
+      "name": "property: both brokers eligible despite owning properties",
+      "result": "APROVADO"
+    },
+    {
+      "name": "property: submit persists notifications for admin and manager, no duplicate updates",
+      "result": "APROVADO"
+    },
+    {
+      "name": "property: broker cannot approve own publication",
+      "result": "APROVADO"
+    },
+    {
+      "name": "property: manager approves pending property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "property: admin approves pending property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "notifications: foreign reads and raw forged writes denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "sale: A registers own commercial sale with recorded authorship",
+      "result": "APROVADO"
+    },
+    {
+      "name": "sale: reject forged professional, foreign client and foreign property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "sale: B/admin/manager cannot read or edit A private sale",
+      "result": "APROVADO"
+    },
+    {
+      "name": "sale: separate financial DTO has no client/property fields",
+      "result": "APROVADO"
+    },
+    {
+      "name": "sale: broker cannot self-confirm; manager confirms revision",
+      "result": "APROVADO"
+    },
+    {
+      "name": "sale: edit invalidates financial confirmation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "aggregates: management totals without PII, broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "marketing: pending team material invisible to brokers and anon Storage",
+      "result": "APROVADO"
+    },
+    {
+      "name": "marketing: approved team material visible to A and B with current Storage bytes",
+      "result": "APROVADO"
+    },
+    {
+      "name": "presentation: approved linked material and own lead; anonymous sanitized DTO",
+      "result": "APROVADO"
+    },
+    {
+      "name": "presentation: foreign share and confirmation RPC denied; send confirmation idempotent",
+      "result": "APROVADO"
+    },
+    {
+      "name": "presentation: revocation removes anonymous access; cannot un-revoke",
+      "result": "APROVADO"
+    },
+    {
+      "name": "marketing: audience change requires reapproval; selected recipient isolated",
+      "result": "APROVADO"
+    },
+    {
+      "name": "archive: own client receipt, row disappears and no hard delete",
+      "result": "APROVADO"
+    },
+    {
+      "name": "privileges: anon and authenticated cannot TRUNCATE private portfolios",
+      "result": "APROVADO"
+    },
+    {
+      "name": "broker B: own lead/client/task/visit/proposal/sale payloads persist",
+      "result": "APROVADO"
+    },
+    {
+      "name": "A against B and B against A: private clients cannot be patched or deleted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "archive and restore: ownership and history preserved",
+      "result": "APROVADO"
+    },
+    {
+      "name": "disabled disposable identity: live disable with same claims denies access, restore recovers",
+      "result": "APROVADO"
+    },
+    {
+      "name": "marketing: personal owner intent enables management review without automatic approval",
+      "result": "APROVADO"
+    },
+    {
+      "name": "marketing: new current version requires review; recipient reads only current version",
+      "result": "APROVADO"
+    },
+    {
+      "name": "presentation: expired link cannot be created and elapsed link loses access",
+      "result": "APROVADO"
+    },
+    {
+      "name": "new privileged RPCs: anonymous execute revoked and search_path fixed",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery admin: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery manager: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery a: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: directory includes all four roles, excludes disabled",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: private material and Storage denied to all others",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: team pending invisible to brokers, persistent review once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: approved team and Storage visible to all, never anonymous",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: selected administrator/manager allowed, unselected blocked, owner retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery b: revoke to owner removes recipient Storage immediately",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery: selected manager cannot download superseded version",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery notifications: exact unread count, mark read and cross-user denial",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: property result persists once and contains no private title",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: assignment has persistent exact link and idempotent retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: transfer request and acceptance notify only participants without private lead data",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery events: explicit submission for old pending material is idempotent",
+      "result": "APROVADO"
+    },
+    {
+      "name": "delivery guard: client cannot forge notification cycles or approve missing bytes",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 0: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 0: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 1: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 1: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 2: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 2: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 3: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 3: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional assignment reason variant 4: audit, notification and retry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional transfer reason variant 4: consent, accept, isolation and idempotency",
+      "result": "APROVADO"
+    },
+    {
+      "name": "optional reasons do not bypass authorization, eligibility or length limits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A sees only own synthetic lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot read B",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot read institutional",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot update B",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot reassign own lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot assign via RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A records own contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact timestamp and pipeline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot contact B",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: lost reason required",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A creates own followup",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot followup B",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A can read only own clients",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A creates own visit",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot link B private client to visit",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A creates own proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot link B private client to proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A creates negotiation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A records own commercial sale",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: property code generated",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A creates draft property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A atomically saves own media",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: invalid media rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: invalid media preserves original rows",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot escalate role",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot use admin role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot approve own property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot archive property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: property code immutable",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A cannot publish for other owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B cannot alter A media",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B cannot replace A media",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B cannot sync A media",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B cannot see A proposal",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B cannot see A negotiation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B sees only own synthetic lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B cannot see A followups",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager cannot grant roles",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager cannot use admin role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: visit has audit history remains private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: proposal has audit history remains private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: negotiation has audit history remains private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager reads only institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager assigns institutional",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager reassigns institutional",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager approves and publishes property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager cannot read private assignment history",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Manager sees audit remains private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: A loses reassigned lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B receives reassigned lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: B receives notification",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Admin cannot read assigned private leads",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: property codes unique",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: Admin archives property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon sees approved sold property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot read leads",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot read hidden archived property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot see private metric property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot read hidden media",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot sync hidden media",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot increment hidden property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot read clients",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot read audits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon can create safe institutional lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: anon cannot forge assigned lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage owner sees unpublished photo",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage owner cannot upload to colleague folder",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage colleague cannot see unpublished photo",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage colleague cannot attach private photo",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage anon cannot read unlinked photo",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage manager sees private photo",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage anon reads published photo",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage hides photo after unpublishing",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage reassigned broker reads property photos",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: storage reassigned broker preserves existing photos",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact owner stores proprietor profile",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact links own client and lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact cannot link colleague private client",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact cannot link colleague private lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact colleague cannot read private link",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-staging-rls.sql: contact anonymous cannot read private links",
+      "result": "APROVADO"
+    },
+    {
+      "name": "SQL regression suite crm-staging-rls.sql",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: broker creates pending asset",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: broker cannot self approve",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: valid PDF path inserts version",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: foreign owner path denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: asset version activated",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: broker links material to own property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: own valid storage upload authorized",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: foreign storage upload denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: broker cannot share hidden property",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: automation saved",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: owner consents to team review",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: personal collection saved",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: collection links own asset",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: favorite saved",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot read A material",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot read A version",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot read A collection",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot read A favorites",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot read A storage",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: manager approves material",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: manager approves public presentation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: wrong lead denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: valid share persisted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: generation recorded in lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: automatic followup persisted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: share confirmation succeeds",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: repeat confirmation succeeds",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: confirmation exactly once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: event log exactly once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: share payload immutable",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot read A share",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: B cannot confirm A share",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: anonymous cannot read asset table",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: anonymous cannot read share table",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: anonymous token returns presentation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: anonymous approved selected asset returned",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: anonymous presentation hides client and lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: unknown token denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: no consent no event",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: consented open accepted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: consented open retry accepted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: anonymous storage listing denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: consent event exactly once",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: new version upload accepted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: new version requires reapproval",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: unapproved current version removed from presentation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: expired asset removed from presentation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: approved current version returns without expired predecessor",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: hiding property blocks existing presentation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: hiding property blocks public asset",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: revocation succeeds",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: revoked token denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "crm-marketing-rls.sql: revoked open denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "SQL regression suite crm-marketing-rls.sql",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation rascunho: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation pendente: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation aprovado: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation publicado: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation: disable, expiry and ownership transfer invalidate capability",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation: hidden property accepts only approved public team material; direct Storage stays private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: private metadata isolated from other broker and management",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: anonymous and direct writes are denied; no forged owner or scope",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: management edits institutional campaign without changing owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: institutional routing assigns lead and stores provenance for current broker only",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: retry returns same lead, one attribution, one assignment and one notification",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: destination becoming inactive falls back to institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: personal campaign cannot route contacts to a different broker",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: attribution follows consented transfer; old campaign metadata does not",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: campaign names are snapshotted without rewriting prior attribution",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: forged provenance/routing and landing query strings rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: missing attribution is explicit; equal phones do not merge private portfolios",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: paused/draft/archived campaigns and invalid contacts reject capture",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: inactive recipient, unrelated property and unknown payload fields denied on save",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: private attribution and receipt cannot be modified directly",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: property reassignment is revalidated at capture time",
+      "result": "APROVADO"
+    }
+  ],
+  "summary": {
+    "passed": 274,
+    "failed": 0
+  }
+}

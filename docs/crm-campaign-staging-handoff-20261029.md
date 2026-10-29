@@ -1,5 +1,15 @@
 # Continuidade autorizada: campanhas no staging
 
+## Execução concluída em 29/10/2026
+
+O Codex executou o backup novo de 19 versões, a restauração local com **RESTORE PASS**, 11 grupos de cenários na cópia restaurada com rollback e o preflight renovado. A migration autorizada foi aplicada **uma única vez** somente no staging como `20261029184222_crm_campaign_attribution`. O SQL aprovado foi preservado e o arquivo apenas renomeado. Histórico com 20 versões.
+
+Postflight: três tabelas novas vazias e com RLS, permissões conforme a revisão e 49 relações anteriores preservadas; nenhuma função existente substituída. Passaram 274 checks PGlite, 38 testes de código, 7 negativas HTTP anônimas reais e 5 checks do guard, além de lint/TypeScript/build. Nenhum preview, merge ou alteração de produção.
+
+Relatório atual: [implantação de campanhas](crm-campaign-staging-deployment-20261029.md). Evidência: `tests/security/crm-campaign-staging-deployment-20261029.json`.
+
+As instruções abaixo são o handoff anterior, preservado como histórico. Não reaplicar a migration. O backup atual validado é o snapshot de 19 versões anterior à aplicação; o script foi atualizado para exigir 20 em backups futuros.
+
 O usuário autorizou especificamente a migration 20261029180616_crm_campaign_attribution.sql do PR #8, commit de código b4bf2d42e86838d543127ae53b5c1907df41ce75, incluindo tabelas/RLS/RPCs somente no staging sdpqphiooiuglywcmkxv, após preflight e backup validado. A autorização permanece válida. Não pedir nova aprovação dessa mesma operação. Não publicar preview, não fazer merge, não tocar produção ou contas.
 
 Branch: work/crm-campaign-attribution-20261029, com base no PR #7. Conferir HEAD remoto e preservar trabalho posterior/local. CI 40930860664 passou. 274 verificações SQL locais e 38 testes de código, lint, TypeScript e build já aprovados. Commits posteriores a b4bf2d4 são evidências/documentação, salvo nova alteração verificada pelo executor.

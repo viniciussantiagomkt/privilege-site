@@ -1601,7 +1601,9 @@ try {
     await actor("a","select crm_set_asset_audience($1,'owner','{}'::uuid[])",[material.id]);
     assert.equal((await actor("anon","select crm_public_presentation($1) data",[share.token]))[0].data.assets.length,0);
   });
-  const campaignMigration="20261029180616_crm_campaign_attribution.sql";
+  const campaignMigrations=readdirSync("supabase/migrations").filter(name=>name.endsWith("_crm_campaign_attribution.sql"));
+  assert.equal(campaignMigrations.length,1,"Exactly one managed campaign migration is required");
+  const campaignMigration=campaignMigrations[0];
   await db.exec(readSql("supabase/migrations/"+campaignMigration));
   migrations.push(campaignMigration);
   const {runCampaignScenarios}=await import("./crm-campaign-scenarios.mjs");

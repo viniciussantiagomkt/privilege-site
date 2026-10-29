@@ -1,5 +1,11 @@
 # Campanhas e atribuição: primeira entrega
 
+## Atualização operacional
+
+Implantação autorizada no staging concluída em 29/10/2026, após backup novo e **RESTORE PASS** executados no Windows. Versão real: `20261029184222_crm_campaign_attribution`; SQL aprovado preservado, sem reaplicação. Postflight aprovado e sem alteração dos dados/permissões anteriores. Nenhum preview publicado, merge ou alteração de produção.
+
+Veja [relatório de implantação](crm-campaign-staging-deployment-20261029.md). As referências abaixo à migration proposta e à implantação ainda pendente pertencem à preparação anterior e não substituem o estado atual. JWT real, interface e concorrência multisessão continuam pendentes.
+
 ## Escopo
 
 Base: PR #7, commit b6969d8a05613d2e256fcf76c35d6bb01940be24. Nova branch work/crm-campaign-attribution-20261029; PR empilhado sobre a branch do PR #7. A implantação homologada de apresentações permanece intacta.

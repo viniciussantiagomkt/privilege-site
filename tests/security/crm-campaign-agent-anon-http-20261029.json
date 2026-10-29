@@ -1,0 +1,63 @@
+{
+  "executed_at": "2026-10-29T18:44:26.949Z",
+  "environment": "Supabase staging sdpqphiooiuglywcmkxv",
+  "authentication": "anonymous public key; NOT a user JWT",
+  "limitation": "Permission denials only; not authenticated write, UI or concurrency homologation",
+  "private_response_bodies_saved": false,
+  "results": [
+    {
+      "name": "anonymous read crm_campaigns",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous direct write crm_campaigns",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous read crm_lead_attributions",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous direct write crm_lead_attributions",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous save RPC",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous capture RPC",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "private receipts schema/table read",
+      "status": 406,
+      "code": "PGRST106",
+      "result": "PASS",
+      "observation": "Private schema not exposed"
+    }
+  ],
+  "summary": {
+    "PASS": 7,
+    "FAIL": 0,
+    "BLOCKED": 0
+  }
+}
