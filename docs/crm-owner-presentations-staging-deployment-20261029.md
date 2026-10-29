@@ -1,5 +1,15 @@
 # Apresentacoes da carteira: implantacao autorizada no staging
 
+## Publicacao posterior autorizada: preview READY
+
+Depois da autorizacao separada "Novo preview", foi publicado o commit exato `9689f8fc76396fbf5445ce284d182c5a97778231`, sem repetir migration ou Edge:
+
+https://privilege-site-5rfw9m7f8-viniciussantiagomkts-projects.vercel.app/login
+
+Deployment `dpl_8pixPWzSKJ47wdJGYyi2GXz6JnHt`, READY, ambiente preview, exclusivamente staging. Logs confirmam SHA, Next.js 16.4.3 e build em 22 segundos. As nove variaveis especificas da branch foram conferidas; analytics/webhook externos permanecem desativados. Protecao Vercel preservada: GET anonimo /login retorna 302 para vercel.com. Nenhum bypass ou share link criado. Listagem de producao identica antes/depois; main intocada.
+
+Evidencia: `tests/security/crm-owner-presentations-preview-20261029.json`. Este registro documental posterior nao muda o codigo publicado. Homologacao autenticada e bytes de midia continuam pendentes. As secoes abaixo descrevem a implantacao de banco/Edge anterior a esta autorizacao.
+
 ## Estado final
 
 29/10/2026. Migration e Edge Function implantadas exclusivamente no projeto `privilege-imoveis-staging / sdpqphiooiuglywcmkxv`. PR #7 permanece em rascunho. Nenhum preview novo, alteracao de producao/main ou merge.
