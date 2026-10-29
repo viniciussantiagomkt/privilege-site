@@ -293,7 +293,7 @@ export function EntityForm({
                   type={f.type || "text"}
                   required={f.required}
                   defaultValue={f.value ?? ""}
-                  maxLength={f.type === "number" ? undefined : 160}
+                  maxLength={f.type === "number" ? undefined : f.maxLength ?? 160}
                   min={f.type === "number" ? "0.01" : undefined}
                   step={f.type === "number" ? "0.01" : undefined}
                   placeholder={f.placeholder}

@@ -1876,3 +1876,14 @@
 .crm-form input[type="file"] {
   max-width: 100%;
 }
+
+.crm-campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr));
+  gap: 20px;
+}
+.crm-campaign-body { padding: 20px; display: grid; gap: 12px; }
+.crm-campaign-body p { color: #5f7b8c; font-size: 13px; line-height: 1.5; }
+.crm-campaign-body .crm-detail-actions { flex-wrap: wrap; }
+
+.crm-campaign-grid .crm-panel-head, .crm-attribution { min-width: 0; overflow-wrap: anywhere; }

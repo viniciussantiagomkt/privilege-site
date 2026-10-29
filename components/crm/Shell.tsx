@@ -38,6 +38,7 @@ export const NAV = [
   { href: "/admin/contatos", label: "Clientes e proprietários", icon: Users },
   { href: "/admin/agenda", label: "Agenda e tarefas", icon: CalendarDays },
   { href: "/admin/negocios", label: "Propostas e vendas", icon: Handshake },
+  { href: "/admin/campanhas", label: "Campanhas e origem", icon: Megaphone },
   { href: "/admin/marketing", label: "Central de Marketing", icon: Megaphone },
   { href: "/admin/apresentacoes", label: "Apresentações", icon: Link2 },
   {
