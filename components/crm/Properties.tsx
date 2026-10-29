@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { eligibleProperty } from "@/lib/crm/marketing";
 import { ShareComposer } from "./ShareComposer";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -11,7 +12,6 @@ import {
   Maximize,
   Car,
   ExternalLink,
-  Copy,
   Check,
   EyeOff,
   Archive,
@@ -340,9 +340,7 @@ export function Properties() {
             ctx.data.properties.find((p) => p.id === selected.id);
           if (!p) return null;
           const linkEnabled =
-            p.presentation_enabled &&
-            p.publish_on_site &&
-            ["aprovado", "publicado"].includes(p.workflow_status);
+            eligibleProperty(p, ctx.userId);
           const links = ctx.data.crm_contact_links.filter(
             (l) => l.property_id === p.id,
           );
@@ -468,50 +466,14 @@ export function Properties() {
               <p
                 style={{ fontSize: 12, color: "#8098a7", margin: "8px 0 15px" }}
               >
-                A página contém os campos públicos do imóvel e acompanha sua
-                visibilidade no site.
+                O link mostra os dados de apresentação e as fotos do imóvel.
+                Aprovação e publicação no site são independentes.
               </p>
-              {linkEnabled ? (
-                <div className="crm-detail-actions">
-                  <a
-                    className="crm-button secondary"
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`/apresentacao/${p.slug}`}
-                  >
-                    <ExternalLink size={15} />
-                    Abrir apresentação
-                  </a>
-                  <Button
-                    secondary
-                    onClick={() => {
-                      void navigator.clipboard
-                        .writeText(
-                          `${window.location.origin}/apresentacao/${p.slug}`,
-                        )
-                        .then(() =>
-                          ctx.setNotice({
-                            text: "Link copiado.",
-                            error: false,
-                          }),
-                        )
-                        .catch(() =>
-                          ctx.setNotice({
-                            text: "Não foi possível copiar. Abra a apresentação e copie o endereço.",
-                            error: true,
-                          }),
-                        );
-                    }}
-                  >
-                    <Copy size={15} />
-                    Copiar link
-                  </Button>
-                </div>
-              ) : (
-                <Badge tone="amber">
-                  A apresentação exige aprovação e publicação
-                </Badge>
-              )}
+              <p>
+                {linkEnabled
+                  ? "Use Compartilhar apresentação para criar um link individual com validade e revogação, sem publicar o imóvel no site."
+                  : "Habilite a apresentação de um imóvel do qual você seja proprietário ou responsável."}
+              </p>
               <p className="crm-detail-pill" style={{ margin: "20px 0" }}>
                 {p.description}
               </p>
@@ -659,7 +621,7 @@ export function PropertySettings({ property }: { property: CrmProperty }) {
           </label>
         </div>
         <p role="status">{ctx.busy ? "Salvando opções…" : changed ? "Alterações ainda não salvas." : "As opções exibidas estão salvas."}</p>
-        <p>A apresentação pública também exige aprovação e publicação no site.</p>
+        <p>Gerar uma apresentação não aprova nem publica o imóvel no site.</p>
         <div className="crm-form-actions">
           <Button type="submit" disabled={ctx.busy || !changed}>
             {ctx.busy ? "Salvando…" : "Salvar disponibilidade e apresentação"}

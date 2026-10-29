@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { presentationImage, presentationAsset } from "@/lib/crm/presentation-images";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -64,7 +65,7 @@ export default async function Page({
           <div className="presentation-cover">
             {p.images?.[0] && (
               <Image
-                src={p.images[0]}
+                src={presentationImage(token, p.id, 0, p.images[0])}
                 alt={p.title}
                 width={1400}
                 height={850}
@@ -91,12 +92,12 @@ export default async function Page({
               {p.images?.slice(1).map((url, i) => (
                 <a
                   key={`${url}-${i}`}
-                  href={url}
+                  href={presentationImage(token, p.id, i + 1, url)}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <Image
-                    src={url}
+                    src={presentationImage(token, p.id, i + 1, url)}
                     alt={`${p.title} · Foto ${i + 2}`}
                     width={600}
                     height={400}
@@ -130,7 +131,7 @@ export default async function Page({
               <article key={a.id}>
                 {a.mime_type.startsWith("image/") && (
                   <Image
-                    src={`/api/presentation-media/${token}/${a.id}`}
+                    src={presentationAsset(token, a.id)}
                     alt={a.title}
                     width={600}
                     height={400}
@@ -139,7 +140,7 @@ export default async function Page({
                 )}
                 {a.mime_type === "video/mp4" && (
                   <video
-                    src={`/api/presentation-media/${token}/${a.id}`}
+                    src={presentationAsset(token, a.id)}
                     controls
                     preload="metadata"
                   />
@@ -149,7 +150,7 @@ export default async function Page({
                   {a.category} · {(a.size_bytes / 1048576).toFixed(1)} MB
                 </p>
                 <a
-                  href={`/api/presentation-media/${token}/${a.id}`}
+                  href={presentationAsset(token, a.id)}
                   target="_blank"
                   rel="noreferrer"
                 >

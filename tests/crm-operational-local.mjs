@@ -1551,6 +1551,54 @@ try {
       }
     });
   }
+  const draftMigration = "20261029170649_crm_owner_draft_presentations.sql";
+  await db.exec(readSql("supabase/migrations/" + draftMigration));
+  migrations.push(draftMigration);
+  for (const [index, workflow] of ["rascunho", "pendente", "aprovado", "publicado"].entries()) {
+    const pid = 9000 + index;
+    await db.query("insert into properties(id,title,slug,description,location,category,price,owner_id,broker_id,workflow_status,publish_on_site,presentation_enabled) overriding system value values($1,'Draft presentation fixture',$2,'Fixture only','Fixture','casas','100000',$3,$3,$4,false,true)", [pid,"draft-presentation-"+pid,ids.a,workflow]);
+    await check(`owner presentation ${workflow}: hidden from anonymous listing, link allowed, other broker denied`, async () => {
+      const [share] = await actor("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[$1::bigint],'Private presentation fixture',now()+interval '1 day') returning id,token", [pid]);
+      const [payload] = await actor("anon", "select crm_public_presentation($1) data", [share.token]);
+      assert.equal(payload.data.properties[0].id, pid);
+      assert.equal(payload.data.properties[0].owner_id, undefined);
+      assert.equal((await actor("anon", "select id from properties where id=$1", [pid])).length, 0);
+      await denied("b", "insert into marketing_shares(property_ids,title,expires_at) values(array[$1::bigint],'Forbidden',now()+interval '1 day') returning id", [pid]);
+      await actor("a", "update marketing_shares set revoked_at=now() where id=$1 returning id", [share.id]);
+      assert.equal((await actor("anon", "select crm_public_presentation($1) data", [share.token]))[0].data, null);
+    });
+  }
+  await check("owner presentation: disable, expiry and ownership transfer invalidate capability", async () => {
+    const make = async (pid) => (await actor("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[$1::bigint],'Capability fixture',now()+interval '1 day') returning token", [pid]))[0].token;
+    const token = await make(9000);
+    await actor("a", "update properties set presentation_enabled=false where id=9000 returning id");
+    assert.equal((await actor("anon", "select crm_public_presentation($1) data", [token]))[0].data,null);
+    await denied("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[9000::bigint],'Disabled',now()+interval '1 day') returning id");
+    const transferred = await make(9001);
+    await actor("manager", "update properties set owner_id=$1,broker_id=$1 where id=9001 returning id", [ids.b]);
+    assert.equal((await actor("anon", "select crm_public_presentation($1) data", [transferred]))[0].data,null);
+    const [expired] = await actor("a", "insert into marketing_shares(property_ids,title,expires_at) values(array[9002::bigint],'Short fixture',now()+interval '100 milliseconds') returning token");
+    await new Promise(resolve => setTimeout(resolve,150));
+    assert.equal((await actor("anon", "select crm_public_presentation($1) data", [expired.token]))[0].data,null);
+  });
+  await check("owner presentation: hidden property accepts only approved public team material; direct Storage stays private", async () => {
+    const [material] = await actor("a", "insert into marketing_assets(title) values('Owner presentation material fixture') returning id");
+    const storagePath=ids.a+"/99999999-9999-4999-8999-999999999999.pdf";
+    const [version] = await actor("a", "insert into asset_versions(asset_id,storage_path,mime_type,size_bytes,checksum,original_name) values($1,$2,'application/pdf',100,repeat('e',64),'presentation-fixture.pdf') returning id", [material.id,storagePath]);
+    await actor("a", "update marketing_assets set current_version_id=$1 where id=$2", [version.id,material.id]);
+    await actor("a", "insert into asset_relations(asset_id,property_id) values($1,9003)", [material.id]);
+    await db.query("insert into storage.objects(bucket_id,name) values('crm-marketing',$1)", [storagePath]);
+    await actor("a", "select crm_set_asset_audience($1,'team','{}'::uuid[])", [material.id]);
+    const create = "insert into marketing_shares(property_ids,asset_ids,title,expires_at) values(array[9003::bigint],array[$1::bigint],'Approved hidden material',now()+interval '1 day') returning token";
+    await denied("a",create,[material.id]);
+    await actor("manager", "update marketing_assets set status='aprovado',visibility='public' where id=$1", [material.id]);
+    const [share]=await actor("a",create,[material.id]);
+    const payload=(await actor("anon","select crm_public_presentation($1) data",[share.token]))[0].data;
+    assert.equal(payload.assets.length,1);assert.equal(payload.assets[0].path,storagePath);
+    await denied("anon","select name from storage.objects where bucket_id='crm-marketing' and name=$1",[storagePath]);
+    await actor("a","select crm_set_asset_audience($1,'owner','{}'::uuid[])",[material.id]);
+    assert.equal((await actor("anon","select crm_public_presentation($1) data",[share.token]))[0].data.assets.length,0);
+  });
 } catch (e) {
   results.push({
     name: "suite infrastructure/fixture",
