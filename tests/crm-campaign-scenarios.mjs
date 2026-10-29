@@ -53,7 +53,10 @@ export async function runCampaignScenarios({db,actor,check,denied,ids}) {
    const out=await capture('manager',company);assert.equal(out.routing_result,'fallback_queue');
    const [lead]=await actor('manager','select broker_id,origin_type from leads where id=$1',[out.lead_id]);
    assert.equal(lead.broker_id,null);assert.equal(lead.origin_type,'company');
+   await save('manager',{...companyPayload,status:'archived'},company);
+   await denied('manager','select crm_save_campaign($1,$2::jsonb)',[company,JSON.stringify(companyPayload)]);
   } finally {await db.query('update brokers set active=true where id=$1',[ids.b]);}
+  await save('manager',{...companyPayload,name:'Institucional revisada'},company);
  });
  let personalLead;
  await check('campaign: personal campaign cannot route contacts to a different broker',async()=>{

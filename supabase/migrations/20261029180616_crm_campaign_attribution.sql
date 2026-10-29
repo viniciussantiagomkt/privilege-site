@@ -89,7 +89,7 @@ begin
  if related_development is not null and not exists(select 1 from public.developments d where d.id=related_development) then raise exception 'Empreendimento não encontrado' using errcode='22023';end if;
  route:=case when campaign_scope='personal' then 'broker' else payload->>'routing' end;
  destination:=case when campaign_scope='personal' then actor when route='institutional' then null else nullif(payload->>'destination_broker_id','')::uuid end;
- if route not in ('broker','institutional') or (route='broker' and (destination is null or not crm_private.eligible_broker(destination))) then raise exception 'Responsável precisa ser corretor ativo' using errcode='22023';end if;
+ if route not in ('broker','institutional') or (route='broker' and (destination is null or (not crm_private.eligible_broker(destination) and (target_campaign is null or destination is distinct from c.destination_broker_id or coalesce(payload->>'status','draft')='active')))) then raise exception 'Responsável precisa ser corretor ativo' using errcode='22023';end if;
  if target_campaign is null then
   insert into public.crm_campaigns(owner_id,scope,name,platform,objective,entry_channel,status,property_id,development_id,routing,destination_broker_id,external_account_id,external_campaign_id)
   values(actor,campaign_scope,trim(payload->>'name'),payload->>'platform',payload->>'objective',payload->>'entry_channel',coalesce(payload->>'status','draft'),related_property,related_development,route,destination,nullif(trim(payload->>'external_account_id'),''),nullif(trim(payload->>'external_campaign_id'),'')) returning id into result;
