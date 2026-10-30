@@ -75,3 +75,11 @@ Referências primárias consultadas:
 - https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/batchRunReports
 - https://developers.google.com/identity/protocols/oauth2/service-account
 - https://www.googletagmanager.com/gtm.js?id=GTM-5FJ54Q2C (somente configuração pública consultada).
+
+## Preview autorizado publicado em 30/10/2026
+
+Após autorização expressa, publicado commit `b85d258037b034ed879a52a9ae2b70edc083bbec`, deployment `dpl_3qHaBDRmTY3nUjujf4zBGdYoPiLk`, estado READY. URL: https://privilege-site-d5iq9869r-viniciussantiagomkts-projects.vercel.app/login .
+
+Metadados Vercel confirmaram GA4_PROPERTY_ID e GA4_SERVICE_ACCOUNT_JSON restritos a Preview e à branch de Analytics; JSON marcado sensitive. Nenhum valor de credencial foi descriptografado. Configuradas variáveis públicas do Supabase staging e overrides vazios de tracking/maps/webhook somente nesta branch.
+
+GET /login e /admin/analytics retornaram HTML 200; isso não é homologação autenticada nem validação visual. O fetch oficial da API retornou deployment_authentication_required após redirect, impedindo distinguir resposta da aplicação de proteção do deployment. Não registrar este resultado como teste negativo da API aprovado. Consulta real do GA4 e comparação com Analytics continuam pendentes de sessão legítima gestor/admin. Produção, banco e permissões Google não alterados nesta rodada.
