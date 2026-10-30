@@ -5,6 +5,7 @@ import { useWorkspace } from "./Workspace";
 import { ATTRIBUTION_FIELDS, CAMPAIGN_STATUSES, PLATFORMS, attributionFromForm, campaignLabel, type Campaign } from "@/lib/crm/campaigns";
 import { Badge, Button, Empty, EntityForm, Modal, NewButton, PageHeading, Panel, SectionState, numberId, text, type Field } from "./UI";
 import { matches } from "@/lib/crm/model";
+import { AdReports } from "./AdReports";
 const options = (values: Record<string,string>) => Object.entries(values).map(([value,label])=>({value,label}));
 export function Campaigns() {
  const ctx=useWorkspace();
@@ -14,7 +15,8 @@ export function Campaigns() {
  const campaigns=ctx.data.crm_campaigns.filter(c=>(!status||c.status===status)&&matches(ctx.query,c.name,c.platform,c.external_campaign_id));
  return <>
   <PageHeading eyebrow="Aquisição de clientes" title="Campanhas e origem" description="Organize as campanhas e saiba de onde vieram seus contatos." action={<NewButton onClick={()=>setEditor("new")}>Nova campanha</NewButton>} />
-  <Panel title="Recebimento automático ainda não conectado" description="Cadastre campanhas e registre contatos manualmente com a origem informada. Meta, Google e WhatsApp ainda não enviam contatos automaticamente por esta tela. Custos e resultados financeiros serão integrados em outra etapa."><p className="crm-detail-pill">Ativar uma campanha no CRM não ativa anúncios nas plataformas.</p></Panel>
+  <AdReports />
+  <Panel title="Campanhas e contatos no CRM" description="O registro de contatos nesta tela continua manual. A leitura de anúncios não importa formulários ou conversas do WhatsApp."><p className="crm-detail-pill">Ativar uma campanha no CRM não ativa anúncios nas plataformas. Os IDs informados no cadastro não conectam uma conta de anúncios.</p></Panel>
   <div className="crm-toolbar"><label>Estado no CRM <select className="crm-compact-status" value={status} onChange={e=>setStatus(e.currentTarget.value)}><option value="">Todos</option>{options(CAMPAIGN_STATUSES).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label></div>
   <SectionState tables={["crm_campaigns"]}>
    {campaigns.length ? <div className="crm-campaign-grid">{campaigns.map(c=><Panel key={c.id} title={c.name} description={`${campaignLabel(c.platform)} · ${c.scope==="company"?"Institucional":"Minha carteira"}`}>
@@ -22,7 +24,7 @@ export function Campaigns() {
      <Badge tone={c.status==="active"?"green":"muted"}>{CAMPAIGN_STATUSES[c.status as keyof typeof CAMPAIGN_STATUSES]}</Badge>
      <p>{c.property_id?`Imóvel: ${ctx.data.properties.find(p=>p.id===c.property_id)?.property_code || "vinculado"}`:c.development_id?`Empreendimento: ${ctx.data.developments.find(d=>d.id===c.development_id)?.name || "vinculado"}`:"Campanha geral"}</p>
      <p>Atendimento: {c.routing==="institutional"?"Recepção institucional":ctx.data.brokers.find(b=>b.id===c.destination_broker_id)?.name || "Corretor responsável"}.</p>
-     <p>Sem conexão automática ou dados de investimento.</p>
+     <p>Configuração de atendimento no CRM. Consulte o painel acima para resultados das contas conectadas.</p>
      <div className="crm-detail-actions"><Button secondary onClick={()=>setEditor(c)}>Editar campanha</Button><Button disabled={ctx.busy||c.status!=="active"} onClick={()=>setCapture(c)}>Registrar contato</Button></div>
     </div>
    </Panel>)}</div>:<Empty title="Nenhuma campanha nesta seleção" description="Cadastre uma campanha institucional ou da sua carteira. Criar uma campanha no CRM não cria anúncios nas plataformas." />}

@@ -1,3 +1,7 @@
+# Atualização em 30/10/2026
+
+Persistência, worker e painel foram preparados e testados localmente. A integração ainda não foi ativada. Consulte `docs/crm-ads-sync-staging-handoff-20261030.md` para o estado atual, limites, evidências e etapas de ativação. O registro abaixo descreve a primeira entrega histórica dos adaptadores.
+
 # Sincronização automática Meta e Google Ads
 
 ## Pedido e estado real

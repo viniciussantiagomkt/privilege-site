@@ -4,3 +4,9 @@ project_id = "privilege-site"
 # revalidated through the anonymous RPC before any privileged file read.
 [functions.crm-presentation-media]
 verify_jwt = false
+
+# Machine-only endpoint. worker.ts validates a dedicated 32+ character scheduler
+# secret before reading a body, touching the database or calling an ad provider.
+# Deploying this config does not create a schedule or provision ad credentials.
+[functions.crm-ads-sync]
+verify_jwt = false
