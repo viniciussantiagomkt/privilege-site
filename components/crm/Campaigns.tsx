@@ -6,6 +6,7 @@ import { ATTRIBUTION_FIELDS, CAMPAIGN_STATUSES, PLATFORMS, attributionFromForm, 
 import { Badge, Button, Empty, EntityForm, Modal, NewButton, PageHeading, Panel, SectionState, numberId, text, type Field } from "./UI";
 import { matches } from "@/lib/crm/model";
 import { AdReports } from "./AdReports";
+import { CampaignLandingLink } from "./CampaignLandingLink";
 const options = (values: Record<string,string>) => Object.entries(values).map(([value,label])=>({value,label}));
 export function Campaigns() {
  const ctx=useWorkspace();
@@ -25,7 +26,7 @@ export function Campaigns() {
      <p>{c.property_id?`Imóvel: ${ctx.data.properties.find(p=>p.id===c.property_id)?.property_code || "vinculado"}`:c.development_id?`Empreendimento: ${ctx.data.developments.find(d=>d.id===c.development_id)?.name || "vinculado"}`:"Campanha geral"}</p>
      <p>Atendimento: {c.routing==="institutional"?"Recepção institucional":ctx.data.brokers.find(b=>b.id===c.destination_broker_id)?.name || "Corretor responsável"}.</p>
      <p>Configuração de atendimento no CRM. Consulte o painel acima para resultados das contas conectadas.</p>
-     <div className="crm-detail-actions"><Button secondary onClick={()=>setEditor(c)}>Editar campanha</Button><Button disabled={ctx.busy||c.status!=="active"} onClick={()=>setCapture(c)}>Registrar contato</Button></div>
+     <div className="crm-detail-actions"><Button secondary onClick={()=>setEditor(c)}>Editar campanha</Button><Button disabled={ctx.busy||c.status!=="active"} onClick={()=>setCapture(c)}>Registrar contato</Button><CampaignLandingLink campaign={c}/></div>
     </div>
    </Panel>)}</div>:<Empty title="Nenhuma campanha nesta seleção" description="Cadastre uma campanha institucional ou da sua carteira. Criar uma campanha no CRM não cria anúncios nas plataformas." />}
   </SectionState>
