@@ -47,6 +47,8 @@ Cache de resumos agregados em memória por configuração/período, limitado a t
 
 ## Conexão de leitura pendente
 
+Propriedade informada pelo titular em 30/10/2026: `543148979`. Valor destinado a `GA4_PROPERTY_ID` no servidor. O número foi registrado para a configuração, mas ainda não foi verificado por uma consulta autenticada nem associado de forma comprovada ao ID de medição `G-JQDDVHWSWG`. Não é uma credencial e, sozinho, não libera relatórios. Nenhuma variável remota foi alterada nesta atualização.
+
 Nas variáveis Vercel conferidas não foram encontrados GA4_PROPERTY_ID ou GA4_SERVICE_ACCOUNT_JSON. Isso não prova inexistência de projeto Google fora deste ambiente. O ID público de medição não autoriza consulta dos relatórios.
 
 Para ativar, o titular precisa informar o ID numérico da propriedade (não secreto), confirmar a propriedade correta e configurar uma conta de serviço do Google Cloud com Analytics Data API habilitada. Dar a essa conta acesso Leitor somente à propriedade necessária. Nenhuma permissão de edição de anúncios ou de configuração do Analytics é necessária para este painel.
