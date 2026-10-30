@@ -1,0 +1,99 @@
+{
+  "executed_at": "2026-10-30T19:01:03.644Z",
+  "environment": "Supabase staging sdpqphiooiuglywcmkxv",
+  "authentication": "anonymous public key, NOT user/worker JWT",
+  "provider_or_worker_endpoint_called": false,
+  "private_response_bodies_saved": false,
+  "limitation": "ACL denials only, not a live worker or real provider connection",
+  "results": [
+    {
+      "name": "anonymous read crm_ad_accounts",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous direct write crm_ad_accounts",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous read crm_ad_campaigns",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous direct write crm_ad_campaigns",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous read crm_ad_daily",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous direct write crm_ad_daily",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous worker claim",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous worker commit",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous worker fail",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous disconnect",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "anonymous report",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS",
+      "observation": "Permission denied"
+    },
+    {
+      "name": "private lease read",
+      "status": 406,
+      "code": "PGRST106",
+      "result": "PASS",
+      "observation": "Private schema not exposed"
+    }
+  ],
+  "summary": {
+    "PASS": 12,
+    "FAIL": 0,
+    "BLOCKED": 0
+  }
+}

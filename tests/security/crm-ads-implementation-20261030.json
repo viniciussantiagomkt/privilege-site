@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-30",
+  "scope": "local preparation only; no remote mutation or deployment",
+  "migration": {
+    "path": "supabase/migrations/20261029191800_crm_ad_reporting.sql",
+    "sha256": "849fb54d7379bf3c9c2f42a582e793fa11a56b9ccf4064e256ba54e84043dcaf",
+    "applied": false
+  },
+  "checks": {
+    "pglite": {
+      "passed": 285,
+      "failed": 0,
+      "synthetic_claims": true
+    },
+    "code_tests": {
+      "passed": 59,
+      "failed": 0,
+      "provider_fetch": "mocked"
+    },
+    "lint": "PASS",
+    "typescript": "PASS",
+    "build": {
+      "result": "PASS",
+      "next": "16.4.3",
+      "environment": "verified staging public key; review branch guard enabled"
+    }
+  },
+  "remote_readonly": {
+    "project": "sdpqphiooiuglywcmkxv",
+    "migration_count": 20,
+    "last_migration": "20261029184222_crm_campaign_attribution"
+  },
+  "not_verified": [
+    "live Meta/Google authentication and reporting",
+    "OAuth onboarding",
+    "remote cron",
+    "JWT HTTP for four profiles",
+    "authenticated desktop/mobile browser",
+    "multi-connection PostgreSQL concurrency"
+  ],
+  "deployment": false,
+  "production_changed": false
+}

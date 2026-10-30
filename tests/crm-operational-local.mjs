@@ -1608,6 +1608,12 @@ try {
   migrations.push(campaignMigration);
   const {runCampaignScenarios}=await import("./crm-campaign-scenarios.mjs");
   await runCampaignScenarios({db,actor,check,denied,ids});
+  await db.exec("create role service_role"); // Isolated fixture only.
+  const adsMigrations=readdirSync("supabase/migrations").filter(name=>name.endsWith("_crm_ad_reporting.sql"));
+  assert.equal(adsMigrations.length,1);
+  await db.exec(readSql("supabase/migrations/"+adsMigrations[0]));migrations.push(adsMigrations[0]);
+  const {runAdReportingScenarios}=await import("./crm-ad-reporting-scenarios.mjs");
+  await runAdReportingScenarios({db,actor,check,denied,ids});
 } catch (e) {
   results.push({
     name: "suite infrastructure/fixture",
