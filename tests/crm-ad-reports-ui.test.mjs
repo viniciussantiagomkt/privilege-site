@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import Module from 'node:module';
+import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 import * as jsx from 'react/jsx-runtime';
 import {renderToStaticMarkup} from 'react-dom/server';
-const helperPath=new URL('../lib/crm/ad-reports.ts',import.meta.url).pathname;const helpers=new Module(helperPath);
+const helperPath=fileURLToPath(new URL('../lib/crm/ad-reports.ts',import.meta.url));const helpers=new Module(helperPath);
 helpers._compile(ts.transpileModule(fs.readFileSync(helperPath,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,helperPath);
 function harness({storedIdentity='a:staff',currentIdentity='a:staff',complete=false,meta=false}={}){
  const id='fixture-account',account={id,name:'PRIVATE ACCOUNT FIXTURE',provider:meta?'meta':'google',status:'connected',scope:'personal',currency:'BRL',timezone:'America/Sao_Paulo',last_success_at:'2026-10-02T12:00:00Z'};

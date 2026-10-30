@@ -2,11 +2,12 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import Module from 'node:module';
+import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 function load(path,deps={}){const m=new Module(path);m.require=n=>deps[n]||Module.prototype.require.call(m,n);m._compile(ts.transpileModule(fs.readFileSync(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,path);return m.exports;}
-const folder=new URL('../supabase/functions/_shared/ads/',import.meta.url).pathname;
+const folder=fileURLToPath(new URL('../supabase/functions/_shared/ads/',import.meta.url));
 const reporting=load(folder+'reporting.ts');const {syncAds,reportPeriod}=load(folder+'worker.ts',{'./reporting.ts':reporting});
-const {formatAdMoney,adRatio,adCostPerClick}=load(new URL('../lib/crm/ad-reports.ts',import.meta.url).pathname);
+const {formatAdMoney,adRatio,adCostPerClick}=load(fileURLToPath(new URL('../lib/crm/ad-reports.ts',import.meta.url)));
 const id='88888888-8888-4888-8888-888888888881',lease='99999999-9999-4999-8999-999999999999';
 const env={url:'https://sdpqphiooiuglywcmkxv.supabase.co',serviceKey:'service-fixture',cronSecret:'c'.repeat(40),connections:JSON.stringify([{id,provider:'meta',externalId:'111',version:'v99.0',timezone:'America/Sao_Paulo',accessToken:'provider-fixture'}])};
 const request=(body={account_id:id},secret=env.cronSecret)=>new Request('https://worker.invalid/',{method:'POST',headers:{authorization:`Bearer ${secret}`},body:JSON.stringify(body)});

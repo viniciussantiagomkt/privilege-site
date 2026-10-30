@@ -1,0 +1,26 @@
+{
+  "branch": "work/crm-campaign-ads-sync-20261029",
+  "environment": "local configuration validation only",
+  "results": [
+    {
+      "name": "verified staging accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "production environment blocked",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong project blocked",
+      "result": "PASS"
+    },
+    {
+      "name": "unverified public key blocked",
+      "result": "PASS"
+    },
+    {
+      "name": "privileged key blocked",
+      "result": "PASS"
+    }
+  ]
+}

@@ -1,5 +1,15 @@
 # Campanhas automáticas: continuação de implementação
 
+## Execução da migration concluída em 30/10/2026
+
+Backup novo das 20 migrations e restauração local executados pelo Codex no Windows: **RESTORE PASS**. O SQL aprovado foi testado na cópia restaurada com fixtures fictícias e rollback. Após preflight renovado, a migration foi aplicada **uma única vez** somente no staging como `20261030185925_crm_ad_reporting`; histórico com 21 versões. Arquivo apenas renomeado, SQL preservado.
+
+Postflight: quatro tabelas novas vazias e com RLS, ACLs dos cinco RPCs conforme a revisão e 52 relações anteriores preservadas, assim como permissões, funções anteriores, extensões e cron. Passaram 285 checks PGlite, 59 testes de código, 14 grupos na cópia restaurada, 12 negativas HTTP reais e 5 checks do guard. Corrigidos somente caminhos de três loaders de testes no Windows.
+
+**Sincronização não ativada:** nenhuma publicação de preview ou Edge Function, nenhum cron, segredo ou conexão de conta externa. PR #9 continua em rascunho. Relatório atual: [implantação somente do banco](crm-ads-staging-deployment-20261030.md). Evidência: `tests/security/crm-ads-staging-deployment-20261030.json`.
+
+O texto abaixo é o handoff anterior, preservado como histórico. Não reaplicar o SQL. O backup validado é o snapshot anterior de 20 versões; o script agora exige 21 em backups futuros.
+
 ## Estado em 30/10/2026
 
 PR #9 em rascunho, empilhado sobre #8. Esta entrega contém adaptadores, armazenamento proposto, worker e painel. **Ainda não está ativa no staging nem no preview.** Nenhum acesso real a contas Meta/Google foi demonstrado. A tela de consentimento OAuth para conexão autônoma pelo corretor ainda não foi implementada; esta primeira ativação usa provisionamento administrativo seguro de contas previamente autorizadas. Não apresentar uma conta como conectada só porque foram preenchidos IDs no cadastro manual.

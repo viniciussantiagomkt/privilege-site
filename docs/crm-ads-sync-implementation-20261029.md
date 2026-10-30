@@ -1,5 +1,7 @@
 # Atualização em 30/10/2026
 
+A migration de persistência foi aplicada somente no staging como `20261030185925_crm_ad_reporting`, após backup novo e RESTORE PASS. A sincronização continua desativada: sem publicação do worker/preview, cron ou conexão externa. Veja [evidências da implantação](crm-ads-staging-deployment-20261030.md). Os registros de preparação abaixo são históricos.
+
 Persistência, worker e painel foram preparados e testados localmente. A integração ainda não foi ativada. Consulte `docs/crm-ads-sync-staging-handoff-20261030.md` para o estado atual, limites, evidências e etapas de ativação. O registro abaixo descreve a primeira entrega histórica dos adaptadores.
 
 # Sincronização automática Meta e Google Ads
