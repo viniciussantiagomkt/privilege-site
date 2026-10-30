@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-30",
+  "public_observations": {
+    "site_http": 200,
+    "gtm": "GTM-5FJ54Q2C",
+    "measurement": "G-JQDDVHWSWG",
+    "published_mapping": {
+      "property_view": "view_item",
+      "whatsapp_lead": "generate_lead",
+      "property_search": "search",
+      "property_favorite": "add_to_wishlist"
+    },
+    "read_report_credentials_found_in_vercel_metadata": false,
+    "authenticated_ga4_data_read": false,
+    "source_sha256": {
+      "site": "6cabafdf5334e530736153afc8b80017159af773a0378065d6314ffbe51aadb2",
+      "gtm": "6a30c5b887a24c81861c9b2605cbd4d9e91aa70967099ed57fb6478bc1c2cb08",
+      "gaquick": "a43815b4fac8af3b172c1e76c3fb1ab817ce2ecd682a57fb97fefbdebc02dbc6",
+      "gaschema": "6f7e78ba203bfcf4623a72d35eb1c9558184fc9f47914b5c20ddbb5bd4f61a7d",
+      "gaauth": "54b6e99eac12d44d4718d3eccaf868e12e893a81ce6e09a69ce8bfe4705abfe6",
+      "gabatch": "e488adbda0e467141ff3932c7d57524c1c97201963d1a65faa886958fd5d72e9"
+    }
+  },
+  "implementation": {
+    "route": "/admin/analytics",
+    "api": "/api/admin/site-analytics",
+    "access": "manager/admin after getUser and database permission RPC",
+    "fixtures_only": true,
+    "google_scope": "analytics.readonly",
+    "migration": false,
+    "deployed": false
+  },
+  "checks": {
+    "code_tests_passed": 79,
+    "lint": "PASS",
+    "typescript": "PASS",
+    "build": "PASS",
+    "live_ga4_reporting": "PENDING",
+    "visual_desktop_mobile": "PENDING"
+  }
+}
