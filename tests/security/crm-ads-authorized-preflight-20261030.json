@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-30",
+  "authorized_code": "e460d349f27fc8b961c02dbfe85df48d76d200cc",
+  "authorization": {
+    "source": "User explicitly replied Autorizo to application of new migration only on staging after validated backup and restore",
+    "migration": "20261029191800_crm_ad_reporting.sql",
+    "project": "sdpqphiooiuglywcmkxv",
+    "scope": "migration only; no deployment, schedule, external connections or production"
+  },
+  "read_only_checks": {
+    "ci": {
+      "run": 41109346608,
+      "result": "success"
+    },
+    "migration_count": 20,
+    "last_migration": "20261029184222_crm_campaign_attribution",
+    "new_tables_absent": true,
+    "claim_rpc_absent": true,
+    "waiting_locks": 0,
+    "long_transactions": 0,
+    "public_tables_without_rls": 0,
+    "repository_backup_script_expects_exact_20_versions": true
+  },
+  "status": "PENDING_FRESH_20_VERSION_BACKUP_AND_RESTORE",
+  "limitations": "Cloud executor has no pg_dump, Docker or access to Windows private backup files. Earlier validated 19-version backup is insufficient.",
+  "next": "Windows Codex: follow docs/crm-ads-sync-staging-handoff-20261030.md; create fresh backup with repository script, restore isolated copy with explicit new hash/bytes/path, test approved SQL on local copy, renew full preflight, apply once to staging, reconcile managed timestamp and perform postflight. Do not request the same migration authorization again. Stop on drift or failed backup/restore.",
+  "migration_applied": false,
+  "remote_writes_performed": false
+}
