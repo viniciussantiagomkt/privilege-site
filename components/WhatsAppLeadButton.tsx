@@ -30,49 +30,22 @@ export function WhatsAppLeadButton({
   className = "",
 }: WhatsAppLeadButtonProps) {
   function trackLead() {
-    trackWhatsAppLead({
-      source,
-      page_url: window.location.href,
-      property_id: propertyId ?? null,
-      property_slug: propertySlug ?? null,
-      property_title: propertyTitle ?? null,
-      property_price: propertyPrice ?? null,
-      broker_name: brokerName ?? null,
-      button_location: buttonLocation || source,
-    });
-
-    const payload = {
-      name: "Contato via WhatsApp",
-      phone: "whatsapp",
-      source,
-      property_id: propertyId ?? null,
-      property_title: propertyTitle ?? null,
-      property_slug: propertySlug ?? null,
-      page_path: window.location.pathname,
-      origin_detail: document.referrer || null,
-      message: propertyTitle
-        ? `Clique no WhatsApp para o imóvel ${propertyTitle}`
-        : "Clique no WhatsApp",
-    };
-
-    const body = JSON.stringify(payload);
-
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(
-        "/api/leads",
-        new Blob([body], { type: "application/json" })
-      );
-      return;
+    // A click is an analytics interaction, not a person identified by the CRM.
+    try {
+      trackWhatsAppLead({
+        source,
+        interaction_type: "click",
+        page_url: window.location.origin + window.location.pathname,
+        property_id: propertyId ?? null,
+        property_slug: propertySlug ?? null,
+        property_title: propertyTitle ?? null,
+        property_price: propertyPrice ?? null,
+        broker_name: brokerName ?? null,
+        button_location: buttonLocation || source,
+      });
+    } catch {
+      // Tracking must never prevent the browser from opening WhatsApp.
     }
-
-    void fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-      keepalive: true,
-    });
   }
 
   return (
