@@ -45,3 +45,7 @@ A seleção considera leads.created_at, não a data da atribuição, do atendime
 Datas inválidas ou invertidas ocultam a tabela. Datas de cadastro inválidas em leads vinculados impedem a apresentação de totais filtrados como completos. Falhas/limites das tabelas continuam bloqueando indicadores. O filtro local não contorna o limite de carregamento de 500 registros do Workspace; agregação no servidor segue pendente.
 
 99 testes passaram, incluindo quatro regressões novas de fronteiras UTC−3, dia final inclusivo, limites abertos, datas invertidas/bissextas, dados sem data e UI sem tabela em erro. Lint, TypeScript e build passaram. Revisão React: hook de filtro antes de qualquer retorno condicional, sem novos efeitos nem rede, dados agregados derivados a cada render sem cache privado. Homologação visual/autenticada do filtro e nova publicação pendentes. Nenhum banco, conta ou produção alterado.
+
+## Preview do filtro publicado com autorização
+
+03/11/2026: deployment dpl_ByTtXd9Jne6DAq83uXMvChSUQS8v READY no commit ef193ad49fa5f2dde476d3c78889ceb8f2c25499. URL: https://privilege-site-mor235siv-viniciussantiagomkts-projects.vercel.app/login . GET /login e /admin/campanhas via conector oficial retornaram HTML HTTP 200; formulário de login identificado. Isso não valida a interação autenticada com as datas. Filtro De/Até, dia final inclusivo e limpeza por Todo o histórico aguardam teste manual neste preview. Sem nova variável, segredo, banco ou produção alterados nesta publicação.
