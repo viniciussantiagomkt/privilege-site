@@ -106,3 +106,9 @@ Incremento no PR #13: datas De/Até no comparativo de campanhas, opcionais e inc
 Datas inválidas/invertidas ocultam indicadores. Se houver lead vinculado com data inválida numa consulta filtrada, a tabela é bloqueada com aviso. Mantida proteção de erros/limites do workspace e a distribuição das campanhas selecionadas. Não há novos fetches, armazenamento do filtro, SQL, migrations ou custos/vendas inferidos.
 
 99 testes, lint, TypeScript e build aprovados. Código salvo para novo preview autorizado; preview publicado anteriormente continua sem o filtro. Comparação de eventos históricos, agregação/paginação para mais de 500 registros, vínculos de vendas e custos continuam pendentes. Meta/Google Ads segue adiado.
+
+## Filtro de cadastro, aceite em 03/11/2026
+
+Após publicação autorizada do incremento do PR #13, o usuário confirmou o teste do filtro De/Até e retorno a Todo o histórico. Registrar aceite funcional manual do filtro; não equivale à comparação independente de números ou validação automática de todos os perfis/mobile. Nenhuma métrica privada registrada.
+
+Entregas com aceite manual recente: períodos 7/28/90 do Analytics, correção das imagens da campanha, painel de desempenho por campanha e filtro pela data de cadastro dos leads. Próximas pendências preservadas: vínculos verificáveis lead-negociação-venda, agregação/paginação para bases acima do limite, auditoria de tracking em páginas privadas/consentimento, recebimento real dos eventos GTM/GA4 e revisão final dos controles de acesso/visual mobile. Meta/Google Ads continua adiado. Sem autorização de merge ou produção.
