@@ -70,3 +70,11 @@ Próximas verificações: períodos de 7 e 90 dias, comparação com o Analytics
 ## Aceite funcional dos períodos, 03/11/2026
 
 Usuário confirmou que 7 e 90 dias funcionam perfeitamente, complementando o carregamento de 28 dias já confirmado. Marcar os três períodos como aprovados em teste manual do usuário. Não incluir métricas privadas neste registro. Comparação independente com GA4, mobile completo e testes reais de perfis/troca de contas permanecem separados. Próxima frente autorizada pelo usuário: continuar as pendências do projeto, começando pelo rastreamento dos cliques das páginas de campanha e distinção entre clique e lead comercial real.
+
+## Rastreamento de cliques preparado em 03/11/2026
+
+Nova branch work/crm-campaign-click-tracking-20261103, baseada no PR #11. Botão de campanha passa a emitir uma única ocorrência de whatsapp_lead, com source campaign_landing, pelo helper já usado no site e compatível com a regra publicada generate_lead. Não emite também campaign_whatsapp_click. O nome antigo continua disponível no painel para histórico; não somar nomes como leads únicos.
+
+Removida tentativa de criar contato fictício no /api/leads pelo botão legado WhatsAppLeadButton. Clique continua como interação analítica; nenhum cadastro/venda é criado pelo botão. Nenhum contato histórico foi apagado ou alterado. Cadastro real por API/formulários permanece intacto.
+
+85 testes de código, lint, TypeScript e build aprovados. Código preparado, sem nova publicação. GTM público consultado sem executar tags ou enviar eventos; regra whatsapp_lead -> generate_lead permanece publicada. Recebimento real no GA4/DebugView ainda pendente após implantação autorizada. Parâmetros novos só chegam ao GA4 se o contêiner os encaminhar; source e button_location já constam na regra auditada. GTM global em páginas privadas, consentimento e outros componentes de tracking ainda exigem auditoria própria.

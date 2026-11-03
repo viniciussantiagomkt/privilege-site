@@ -46,10 +46,10 @@ test('WhatsApp click forwards only allowed origin and never calls the lead inges
  const path=fileURLToPath(new URL('../components/CampaignWhatsAppButton.tsx',import.meta.url));const code=ts.transpileModule(fs.readFileSync(path,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020}}).outputText;
  const m={exports:{}};const events=[];
  vm.runInNewContext(code,{module:m,exports:m.exports,URLSearchParams,window:{location:{origin:'https://preview.invalid',pathname:'/campanhas/imovel/casa-ficticia',search:'?utm_source=meta&utm_campaign=fixture&phone=private&broker_id=forged'}},require:n=>{
-  if(n==='react/jsx-runtime')return jsx;if(n==='react')return {useState:()=>[false,()=>{}]};if(n==='@/lib/crm/campaign-links')return helpers;if(n==='@/lib/analytics')return {trackEvent:(...args)=>events.push(args)};throw Error('Unexpected dependency '+n);
+  if(n==='react/jsx-runtime')return jsx;if(n==='react')return {useState:()=>[false,()=>{}]};if(n==='@/lib/crm/campaign-links')return helpers;if(n==='@/lib/analytics')return {trackWhatsAppLead:payload=>events.push(['whatsapp_lead',payload])};throw Error('Unexpected dependency '+n);
  }});
  const root=m.exports.CampaignWhatsAppButton({phone:'5583999990000',title:'Fixture',propertyCode:'P77',propertyId:77,location:'hero'});const anchor=root.props.children[0];const event={currentTarget:{href:anchor.props.href}};anchor.props.onClick(event);
  const url=new URL(event.currentTarget.href);assert.equal(url.hostname,'wa.me');assert.equal(url.pathname,'/5583999990000');assert.ok(url.searchParams.get('text').includes('meta / fixture'));
- assert.equal(events[0][0],'campaign_whatsapp_click');assert.equal(events[0][1].page_url,'https://preview.invalid/campanhas/imovel/casa-ficticia');assert.equal(events[0][1].phone,undefined);assert.equal(events[0][1].broker_id,undefined);
+ assert.equal(events.length,1);assert.equal(events[0][0],'whatsapp_lead');assert.equal(events[0][1].source,'campaign_landing');assert.equal(events[0][1].interaction_type,'click');assert.equal(events[0][1].page_url,'https://preview.invalid/campanhas/imovel/casa-ficticia');assert.equal(events[0][1].phone,undefined);assert.equal(events[0][1].broker_id,undefined);
  assert.ok(!code.includes('/api/leads'));assert.ok(!code.includes('sendBeacon'));
 });
