@@ -39,6 +39,7 @@ export const NAV = [
   { href: "/admin/agenda", label: "Agenda e tarefas", icon: CalendarDays },
   { href: "/admin/negocios", label: "Propostas e vendas", icon: Handshake },
   { href: "/admin/campanhas", label: "Campanhas e origem", icon: Megaphone },
+  { href: "/admin/analytics", label: "Resultados do site", icon: BarChart3 },
   { href: "/admin/marketing", label: "Central de Marketing", icon: Megaphone },
   { href: "/admin/apresentacoes", label: "Apresentações", icon: Link2 },
   {
@@ -119,7 +120,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
         </Link>
         <div className="crm-sidebar-caption">SEU ESPAÇO DE TRABALHO</div>
         <nav aria-label="Navegação CRM">
-          {NAV.map((n) => (
+          {NAV.filter(n=>n.href!=="/admin/analytics"||ctx.operations).map((n) => (
             <Link
               key={n.href}
               href={n.href}

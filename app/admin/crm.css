@@ -102,6 +102,8 @@
 }
 .crm-sidebar nav {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
   gap: 6px;
 }
 .crm-sidebar nav a {
@@ -114,7 +116,16 @@
   color: #a6bdc9;
   text-decoration: none;
   position: relative;
-  white-space: nowrap;
+  min-width: 0;
+  white-space: normal;
+}
+.crm-sidebar nav a span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.crm-sidebar nav a svg,
+.crm-sidebar nav a i {
+  flex-shrink: 0;
 }
 .crm-sidebar nav a:hover {
   background: #18313f;
@@ -209,6 +220,7 @@
 }
 .crm-search-wrap {
   position: relative;
+  min-width: 0;
   flex: 1;
   max-width: 390px;
   margin-left: auto;
@@ -315,6 +327,10 @@
   display: block;
   font-size: 12px;
   color: #234454;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .crm-user-info small {
   display: block;
@@ -329,6 +345,7 @@
 }
 .crm-page-heading {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 20px;
@@ -349,6 +366,8 @@
 }
 .crm-heading-actions {
   display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 10px;
   flex-shrink: 0;
 }
@@ -1872,6 +1891,12 @@
 .crm-sidebar nav {
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+.crm-sidebar > .crm-brand,
+.crm-sidebar > .crm-sidebar-caption,
+.crm-sidebar > .crm-sidebar-bottom {
+  flex-shrink: 0;
 }
 .crm-form input[type="file"] {
   max-width: 100%;
