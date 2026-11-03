@@ -78,3 +78,9 @@ Nova branch work/crm-campaign-click-tracking-20261103, baseada no PR #11. Botão
 Removida tentativa de criar contato fictício no /api/leads pelo botão legado WhatsAppLeadButton. Clique continua como interação analítica; nenhum cadastro/venda é criado pelo botão. Nenhum contato histórico foi apagado ou alterado. Cadastro real por API/formulários permanece intacto.
 
 85 testes de código, lint, TypeScript e build aprovados. Código preparado, sem nova publicação. GTM público consultado sem executar tags ou enviar eventos; regra whatsapp_lead -> generate_lead permanece publicada. Recebimento real no GA4/DebugView ainda pendente após implantação autorizada. Parâmetros novos só chegam ao GA4 se o contêiner os encaminhar; source e button_location já constam na regra auditada. GTM global em páginas privadas, consentimento e outros componentes de tracking ainda exigem auditoria própria.
+
+## Imagens da campanha, aceite em 03/11/2026
+
+Correção de URLs de mídia publicada no preview do PR #12; usuário confirmou que o problema das imagens foi corrigido. Marcar esta falha como resolvida em teste manual do usuário. Nenhuma métrica privada foi registrada. Rastreamento real no Google, teste mobile completo e demais pendências continuam separados.
+
+Próxima frente: indicadores dos leads vinculados às campanhas no CRM, sem depender da conexão de anúncios adiada e sem tratar status convertido como venda confirmada.
