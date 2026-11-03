@@ -94,3 +94,7 @@ Sem novos acessos de banco, migrations ou integrações. Não calcula CPL, CPA, 
 95 testes locais, lint, TypeScript e build passaram. Preparado para publicação específica do preview e homologação manual. Não publicado nesta rodada. Próximas pendências: validar comparativo autenticado, paginação/agrupamento no servidor para bases acima do limite atual, filtro temporal de coortes, vínculo verificável lead-negociação-venda e custos de mídia. Meta/Google Ads permanece adiado.
 
 Observação para auditoria posterior: SectionState global mostra aviso de erro e mantém children. O painel novo trata erros antes de renderizar métricas; verificar outros indicadores antes de presumir que SectionState sozinho bloqueia totais incompletos.
+
+## Desempenho de campanhas, aceite em 03/11/2026
+
+Usuário confirmou o painel do PR #13 após publicação do preview. Registrar aceite funcional manual, sem métricas privadas. Validação independente de números e todos os perfis continua separada. Próximo incremento autorizado: filtro pela data de cadastro do lead, mantendo explícito que etapas e conversão são da situação atual, não eventos ocorridos no período.
