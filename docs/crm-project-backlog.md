@@ -84,3 +84,13 @@ Removida tentativa de criar contato fictício no /api/leads pelo botão legado W
 Correção de URLs de mídia publicada no preview do PR #12; usuário confirmou que o problema das imagens foi corrigido. Marcar esta falha como resolvida em teste manual do usuário. Nenhuma métrica privada foi registrada. Rastreamento real no Google, teste mobile completo e demais pendências continuam separados.
 
 Próxima frente: indicadores dos leads vinculados às campanhas no CRM, sem depender da conexão de anúncios adiada e sem tratar status convertido como venda confirmada.
+
+## Desempenho comercial das campanhas preparado em 03/11/2026
+
+Nova branch work/crm-campaign-performance-20261103, baseada no PR #12. Comparativo usa somente campanhas, atribuições e leads já carregados e autorizados no workspace. Mostra leads únicos por campanha, primeiro atendimento com data registrada, distribuição atual de etapas e proporção de convertidos no pipeline. Não representa venda confirmada ou funil histórico cumulativo.
+
+Sem novos acessos de banco, migrations ou integrações. Não calcula CPL, CPA, investimento ou retorno sem custos e vendas vinculados. Atende busca/estado de campanhas existentes; base temporal é todo o histórico carregado, sem filtro de datas. Se qualquer tabela exigida falhar, inclusive por exceder limite do workspace, esconde os indicadores. Vínculos sem lead disponível têm aviso explícito e não viram totais completos.
+
+95 testes locais, lint, TypeScript e build passaram. Preparado para publicação específica do preview e homologação manual. Não publicado nesta rodada. Próximas pendências: validar comparativo autenticado, paginação/agrupamento no servidor para bases acima do limite atual, filtro temporal de coortes, vínculo verificável lead-negociação-venda e custos de mídia. Meta/Google Ads permanece adiado.
+
+Observação para auditoria posterior: SectionState global mostra aviso de erro e mantém children. O painel novo trata erros antes de renderizar métricas; verificar outros indicadores antes de presumir que SectionState sozinho bloqueia totais incompletos.
