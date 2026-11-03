@@ -1,6 +1,56 @@
 # Continuidade do Privilege CRM
 
-Atualizado em 30/10/2026.
+Atualizado em 03/11/2026.
+
+## Quadro atual de continuidade, 03/11/2026
+
+Este quadro é a referência atual de andamento. As seções posteriores preservam o histórico e podem conter estados anteriores já superados.
+
+### Decisão de trabalho do usuário
+
+O usuário vai acrescentar novas funcionalidades antes de retomar a conclusão e os testes finais de toda a ideia. Guardar as pendências existentes e anexar novos itens a este controle. Não exigir novamente os mesmos testes manuais a cada ideia nova. Executar as verificações técnicas necessárias das alterações durante o desenvolvimento; concentrar a homologação manual completa em uma rodada posterior, quando o usuário solicitar. Não interpretar teste adiado como aprovado ou autorização de publicação, migration, ativação de integração ou produção. Nenhum lembrete ou execução futura automática foi criado.
+
+### Entregas já confirmadas manualmente
+
+- Analytics: carregamento dos períodos de 7, 28 e 90 dias.
+- Imagens da campanha: correção confirmada após normalização dos links de mídia.
+- Desempenho por campanha: painel confirmado.
+- Filtro de cadastro De/Até e Todo o histórico: confirmado.
+- Preservar os aceites anteriores de disponibilidade/apresentação, motivo opcional na atribuição/transferência e apresentações de rascunhos/pendentes. Retestar somente quando houver mudança relacionada, regressão ou ausência de evidência necessária.
+
+Esses aceites são funcionais e manuais. Não representam comparação independente de todas as métricas, homologação automática completa ou liberação de produção. Última suíte local registrada: 99 testes, lint, TypeScript e build aprovados.
+
+### Pendências para finalizar e testar
+
+| ID | Frente | O que falta | Estado / dependência |
+| --- | --- | --- | --- |
+| P01 | Lead, negociação e venda | Criar vínculo explícito e verificável, preservar origem e histórico, validar quem pode ler/alterar cada relação; não inferir venda por imóvel/corretor nem por status convertido. | Desenvolver e testar. |
+| P02 | Meta e Google Ads | Obter acesso, configurar contas autorizadas e credenciais seguras, validar primeira leitura, renovação, falhas, cobertura de períodos e concorrência; ativar agendamento somente no escopo autorizado. | Adiado por decisão do usuário. Estrutura/worker preparados; nenhuma conta conectada ou cron ativo no último estado comprovado. |
+| P03 | Formulários nativos | Integrar entradas reais Meta/Google ao CRM com origem verificável, idempotência, duplicatas, consentimento/permissões e fallback de distribuição. Não acrescentar formulário novo no site por padrão. | Desenvolver e testar com acesso autorizado; cadastro manual não equivale à integração. |
+| P04 | WhatsApp profissional | Definir e implementar conexão oficial no modelo misto institucional/corretor, com autorização por conta, recepção, histórico e tratamento de falhas. Distinguir clique, conversa recebida e atendimento. | Integração real pendente. Link WhatsApp já existe; não presumir autorização para enviar mensagens de teste. |
+| P05 | Resultado financeiro | Relacionar custos importados a campanhas e resultados comerciais verificáveis; calcular CPL/CPA/retorno com períodos, moeda, cobertura e denominadores corretos. | Depende de P01/P02 e dados suficientes. Sem valores fictícios ou zero para custo desconhecido. |
+| P06 | Escala das consultas | Implementar paginação/agregação no servidor para ultrapassar o limite atual de 500 registros e testar completude, autorização e desempenho. | Desenvolver e testar. O filtro de datas atual é local e não resolve esse limite. |
+| P07 | Privacidade da coleta | Auditar GTM carregado globalmente, coleta em CRM/login/apresentações privadas, consentimento e parâmetros que possam carregar informações indevidas; preparar correção sem desativar proteção. | Auditoria/correção pendentes. Filtrar relatório não impede coleta. |
+| P08 | Eventos de campanha | Validar recebimento real no GTM/GA4, uma emissão por clique, origem e parâmetros encaminhados; conferir ausência de criação de contato fictício. | Código preparado e publicado em preview; preview tem tracking desativado e não comprova recebimento no Google. |
+| P09 | Precisão do Analytics | Comparar indicadores/tabelas com GA4 usando as mesmas datas, fuso, domínios e filtros; conferir vínculo da propriedade/medição e avisos de privacidade/amostragem. | Carregamento manual aprovado; comparação independente ainda pendente. Não reabrir erro de carregamento como se continuasse ativo. |
+| P10 | Autorização e sessões | Consolidar matriz real de administrador, gestor e corretores A/B; API autenticada, carteiras privadas, troca de contas, sessão expirada e polling sem Realtime. | Reconciliar testes manuais e automatizados já existentes; executar cenários ainda sem evidência ou afetados por novas mudanças. Bloqueios de navegador não são PASS nem FAIL funcional. |
+| P11 | Arquivos e apresentações | Consolidar evidências de upload/download reais, streaming/Range, revogação, expiração e isolamento dos links/carteiras. | Separar aceites manuais anteriores dos cenários do agente que ficaram bloqueados. Não repetir migrations ou abrir buckets para viabilizar teste. |
+| P12 | Interface e estados de erro | Revisão integrada desktop/mobile, menu, overflow, acessibilidade, carregamento, vazio, falhas e dados incompletos. Auditar outros indicadores que usam SectionState, pois o componente global mantém children mesmo ao avisar erro. | Novos painéis têm proteção própria; revisão geral pendente. Aplicar novas preferências de simplificação de botões/páginas ao escopo que o usuário detalhar. |
+| P13 | Consolidação e liberação | Revisar dependências dos PRs empilhados, reconciliar evidências, corrigir regressões, preparar plano de backup/restore/rollback e homologação completa antes de liberar. | PRs continuam em rascunho; merge e produção não autorizados. Backup/restore novo conforme a mudança de banco efetivamente proposta, sem reaplicar migrations existentes. |
+
+### Próxima rodada final, quando solicitada
+
+1. Atualizar este quadro com todas as novas funcionalidades e suas dependências.
+2. Conferir código/ambiente atual e separar implementado, preparado, adiado, falha conhecida e teste sem evidência.
+3. Finalizar primeiro vínculos de dados e permissões dos quais outras funcionalidades dependem.
+4. Concluir integrações com os acessos efetivamente disponíveis; manter bloqueios externos identificados.
+5. Rodar testes de código/banco/API e cenários autenticados por perfil, sem chamar mocks de homologação real.
+6. Validar a jornada completa no desktop/mobile, números, arquivos e estados de falha.
+7. Corrigir, repetir apenas os testes afetados e preparar a liberação no escopo autorizado.
+
+Para cada item futuro, registrar descrição, dependências, código/PR, publicação quando houver, tipo de evidência, resultado e próximo passo. Registrar apenas status sanitizado no GitHub, sem métricas privadas, credenciais, dumps, roles ou SQL decodificado de backups.
+
+
 
 ## Pendência adiada por decisão do usuário
 
@@ -84,3 +134,31 @@ Removida tentativa de criar contato fictício no /api/leads pelo botão legado W
 Correção de URLs de mídia publicada no preview do PR #12; usuário confirmou que o problema das imagens foi corrigido. Marcar esta falha como resolvida em teste manual do usuário. Nenhuma métrica privada foi registrada. Rastreamento real no Google, teste mobile completo e demais pendências continuam separados.
 
 Próxima frente: indicadores dos leads vinculados às campanhas no CRM, sem depender da conexão de anúncios adiada e sem tratar status convertido como venda confirmada.
+
+## Desempenho comercial das campanhas preparado em 03/11/2026
+
+Nova branch work/crm-campaign-performance-20261103, baseada no PR #12. Comparativo usa somente campanhas, atribuições e leads já carregados e autorizados no workspace. Mostra leads únicos por campanha, primeiro atendimento com data registrada, distribuição atual de etapas e proporção de convertidos no pipeline. Não representa venda confirmada ou funil histórico cumulativo.
+
+Sem novos acessos de banco, migrations ou integrações. Não calcula CPL, CPA, investimento ou retorno sem custos e vendas vinculados. Atende busca/estado de campanhas existentes; base temporal é todo o histórico carregado, sem filtro de datas. Se qualquer tabela exigida falhar, inclusive por exceder limite do workspace, esconde os indicadores. Vínculos sem lead disponível têm aviso explícito e não viram totais completos.
+
+95 testes locais, lint, TypeScript e build passaram. Preparado para publicação específica do preview e homologação manual. Não publicado nesta rodada. Próximas pendências: validar comparativo autenticado, paginação/agrupamento no servidor para bases acima do limite atual, filtro temporal de coortes, vínculo verificável lead-negociação-venda e custos de mídia. Meta/Google Ads permanece adiado.
+
+Observação para auditoria posterior: SectionState global mostra aviso de erro e mantém children. O painel novo trata erros antes de renderizar métricas; verificar outros indicadores antes de presumir que SectionState sozinho bloqueia totais incompletos.
+
+## Desempenho de campanhas, aceite em 03/11/2026
+
+Usuário confirmou o painel do PR #13 após publicação do preview. Registrar aceite funcional manual, sem métricas privadas. Validação independente de números e todos os perfis continua separada. Próximo incremento autorizado: filtro pela data de cadastro do lead, mantendo explícito que etapas e conversão são da situação atual, não eventos ocorridos no período.
+
+## Filtro de cadastro preparado em 03/11/2026
+
+Incremento no PR #13: datas De/Até no comparativo de campanhas, opcionais e inclusivas no horário civil de Campina Grande (UTC−3). Filtra a data de cadastro do lead; os status e o primeiro atendimento continuam retratando o registro atual, mesmo se atualizados depois do período. Botão Todo o histórico remove as datas.
+
+Datas inválidas/invertidas ocultam indicadores. Se houver lead vinculado com data inválida numa consulta filtrada, a tabela é bloqueada com aviso. Mantida proteção de erros/limites do workspace e a distribuição das campanhas selecionadas. Não há novos fetches, armazenamento do filtro, SQL, migrations ou custos/vendas inferidos.
+
+99 testes, lint, TypeScript e build aprovados. Código salvo para novo preview autorizado; preview publicado anteriormente continua sem o filtro. Comparação de eventos históricos, agregação/paginação para mais de 500 registros, vínculos de vendas e custos continuam pendentes. Meta/Google Ads segue adiado.
+
+## Filtro de cadastro, aceite em 03/11/2026
+
+Após publicação autorizada do incremento do PR #13, o usuário confirmou o teste do filtro De/Até e retorno a Todo o histórico. Registrar aceite funcional manual do filtro; não equivale à comparação independente de números ou validação automática de todos os perfis/mobile. Nenhuma métrica privada registrada.
+
+Entregas com aceite manual recente: períodos 7/28/90 do Analytics, correção das imagens da campanha, painel de desempenho por campanha e filtro pela data de cadastro dos leads. Próximas pendências preservadas: vínculos verificáveis lead-negociação-venda, agregação/paginação para bases acima do limite, auditoria de tracking em páginas privadas/consentimento, recebimento real dos eventos GTM/GA4 e revisão final dos controles de acesso/visual mobile. Meta/Google Ads continua adiado. Sem autorização de merge ou produção.

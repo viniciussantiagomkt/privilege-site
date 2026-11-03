@@ -7,6 +7,7 @@ import { Badge, Button, Empty, EntityForm, Modal, NewButton, PageHeading, Panel,
 import { matches } from "@/lib/crm/model";
 import { AdReports } from "./AdReports";
 import { CampaignLandingLink } from "./CampaignLandingLink";
+import { CampaignPerformance } from "./CampaignPerformance";
 const options = (values: Record<string,string>) => Object.entries(values).map(([value,label])=>({value,label}));
 export function Campaigns() {
  const ctx=useWorkspace();
@@ -19,6 +20,7 @@ export function Campaigns() {
   <AdReports />
   <Panel title="Campanhas e contatos no CRM" description="O registro de contatos nesta tela continua manual. A leitura de anúncios não importa formulários ou conversas do WhatsApp."><p className="crm-detail-pill">Ativar uma campanha no CRM não ativa anúncios nas plataformas. Os IDs informados no cadastro não conectam uma conta de anúncios.</p></Panel>
   <div className="crm-toolbar"><label>Estado no CRM <select className="crm-compact-status" value={status} onChange={e=>setStatus(e.currentTarget.value)}><option value="">Todos</option>{options(CAMPAIGN_STATUSES).map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select></label></div>
+  <CampaignPerformance campaigns={campaigns}/>
   <SectionState tables={["crm_campaigns"]}>
    {campaigns.length ? <div className="crm-campaign-grid">{campaigns.map(c=><Panel key={c.id} title={c.name} description={`${campaignLabel(c.platform)} · ${c.scope==="company"?"Institucional":"Minha carteira"}`}>
     <div className="crm-campaign-body">
