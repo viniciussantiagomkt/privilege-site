@@ -28,3 +28,7 @@ Menu usa coluna minmax(0,1fr), permite quebra de rótulos extensos, preserva íc
 Publicar novo preview autorizado, entrar como gestor/admin, abrir Resultados do site e testar 7/28/90 dias. Conferir números com GA4 para as mesmas datas/filtros e inspecionar desktop/mobile. Se persistir erro, investigar diagnóstico sanitizado sem compartilhar respostas brutas ou segredos.
 
 Referência oficial consultada em 03/11/2026: https://developers.google.com/identity/protocols/oauth2#size .
+
+## Publicação autorizada em 03/11/2026
+
+Após autorização expressa, publicado commit 64b5363bbb9c1c9b69b59136ded38263328f3f56. Deployment dpl_EqcvLTxpThMxnYCNbJjhiuvFMZFB, estado READY. URL: https://privilege-site-njzw6oben-viniciussantiagomkts-projects.vercel.app/login . GET /login via conector oficial retornou HTTP 200 com formulário do workspace. Isso confirma a publicação, não uma sessão autenticada nem leitura real GA4. Homologação dos três períodos e visual desktop/mobile pendentes. Sem alteração de produção, banco, segredos ou permissões nesta publicação.
