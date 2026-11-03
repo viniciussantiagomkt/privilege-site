@@ -66,3 +66,7 @@ Em futuros relatórios, apresentar concluído, falha conhecida, bloqueado/adiado
 Após a publicação do preview corrigido, o usuário confirmou visualmente o carregamento do painel no período de 28 dias. Registro somente do status funcional, sem métricas, identificação, fuso ou horário da sessão. Não equivale a comparação independente com o Google Analytics ou homologação integral.
 
 Próximas verificações: períodos de 7 e 90 dias, comparação com o Analytics usando datas/filtros equivalentes, demais tabelas, responsividade mobile, controle de acesso e troca de contas. A falha anterior de carregamento não aparece nesta evidência; a causa exata do caso real não foi comprovada retroativamente. Meta/Google Ads continua adiado.
+
+## Aceite funcional dos períodos, 03/11/2026
+
+Usuário confirmou que 7 e 90 dias funcionam perfeitamente, complementando o carregamento de 28 dias já confirmado. Marcar os três períodos como aprovados em teste manual do usuário. Não incluir métricas privadas neste registro. Comparação independente com GA4, mobile completo e testes reais de perfis/troca de contas permanecem separados. Próxima frente autorizada pelo usuário: continuar as pendências do projeto, começando pelo rastreamento dos cliques das páginas de campanha e distinção entre clique e lead comercial real.
