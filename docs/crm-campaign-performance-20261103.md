@@ -29,3 +29,9 @@ Qualquer erro em leads, atribuições ou campanhas, inclusive limite excedido, o
 95 testes de código passaram, incluindo seis novos casos de agregação por vínculo único, etapas desconhecidas/normalizadas, campanhas filtradas, falta de lead, denominador ausente, erros por tabela e limite, loading e rótulos contra interpretação como venda. Testes de UI renderizam componentes reais incluindo SectionState. Lint, TypeScript e build Next.js 16.4.3 com guard staging passaram.
 
 Revisão React: sem efeito novo, cálculo síncrono limitado ao volume já carregado, tabela com cabeçalhos/caption e rolagem própria, erros ocultam valores antigos. Validação autenticada real e visual desktop/mobile deste novo painel ainda pendentes. Não houve nova publicação, migration, mudança em conta/permissão ou produção. Deploy automático da branch desativado desde o primeiro commit.
+
+## Publicação autorizada em 03/11/2026
+
+Deployment dpl_8SWp4x1acUF6NQdHBAZnpUPdZoEQ READY no commit 35c4c755c647e2b4473ac4b4f9dc6d0ec72ffa4f. URL: https://privilege-site-fgyuj96ok-viniciussantiagomkts-projects.vercel.app/login . GET /login e /admin/campanhas via conector oficial retornaram HTML HTTP 200. Não é homologação autenticada ou visual dos indicadores. Usuário deve conferir a seção Desempenho das campanhas no CRM após entrar.
+
+Variáveis públicas do staging e overrides vazios de tracking/maps/webhook limitados à nova branch. Nenhum segredo GA4 copiado; relatórios GA4 continuam no preview do PR #11. Produção, banco e permissões não alterados nesta publicação.
