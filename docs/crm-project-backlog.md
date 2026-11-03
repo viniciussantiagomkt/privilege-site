@@ -60,3 +60,9 @@ Em futuros relatórios, apresentar concluído, falha conhecida, bloqueado/adiado
 - A hipótese do token é compatível com a mensagem reportada, mas não foi confirmada com a resposta real do ambiente. Não declarar o painel homologado.
 - Validação local desta correção: 81 testes passaram; lint e TypeScript passaram. Build Next.js 16.4.3 com guard de staging também passou. Publicação ainda pendente.
 - Próximo passo: publicar a correção em novo preview com autorização específica, validar a sessão legítima de gestor/admin e os períodos 7/28/90 dias. Preview de 30/10 permanece com o código anterior. Conferência visual desktop/mobile continua pendente; não há navegador local instalado nesta sessão. Meta/Google Ads permanece adiado.
+
+## Atualização de validação em 03/11/2026
+
+Após a publicação do preview corrigido, o usuário confirmou visualmente o carregamento do painel no período de 28 dias. Registro somente do status funcional, sem métricas, identificação, fuso ou horário da sessão. Não equivale a comparação independente com o Google Analytics ou homologação integral.
+
+Próximas verificações: períodos de 7 e 90 dias, comparação com o Analytics usando datas/filtros equivalentes, demais tabelas, responsividade mobile, controle de acesso e troca de contas. A falha anterior de carregamento não aparece nesta evidência; a causa exata do caso real não foi comprovada retroativamente. Meta/Google Ads continua adiado.
