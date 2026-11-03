@@ -12,6 +12,12 @@ function fail():never{throw new Ga4Error("invalid_response");}
 function obj(v:unknown):Json{if(!v||typeof v!=="object"||Array.isArray(v))return fail();return v as Json;}
 function arr(v:unknown):unknown[]{if(!Array.isArray(v))return fail();return v;}
 function string(v:unknown){if(typeof v!=="string"||v.length>1000||/[\x00-\x1f\x7f]/.test(v))return fail();return v;}
+// OAuth credentials are opaque bearer tokens, not report display strings.
+// Google documents variable access-token sizes through 2048 bytes.
+function accessToken(v:unknown):string{
+ if(typeof v!=="string"||v.length===0||v.length>2048||!/^[-A-Za-z0-9._~+/]+=*$/.test(v))return fail();
+ return v;
+}
 function number(v:unknown,rate=false){const s=string(v);if(!/^\d+(\.\d+)?$/.test(s))return fail();const n=Number(s);if(!Number.isFinite(n)||n<0||(!rate&&!Number.isSafeInteger(n))||(rate&&n>1))return fail();return n;}
 async function json(fetcher:Fetcher,url:string,init:RequestInit){
  try{
@@ -57,7 +63,7 @@ export async function fetchGa4Report(c:Config,days:AnalyticsDays,fetcher:Fetcher
  const unsigned=`${encode({alg:"RS256",typ:"JWT"})}.${encode({iss:account.email,scope:"https://www.googleapis.com/auth/analytics.readonly",aud:"https://oauth2.googleapis.com/token",iat,exp:iat+3600})}`;
  let signature:string;try{signature=createSign("RSA-SHA256").update(unsigned).sign(account.key,"base64url");}catch{throw new Ga4Error("invalid_config");}
  const oauth=await json(fetcher,"https://oauth2.googleapis.com/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({grant_type:"urn:ietf:params:oauth:grant-type:jwt-bearer",assertion:`${unsigned}.${signature}`})});
- const token=string(oauth.access_token);if(!token)return fail();
+ const token=accessToken(oauth.access_token);
  const specs=requests(days);
  // Google permits at most five reports per batch; all batches must succeed.
  const batches=await Promise.all([specs.slice(0,5),specs.slice(5)].map(async batch=>{

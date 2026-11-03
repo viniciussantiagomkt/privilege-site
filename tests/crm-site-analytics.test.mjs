@@ -11,11 +11,11 @@ const api=load('../lib/server/ga4-reporting.ts',{'@/lib/crm/site-analytics':mode
 const {siteAnalyticsHandler}=load('../lib/server/site-analytics-handler.ts',{'./ga4-reporting':api});
 const {privateKey,publicKey}=generateKeyPairSync('rsa',{modulusLength:2048});
 const config={propertyId:'123456789',serviceAccountJson:JSON.stringify({type:'service_account',client_email:'analytics-reader@fixture-project.iam.gserviceaccount.com',private_key:privateKey.export({type:'pkcs8',format:'pem'})})};
-function provider({denied=false,badPath=false,partial=false,threshold=false,badNumber=false,badDate=false}={}){
+function provider({denied=false,badPath=false,partial=false,threshold=false,badNumber=false,badDate=false,accessToken='access-token-fixture'}={}){
  const calls=[];
  const fetcher=async(url,options)=>{
   calls.push({url,options});const ok=data=>({ok:true,json:async()=>data});
-  if(url==='https://oauth2.googleapis.com/token')return ok({access_token:'access-token-fixture'});
+  if(url==='https://oauth2.googleapis.com/token')return ok({access_token:accessToken});
   if(denied)return {ok:false,status:403};
   const input=JSON.parse(options.body);
   const reports=input.requests.map(q=>{
@@ -92,4 +92,22 @@ test('real route validates user and current database permission with public Supa
   invalid=false;permissionError=true;assert.equal((await route.GET(request())).status,503);assert.equal(reports,1);
   assert.ok(calls.every(c=>c.key==='public-fixture'&&c.options.global.headers.Authorization==='Bearer '+token&&c.options.auth.persistSession===false));
  }finally{for(const key of names){if(original[key]===undefined)delete process.env[key];else process.env[key]=original[key];}}
+});
+
+test('Google OAuth tokens through its documented 2048-byte maximum reach both report batches',async()=>{
+ for(const size of [1001,2048]){
+  const accessToken='a'.repeat(size),h=provider({accessToken});
+  const report=await api.fetchGa4Report(config,28,h.fetcher);
+  assert.equal(report.current.sessions,150);
+  assert.equal(h.calls.length,3);
+  assert.ok(h.calls.slice(1).every(c=>c.options.headers.Authorization==='Bearer '+accessToken));
+  assert.ok(!JSON.stringify(report).includes(accessToken));
+ }
+});
+test('malformed OAuth tokens stop before report requests and never appear in errors',async()=>{
+ for(const accessToken of ['',null,123,'a'.repeat(2049),'token with spaces','token\r\nInjected: yes','tøken']){
+  const h=provider({accessToken});
+  await assert.rejects(api.fetchGa4Report(config,7,h.fetcher),e=>e.code==='invalid_response'&&!e.message.includes('Injected'));
+  assert.equal(h.calls.length,1);
+ }
 });

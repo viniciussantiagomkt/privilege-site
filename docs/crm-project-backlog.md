@@ -51,3 +51,12 @@ PR #10 entregue em preview. Casa Terras (id 1, slug casa-terras) teve somente av
 Preservar confirmações manuais anteriores sem reabrir falhas já resolvidas sem regressão. Cenários autenticados não comprovados pelo agente, arquivos reais/revogação/expiração, troca de contas, polling sem Realtime e visual mobile continuam separados das aprovações locais; reconciliar evidência manual existente antes de declarar conclusão. PRs #7 a #11 continuam em rascunho, sem merge. Produção não foi publicada. Novas publicações/migrations e ativação de workers/cron mantêm os escopos específicos de autorização.
 
 Em futuros relatórios, apresentar concluído, falha conhecida, bloqueado/adiado e próximo passo separadamente. Priorizar a correção do Analytics, sem exigir acesso de anúncios para avançar.
+
+## Retomada em 03/11/2026
+
+- Reproduzido defeito no cliente GA4: tokens OAuth acima de 1.000 caracteres eram rejeitados pelo validador de strings de relatório, antes das consultas de dados. Documentação Google admite tokens de acesso de até 2.048 bytes. Correção separa a validação do bearer (ASCII válido, até 2.048 bytes) dos textos do relatório. Nenhuma credencial real foi lida para reproduzir.
+- Teste de regressão com tokens sintéticos de 1.001 e 2.048 caracteres falhou antes da correção e passou depois. Tokens vazios, não textuais, acima do limite, com espaços, controles ou Unicode são recusados antes de acessar relatórios. Mantidos filtros, escopo somente leitura e autorização.
+- Ajustes CSS permitem quebra de rótulos extensos no menu, mantêm ícones/ações do rodapé, evitam overflow horizontal da navegação, limitam nome longo no cabeçalho e permitem quebra das ações do título.
+- A hipótese do token é compatível com a mensagem reportada, mas não foi confirmada com a resposta real do ambiente. Não declarar o painel homologado.
+- Validação local desta correção: 81 testes passaram; lint e TypeScript passaram. Build Next.js 16.4.3 com guard de staging também passou. Publicação ainda pendente.
+- Próximo passo: publicar a correção em novo preview com autorização específica, validar a sessão legítima de gestor/admin e os períodos 7/28/90 dias. Preview de 30/10 permanece com o código anterior. Conferência visual desktop/mobile continua pendente; não há navegador local instalado nesta sessão. Meta/Google Ads permanece adiado.
