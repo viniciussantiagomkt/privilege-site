@@ -7,3 +7,7 @@ HTML da Casa Terras continha URLs absolutas de /api/property-media de um deploym
 attachPropertyImages agora normaliza URLs HTTPS estritamente reconhecidas da Privilege e seus previews, apenas no caminho /api/property-media/<uuid>/<uuid>.webp, para a rota relativa equivalente. Capa e galeria são normalizadas antes da deduplicação. Mantém fontes externas, caminhos privados de apresentação, query/fragmento, credenciais e portas fora dessa transformação. Nenhum fetch arbitrário novo, serviço privilegiado, bucket público, mudança de RLS ou alteração de URLs no banco. Armazenamento e permissões continuam os do ambiente atual.
 
 89 testes, lint, TypeScript e build passaram. Quatro regressões verificam preview antigo/produção para caminho relativo, limites de host e caminhos, deduplicação e preservação de capa. Ainda exige verificação de imagens no novo preview e validação visual pelo usuário.
+
+## Resultado do preview corrigido
+
+Deployment dpl_HYzhowr6Mz9bJWcm51hnCo2DPHVd READY no commit b7078f674946810887ee95648637afe34c073ce1. URL: https://privilege-site-q6qzujspm-viniciussantiagomkts-projects.vercel.app/campanhas/imovel/casa-terras . Página HTTP 200, com 20 caminhos únicos de mídia relativos ao ambiente atual e sem host do preview antigo nos src de fotos. Amostras da primeira, intermediária e última foto retornaram HTTP 200 e Content-Type image/webp pelo conector oficial. Não foram baixadas/salvas as fotos no repositório. Validação visual do navegador do usuário permanece pendente. Nenhuma mudança de banco, permissões ou produção.
