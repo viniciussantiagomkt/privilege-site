@@ -29,10 +29,11 @@ test('unavailable leads do not become known zero stages and no-lead conversion h
  const [row]=model.campaignPerformance([campaigns[0]],[{campaign_id:1,lead_id:999}],leads);
  assert.equal(row.total,0);assert.equal(row.unavailable,1);assert.equal(row.conversionRate,null);
 });
-function render({errors={},loading=false,selected=campaigns,rows=leads,attributions=links}={}){
+function render({errors={},loading=false,selected=campaigns,rows=leads,attributions=links,period}={}){
  const ctx={data:{leads:rows,crm_lead_attributions:attributions},errors,loading,reload:async()=>{}};
  const workspace={useWorkspace:()=>ctx};const ui=load('../components/crm/UI.tsx',{'./Workspace':workspace});
- const {CampaignPerformance}=load('../components/crm/CampaignPerformance.tsx',{'./Workspace':workspace,'./UI':ui,'@/lib/crm/campaign-performance':model});
+ const deps={'./Workspace':workspace,'./UI':ui,'@/lib/crm/campaign-performance':model};if(period)deps.react={useState:()=>[period,()=>{}]};
+ const {CampaignPerformance}=load('../components/crm/CampaignPerformance.tsx',deps);
  return renderToStaticMarkup(createElement(CampaignPerformance,{campaigns:selected}));
 }
 test('real UI hides the aggregate table for errors in any required table, including overflow',()=>{
@@ -40,6 +41,30 @@ test('real UI hides the aggregate table for errors in any required table, includ
   const html=render({errors:{[table]:'Mais de 500 registros'}});
   assert.ok(html.includes('dados incompletos'));assert.ok(!html.includes('<table'));assert.ok(!html.includes('25%'));
  }
+});
+test('lead cohort includes both local civil dates with an exclusive next-midnight boundary',()=>{
+ const rows=['2026-11-03T02:59:59.999Z','2026-11-03T03:00:00Z','2026-11-04T02:59:59.999Z','2026-11-04T03:00:00Z'].map((created_at,i)=>({id:21+i,status:'convertido',first_contact_at:'2026-12-01T12:00:00Z',created_at}));
+ const attribution=rows.map(l=>({campaign_id:1,lead_id:l.id}));
+ const [result]=model.campaignPerformance([campaigns[0]],attribution,rows,{since:'2026-11-03',until:'2026-11-03'});
+ assert.equal(result.total,2);assert.equal(result.contactRecorded,2);assert.equal(result.counts.convertido,2);assert.equal(result.conversionRate,1);
+ assert.equal(model.campaignPerformance([campaigns[0]],attribution,rows,{since:'2026-11-03',until:''})[0].total,3);
+ assert.equal(model.campaignPerformance([campaigns[0]],attribution,rows,{since:'',until:'2026-11-03'})[0].total,3);
+});
+test('invalid or reversed dates fail while real leap days and cleared ranges remain valid',()=>{
+ for(const period of [{since:'2026-02-29',until:''},{since:'2026-11-04',until:'2026-11-03'},{since:'03/11/2026',until:''}])assert.throws(()=>model.campaignPerformance(campaigns,links,leads,period));
+ assert.doesNotThrow(()=>model.campaignPerformance(campaigns,links,leads,{since:'2024-02-29',until:'2024-02-29'}));
+ assert.equal(model.campaignPerformance(campaigns,links,leads,{since:'',until:''})[0].total,4);
+});
+test('filtered report detects invalid lead creation dates and never renders them as known zero totals',()=>{
+ const period={since:'2026-11-01',until:'2026-11-03'};
+ assert.equal(model.campaignPerformance(campaigns,links,leads,period)[0].invalidDates,4);
+ const html=render({period});assert.ok(html.includes('sem data de cadastro válida'));assert.ok(!html.includes('<table'));
+});
+test('UI rejects reversed dates without old metrics and explains current stages in a valid cohort',()=>{
+ const bad=render({period:{since:'2026-11-04',until:'2026-11-03'}});assert.ok(bad.includes('Escolha datas válidas'));assert.ok(!bad.includes('<table'));
+ const rows=leads.map(l=>({...l,created_at:'2026-11-03T12:00:00Z'}));
+ const html=render({rows,period:{since:'2026-11-03',until:'2026-11-03'}});
+ assert.ok(html.includes('25%'));assert.ok(html.includes('horário de Campina Grande'));assert.ok(html.includes('conversões ocorridas nas datas escolhidas'));assert.ok(html.includes('Todo o histórico'));
 });
 test('real loading boundary suppresses old aggregate data and empty campaigns remain explicit',()=>{
  const loading=render({loading:true});assert.ok(loading.includes('aria-busy="true"'));assert.ok(!loading.includes('<table'));

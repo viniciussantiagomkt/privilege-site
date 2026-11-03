@@ -98,3 +98,11 @@ Observação para auditoria posterior: SectionState global mostra aviso de erro 
 ## Desempenho de campanhas, aceite em 03/11/2026
 
 Usuário confirmou o painel do PR #13 após publicação do preview. Registrar aceite funcional manual, sem métricas privadas. Validação independente de números e todos os perfis continua separada. Próximo incremento autorizado: filtro pela data de cadastro do lead, mantendo explícito que etapas e conversão são da situação atual, não eventos ocorridos no período.
+
+## Filtro de cadastro preparado em 03/11/2026
+
+Incremento no PR #13: datas De/Até no comparativo de campanhas, opcionais e inclusivas no horário civil de Campina Grande (UTC−3). Filtra a data de cadastro do lead; os status e o primeiro atendimento continuam retratando o registro atual, mesmo se atualizados depois do período. Botão Todo o histórico remove as datas.
+
+Datas inválidas/invertidas ocultam indicadores. Se houver lead vinculado com data inválida numa consulta filtrada, a tabela é bloqueada com aviso. Mantida proteção de erros/limites do workspace e a distribuição das campanhas selecionadas. Não há novos fetches, armazenamento do filtro, SQL, migrations ou custos/vendas inferidos.
+
+99 testes, lint, TypeScript e build aprovados. Código salvo para novo preview autorizado; preview publicado anteriormente continua sem o filtro. Comparação de eventos históricos, agregação/paginação para mais de 500 registros, vínculos de vendas e custos continuam pendentes. Meta/Google Ads segue adiado.

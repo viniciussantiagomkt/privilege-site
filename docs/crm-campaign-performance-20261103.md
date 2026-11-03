@@ -35,3 +35,13 @@ Revisão React: sem efeito novo, cálculo síncrono limitado ao volume já carre
 Deployment dpl_8SWp4x1acUF6NQdHBAZnpUPdZoEQ READY no commit 35c4c755c647e2b4473ac4b4f9dc6d0ec72ffa4f. URL: https://privilege-site-fgyuj96ok-viniciussantiagomkts-projects.vercel.app/login . GET /login e /admin/campanhas via conector oficial retornaram HTML HTTP 200. Não é homologação autenticada ou visual dos indicadores. Usuário deve conferir a seção Desempenho das campanhas no CRM após entrar.
 
 Variáveis públicas do staging e overrides vazios de tracking/maps/webhook limitados à nova branch. Nenhum segredo GA4 copiado; relatórios GA4 continuam no preview do PR #11. Produção, banco e permissões não alterados nesta publicação.
+
+## Incremento: seleção por cadastro do lead, 03/11/2026
+
+O modo padrão continua todo o histórico. Campos De/Até permitem selecionar limites opcionais, incluindo ambos os dias no horário de Campina Grande (UTC−3). Intervalo é representado internamente por início inclusivo e meia-noite seguinte exclusiva. Datas civis são validadas, inclusive ano bissexto. Filtro é local aos dados autorizados já carregados; não adiciona consulta, cookie, localStorage ou efeito. Botão Todo o histórico limpa os limites.
+
+A seleção considera leads.created_at, não a data da atribuição, do atendimento ou da mudança de status. Estágio, convertido e primeiro atendimento mostram o estado atual dos leads cadastrados no intervalo, inclusive atualizações posteriores. Não é relatório de vendas/conversões ocorridas no intervalo. As limitações anteriores de base sem período passam a se referir apenas ao modo Todo o histórico.
+
+Datas inválidas ou invertidas ocultam a tabela. Datas de cadastro inválidas em leads vinculados impedem a apresentação de totais filtrados como completos. Falhas/limites das tabelas continuam bloqueando indicadores. O filtro local não contorna o limite de carregamento de 500 registros do Workspace; agregação no servidor segue pendente.
+
+99 testes passaram, incluindo quatro regressões novas de fronteiras UTC−3, dia final inclusivo, limites abertos, datas invertidas/bissextas, dados sem data e UI sem tabela em erro. Lint, TypeScript e build passaram. Revisão React: hook de filtro antes de qualquer retorno condicional, sem novos efeitos nem rede, dados agregados derivados a cada render sem cache privado. Homologação visual/autenticada do filtro e nova publicação pendentes. Nenhum banco, conta ou produção alterado.
