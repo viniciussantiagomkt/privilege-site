@@ -23,3 +23,9 @@ Sem migration, limpeza de contatos, conexão de anúncios, segredo, publicação
 ## Próximo passo
 
 Publicar preview mediante autorização específica para conferir navegação dos CTAs. Tracking é desativado em preview por proteção do projeto; esse preview não prova recebimento no Google. Após implantação/ambiente de tracking autorizado, conferir GTM Preview/GA4 DebugView com consentimento adequado, um clique por ação e ausência de cadastro no CRM. Não ativar tags no preview ou alterar produção por conveniência de teste. Meta/Google Ads permanece adiado.
+
+## Preview publicado com autorização em 03/11/2026
+
+Deployment dpl_3PraEnBi1ikhsA7v9THfLaRJkoUL READY, commit 6e4a8bf88104787fe63392d74c0805ca1e42a934. URL: https://privilege-site-o5ge46td3-viniciussantiagomkts-projects.vercel.app/campanhas/imovel/casa-terras . GET /login e /campanhas/imovel/casa-terras via conector oficial retornaram HTTP 200. HTML da campanha contém três links WhatsApp; nenhum foi acionado pelo agente. Script GTM ausente no HTML conferido, conforme isolamento do preview. Não é validação visual, de clique real ou de recebimento GA4.
+
+Configuradas somente variáveis públicas de staging e overrides vazios de tracking/maps/webhook para esta branch. Credencial GA4 permanece na branch do PR #11, sem extração/cópia. Para repetir os relatórios já homologados, usar o preview do PR #11. Produção e banco não alterados.
