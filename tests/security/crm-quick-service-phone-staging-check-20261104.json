@@ -1,0 +1,36 @@
+{
+  "checked_on_local_date": "2026-11-04",
+  "timezone": "America/Sao_Paulo",
+  "environment": "Supabase staging, read-only migration history and catalog inspection before SQL edit",
+  "project_ref": "sdpqphiooiuglywcmkxv",
+  "audited_commit": "50d0c0f63933f87f95bd203c39a8a59045d80588",
+  "fix_commit": "e5f77604363fedf3443b419a184b243f1551b81e",
+  "migration_version": "20261104193943",
+  "registered_migrations": 21,
+  "last_registered_version": "20261030185925",
+  "quick_migration_applied": false,
+  "quick_phone_function_present": false,
+  "quick_interest_column_present": false,
+  "same_absence_reconfirmed_before_publish": true,
+  "commercial_rows_read": false,
+  "remote_writes": false,
+  "sql_sha256_encoding": "UTF-8, LF line endings, versioned file",
+  "sql_sha256_before": "75bbaa5461864c73c25f282c891eea97bd46359282262a656cbd2f24eaf7175a",
+  "sql_sha256_after": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa",
+  "local_validation": {
+    "lint": "PASS",
+    "typescript": "PASS",
+    "code_tests_passed": 150,
+    "database_tests_passed": 349,
+    "browser_fixture_tests_passed": 34,
+    "guard_tests_passed": 5,
+    "production_build": "PASS"
+  },
+  "application_status": "BLOCKED pending re-audit and operational requirements; not authorized",
+  "pending": [
+    "Updated backup restoration in an isolated environment",
+    "Concurrency tests with independent PostgreSQL connections",
+    "Timeline performance evaluation at representative volume",
+    "Real authenticated homologation"
+  ]
+}

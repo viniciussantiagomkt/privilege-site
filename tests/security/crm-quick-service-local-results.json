@@ -43,7 +43,7 @@
     },
     {
       "name": "20261104193943_crm_quick_service.sql",
-      "sha256": "75bbaa5461864c73c25f282c891eea97bd46359282262a656cbd2f24eaf7175a"
+      "sha256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa"
     }
   ],
   "results": [
@@ -1188,6 +1188,162 @@
       "result": "APROVADO"
     },
     {
+      "name": "quick phone SQL/TypeScript parity: national mobile",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national landline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national plain",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national dotted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: international plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: international 00",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: canonical unmarked",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: international landline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 national",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 international plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 international 00",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 landline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit plus regression",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit 00 regression",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit plus eleven digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit 00 eleven digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: country only plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: country only 00",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign plus US",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign 00 US",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign plus UK",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign 00 UK",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign prefix must not acquire Brazil",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: empty",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: null",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: nine national digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: too many national digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: too many international digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: invalid DDD zero",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: alphabetic extension",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: two plus signs",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: misplaced plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: mixed international prefixes",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: 64 character boundary",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: 65 character boundary",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: leading whitespace explicit plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: leading whitespace incomplete international",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone RPC: explicit incomplete prefixes rejected before insert",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone RPC: DDD55 aliases remain valid and duplicate within own portfolio",
+      "result": "APROVADO"
+    },
+    {
       "name": "quick service: create, normalize, receipt replay, no automatic lead",
       "result": "APROVADO"
     },
@@ -1289,7 +1445,7 @@
     }
   ],
   "summary": {
-    "passed": 310,
+    "passed": 349,
     "failed": 0
   }
 }

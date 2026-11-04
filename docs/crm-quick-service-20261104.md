@@ -6,6 +6,33 @@ Desenvolvimento autorizado, não publicado. Base do PR #14: `work/crm-campaign-b
 
 Nova branch `work/crm-broker-quick-service-20261104`, worktree separado. Primeiro commit `efeb915` bloqueia deployment automático e estende o guard ao nome exato da branch; `2dccb2a` registra o plano anterior ao SQL. Sem alterar main, worktrees anteriores ou banco remoto.
 
+## Correção de segurança após auditoria, 04/11/2026
+
+PR #15, commit auditado `50d0c0f63933f87f95bd203c39a8a59045d80588`. Correção de código: `e5f77604363fedf3443b419a184b243f1551b81e`. As evidências/documentação subsequentes não alteram esse código. A migration continua **BLOQUEADA para aplicação**, pendente de nova avaliação e dos requisitos operacionais abaixo; aprovação local desta correção não autoriza execução remota.
+
+Antes de editar o SQL, duas leituras autorizadas no staging `sdpqphiooiuglywcmkxv` confirmaram 21 migrations, última `20261030185925`, sem a versão `20261104193943`. A função `crm_normalize_client_phone(text)` e a coluna clients.interest_profile também estavam ausentes. Nenhuma linha comercial, conta ou dado privado foi consultado. Evidência sanitizada: `tests/security/crm-quick-service-phone-staging-check-20261104.json`. Não foi alterada migration já executada.
+
+Causa: o normalizador removia o prefixo explícito e depois reaplicava a inferência nacional pelo comprimento, transformando um internacional incompleto em outro número. TypeScript e SQL agora classificam `+`/`00` antes da inferência: só nacionais sem prefixo explícito de 10/11 dígitos recebem `55`. Internacionais precisam já conter país 55 e comprimento completo. Sinal `+` deslocado/repetido, prefixo estrangeiro e combinação `+00` são rejeitados. O limite de 64 caracteres em TypeScript usa contagem de caracteres Unicode, alinhada a length(text) do PostgreSQL. Formatos nacionais com DDD 55 continuam válidos.
+
+| Entrada | Resultado em TypeScript e SQL |
+| --- | --- |
+| `+55 (83) 9000-00` | Rejeitada, sem inferência nacional. |
+| `0055 (83) 9000-00` | Rejeitada, sem inferência nacional. |
+| `(55) 90000-0000` | `5555900000000`. |
+| `+55 (55) 90000-0000` | `5555900000000`. |
+| `0055 (55) 90000-0000` | `5555900000000`. |
+
+No contrato existente, rejeição é exceção no helper TypeScript e NULL na função SQL. A matriz compartilhada compara os dois comportamentos e os resultados válidos. Inclui 37 casos de formato, DDD, país, incompletos e limites; RPCs adicionais confirmam rejeição antes do INSERT e duplicidade apenas na carteira autorizada. Links de WhatsApp apontam ao destinatário canônico, sem enviar mensagens. A correção não altera RLS, papéis, titularidade, recibos, chaves de idempotência ou revisões de concorrência.
+
+SHA-256 do SQL versionado em UTF-8 com LF:
+
+- Anterior (`50d0c0f`): `75bbaa5461864c73c25f282c891eea97bd46359282262a656cbd2f24eaf7175a`.
+- Corrigido (`e5f7760`): `da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa`.
+
+Arquivos da correção: lib/crm/quick-service.ts, a migration proposta, testes de código/SQL/navegador, fixtures compartilhadas e carregador do módulo real TypeScript. Relatório e JSONs de evidências atualizados separadamente. Nenhum componente visual, outra funcionalidade ou dependência foi alterado.
+
+**Pendências obrigatórias, não aprovadas por estes testes:** restauração isolada de backup atualizado; concorrência com conexões PostgreSQL independentes; avaliação de desempenho da timeline em volume representativo; homologação autenticada A/B/gestor/admin. Permanecem necessárias autorização de migration/preview e revisão do Work. Sem preview, migrations remotas, usuários, mensagens reais, merge, produção ou Etapa 04.
+
 ## Entregue
 
 - Adicionar → Cliente / proprietário e Novo cliente em Atendimentos abrem o painel no próprio Meu Trabalho. Nome, WhatsApp e finalidade obrigatórios; observação opcional. Cadastro rápido grava clients, não gera lead.
@@ -43,17 +70,17 @@ Evidências sanitizadas em `tests/security/crm-quick-service-*.json`. Banco loca
 | --- | --- |
 | npm run lint | PASS, sem erros ou avisos na execução final. |
 | npm run typecheck | PASS. |
-| npm test | 112/112 PASS. |
-| npm run test:crm-local | 310/310 PASS, somente PGlite (285 anteriores + 25 novas verificações). |
+| npm test | 150/150 PASS após correção de telefone (112 anteriores + 38 regressões). |
+| npm run test:crm-local | 349/349 PASS, somente PGlite (310 anteriores + 39 verificações de telefone/paridade/RPC). |
 | Guard de staging | 5/5 PASS: staging verificado aceito; produção, outro projeto, chave não verificada e chave privilegiada bloqueados. |
-| Navegador Edge headless | 32/32 PASS, incluindo as 22 regressões da Etapa 02 e 10 cenários novos. |
+| Navegador Edge headless | 34/34 PASS: 32 anteriores + 2 cenários específicos de telefone. |
 | npm run build | PASS, Next.js 16.4.3, branch real com configuração pública verificada de staging e guard ativo. |
 | npm audit --omit=dev | Zero vulnerabilidades de runtime. |
 | Revisão de versionamento | Sem .env, dumps, backups, chaves privadas ou tokens literais detectados nos arquivos novos/alterados; fixtures fictícias, nenhuma linha comercial remota consultada. |
 
 Cobertura nova: cadastro/perfil/duplicatas, nenhuma criação de lead, histórico e erro por seção, WhatsApp sem envio/contato fictício, retorno com resposta perdida após commit e retry sem duplicar, visita, rascunho sem microfone, schema ausente sem sucesso fictício, revisão inicial congelada apesar de refresh de fundo e cancelamento de Escape protegendo o rascunho. Testes responsivos/teclado e capturas fictícias conferidas em 360/768/1440; suíte anterior inclui viewport equivalente a zoom 200%, não zoom nativo de dispositivo.
 
-Evidências: `crm-quick-service-local-results.json` (inclui hashes do SQL), `crm-quick-service-browser-20261104.json` e `crm-quick-service-guard-20261104.json`, em tests/security. Capturas ficam somente na pasta operacional local, fora do Git. A implantação real e seus testes autenticados permanecem **BLOCKED por escopo/autorização**, não por uma falha funcional comprovada. Não há preview da Etapa 03 autorizado/publicado.
+Evidências: `crm-quick-service-local-results.json` (inclui hash atualizado do SQL), `crm-quick-service-browser-20261104.json`, `crm-quick-service-guard-20261104.json` e `crm-quick-service-phone-staging-check-20261104.json`, em tests/security. Capturas ficam somente na pasta operacional local, fora do Git. A falha reproduzível da auditoria foi corrigida localmente; a aplicação continua **BLOQUEADA**, aguardando revisão e os quatro requisitos operacionais citados acima. Não há preview da Etapa 03 autorizado/publicado.
 
 Para repetir o navegador: usar `CRM_TEST_ENV_FILE` apontando apenas para a configuração pública de staging já verificada; `CRM_BROWSER_BRANCH=work/crm-broker-quick-service-20261104`, `CRM_QUICK_SERVICE_BROWSER=1`, `CRM_BROWSER_REPORT_PATH=tests/security/crm-quick-service-browser-20261104.json`, `CRM_BROWSER_ARTIFACT_NAME=quick-service-20261104`; executar `node tests/crm-broker-workspace-browser.mjs` após build local seguro. Para PGlite, definir `CRM_LOCAL_REPORT_PATH=tests/security/crm-quick-service-local-results.json`. Não imprimir nem versionar o arquivo de ambiente.
 

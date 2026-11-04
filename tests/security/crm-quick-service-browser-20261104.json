@@ -91,6 +91,14 @@
       "status": "PASS"
     },
     {
+      "name": "quick phone browser: explicit incomplete prefixes cannot reach save RPC",
+      "status": "PASS"
+    },
+    {
+      "name": "quick phone browser: DDD55 preserves canonical WhatsApp and duplicate aliases",
+      "status": "PASS"
+    },
+    {
       "name": "quick client: minimal create in hub, no lead and no PII in URL",
       "status": "PASS"
     },
@@ -131,5 +139,5 @@
       "status": "PASS"
     }
   ],
-  "artifacts": "C:\\Users\\GERENCIA\\AppData\\Local\\PrivilegeCRM-Operations\\quick-service-20261104"
+  "artifacts": "C:\\Users\\GERENCIA\\AppData\\Local\\PrivilegeCRM-Operations\\quick-service-phone-audit-20261104"
 }
