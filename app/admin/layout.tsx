@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { AdminGuard } from "@/components/admin/AdminGuard";
 import { WorkspaceProvider } from "@/components/crm/Workspace";
 import { CrmShell } from "@/components/crm/Shell";
@@ -14,9 +15,11 @@ export default function AdminLayout({
 }) {
   return (
     <AdminGuard>
+      <Suspense fallback={<p role="status">Carregando o espaço de trabalho…</p>}>
       <WorkspaceProvider>
         <CrmShell>{children}</CrmShell>
       </WorkspaceProvider>
+      </Suspense>
     </AdminGuard>
   );
 }

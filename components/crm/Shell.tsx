@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { Fragment, useState, type ReactNode } from "react";
 import {
   LayoutDashboard,
   Building2,
@@ -30,8 +30,10 @@ import {
 import { supabase } from "@/lib/supabase";
 import { initials, matches, dateTime } from "@/lib/crm/model";
 import { useWorkspace } from "./Workspace";
+import { workDestination } from "@/lib/crm/broker-workspace";
 import { Modal, Empty, Badge, Button } from "./UI";
 export const NAV = [
+  { href: "/admin/meu-trabalho", label: "Meu Trabalho", icon: CalendarDays },
   { href: "/admin", label: "Visão geral", icon: LayoutDashboard },
   { href: "/admin/leads", label: "Leads e pipeline", icon: Target },
   { href: "/admin/imoveis", label: "Imóveis", icon: Building2 },
@@ -49,6 +51,12 @@ export const NAV = [
   },
   { href: "/admin/automacoes", label: "Automações", icon: Zap },
   { href: "/admin/equipe", label: "Equipe e desempenho", icon: BarChart3 },
+];
+const NAV_GROUPS = [
+  { label: "Meu Trabalho", paths: ["/admin/meu-trabalho", "/admin/leads", "/admin/agenda"] },
+  { label: "Carteira", paths: ["/admin/imoveis", "/admin/contatos", "/admin/negocios"] },
+  { label: "Marketing", paths: ["/admin/marketing", "/admin/apresentacoes", "/admin/campanhas", "/admin/empreendimentos"] },
+  { label: "Gestão", paths: ["/admin", "/admin/analytics", "/admin/automacoes", "/admin/equipe"] },
 ];
 export function CrmShell({ children }: { children: ReactNode }) {
   const path = usePathname();
@@ -80,7 +88,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
             id: `p${p.id}`,
             name: p.title,
             type: p.property_code,
-            href: "/admin/imoveis",
+            href: workDestination("property", p.id),
           })),
         ...ctx.data.clients
           .filter((c) => matches(ctx.query, c.name, c.phone))
@@ -89,12 +97,12 @@ export function CrmShell({ children }: { children: ReactNode }) {
             id: `c${c.id}`,
             name: c.name,
             type: "Contato",
-            href: "/admin/contatos",
+            href: workDestination("contact", c.id),
           })),
       ]
     : [];
   return (
-    <div className={`crm-app ${collapsed ? "crm-collapsed" : ""}`}>
+    <div className={`crm-app ${collapsed ? "crm-collapsed" : ""} ${path === "/admin/meu-trabalho" ? "crm-my-work-route" : ""}`}>
       <button
         aria-label="Fechar menu"
         hidden={!mobile}
@@ -120,7 +128,9 @@ export function CrmShell({ children }: { children: ReactNode }) {
         </Link>
         <div className="crm-sidebar-caption">SEU ESPAÇO DE TRABALHO</div>
         <nav aria-label="Navegação CRM">
-          {NAV.filter(n=>n.href!=="/admin/analytics"||ctx.operations).map((n) => (
+          {NAV_GROUPS.map(group => <Fragment key={group.label}>
+          <p className="crm-nav-group">{group.label}</p>
+          {group.paths.map(href => NAV.find(n => n.href === href)!).filter(n=>n.href!=="/admin/analytics"||ctx.operations).map((n) => (
             <Link
               key={n.href}
               href={n.href}
@@ -137,6 +147,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
               {n.href === path && <i />}
             </Link>
           ))}
+          </Fragment>)}
         </nav>
         <div className="crm-sidebar-bottom">
           <div className="crm-sidebar-note">
@@ -185,8 +196,9 @@ export function CrmShell({ children }: { children: ReactNode }) {
             <label className="crm-global-search">
               <Search size={18} />
               <input
-                aria-label="Buscar leads, imóveis e contatos"
-                placeholder="Buscar no workspace..."
+                aria-label={path === "/admin/meu-trabalho" ? "Buscar nos registros desta aba" : "Buscar leads, imóveis e contatos"}
+                aria-describedby={path === "/admin/meu-trabalho" ? "work-search-scope" : undefined}
+                placeholder={path === "/admin/meu-trabalho" ? "Buscar nesta aba..." : "Buscar no workspace..."}
                 value={ctx.query}
                 onFocus={() => setSearchOpen(true)}
                 onChange={(e) => {
@@ -203,7 +215,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
                 </button>
               )}
             </label>
-            {searchOpen && ctx.query && (
+            {searchOpen && ctx.query && path !== "/admin/meu-trabalho" && (
               <div className="crm-search-results">
                 <div className="crm-panel-head">
                   <strong>Resultados</strong>
@@ -290,7 +302,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
               {ctx.errors.session}
             </div>
           )}
-          {children}
+          <Fragment key={`${ctx.userId}:${ctx.role}`}>{children}</Fragment>
           <footer className="crm-footer">
             <span>
               Privilege Imóveis <b>•</b> Onde o privilégio tem endereço.

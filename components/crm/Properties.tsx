@@ -2,7 +2,8 @@
 import Image from "next/image";
 import { eligibleProperty } from "@/lib/crm/marketing";
 import { ShareComposer } from "./ShareComposer";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useEntityIntent } from "./useEntityIntent";
 import {
   Building2,
   LayoutGrid,
@@ -75,13 +76,10 @@ export function Properties() {
   const [edit, setEdit] = useState<CrmProperty | null>(null);
   const [create, setCreate] = useState(false);
   const [selected, setSelected] = useState<CrmProperty | null>(null);
-  const openedFromLink = useRef(false);
-  useEffect(() => {
-    if (openedFromLink.current) return;
-    const id = Number(new URLSearchParams(window.location.search).get("imovel"));
-    const frame = requestAnimationFrame(() => { const property = ctx.data.properties.find(p => p.id === id); if (property) { openedFromLink.current = true; setSelected(property); } });
-    return () => cancelAnimationFrame(frame);
-  }, [ctx.data.properties]);
+  useEntityIntent({
+    "new:property": () => { setEdit(null); setCreate(true); return true; },
+    imovel: (id) => { const row = ctx.data.properties.find(p => p.id === id); if (!row) return false; setSelected(row); return true; },
+  });
   const [archive, setArchive] = useState<CrmProperty | null>(null);
   const properties = ctx.data.properties.filter(
     (p) =>

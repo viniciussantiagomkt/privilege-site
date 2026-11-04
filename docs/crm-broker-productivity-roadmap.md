@@ -2,7 +2,9 @@
 
 **Etapa 01: auditoria técnica e planejamento. Atualização: 03/11/2026, horário de Brasília.**
 **Destinatário desta etapa: ChatGPT Work.**
-**Estado: auditoria e planejamento entregues; Etapa 02 aguarda confirmação do usuário.**
+**Estado atual: Etapa 02 autorizada e implementada em desenvolvimento; aguarda revisão. Sem preview ou Etapa 03. Evidências na seção 15.**
+
+As seções de auditoria preservam o snapshot da Etapa 01; a seção 15 registra a execução posterior autorizada.
 
 ## 1. Escopo, evidências e limites desta auditoria
 
@@ -297,7 +299,7 @@ Complexidade relativa: **M** = alteração delimitada; **G** = vários fluxos e 
 
 ### Etapa 02 — Centralização da interface
 
-- **Estado:** planejada; requer confirmação.
+- **Estado:** implementada em desenvolvimento, aguardando revisão e homologação autenticada; detalhes na seção 15.
 - **Objetivo:** disponibilizar Meu Trabalho e reduzir navegação repetida.
 - **Funcionalidades:** estrutura F19; abas, painel lateral, ação Adicionar e navegação agrupada; só ações existentes e realmente disponíveis.
 - **Reuso:** AdminGuard, Workspace, Shell, Dashboard, UI, formulários/editores de Leads/Contacts/Agenda/Properties/Deals extraídos com cuidado.
@@ -570,3 +572,9 @@ O texto abaixo é uma instrução para execução **futura, somente depois da co
 - [Supabase changelog](https://supabase.com/changelog.md), consultado em 03/11/2026; índice inclui mudança de cifras TLS prevista para 10/11/2026. Verificar clientes antigos em testes de integração; nada foi atualizado nesta auditoria.
 - [MDN SpeechRecognition](https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition): disponibilidade limitada e possibilidade de processamento remoto.
 - [MDN instalação de aplicações web](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Installing): planejar matriz de dispositivos/navegadores, sem prometer o mesmo fluxo universal.
+
+## 15. Entrega da Etapa 02, 03/11/2026
+
+Autorizada pelo usuário, baseada no HEAD remoto `6d867c98fdae1abbfbf84b03cadc8dfe8999ad2f`, branch `work/crm-campaign-broker-workspace-20261103`. Primeiro commit desativa deploy automático. Novo Meu Trabalho com quatro abas, busca compartilhada de alcance explícito, painel acessível/mobile, Adicionar e reaproveitamento dos formulários, histórico e ações atuais. Rotas antigas/visão gerencial preservadas.
+
+Sem mudanças de banco, migrations, RLS, integrações, preview, main ou produção. Dados por aba, limite de 500 e limpeza de contexto privado mantidos. Etapa 03 não iniciada. Relatório, verificações e roteiro: [Etapa 02](crm-broker-workspace-20261103.md). Fixtures locais não substituem sessões legítimas no staging. Aguardar revisão e confirmação do usuário.

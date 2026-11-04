@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { writeFile } from "node:fs/promises";
 const branch=process.env.CRM_GUARD_BRANCH||"work/crm-campaign-attribution-20261029";
+const envFile=process.env.CRM_GUARD_ENV_FILE||".env.staging.local";
 const cases=[
  ["verified staging accepted",{},true],
  ["production environment blocked",{VERCEL_ENV:"production"},false],
@@ -12,7 +13,7 @@ const cases=[
 ];
 const results=cases.map(([name,extra,expected])=>{
  const env={...process.env,VERCEL_GIT_COMMIT_REF:branch,VERCEL_ENV:"preview",...extra};
- const out=spawnSync(process.execPath,["--env-file=.env.staging.local","--input-type=module","-e","await import('./next.config.ts')"],{env,encoding:"utf8"});
+ const out=spawnSync(process.execPath,[`--env-file=${envFile}`,"--input-type=module","-e","await import('./next.config.ts')"],{env,encoding:"utf8"});
  return {name,result:(out.status===0)===expected?"PASS":"FAIL"};
 });
 await writeFile(process.env.CRM_GUARD_REPORT_PATH||"tests/security/crm-campaign-agent-guard-20261029.json",JSON.stringify({branch,environment:"local configuration validation only",results},null,2)+"\n");

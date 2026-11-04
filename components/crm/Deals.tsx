@@ -1,6 +1,7 @@
 "use client";
 import { SaleReview } from "./SaleReview";
 import { useState } from "react";
+import { useEntityIntent } from "./useEntityIntent";
 import { Handshake, FileText, Wallet, TrendingUp } from "lucide-react";
 import { useWorkspace } from "./Workspace";
 import { supabase } from "@/lib/supabase";
@@ -35,6 +36,12 @@ export function Deals() {
     Proposal | Negotiation | Sale | null
   >(null);
   const [status, setStatus] = useState("");
+  useEntityIntent({
+    "new:proposal": () => { setSelected(null); setTab("proposals"); setForm("proposal"); return true; },
+    "new:negotiation": () => { setSelected(null); setTab("negotiations"); setForm("negotiation"); return true; },
+    proposal: (id) => { const row = ctx.data.proposals.find(p => p.id === id); if (!row) return false; setSelected(row); setTab("proposals"); setForm("proposal"); return true; },
+    negotiation: (id) => { const row = ctx.data.negotiations.find(n => n.id === id); if (!row) return false; setSelected(row); setTab("negotiations"); setForm("negotiation"); return true; },
+  });
   const proposals = ctx.data.proposals.filter(
     (p) =>
       matches(
