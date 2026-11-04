@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useEntityIntent } from "./useEntityIntent";
 import { Users, Phone, Mail, Building2 } from "lucide-react";
 import { useWorkspace } from "./Workspace";
 import { supabase } from "@/lib/supabase";
@@ -24,6 +25,10 @@ export function Contacts() {
   const [create, setCreate] = useState(false);
   const [detail, setDetail] = useState<Contact | null>(null);
   const [archive, setArchive] = useState<Contact | null>(null);
+  useEntityIntent({
+    "new:contact": () => { setEdit(null); setCreate(true); return true; },
+    contact: (id) => { const row = ctx.data.clients.find(c => c.id === id); if (!row) return false; setDetail(row); return true; },
+  });
   const contacts = ctx.data.clients.filter(
     (c) =>
       matches(ctx.query, c.name, c.phone, c.email) &&

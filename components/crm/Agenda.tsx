@@ -1,5 +1,8 @@
 "use client";
 import { useState } from "react";
+import { useEntityIntent } from "./useEntityIntent";
+import { TaskCompleteButton } from "./TaskCompleteButton";
+import { recordId } from "@/lib/crm/broker-workspace";
 import {
   CalendarDays,
   Check,
@@ -37,6 +40,18 @@ export function Agenda() {
   const [mode, setMode] = useState("");
   const [editing, setEditing] = useState<Task | Visit | null>(null);
   const [filter, setFilter] = useState("pending");
+  const [leadSeed, setLeadSeed] = useState<number | null>(null);
+  useEntityIntent({
+    "new:task": () => {
+      const raw = new URLSearchParams(ctx.routeSearch).get("lead");
+      const id = recordId(raw);
+      if (raw && (!id || !ctx.data.leads.some(l => l.id === id))) return false;
+      setLeadSeed(id); setEditing(null); setMode("task"); return true;
+    },
+    "new:visit": () => { setEditing(null); setMode("visit"); return true; },
+    task: (id) => { const row = ctx.data.tasks.find(t => t.id === id); if (!row) return false; setEditing(row); setMode("task"); return true; },
+    visit: (id) => { const row = ctx.data.visits.find(v => v.id === id); if (!row) return false; setEditing(row); setMode("visit"); return true; },
+  });
   const taskRows = ctx.data.tasks.filter(
     (t) =>
       matches(ctx.query, t.title, t.description) &&
@@ -94,7 +109,7 @@ export function Agenda() {
         {
           name: "lead_id",
           label: "Lead relacionado",
-          value: editing && "lead_id" in editing ? editing.lead_id : null,
+          value: editing && "lead_id" in editing ? editing.lead_id : leadSeed,
           options: ctx.data.leads.map((l) => ({ value: l.id, label: l.name })),
         },
         {
@@ -410,23 +425,7 @@ export function Agenda() {
                             </Badge>
                           </td>
                           <td>
-                            <Button
-                              secondary
-                              disabled={ctx.busy || t.status === "concluida"}
-                              onClick={() =>
-                                void ctx.run(() =>
-                                  supabase
-                                    .from("tasks")
-                                    .update({ status: "concluida" })
-                                    .eq("id", t.id)
-                                    .select("id")
-                                    .single(),
-                                )
-                              }
-                            >
-                              <Check size={14} />
-                              Concluir
-                            </Button>
+                            <TaskCompleteButton task={t} />
                           </td>
                         </tr>
                       ))

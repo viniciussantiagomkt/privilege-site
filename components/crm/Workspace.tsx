@@ -9,7 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import { supabase } from "@/lib/supabase";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { WORK_TABLES, workTab } from "@/lib/crm/broker-workspace";
 import { EMPTY_DATA, type WorkspaceData } from "@/lib/crm/model";
 interface Result {
   error: { message: string } | null;
@@ -36,6 +37,7 @@ interface Workspace {
   updatedAt: Date | null;
   realtimeStatus: string;
   unreadCount: number | null;
+  routeSearch: string;
 }
 const Context = createContext<Workspace | null>(null);
 export const useWorkspace = () => {
@@ -125,6 +127,10 @@ async function allRows(table: keyof WorkspaceData) {
 }
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const tab = pathname === "/admin/meu-trabalho" ? workTab(searchParams.get("aba")) : null;
+  const scope = tab ? `${pathname}:${tab}` : pathname;
+  const [loadedScope, setLoadedScope] = useState("");
   const [unreadCount, setUnreadCount] = useState<number | null>(null);
   const [data, setData] = useState<WorkspaceData>(EMPTY_DATA);
   const [loading, setLoading] = useState(true);
@@ -153,6 +159,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     setQuery("");
     setNotice(null);
     setUpdatedAt(null);
+    setLoadedScope("");
   }, []);
   const reload = useCallback(async () => {
     const gen = ++generation.current;
@@ -196,7 +203,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
       ...new Set<keyof WorkspaceData>([
         "brokers",
         "notifications",
-        ...(modules[pathname] || []),
+        ...(tab ? WORK_TABLES[tab] : modules[pathname] || []),
       ]),
     ];
     const [result, countResult] = await Promise.all([
@@ -233,7 +240,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     setLoading(false);
     setRefreshing(false);
     setUpdatedAt(new Date());
-  }, [clearIdentity, pathname]);
+    setLoadedScope(scope);
+  }, [clearIdentity, pathname, scope, tab]);
   useEffect(() => {
     mounted.current = true;
     queueMicrotask(() => {
@@ -348,8 +356,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   return (
     <Context.Provider
       value={{
-        data,
-        loading,
+        data: loadedScope === scope ? data : EMPTY_DATA,
+        loading: loading || (!errors.session && loadedScope !== scope),
         refreshing,
         errors,
         userId,
@@ -366,6 +374,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
         updatedAt,
         realtimeStatus,
         unreadCount,
+        routeSearch: searchParams.toString(),
       }}
     >
       {children}

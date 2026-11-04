@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useId, useRef, type ReactNode } from "react";
 import { X, Inbox, Plus, ArrowUpRight, LoaderCircle } from "lucide-react";
 import { useWorkspace } from "./Workspace";
 export function Empty({
@@ -182,33 +182,49 @@ export function Modal({
   children,
   onClose,
   wide = false,
+  side = false,
 }: {
   title: string;
   description?: string;
   children: ReactNode;
   onClose: () => void;
   wide?: boolean;
+  side?: boolean;
 }) {
   const { notice } = useWorkspace();
   const ref = useRef<HTMLDialogElement>(null);
+  const titleId = useId();
   useEffect(() => {
     const dialog = ref.current;
+    const trigger = document.activeElement;
     dialog?.showModal();
-    return () => dialog?.close();
+    return () => {
+      dialog?.close();
+      if (trigger instanceof HTMLElement && trigger.isConnected) trigger.focus();
+    };
   }, []);
   return (
     <dialog
       ref={ref}
-      className={`crm-dialog ${wide ? "wide" : ""}`}
+      className={`crm-dialog ${wide ? "wide" : ""} ${side ? "crm-context-drawer" : ""}`}
       onCancel={onClose}
+      onKeyDown={(event) => {
+        if (!side || event.key !== "Tab") return;
+        const targets = Array.from(event.currentTarget.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
+        )).filter((element) => element.getClientRects().length > 0);
+        const first = targets[0], last = targets.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      aria-labelledby="crm-dialog-title"
+      aria-labelledby={titleId}
     >
       <div className="crm-dialog-head">
         <div>
-          <h2 id="crm-dialog-title">{title}</h2>
+          <h2 id={titleId}>{title}</h2>
           {description && <p>{description}</p>}
         </div>
         <button

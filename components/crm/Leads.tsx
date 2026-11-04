@@ -1,14 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useEntityIntent } from "./useEntityIntent";
+import { LeadHistory } from "./LeadHistory";
+import { RecordContactButton } from "./RecordContactButton";
+import { ContactWhatsAppLink } from "./ContactWhatsAppLink";
 import {
   Columns3,
   List,
   Phone,
-  MessageCircle,
   ArrowUpRight,
   UserRound,
   CalendarPlus,
-  CheckCheck,
 } from "lucide-react";
 import { ATTRIBUTION_FIELDS, campaignLabel } from "@/lib/crm/campaigns";
 import { supabase } from "@/lib/supabase";
@@ -36,7 +38,6 @@ import {
   dateTime,
   initials,
   type Lead,
-  type Activity,
 } from "@/lib/crm/model";
 export function Leads() {
   const ctx = useWorkspace();
@@ -52,10 +53,10 @@ export function Leads() {
   const [create, setCreate] = useState(false);
   const [lost, setLost] = useState<Lead | null>(null);
   const [dragOver, setDragOver] = useState("");
-  useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("lead");
-    if (id) queueMicrotask(() => setSelected(Number(id)));
-  }, []);
+  useEntityIntent({
+    "new:lead": () => { setCreate(true); return true; },
+    lead: (id) => { if (!ctx.data.leads.some(l => l.id === id)) return false; setSelected(id); return true; },
+  });
   const filtered = ctx.data.leads.filter(
     (l) =>
       matches(ctx.query, l.name, l.phone, l.email, l.property_title) &&
@@ -416,32 +417,10 @@ function LeadDetail({
   onShare: () => void;
 }) {
   const ctx = useWorkspace();
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [historyError, setHistoryError] = useState("");
   const [note, setNote] = useState("");
   const [form, setForm] = useState("");
   const [edit, setEdit] = useState(false);
   const [transfer, setTransfer] = useState(false);
-  useEffect(() => {
-    let active = true;
-    async function load() {
-      const { data, error } = await supabase
-        .from("lead_activities")
-        .select("*")
-        .eq("lead_id", lead.id)
-        .order("created_at", { ascending: false });
-      if (!active) return;
-      if (error) { setHistoryError(error.message); setActivities([]); }
-      else {
-        setHistoryError("");
-        setActivities(data || []);
-      }
-    }
-    void load();
-    return () => {
-      active = false;
-    };
-  }, [lead.id, ctx.updatedAt]);
   const user = ctx.data.brokers.find((b) => b.id === lead.broker_id);
   const related = ctx.data.crm_contact_links.filter(
     (l) => l.lead_id === lead.id,
@@ -538,37 +517,14 @@ function LeadDetail({
         <Button secondary onClick={onShare}>
           Compartilhar apresentação
         </Button>
-        {phone && (
-          <a
-            className="crm-button"
-            href={`https://wa.me/${phone.startsWith("55") ? phone : "55" + phone}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <MessageCircle size={15} />
-            WhatsApp
-          </a>
-        )}
+        <ContactWhatsAppLink phone={lead.phone} />
         {lead.phone && (
           <a href={`tel:${phone}`} className="crm-button secondary">
             <Phone size={15} />
             Ligar
           </a>
         )}
-        <Button
-          secondary
-          disabled={ctx.busy}
-          onClick={() =>
-            void ctx.run(
-              () =>
-                supabase.rpc("crm_record_contact", { target_lead: lead.id }),
-              "Contato registrado.",
-            )
-          }
-        >
-          <CheckCheck size={15} />
-          {lead.first_contact_at ? "Registrar contato" : "Primeiro contato"}
-        </Button>
+        <RecordContactButton leadId={lead.id} />
         <Button
           secondary
           onClick={() => setForm(form === "return" ? "" : "return")}
@@ -722,25 +678,7 @@ function LeadDetail({
           Salvar
         </Button>
       </form>
-      {historyError ? (
-        <p role="alert" className="crm-alert">
-          {historyError}
-        </p>
-      ) : activities.length ? (
-        <div className="crm-timeline">
-          {activities.map((a) => (
-            <div key={a.id}>
-              <small>{dateTime(a.created_at)}</small>
-              <p>{a.description || a.type}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <Empty
-          title="O histórico começa com o contato"
-          description="Anotações e alterações do atendimento aparecerão aqui."
-        />
-      )}
+      <LeadHistory leadId={lead.id} />
     </Modal>
   );
 }
