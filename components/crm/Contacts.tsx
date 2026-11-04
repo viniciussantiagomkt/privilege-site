@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEntityIntent } from "./useEntityIntent";
 import { Users, Phone, Mail, Building2 } from "lucide-react";
 import { useWorkspace } from "./Workspace";
+import { clientFields } from "./ClientEditor";
 import { supabase } from "@/lib/supabase";
 import {
   PageHeading,
@@ -15,7 +16,6 @@ import {
   Button,
   text,
   optional,
-  type Field,
 } from "./UI";
 import { matches, initials, type Contact } from "@/lib/crm/model";
 export function Contacts() {
@@ -26,41 +26,24 @@ export function Contacts() {
   const [detail, setDetail] = useState<Contact | null>(null);
   const [archive, setArchive] = useState<Contact | null>(null);
   useEntityIntent({
-    "new:contact": () => { setEdit(null); setCreate(true); return true; },
-    contact: (id) => { const row = ctx.data.clients.find(c => c.id === id); if (!row) return false; setDetail(row); return true; },
+    "new:contact": () => {
+      setEdit(null);
+      setCreate(true);
+      return true;
+    },
+    contact: (id) => {
+      const row = ctx.data.clients.find((c) => c.id === id);
+      if (!row) return false;
+      setDetail(row);
+      return true;
+    },
   });
   const contacts = ctx.data.clients.filter(
     (c) =>
       matches(ctx.query, c.name, c.phone, c.email) &&
       (!kind || c.contact_type === kind || c.contact_type === "ambos"),
   );
-  const fields: Field[] = [
-    { name: "name", label: "Nome completo", required: true, value: edit?.name },
-    {
-      name: "contact_type",
-      label: "Tipo de contato",
-      required: true,
-      value: edit?.contact_type || "cliente",
-      options: [
-        { value: "cliente", label: "Cliente" },
-        { value: "proprietario", label: "Proprietário" },
-        { value: "ambos", label: "Cliente e proprietário" },
-      ],
-    },
-    {
-      name: "phone",
-      label: "Telefone / WhatsApp",
-      type: "tel",
-      value: edit?.phone,
-    },
-    { name: "email", label: "E-mail", type: "email", value: edit?.email },
-    {
-      name: "notes",
-      label: "Preferências e observações",
-      type: "textarea",
-      value: edit?.notes,
-    },
-  ];
+  const fields = clientFields(edit);
   const submit = (f: FormData) => {
     const payload = {
       name: text(f, "name"),
@@ -297,7 +280,9 @@ export function Contacts() {
                 if (
                   await ctx.run(
                     () =>
-                      supabase.rpc("crm_archive_client", { target_client: archive.id }),
+                      supabase.rpc("crm_archive_client", {
+                        target_client: archive.id,
+                      }),
                     "Contato arquivado.",
                   )
                 )

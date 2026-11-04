@@ -10,6 +10,8 @@ RPC de cadastro/edição rápida valida sessão comercial, dono, campos permitid
 
 Reutilizar crm_audit_change, sem expor before_data/after_data. RPC de timeline devolve somente resumos dos eventos relacionados ao cliente autorizado. Contato confirmado usa evento explícito idempotente no crm_event_log; abrir WhatsApp/copiar texto não gera contato realizado. Tarefas, visitas, propostas, negociações e apresentações mantêm seus registros atuais.
 
+Complemento anterior ao SQL de agenda: acrescentar `quick_action_id uuid UNIQUE` opcional em tasks e visits, sem backfill nem valor padrão. O editor compartilhado do painel usa o mesmo UUID por payload durante retries; INSERT com conflito ignorado e leitura autorizada confirmam a gravação sem atualizar outro compromisso. Escrita continua SECURITY INVOKER pela API com RLS existente. Registros e fluxos legados ficam com NULL. Testar reenvio, auditoria única e tentativa de usar a chave de outra carteira. Rollback de aplicação pode deixar essas colunas sem uso; não remover antes de revisar dependências e exportar evidências necessárias.
+
 ## Riscos e controles
 
 - JSON inválido/financeiro excessivo: allowlist de chaves, tipos, limites, valores decimais, faixas e texto; sem documentos, renda ou dados bancários.

@@ -36,6 +36,8 @@ export interface Lead extends BaseRow {
   lost_reason: string | null;
 }
 export interface Contact extends BaseRow {
+  interest_profile?: import("./quick-service").InterestProfile;
+  interest_revision?: number;
   name: string;
   phone: string | null;
   email: string | null;
