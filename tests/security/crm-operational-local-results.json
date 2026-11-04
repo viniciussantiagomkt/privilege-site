@@ -28,6 +28,18 @@
     {
       "name": "20261028180043_crm_optional_lead_reasons.sql",
       "sha256": "abfd8a328a802ad57ca2671b6abee992fc262abac03bbbf73d83388a071f9359"
+    },
+    {
+      "name": "20261029173752_crm_owner_draft_presentations.sql",
+      "sha256": "71d7e86a9953fd4362ac8b2755774bf56a1ac7bda0c3d2d81717ba3a6e2519d2"
+    },
+    {
+      "name": "20261029184222_crm_campaign_attribution.sql",
+      "sha256": "a0acf515abe9c3fa0e225edfdfb47e747ac44cb2f03e6dea5d4f507fe4b118b3"
+    },
+    {
+      "name": "20261030185925_crm_ad_reporting.sql",
+      "sha256": "849fb54d7379bf3c9c2f42a582e793fa11a56b9ccf4064e256ba54e84043dcaf"
     }
   ],
   "results": [
@@ -1042,10 +1054,138 @@
     {
       "name": "SQL regression suite crm-marketing-rls.sql",
       "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation rascunho: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation pendente: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation aprovado: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation publicado: hidden from anonymous listing, link allowed, other broker denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation: disable, expiry and ownership transfer invalidate capability",
+      "result": "APROVADO"
+    },
+    {
+      "name": "owner presentation: hidden property accepts only approved public team material; direct Storage stays private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: private metadata isolated from other broker and management",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: anonymous and direct writes are denied; no forged owner or scope",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: management edits institutional campaign without changing owner",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: institutional routing assigns lead and stores provenance for current broker only",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: retry returns same lead, one attribution, one assignment and one notification",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: destination becoming inactive falls back to institutional queue",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: personal campaign cannot route contacts to a different broker",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: attribution follows consented transfer; old campaign metadata does not",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: campaign names are snapshotted without rewriting prior attribution",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: forged provenance/routing and landing query strings rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: missing attribution is explicit; equal phones do not merge private portfolios",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: paused/draft/archived campaigns and invalid contacts reject capture",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: inactive recipient, unrelated property and unknown payload fields denied on save",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: private attribution and receipt cannot be modified directly",
+      "result": "APROVADO"
+    },
+    {
+      "name": "campaign: property reassignment is revalidated at capture time",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: personal/institutional visibility remains isolated across four profiles",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: browser roles cannot write reports, claim jobs or read private state",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: second claim skips active lease; atomic successful import observes due interval",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: repeat does not add spend; correction and omitted zero rows replace previous observations",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: invalid reports roll back the whole replacement without losing prior money",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: expired and superseded leases cannot overwrite a later run",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: transient errors back off; auth requires reconnect; successful history is retained",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: suspension is authorized, invalidates active lease and preserves history",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: incomplete coverage explicit; dates and cross-account/anonymous reports denied",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: institutional Google platform conversions remain distinct from CRM sales",
+      "result": "APROVADO"
+    },
+    {
+      "name": "ads: inactive owner loses access and cannot keep polling personal account",
+      "result": "APROVADO"
     }
   ],
   "summary": {
-    "passed": 253,
+    "passed": 285,
     "failed": 0
   }
 }

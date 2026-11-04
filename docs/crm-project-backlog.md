@@ -22,6 +22,8 @@ Esses aceites são funcionais e manuais. Não representam comparação independe
 
 ### Pendências para finalizar e testar
 
+Etapa 02 implementada somente em desenvolvimento na branch `work/crm-campaign-broker-workspace-20261103`, base remota `6d867c9`. Meu Trabalho reúne quatro abas, painel contextual, Adicionar e acesso aos editores existentes; nenhum módulo antigo removido. [Relatório da Etapa 02](crm-broker-workspace-20261103.md). P06 continua pendente além do limite atual; P10/P12 ganham cobertura com fixtures, não homologação real. Nenhuma pendência herdada abaixo foi encerrada. Sem preview, migration ou Etapa 03; aguardar revisão.
+
 | ID | Frente | O que falta | Estado / dependência |
 | --- | --- | --- | --- |
 | P01 | Lead, negociação e venda | Criar vínculo explícito e verificável, preservar origem e histórico, validar quem pode ler/alterar cada relação; não inferir venda por imóvel/corretor nem por status convertido. | Desenvolver e testar. |
