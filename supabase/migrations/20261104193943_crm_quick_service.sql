@@ -5,12 +5,16 @@ set local statement_timeout = '30s';
 
 create function public.crm_normalize_client_phone(value text) returns text
 language plpgsql immutable set search_path = '' as $$
-declare digits text;
+declare digits text; significant text; international_plus boolean; international_00 boolean;
 begin
- if value is null or length(value)>64 or value ~ '[a-zA-Z]' or (trim(value) like '+%' and trim(value) not like '+55%') then return null; end if;
- digits := regexp_replace(value,'[^0-9]','','g');
- if left(digits,2)='00' then digits:=substr(digits,3); end if;
- if length(digits) in (10,11) then digits:='55'||digits; end if;
+ if value is null or length(value)>64 or value ~ '[a-zA-Z]' then return null; end if;
+ significant:=regexp_replace(value,'[^0-9+]','','g');
+ international_plus:=left(significant,1)='+';
+ international_00:=left(significant,2)='00';
+ if strpos(significant,'+')>0 and significant !~ '^\+55[0-9]+$' then return null; end if;
+ -- Explicit country prefixes must never fall back to national-number inference.
+ digits:=case when international_plus then substr(significant,2) when international_00 then substr(significant,3) else significant end;
+ if not international_plus and not international_00 and length(digits) in (10,11) then digits:='55'||digits; end if;
  if digits !~ '^55[1-9][0-9][0-9]{8,9}$' then return null; end if;
  return digits;
 end $$;

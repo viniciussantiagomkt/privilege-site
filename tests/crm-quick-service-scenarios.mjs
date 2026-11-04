@@ -1,7 +1,26 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
+import { quickService } from "./helpers/load-quick-service.mjs";
+import { quickPhoneCases } from "./fixtures/crm-quick-phone-cases.mjs";
 
 export async function runQuickServiceScenarios({ db, actor, check, denied }) {
+  const normalized = await actor(
+    "a",
+    "select (v.n-1)::int as index, public.crm_normalize_client_phone(v.item->>'input') as phone from jsonb_array_elements($1::jsonb) with ordinality as v(item,n) order by v.n",
+    [JSON.stringify(quickPhoneCases)],
+  );
+  for (const [index, { name, input, expected }] of quickPhoneCases.entries())
+    await check(`quick phone SQL/TypeScript parity: ${name}`, async () => {
+      let typescript = null;
+      try {
+        typescript = quickService.normalizeClientPhone(input);
+      } catch {
+        /* Invalid input is rejected in TypeScript, NULL in SQL. */
+      }
+      assert.equal(normalized[index].phone, expected);
+      assert.equal(typescript, expected);
+      assert.equal(normalized[index].phone, typescript);
+    });
   await db.exec(
     "select setval(pg_get_serial_sequence('public.clients','id'),(select max(id) from public.clients))",
   );
@@ -23,6 +42,44 @@ export async function runQuickServiceScenarios({ db, actor, check, denied }) {
       key,
       JSON.stringify(p),
     ]);
+  await check(
+    "quick phone RPC: explicit incomplete prefixes rejected before insert",
+    async () => {
+      const before = (await db.query("select count(*)::int n from clients"))
+        .rows[0].n;
+      for (const phone of ["+55 (83) 9000-00", "0055 (83) 9000-00"])
+        await assert.rejects(
+          save("a", null, null, randomUUID(), { ...payload, phone }),
+          (e) => e.code === "22023",
+        );
+      assert.equal(
+        (await db.query("select count(*)::int n from clients")).rows[0].n,
+        before,
+      );
+    },
+  );
+  await check(
+    "quick phone RPC: DDD55 aliases remain valid and duplicate within own portfolio",
+    async () => {
+      await save("a", null, null, randomUUID(), {
+        ...payload,
+        phone: "(55) 90000-0000",
+      });
+      for (const phone of ["+55 (55) 90000-0000", "0055 (55) 90000-0000"])
+        await assert.rejects(
+          save("a", null, null, randomUUID(), { ...payload, phone }),
+          (e) => e.code === "23505",
+        );
+      assert.ok(
+        (
+          await save("b", null, null, randomUUID(), {
+            ...payload,
+            phone: "+55 (55) 90000-0000",
+          })
+        )[0].data.id,
+      );
+    },
+  );
   let client;
   await check(
     "quick service: create, normalize, receipt replay, no automatic lead",
@@ -330,9 +387,7 @@ export async function runQuickServiceScenarios({ db, actor, check, denied }) {
       const key = randomUUID(),
         p = { ...payload, phone: "83900000777" };
       const row = (await save("a", null, null, key, p))[0].data;
-      await actor("a", "select crm_archive_client($1)", [
-        row.id,
-      ]);
+      await actor("a", "select crm_archive_client($1)", [row.id]);
       await denied("a", "select crm_client_timeline($1,0)", [row.id]);
       await denied("a", "select crm_save_quick_client($1,0,$2,$3::jsonb)", [
         row.id,

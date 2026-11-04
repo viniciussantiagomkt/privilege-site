@@ -31,6 +31,90 @@ export async function runQuickServiceBrowser({
   await page.goto(`${origin}/admin/meu-trabalho?aba=atendimentos`);
   await ready(page, "Atendimentos");
   await check(
+    "quick phone browser: explicit incomplete prefixes cannot reach save RPC",
+    async () => {
+      await page
+        .getByRole("button", { name: "Novo cliente", exact: true })
+        .click();
+      await page
+        .getByLabel("Nome completo")
+        .fill("Telefone incompleto fictício");
+      await page.getByLabel("Tipo de interesse").selectOption("compra");
+      const count = state.tables.clients.length;
+      const writes = state.rpcCalls.filter(
+        (c) => c.name === "crm_save_quick_client",
+      ).length;
+      for (const phone of ["+55 (83) 9000-00", "0055 (83) 9000-00"]) {
+        await page.getByLabel("Telefone / WhatsApp").fill(phone);
+        await page
+          .getByRole("button", { name: "Salvar cliente", exact: true })
+          .click();
+        await page
+          .getByRole("dialog")
+          .getByText("Informe um WhatsApp brasileiro com DDD.", { exact: true })
+          .waitFor();
+        assert.equal(state.tables.clients.length, count);
+        assert.equal(
+          state.rpcCalls.filter((c) => c.name === "crm_save_quick_client")
+            .length,
+          writes,
+        );
+      }
+      page.once("dialog", (d) => d.accept());
+      await page.keyboard.press("Escape");
+    },
+  );
+  await check(
+    "quick phone browser: DDD55 preserves canonical WhatsApp and duplicate aliases",
+    async () => {
+      await page
+        .getByRole("button", { name: "Novo cliente", exact: true })
+        .click();
+      await page.getByLabel("Nome completo").fill("Cliente fictício DDD 55");
+      await page.getByLabel("Telefone / WhatsApp").fill("(55) 90000-0000");
+      await page.getByLabel("Tipo de interesse").selectOption("compra");
+      await page
+        .getByRole("button", { name: "Salvar cliente", exact: true })
+        .click();
+      await page
+        .getByRole("dialog", { name: "Cliente fictício DDD 55", exact: true })
+        .waitFor();
+      assert.equal(state.tables.clients.at(-1).phone, "5555900000000");
+      await page
+        .getByRole("button", { name: "Preparar WhatsApp", exact: true })
+        .click();
+      await page.getByLabel("Revisei o destinatário e a mensagem.").check();
+      const url = new URL(
+        await page
+          .getByRole("link", { name: "Abrir WhatsApp", exact: true })
+          .getAttribute("href"),
+      );
+      assert.equal(url.pathname, "/5555900000000");
+      assert.ok(
+        url.searchParams.get("text").includes("Cliente fictício DDD 55"),
+      );
+      await page.keyboard.press("Escape");
+      await page
+        .getByRole("button", { name: "Novo cliente", exact: true })
+        .click();
+      await page.getByLabel("Nome completo").fill("Duplicata fictícia DDD 55");
+      await page.getByLabel("Tipo de interesse").selectOption("compra");
+      const count = state.tables.clients.length;
+      for (const phone of ["+55 (55) 90000-0000", "0055 (55) 90000-0000"]) {
+        await page.getByLabel("Telefone / WhatsApp").fill(phone);
+        await page
+          .getByRole("button", { name: "Salvar cliente", exact: true })
+          .click();
+        await page
+          .getByText("Possível duplicidade na sua carteira.", { exact: false })
+          .waitFor();
+        assert.equal(state.tables.clients.length, count);
+      }
+      page.once("dialog", (d) => d.accept());
+      await page.keyboard.press("Escape");
+    },
+  );
+  await check(
     "quick client: minimal create in hub, no lead and no PII in URL",
     async () => {
       await page

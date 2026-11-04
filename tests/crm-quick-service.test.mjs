@@ -1,23 +1,36 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import Module from "node:module";
-import { fileURLToPath } from "node:url";
-import ts from "typescript";
-const file = fileURLToPath(
-  new URL("../lib/crm/quick-service.ts", import.meta.url),
-);
-const compiled = new Module(file);
-compiled._compile(
-  ts.transpileModule(fs.readFileSync(file, "utf8"), {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2022,
-    },
-  }).outputText,
-  file,
-);
-const q = compiled.exports;
+import { quickService as q } from "./helpers/load-quick-service.mjs";
+import { quickPhoneCases } from "./fixtures/crm-quick-phone-cases.mjs";
+
+for (const { name, input, expected } of quickPhoneCases)
+  test(`quick phone regression: ${name}`, () => {
+    if (expected === null) assert.throws(() => q.normalizeClientPhone(input));
+    else assert.equal(q.normalizeClientPhone(input), expected);
+  });
+test("DDD55 aliases detect duplicates and produce one canonical WhatsApp recipient", () => {
+  const rows = [{ id: 55, phone: "(55) 90000-0000", email: null }];
+  for (const phone of [
+    "(55) 90000-0000",
+    "+55 (55) 90000-0000",
+    "0055 (55) 90000-0000",
+  ]) {
+    assert.deepEqual(
+      q.possibleClientDuplicates(rows, { phone }).map((c) => c.id),
+      [55],
+    );
+    const url = new URL(
+      q.reviewedWhatsAppUrl(phone, "Mensagem fictícia de teste"),
+    );
+    assert.equal(url.pathname, "/5555900000000");
+    assert.equal(url.searchParams.get("text"), "Mensagem fictícia de teste");
+  }
+  for (const phone of ["+55 (83) 9000-00", "0055 (83) 9000-00"]) {
+    assert.throws(() => q.possibleClientDuplicates(rows, { phone }));
+    assert.throws(() => q.reviewedWhatsAppUrl(phone, "Teste"));
+  }
+});
 
 test("quick phone: normalization is length-aware, including DDD55, without accepting explicit foreign prefix", () => {
   for (const phone of [

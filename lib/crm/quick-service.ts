@@ -26,15 +26,21 @@ export const PURPOSES = {
   investimento: "Investimento",
 };
 export function normalizeClientPhone(value: string) {
-  if (
-    value.length > 64 ||
-    /[a-z]/i.test(value) ||
-    (value.trim().startsWith("+") && !value.trim().startsWith("+55"))
-  )
+  if (Array.from(value).length > 64 || /[a-z]/i.test(value))
     throw Error("Informe um WhatsApp brasileiro com DDD.");
-  let digits = value.replace(/\D/g, "");
-  if (digits.startsWith("00")) digits = digits.slice(2);
-  if (/^\d{10,11}$/.test(digits)) digits = "55" + digits;
+  const significant = value.replace(/[^0-9+]/g, "");
+  const internationalPlus = significant.startsWith("+");
+  const international00 = significant.startsWith("00");
+  if (significant.includes("+") && !/^\+55[0-9]+$/.test(significant))
+    throw Error("Informe um WhatsApp brasileiro com DDD.");
+  // Explicit country prefixes must never be retried as shorter national numbers.
+  let digits = internationalPlus
+    ? significant.slice(1)
+    : international00
+      ? significant.slice(2)
+      : significant;
+  if (!internationalPlus && !international00 && /^\d{10,11}$/.test(digits))
+    digits = "55" + digits;
   if (!/^55[1-9]\d\d{8,9}$/.test(digits))
     throw Error("Informe um WhatsApp brasileiro com DDD.");
   return digits;
