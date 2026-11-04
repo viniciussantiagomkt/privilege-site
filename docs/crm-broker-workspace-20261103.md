@@ -1,5 +1,7 @@
 # Etapa 02 | Meu Trabalho
 
+**Atualização de 04/11/2026:** o usuário confirmou homologação manual de 12/12 cenários, sem falhas relatadas, no PR #14 (`26d2c1a`). Isso não representa integração à produção nem homologação automática independente. A Etapa 03 foi autorizada apenas para desenvolvimento; ver [relatório de continuidade](crm-quick-service-20261104.md). O restante deste documento preserva o snapshot original da entrega da Etapa 02.
+
 Implementado somente em desenvolvimento, aguardando revisão. Sem preview, merge, alteração remota de banco ou início da Etapa 03.
 
 ## Base verificada

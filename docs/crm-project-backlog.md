@@ -1,6 +1,18 @@
 # Continuidade do Privilege CRM
 
-Atualizado em 03/11/2026.
+Atualizado em 04/11/2026.
+
+## Continuidade da Etapa 03, 04/11/2026
+
+- Etapa 02 / PR #14: **homologada manualmente pelo usuário, 12/12 cenários, nenhuma falha relatada**. Não integrada à main ou à produção. Não repetir esse aceite como se ainda estivesse pendente.
+- Etapa 03 autorizada somente para desenvolvimento na branch `work/crm-broker-quick-service-20261104`, baseada em `26d2c1a`. [Relatório](crm-quick-service-20261104.md), [plano SQL/rollback](crm-quick-service-migration-plan.md).
+- Cadastro rápido, perfil de interesse, atendimento contextual, modelos de WhatsApp e reutilização da agenda implementados localmente. Timeline privada sanitizada e retries idempotentes preparados. Sem lead automático, envio real, novo listener global ou mudança de carteiras.
+- **P14 — aplicação/homologação Etapa 03:** migration nova somente proposta/local. Falta autorização específica, backup/restore/preflight e aplicação única no staging, depois preview autorizado e testes reais A/B/gestor/admin. Testes de código, banco local e navegador com fixtures não fecham P10/P11/P12/P13.
+- **P15 — voz:** sem tecnologia local segura de transcrição validada. Revisão de rascunho digitado implementada; não há captura de áudio, reconhecimento funcional ou envio externo. Ativar transcrição requer decisão técnica e autorização próprias.
+- P01–P13 abaixo permanecem abertos nos limites descritos. Limite de 500 por lista continua; histórico do cliente tem paginação própria. P07 (coleta global no CRM) segue como risco herdado de produção, não resolvido por ausência de novos eventos neste módulo.
+- Etapa 04, matching, comissões, financiamento, PWA e integrações externas não iniciados. Aguardar confirmação do usuário antes de qualquer preview ou etapa seguinte.
+
+As seções abaixo preservam o histórico anterior, inclusive estados de publicação já superados pela confirmação acima.
 
 ## Quadro atual de continuidade, 03/11/2026
 
