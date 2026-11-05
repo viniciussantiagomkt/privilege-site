@@ -1,5 +1,7 @@
 # Etapa 03 | Clientes e Atendimento Rápido
 
+**Aplicação autorizada de 05/11/2026:** crm_quick_service executada uma única vez no staging, versão `20261105172215`, histórico 21 para 22, [postflight PASS](crm-quick-service-staging-application-20261105.md). SQL/hash preservados; arquivo apenas renomeado para a versão real. Sem preview ou produção; aguardar autorização de preview/homologação. Seções anteriores abaixo mantidas como histórico.
+
 **Atualização de 05/11/2026 — Etapa 03D:** divergência restrita a updated_at em um usuário, causa inconclusiva e sem diferença de acesso/identidade nas comparações. Backup renovado, duas restaurações novas, comparação estrutural e 19 grupos de ensaio local PASS. [Relatório 03D e critério de frescor](crm-quick-service-stage03d-20261105.md). APTO PARA AUTORIZAÇÃO específica, não autorização de SQL remoto. Código funcional/SQL preservados; homologação autenticada segue pendente.
 
 **Atualização de 05/11/2026 — Etapa 03C:** backup novo, restauração PostgreSQL 17, SQL exclusivamente local, 19 grupos de segurança/concorrência, desempenho e recuperação passaram. [Relatório 03C](crm-quick-service-stage03c-20261105.md). Recomendação local APTO para solicitar a próxima autorização, não autorização de aplicação remota. Homologação autenticada continua pendente; nenhum preview, SQL remoto ou produção alterados. As seções abaixo preservam a entrega e o bloqueio anteriores à execução da 03C.

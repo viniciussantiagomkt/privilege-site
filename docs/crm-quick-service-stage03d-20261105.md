@@ -1,5 +1,7 @@
 # Etapa 03D | Divergência Auth, backup renovado e ensaio isolado
 
+**Atualização posterior, com nova autorização explícita:** migration aplicada uma única vez somente no staging como `20261105172215_crm_quick_service.sql`, mesmo conteúdo/hash. [Aplicação e postflight PASS](crm-quick-service-staging-application-20261105.md). O restante deste documento preserva a avaliação anterior à autorização; não instrui reaplicação. Preview e homologação autenticada seguem pendentes.
+
 ## Decisão e escopo
 
 **APTO PARA AUTORIZAÇÃO específica de aplicação no staging, não autorizado a aplicar.** A divergência foi delimitada; não houve indício de mudança de acesso nas comparações realizadas. Novo ponto de recuperação foi produzido e restaurado. A causa exata do timestamp permanece inconclusiva e não foi convertida em comprovação de login legítimo.

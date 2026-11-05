@@ -47,7 +47,7 @@ assert.equal(
 );
 const migration = fs
   .readFileSync(
-    "supabase/migrations/20261104193943_crm_quick_service.sql",
+    "supabase/migrations/20261105172215_crm_quick_service.sql",
     "utf8",
   )
   .replace(/\r\n/g, "\n");
