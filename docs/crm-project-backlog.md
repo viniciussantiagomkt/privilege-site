@@ -1,5 +1,9 @@
 # Continuidade do Privilege CRM
 
+## Etapa 03D — 05/11/2026
+
+Investigação de leitura delimitou a divergência Auth a updated_at de um usuário, sem mudança comparada em credencial/identidade/papéis. Causa exata inconclusiva; nenhum indicador de acesso indevido encontrado no escopo. Novo backup consistente, duas restaurações novas, assinaturas estruturais e 19 grupos PostgreSQL independentes PASS. [Relatório 03D](crm-quick-service-stage03d-20261105.md). P14 continua condicionado a nova autorização explícita, preflight imediato, aplicação única e postflight; homologação autenticada permanece pendente. Sem SQL remoto, preview, merge, produção ou Etapa 04.
+
 ## Etapa 03C — 05/11/2026
 
 Backup atualizado e restauração independente comprovados, migration corrigida apenas em cópias locais PostgreSQL 17, 19 grupos reais de banco/concorrência PASS e 60 medições de timeline com até 300 mil eventos adicionais e relações sintéticas existentes. Recuperação em outro banco novo e preservação de perfil novo por update legado ensaiadas. [Relatório e limites](crm-quick-service-stage03c-20261105.md).

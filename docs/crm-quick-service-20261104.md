@@ -1,5 +1,7 @@
 # Etapa 03 | Clientes e Atendimento Rápido
 
+**Atualização de 05/11/2026 — Etapa 03D:** divergência restrita a updated_at em um usuário, causa inconclusiva e sem diferença de acesso/identidade nas comparações. Backup renovado, duas restaurações novas, comparação estrutural e 19 grupos de ensaio local PASS. [Relatório 03D e critério de frescor](crm-quick-service-stage03d-20261105.md). APTO PARA AUTORIZAÇÃO específica, não autorização de SQL remoto. Código funcional/SQL preservados; homologação autenticada segue pendente.
+
 **Atualização de 05/11/2026 — Etapa 03C:** backup novo, restauração PostgreSQL 17, SQL exclusivamente local, 19 grupos de segurança/concorrência, desempenho e recuperação passaram. [Relatório 03C](crm-quick-service-stage03c-20261105.md). Recomendação local APTO para solicitar a próxima autorização, não autorização de aplicação remota. Homologação autenticada continua pendente; nenhum preview, SQL remoto ou produção alterados. As seções abaixo preservam a entrega e o bloqueio anteriores à execução da 03C.
 
 ## Escopo e base
