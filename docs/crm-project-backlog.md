@@ -2,6 +2,8 @@
 
 ## Etapa 03D — 05/11/2026
 
+**Etapa 03E — correção de isolamento:** [política de build para mapas/vídeos/mídia](crm-quick-service-stage03e-isolation-20261105.md), validação de origens e regressões locais concluídas. P14 continua aguardando CI/revisão do novo HEAD, autorização específica de publicação e homologação autenticada. Nenhum deployment nesta correção.
+
 **Aplicação subsequente autorizada: PASS**, uma chamada crm_quick_service somente no staging, versão `20261105172215`, histórico 21 -> 22. Dados legados, RLS/grants/carteiras preservados e objetos exatos validados; Advisors com três avisos autenticados esperados e um índice novo ainda sem uso. [Postflight](crm-quick-service-staging-application-20261105.md). P14 passa a aguardar autorização de preview e homologação autenticada real, não nova reaplicação desta migration. Produção/merge/Etapa 04 continuam fora do escopo.
 
 Investigação de leitura delimitou a divergência Auth a updated_at de um usuário, sem mudança comparada em credencial/identidade/papéis. Causa exata inconclusiva; nenhum indicador de acesso indevido encontrado no escopo. Novo backup consistente, duas restaurações novas, assinaturas estruturais e 19 grupos PostgreSQL independentes PASS. [Relatório 03D](crm-quick-service-stage03d-20261105.md). P14 continua condicionado a nova autorização explícita, preflight imediato, aplicação única e postflight; homologação autenticada permanece pendente. Sem SQL remoto, preview, merge, produção ou Etapa 04.

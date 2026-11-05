@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
+import { previewMediaSource, previewMediaSourceAllowed } from "@/lib/preview-media";
 
 interface PropertyGalleryProps {
   images: string[];
@@ -15,7 +16,8 @@ const fallbackImage =
 export function PropertyGallery({ images, title }: PropertyGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const galleryImages = images.length ? images : [fallbackImage];
+  const permittedImages = images.filter(previewMediaSourceAllowed);
+  const galleryImages = permittedImages.length ? permittedImages : [previewMediaSource(fallbackImage)];
   const galleryLength = galleryImages.length;
   const activeImage = activeIndex !== null ? galleryImages[activeIndex] : null;
 

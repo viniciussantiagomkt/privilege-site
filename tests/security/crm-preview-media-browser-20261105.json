@@ -1,0 +1,64 @@
+{
+  "environment": "actual component SSR with fictitious data on loopback; no external requests permitted",
+  "preview": [
+    {
+      "page": "form",
+      "iframeElements": 0,
+      "videoElements": 0,
+      "externalRequestAttempts": 0,
+      "externalHosts": []
+    },
+    {
+      "page": "property",
+      "iframeElements": 0,
+      "videoElements": 0,
+      "externalRequestAttempts": 0,
+      "externalHosts": []
+    },
+    {
+      "page": "videos",
+      "iframeElements": 0,
+      "videoElements": 0,
+      "externalRequestAttempts": 0,
+      "externalHosts": []
+    }
+  ],
+  "productionControl": [
+    {
+      "page": "form",
+      "iframeElements": 1,
+      "videoElements": 0,
+      "externalRequestAttempts": 2,
+      "externalHosts": [
+        "images.unsplash.com",
+        "www.google.com"
+      ]
+    },
+    {
+      "page": "property",
+      "iframeElements": 3,
+      "videoElements": 1,
+      "externalRequestAttempts": 5,
+      "externalHosts": [
+        "images.unsplash.com",
+        "external.invalid",
+        "www.google.com",
+        "www.youtube.com",
+        "player.vimeo.com"
+      ]
+    },
+    {
+      "page": "videos",
+      "iframeElements": 2,
+      "videoElements": 1,
+      "externalRequestAttempts": 3,
+      "externalHosts": [
+        "external.invalid",
+        "player.vimeo.com",
+        "www.youtube.com"
+      ]
+    }
+  ],
+  "forbiddenRequestsAllowed": 0,
+  "result": "PASS"
+}

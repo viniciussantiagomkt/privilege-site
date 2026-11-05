@@ -8,16 +8,17 @@ import { FavoriteButton } from "./FavoriteButton";
 import { MinhaCasaMinhaVidaBadge } from "./MinhaCasaMinhaVidaBadge";
 import { getPropertyNumericPrice } from "@/lib/property-filters";
 import { Property } from "@/types/property";
+import { previewMediaSource } from "@/lib/preview-media";
 
 interface PropertyCardProps {
   property: Property;
 }
 
 export function PropertyCard({ property }: PropertyCardProps) {
-  const image =
+  const image = previewMediaSource(
     property.main_image_url ||
     property.images?.find(Boolean) ||
-    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85";
+    "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85");
 
   return (
     <motion.article

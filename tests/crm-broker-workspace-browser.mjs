@@ -748,6 +748,27 @@ try {
       await f.context.close();
     },
   );
+  if (process.env.CRM_MEDIA_ISOLATION_BROWSER === "1") {
+    await check("isolated media: hydrated property form keeps address fields and never calls Maps", async () => {
+      const f = await fixture();
+      f.state.tables.properties[0].images = ["https://external.invalid/fixture-thumbnail.jpg"];
+      const prohibited = [];
+      f.context.on("request", request => {
+        const url = new URL(request.url());
+        if (url.origin !== origin && url.hostname !== "sdpqphiooiuglywcmkxv.supabase.co") prohibited.push(url.hostname);
+      });
+      await f.page.goto(`${origin}/admin/imoveis`);
+      await f.page.getByRole("button", { name: "Cadastrar imóvel", exact: true }).first().click();
+      await f.page.getByText("Mapa indisponível neste ambiente de testes", { exact: true }).waitFor();
+      await f.page.getByPlaceholder("Rua Joao Suassuna, Campina Grande").fill("Endereço fictício de homologação");
+      await f.page.getByRole("button", { name: "Usar localização", exact: true }).click();
+      assert.equal(await f.page.getByPlaceholder("Endereço formatado").inputValue(), "Endereço fictício de homologação");
+      assert.equal(await f.page.locator("iframe").count(), 0);
+      assert.equal(await f.page.locator("input[readonly]").count(), 2);
+      assert.deepEqual(prohibited, []);
+      await f.context.close();
+    });
+  }
   if (process.env.CRM_QUICK_SERVICE_BROWSER === "1") {
     const { runQuickServiceBrowser } = await import(
       "./crm-quick-service-browser-scenarios.mjs"
@@ -756,8 +777,11 @@ try {
   }
 } finally {
   await browser?.close();
-  server.kill();
-  await once(server, "exit").catch(() => {});
+  if (server.exitCode === null && server.signalCode === null) {
+    const exited = once(server, "exit");
+    server.kill();
+    await exited.catch(() => {});
+  }
   await writeFile(
     process.env.CRM_BROWSER_REPORT_PATH ||
       "tests/security/crm-broker-workspace-browser-20261103.json",

@@ -1,0 +1,205 @@
+{
+  "phase": "03E",
+  "status": "BLOCKED",
+  "reason": "Authorized HEAD has unconditional Google Maps iframes; empty API key does not disable embed requests. No deployment attempted.",
+  "authorizedCommit": "9bd6d486fc05462c815ceca8055515d458b1f197",
+  "branch": "work/crm-broker-quick-service-20261104",
+  "pr": 15,
+  "github": {
+    "headMatched": true,
+    "draft": true,
+    "merged": false,
+    "ciRun": 42075048894,
+    "ci": "PASS"
+  },
+  "vercel": {
+    "project": "privilege-site",
+    "projectId": "prj_JBX4aUI5CFbEfyjSVDQYsAT2AzQF",
+    "teamId": "team_ztWg4IbkQZV5ffEmNfTiXwn2",
+    "framework": "nextjs",
+    "productionBranch": "main",
+    "automaticDeployDisabled": true,
+    "officialCliVersion": "65.11.0",
+    "officialCliAuthenticated": true,
+    "linkedRepoMatched": true
+  },
+  "inventory": {
+    "method": "official CLI API, complete response parsed in memory without values printed; team shared inventory checked",
+    "projectVariablesBefore": 129,
+    "projectVariablesAfter": 141,
+    "truncated": false,
+    "teamSharedVariables": 0,
+    "sharedPaginationNext": null,
+    "genericPreviewVariables": 6,
+    "branchVariablesBefore": 0,
+    "branchVariablesAfter": 12,
+    "precedence": "branch-specific Preview overrides generic Preview; other branches and production variables do not apply",
+    "privilegedEffectiveKeyNames": [],
+    "publicKeysSource": "official Supabase staging get_publishable_keys",
+    "publicKeysMatchApprovedProjectAndGuard": true,
+    "configurationCreated": true,
+    "otherBranchesOrProductionModified": false,
+    "variables": [
+      {
+        "key": "NEXT_PUBLIC_SUPABASE_URL",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "verified staging public value"
+      },
+      {
+        "key": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "verified staging public value"
+      },
+      {
+        "key": "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "verified staging public value"
+      },
+      {
+        "key": "NEXT_PUBLIC_GTM_ID",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "NEXT_PUBLIC_GA4_ID",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "NEXT_PUBLIC_META_PIXEL_ID",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "NEXT_PUBLIC_CLARITY_ID",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "LEAD_WEBHOOK_URL",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "LEAD_WEBHOOK_SECRET",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "GA4_PROPERTY_ID",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      },
+      {
+        "key": "GA4_SERVICE_ACCOUNT_JSON",
+        "target": [
+          "preview"
+        ],
+        "gitBranch": "work/crm-broker-quick-service-20261104",
+        "type": "encrypted",
+        "validated": true,
+        "state": "empty"
+      }
+    ]
+  },
+  "blockers": [
+    {
+      "file": "components/PropertyForm.tsx",
+      "line": 832,
+      "type": "unconditional Google Maps embed",
+      "apiKeyCanDisable": false
+    },
+    {
+      "file": "app/imoveis/[slug]/page.tsx",
+      "line": 377,
+      "type": "unconditional Google Maps embed",
+      "apiKeyCanDisable": false
+    }
+  ],
+  "deployment": {
+    "calls": 0,
+    "id": null,
+    "url": null,
+    "state": "NOT_CREATED",
+    "commitPublished": null
+  },
+  "publicVerification": "NOT_EXECUTED: no authorized preview created",
+  "authenticatedHomologation": "NOT_EXECUTED",
+  "bankWrites": 0,
+  "authUsersCreatedOrChanged": 0,
+  "migrationsApplied": 0,
+  "rlsChanged": false,
+  "messagesSent": 0,
+  "externalIntegrationsActivated": false,
+  "productionChanged": false,
+  "merged": false,
+  "nextStageStarted": false,
+  "sourceCodeChanged": false,
+  "headPreserved": true,
+  "pending": [
+    "Explicit authorization for minimal preview-only map embed gating and a revised HEAD; no code fix performed",
+    "Revalidate exact new HEAD and CI before any deployment authorization",
+    "Publish exactly one preview only after all preflight conditions pass",
+    "Run public technical checks and real authenticated fictitious-account homologation"
+  ]
+}

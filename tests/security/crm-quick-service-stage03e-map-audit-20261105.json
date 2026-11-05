@@ -1,0 +1,51 @@
+{
+  "phase": "03E_MAP_AUDIT",
+  "status": "BLOCKED",
+  "head": "9bd6d486fc05462c815ceca8055515d458b1f197",
+  "newFinding": {
+    "component": "components/VideoEmbed.tsx",
+    "iframeLine": 42,
+    "urlPassthroughLine": 25,
+    "caller": "app/imoveis/[slug]/page.tsx",
+    "callerLine": 295,
+    "externalIframeNotGatedByPreview": true,
+    "googleMapsUrlAcceptedAsVideo": true
+  },
+  "staticFixtureRender": {
+    "networkUsed": false,
+    "databaseUsed": false,
+    "actualPreviewTest": false,
+    "results": [
+      {
+        "fixture": "youtube",
+        "iframeRendered": true,
+        "lazyOnly": true
+      },
+      {
+        "fixture": "vimeo",
+        "iframeRendered": true,
+        "lazyOnly": true
+      },
+      {
+        "fixture": "google_maps_as_video",
+        "iframeRendered": true,
+        "lazyOnly": true
+      }
+    ]
+  },
+  "functionalCodeChanged": false,
+  "correctionImplemented": false,
+  "newCommit": null,
+  "newCi": null,
+  "existingCiRun": 42075048894,
+  "existingCiNotNewValidation": true,
+  "trackedOriginalFilesChanged": false,
+  "deploymentsCreated": 0,
+  "productionChanged": false,
+  "bankWrites": 0,
+  "usersCreated": 0,
+  "messagesSent": 0,
+  "externalIntegrationsActivated": false,
+  "nextStageStarted": false,
+  "pending": "Authorize Preview-only scope to cover VideoEmbed as well; then implement and test, present new HEAD, wait for deployment confirmation."
+}
