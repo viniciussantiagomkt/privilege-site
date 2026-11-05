@@ -1,5 +1,7 @@
 # Etapa 03 | Clientes e Atendimento Rápido
 
+**Atualização de 05/11/2026 — Etapa 03C:** backup novo, restauração PostgreSQL 17, SQL exclusivamente local, 19 grupos de segurança/concorrência, desempenho e recuperação passaram. [Relatório 03C](crm-quick-service-stage03c-20261105.md). Recomendação local APTO para solicitar a próxima autorização, não autorização de aplicação remota. Homologação autenticada continua pendente; nenhum preview, SQL remoto ou produção alterados. As seções abaixo preservam a entrega e o bloqueio anteriores à execução da 03C.
+
 ## Escopo e base
 
 Desenvolvimento autorizado, não publicado. Base do PR #14: `work/crm-campaign-broker-workspace-20261103`, HEAD `26d2c1aaff96257383b555031e3d733950de43a2`. PR #14 e #13 conferidos abertos, em rascunho e sem merge. Etapa 02 homologada manualmente pelo usuário: 12/12 cenários, nenhuma falha relatada; não equivale à integração em produção.

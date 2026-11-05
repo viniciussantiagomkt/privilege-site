@@ -1,5 +1,11 @@
 # Continuidade do Privilege CRM
 
+## Etapa 03C — 05/11/2026
+
+Backup atualizado e restauração independente comprovados, migration corrigida apenas em cópias locais PostgreSQL 17, 19 grupos reais de banco/concorrência PASS e 60 medições de timeline com até 300 mil eventos adicionais e relações sintéticas existentes. Recuperação em outro banco novo e preservação de perfil novo por update legado ensaiadas. [Relatório e limites](crm-quick-service-stage03c-20261105.md).
+
+Essas três pendências deixam de estar sem evidência LOCAL: restauração atualizada, concorrência entre conexões PostgreSQL independentes e avaliação da timeline no volume/fuso/hardware ensaiados. Homologação autenticada real segue pendente. P14 ainda exige revisão, autorização específica e preflight para qualquer migration/preview de staging. Não fechar P10/P11/P12/P13 ou declarar produção aprovada por estes testes. Nenhum SQL remoto, produção, merge ou Etapa 04 nesta fase.
+
 Atualizado em 04/11/2026.
 
 ## Continuidade da Etapa 03, 04/11/2026
