@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 import { createHash } from "node:crypto";
+import { resolvePreviewMediaPolicy } from "./lib/preview-media-build.mjs";
 
 // Fail before build-time data fetching if this review branch is accidentally deployed.
 const reviewBranch =
+  process.env.VERCEL_GIT_COMMIT_REF === "work/crm-broker-quick-service-20261104" ||
   process.env.VERCEL_GIT_COMMIT_REF?.startsWith("work/crm-campaign-") ||
   process.env.VERCEL_GIT_COMMIT_REF ===
     "work/crm-marketing-notifications-20261019" ||
@@ -31,6 +33,12 @@ if (reviewBranch) {
 }
 
 const nextConfig: NextConfig = {
+  env: {
+    PRIVILEGE_MEDIA_POLICY: resolvePreviewMediaPolicy({
+      VERCEL_ENV: process.env.VERCEL_ENV,
+      VERCEL_GIT_COMMIT_REF: process.env.VERCEL_GIT_COMMIT_REF,
+    }),
+  },
   images: {
     unoptimized: Boolean(reviewBranch),
     remotePatterns: [

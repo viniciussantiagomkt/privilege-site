@@ -28,6 +28,7 @@ import { TaskCompleteButton } from "./TaskCompleteButton";
 import { RecordContactButton } from "./RecordContactButton";
 import { LeadHistory } from "./LeadHistory";
 import { ContactWhatsAppLink } from "./ContactWhatsAppLink";
+import { ClientServiceDrawer } from "./ClientService";
 
 const ADD_ACTIONS: { kind: WorkKind; label: string }[] = [
   { kind: "contact", label: "Cliente / proprietário" },
@@ -52,6 +53,7 @@ function MyWork() {
     Partial<Record<WorkTab, { kind: WorkKind; id: number }>>
   >({});
   const [add, setAdd] = useState(false);
+  const [newClient, setNewClient] = useState(false);
   const errors = ["session", ...WORK_TABLES[tab]].filter((t) => ctx.errors[t]);
   const unavailable = ctx.loading || errors.length > 0;
   const records = unavailable ? [] : workRecords(tab, ctx.data, ctx.query);
@@ -111,16 +113,31 @@ function MyWork() {
                     }
                   }}
                 >
-                  {ADD_ACTIONS.map((a) => (
-                    <Link
-                      key={a.kind}
-                      href={workDestination(a.kind)}
-                      onClick={() => setAdd(false)}
-                    >
-                      {a.label}
-                      <ArrowUpRight size={14} />
-                    </Link>
-                  ))}
+                  {ADD_ACTIONS.map((a) =>
+                    a.kind === "contact" ? (
+                      <button
+                        key={a.kind}
+                        type="button"
+                        onClick={() => {
+                          setAdd(false);
+                          setNewClient(true);
+                          goTab("atendimentos");
+                        }}
+                      >
+                        Cliente / proprietário
+                        <Plus size={14} />
+                      </button>
+                    ) : (
+                      <Link
+                        key={a.kind}
+                        href={workDestination(a.kind)}
+                        onClick={() => setAdd(false)}
+                      >
+                        {a.label}
+                        <ArrowUpRight size={14} />
+                      </Link>
+                    ),
+                  )}
                 </div>
               )}
             </div>
@@ -167,6 +184,13 @@ function MyWork() {
               : WORK_TABS.find((t) => t.id === tab)?.label}
           </p>
           {!unavailable && <span>{records.length} registros encontrados</span>}
+          {tab === "atendimentos" &&
+            !unavailable &&
+            canAddWork(ctx.role, ctx.userId) && (
+              <Button secondary onClick={() => setNewClient(true)}>
+                Novo cliente
+              </Button>
+            )}
         </div>
         <p id="work-search-scope" className="crm-work-scope">
           Busca nos dados autorizados desta aba, até 500 registros por tabela.
@@ -260,7 +284,26 @@ function MyWork() {
           />
         )}
       </section>
-      {selected && (
+      {tab === "atendimentos" &&
+        !unavailable &&
+        (newClient || selected?.kind === "contact") && (
+          <ClientServiceDrawer
+            key={newClient ? "new" : selected!.id}
+            clientId={newClient ? undefined : selected!.id}
+            onClose={() => {
+              setNewClient(false);
+              close();
+            }}
+            onSelect={(id) => {
+              setNewClient(false);
+              setSelections((current) => ({
+                ...current,
+                atendimentos: { kind: "contact", id },
+              }));
+            }}
+          />
+        )}
+      {selected && selected.kind !== "contact" && !newClient && (
         <Modal
           side
           title={selected.title}
@@ -306,13 +349,6 @@ function MyWork() {
             {selected.kind === "lead" && (
               <ContactWhatsAppLink
                 phone={ctx.data.leads.find((l) => l.id === selected.id)?.phone}
-              />
-            )}
-            {selected.kind === "contact" && (
-              <ContactWhatsAppLink
-                phone={
-                  ctx.data.clients.find((c) => c.id === selected.id)?.phone
-                }
               />
             )}
             {selected.kind === "property" && (

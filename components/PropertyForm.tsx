@@ -25,6 +25,8 @@ import {
 import { supabase } from "@/lib/supabase";
 import { propertyCategories } from "@/lib/property-filters";
 import { Broker, Property } from "@/types/property";
+import { PropertyMap } from "@/components/PropertyMap";
+import { isIsolatedMediaPreview, previewMediaSource } from "@/lib/preview-media";
 
 type PropertyFormData = Omit<Property, "id"> & {
   id?: number;
@@ -306,10 +308,12 @@ export function PropertyForm({
   async function geocodeAddress() {
     if (!locationQuery.trim()) return;
 
-    if (!googleMapsKey) {
+    if (isIsolatedMediaPreview() || !googleMapsKey) {
       updateField("location", locationQuery);
       setMessage(
-        "Endereço salvo como texto. Configure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY para buscar coordenadas automaticamente."
+        isIsolatedMediaPreview()
+          ? "Endereço salvo como texto. Mapa indisponível neste ambiente de testes."
+          : "Endereço salvo como texto. Configure NEXT_PUBLIC_GOOGLE_MAPS_API_KEY para buscar coordenadas automaticamente."
       );
       return;
     }
@@ -827,16 +831,14 @@ export function PropertyForm({
         </div>
 
         <div className="mt-5 overflow-hidden rounded-[24px] border border-white/10 bg-black/20">
-          <iframe
+          <PropertyMap
             title="Preview do mapa"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(
+            query={
               form.latitude && form.longitude
                 ? `${form.latitude},${form.longitude}`
                 : form.location || locationQuery || "Campina Grande, PB"
-            )}&output=embed`}
-            width="100%"
-            height="300"
-            loading="lazy"
+            }
+            height={300}
           />
         </div>
       </section>
@@ -885,7 +887,7 @@ export function PropertyForm({
               >
                 <div className="relative h-40">
                   <NextImage
-                    src={privatePreviews[image] || image}
+                    src={previewMediaSource(privatePreviews[image] || image)}
                     unoptimized
                     alt=""
                     fill

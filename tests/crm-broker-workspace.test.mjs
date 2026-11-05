@@ -224,6 +224,7 @@ function render({
     "./RecordContactButton": {},
     "./LeadHistory": {},
     "./ContactWhatsAppLink": {},
+    "./ClientService": {},
   });
   return renderToStaticMarkup(createElement(BrokerWorkspace));
 }

@@ -1,0 +1,535 @@
+{
+  "phase": "03D_STAGING_APPLICATION",
+  "status": "PASS",
+  "scope": "one authorized migration in staging only",
+  "project": {
+    "name": "privilege-imoveis-staging",
+    "ref": "sdpqphiooiuglywcmkxv",
+    "postgres": "17.11"
+  },
+  "authorizedBaseCommit": "4021568bd2747af69747e77c95db39e6b986c162",
+  "branch": "work/crm-broker-quick-service-20261104",
+  "pr": 15,
+  "preflight": {
+    "result": "PASS",
+    "ciRun": 42071277001,
+    "headLocalRemotePrMatched": true,
+    "sqlSHA256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa",
+    "schemaSignaturesMatched": true,
+    "backupTablesCompared": 55,
+    "backupTableDifferences": 0,
+    "proposedObjectsAbsent": true,
+    "dependencies": {
+      "auth": true,
+      "ownership": true,
+      "commercial": true
+    },
+    "locksOnTargetTables": 0,
+    "blockedSessions": 0,
+    "invalidTargetConstraints": 0
+  },
+  "backup": {
+    "privateFolder": "staging-20261105-135850-b4a75284",
+    "completedUTC": "2026-11-05T16:59:43.7985517Z",
+    "bytes": 863257,
+    "sha256": "ff117eda66b14da33659a62ce4a2e5e897395a1b9c6e3ba249584da0f50b98ac",
+    "hashAndRolesManifestVerified": true,
+    "restoreReports": 2,
+    "restoreResult": "PASS",
+    "fullPlatformRecovery": false
+  },
+  "application": {
+    "mechanism": "official Supabase apply_migration MCP",
+    "calls": 1,
+    "project_id": "sdpqphiooiuglywcmkxv",
+    "name": "crm_quick_service",
+    "sqlReadDirectlyFromVerifiedFile": true,
+    "sqlSHA256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa",
+    "startedUTC": "2026-11-05 17:22:14 UTC",
+    "finishedUTC": "2026-11-05 17:22:17 UTC",
+    "response": {
+      "success": true
+    },
+    "retries": 0,
+    "extraRemoteSchemaWrites": 0
+  },
+  "history": {
+    "before": 21,
+    "after": 22,
+    "newEntries": [
+      {
+        "version": "20261105172215",
+        "name": "crm_quick_service"
+      }
+    ],
+    "previousEntriesAndContentsPreserved": true
+  },
+  "repositoryReconciliation": {
+    "previousFile": "supabase/migrations/20261104193943_crm_quick_service.sql",
+    "currentFile": "supabase/migrations/20261105172215_crm_quick_service.sql",
+    "operation": "rename only, unchanged SQL bytes, one file",
+    "runnerChange": "only migration filename reference"
+  },
+  "postflight": {
+    "result": "PASS",
+    "countsBefore": [
+      {
+        "kind": "constraint",
+        "count": 375
+      },
+      {
+        "kind": "function",
+        "count": 101
+      },
+      {
+        "kind": "grant",
+        "count": 1956
+      },
+      {
+        "kind": "policy",
+        "count": 130
+      },
+      {
+        "kind": "table",
+        "count": 88
+      },
+      {
+        "kind": "trigger",
+        "count": 49
+      }
+    ],
+    "countsAfter": [
+      {
+        "kind": "constraint",
+        "count": 379
+      },
+      {
+        "kind": "function",
+        "count": 107
+      },
+      {
+        "kind": "grant",
+        "count": 1956
+      },
+      {
+        "kind": "policy",
+        "count": 130
+      },
+      {
+        "kind": "table",
+        "count": 88
+      },
+      {
+        "kind": "trigger",
+        "count": 50
+      }
+    ],
+    "additions": {
+      "columns": [
+        {
+          "type": "jsonb",
+          "table": "clients",
+          "column": "interest_profile",
+          "default": "'{}'::jsonb",
+          "nullable": "NO"
+        },
+        {
+          "type": "int8",
+          "table": "clients",
+          "column": "interest_revision",
+          "default": "0",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "table": "tasks",
+          "column": "quick_action_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "table": "visits",
+          "column": "quick_action_id",
+          "default": null,
+          "nullable": "YES"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "crm_client_phone_lookup",
+          "ready": true,
+          "valid": true,
+          "schema": "public",
+          "definition": "CREATE INDEX crm_client_phone_lookup ON public.clients USING btree (broker_id, crm_normalize_client_phone(phone)) WHERE (deleted_at IS NULL)"
+        },
+        {
+          "name": "tasks_quick_action_id_key",
+          "ready": true,
+          "valid": true,
+          "schema": "public",
+          "definition": "CREATE UNIQUE INDEX tasks_quick_action_id_key ON public.tasks USING btree (quick_action_id)"
+        },
+        {
+          "name": "visits_quick_action_id_key",
+          "ready": true,
+          "valid": true,
+          "schema": "public",
+          "definition": "CREATE UNIQUE INDEX visits_quick_action_id_key ON public.visits USING btree (quick_action_id)"
+        }
+      ],
+      "constraints": [
+        {
+          "name": "clients_interest_revision_check",
+          "table": "clients",
+          "schema": "public",
+          "validated": true,
+          "definition": "CHECK ((interest_revision >= 0))"
+        },
+        {
+          "name": "crm_client_interest_valid",
+          "table": "clients",
+          "schema": "public",
+          "validated": true,
+          "definition": "CHECK (crm_valid_client_interest(interest_profile))"
+        },
+        {
+          "name": "tasks_quick_action_id_key",
+          "table": "tasks",
+          "schema": "public",
+          "validated": true,
+          "definition": "UNIQUE (quick_action_id)"
+        },
+        {
+          "name": "visits_quick_action_id_key",
+          "table": "visits",
+          "schema": "public",
+          "validated": true,
+          "definition": "UNIQUE (quick_action_id)"
+        }
+      ],
+      "triggers": [
+        {
+          "name": "crm_client_interest_revision",
+          "table": "clients",
+          "schema": "public",
+          "enabled": "O",
+          "definition": "CREATE TRIGGER crm_client_interest_revision BEFORE INSERT OR UPDATE ON public.clients FOR EACH ROW EXECUTE FUNCTION crm_private.client_interest_revision()"
+        }
+      ],
+      "functions": [
+        {
+          "schema": "crm_private",
+          "name": "client_interest_revision",
+          "args": "",
+          "owner": "postgres",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false
+        },
+        {
+          "schema": "public",
+          "name": "crm_client_timeline",
+          "args": "target_client bigint, page_number integer",
+          "owner": "postgres",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true
+        },
+        {
+          "schema": "public",
+          "name": "crm_normalize_client_phone",
+          "args": "value text",
+          "owner": "postgres",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false
+        },
+        {
+          "schema": "public",
+          "name": "crm_record_client_contact",
+          "args": "target_client bigint, action_id uuid",
+          "owner": "postgres",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true
+        },
+        {
+          "schema": "public",
+          "name": "crm_save_quick_client",
+          "args": "target_client bigint, expected_revision bigint, action_id uuid, payload jsonb",
+          "owner": "postgres",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": true
+        },
+        {
+          "schema": "public",
+          "name": "crm_valid_client_interest",
+          "args": "p jsonb",
+          "owner": "postgres",
+          "config": [
+            "search_path=\"\""
+          ],
+          "definer": false
+        }
+      ]
+    },
+    "previousObjectsPreserved": {
+      "columns": true,
+      "indexes": true,
+      "constraints": true,
+      "functions": true,
+      "triggers": true,
+      "roles": true
+    },
+    "newTables": 0,
+    "indexesValidAndReady": true,
+    "constraintsValidated": true,
+    "legacyDataTablesCompared": 55,
+    "unexpectedDataDifferencesExcludingAuthorizedColumnsAndNewHistoryRow": 0,
+    "expectedColumnDefaults": {
+      "unexpected_client_defaults": 0,
+      "unexpected_task_keys": 0,
+      "unexpected_visit_keys": 0
+    },
+    "functionDefinitionsMatchLocalRehearsal": true,
+    "rpcPermissions": [
+      {
+        "schema": "crm_private",
+        "name": "client_interest_revision",
+        "security_definer": false,
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "public_execute": false,
+        "authenticated_execute": false,
+        "session_guard": false,
+        "commercial_guard": false,
+        "ownership_guard": false,
+        "direct_owner_guard": false
+      },
+      {
+        "schema": "public",
+        "name": "crm_client_timeline",
+        "security_definer": true,
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "public_execute": false,
+        "authenticated_execute": true,
+        "session_guard": true,
+        "commercial_guard": true,
+        "ownership_guard": true,
+        "direct_owner_guard": true
+      },
+      {
+        "schema": "public",
+        "name": "crm_normalize_client_phone",
+        "security_definer": false,
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "public_execute": false,
+        "authenticated_execute": true,
+        "session_guard": false,
+        "commercial_guard": false,
+        "ownership_guard": false,
+        "direct_owner_guard": false
+      },
+      {
+        "schema": "public",
+        "name": "crm_record_client_contact",
+        "security_definer": true,
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "public_execute": false,
+        "authenticated_execute": true,
+        "session_guard": true,
+        "commercial_guard": true,
+        "ownership_guard": true,
+        "direct_owner_guard": false
+      },
+      {
+        "schema": "public",
+        "name": "crm_save_quick_client",
+        "security_definer": true,
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "public_execute": false,
+        "authenticated_execute": true,
+        "session_guard": true,
+        "commercial_guard": true,
+        "ownership_guard": true,
+        "direct_owner_guard": true
+      },
+      {
+        "schema": "public",
+        "name": "crm_valid_client_interest",
+        "security_definer": false,
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "anon_execute": false,
+        "public_execute": false,
+        "authenticated_execute": true,
+        "session_guard": false,
+        "commercial_guard": false,
+        "ownership_guard": false,
+        "direct_owner_guard": false
+      }
+    ],
+    "rlsPoliciesUnchanged": true,
+    "tableGrantsUnchanged": true,
+    "priorFunctionAclUnchanged": true,
+    "portfolioDataUnchanged": true
+  },
+  "advisors": {
+    "beforeSecurity": [
+      {
+        "name": "rls_enabled_no_policy",
+        "level": "INFO",
+        "count": 3
+      },
+      {
+        "name": "anon_security_definer_function_executable",
+        "level": "WARN",
+        "count": 16
+      },
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "level": "WARN",
+        "count": 37
+      },
+      {
+        "name": "auth_leaked_password_protection",
+        "level": "WARN",
+        "count": 1
+      }
+    ],
+    "beforePerformance": [
+      {
+        "name": "unindexed_foreign_keys",
+        "level": "INFO",
+        "count": 46
+      },
+      {
+        "name": "auth_rls_initplan",
+        "level": "WARN",
+        "count": 70
+      },
+      {
+        "name": "unused_index",
+        "level": "INFO",
+        "count": 24
+      },
+      {
+        "name": "multiple_permissive_policies",
+        "level": "WARN",
+        "count": 23
+      },
+      {
+        "name": "duplicate_index",
+        "level": "WARN",
+        "count": 1
+      }
+    ],
+    "securityChanges": [
+      {
+        "name": "authenticated_security_definer_function_executable",
+        "level": "WARN",
+        "before": 37,
+        "after": 40,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+        "newFindings": [
+          {
+            "detail": "Function `public.crm_client_timeline(target_client bigint, page_number integer)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_client_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_client_timeline",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_client bigint, page_number integer",
+              "security_definer": true
+            }
+          },
+          {
+            "detail": "Function `public.crm_record_client_contact(target_client bigint, action_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_record_client_contact`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_record_client_contact",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_client bigint, action_id uuid",
+              "security_definer": true
+            }
+          },
+          {
+            "detail": "Function `public.crm_save_quick_client(target_client bigint, expected_revision bigint, action_id uuid, payload jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_save_quick_client`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+            "metadata": {
+              "name": "crm_save_quick_client",
+              "schema": "public",
+              "language": "plpgsql",
+              "arguments": "target_client bigint, expected_revision bigint, action_id uuid, payload jsonb",
+              "security_definer": true
+            }
+          }
+        ],
+        "resolvedFindings": []
+      }
+    ],
+    "performanceChanges": [
+      {
+        "name": "unused_index",
+        "level": "INFO",
+        "before": 24,
+        "after": 25,
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+        "newFindings": [
+          {
+            "detail": "Index \\`crm_client_phone_lookup\\` on table \\`public.clients\\` has not been used",
+            "metadata": {
+              "name": "clients",
+              "type": "table",
+              "schema": "public"
+            }
+          }
+        ],
+        "resolvedFindings": []
+      }
+    ],
+    "assessment": "Three intended authenticated SECURITY DEFINER RPC advisories; anon/public EXECUTE denied, internal guards and reviewed definitions intact. One unused new phone index INFO. Other baseline findings unchanged."
+  },
+  "remoteAuthUsersChanged": false,
+  "remoteBusinessRecordsCreatedOrEdited": false,
+  "productionAccessed": false,
+  "previewPublished": false,
+  "messagesSent": false,
+  "externalIntegrationsActivated": false,
+  "merged": false,
+  "nextStageStarted": false,
+  "authenticatedHomologation": "NOT_EXECUTED",
+  "pending": [
+    "Explicit preview authorization",
+    "Revalidate branch-specific staging-only Vercel variables and disabled external destinations",
+    "One controlled preview and technical checks only after authorization",
+    "Real authenticated broker A/B/manager/admin homologation",
+    "Continue tracking inherited Advisors and production-scale performance/recovery limitations"
+  ]
+}

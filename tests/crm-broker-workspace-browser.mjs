@@ -14,6 +14,7 @@ if (!process.env.CRM_TEST_ENV_FILE)
   );
 process.loadEnvFile(process.env.CRM_TEST_ENV_FILE);
 process.env.VERCEL_GIT_COMMIT_REF =
+  process.env.CRM_BROWSER_BRANCH ||
   "work/crm-campaign-broker-workspace-20261103";
 const socket = net.createServer();
 socket.listen(0, "127.0.0.1");
@@ -38,7 +39,7 @@ let browser;
 const artifacts = path.join(
   process.env.LOCALAPPDATA || process.cwd(),
   "PrivilegeCRM-Operations",
-  "broker-workspace-20261103",
+  process.env.CRM_BROWSER_ARTIFACT_NAME || "broker-workspace-20261103",
 );
 const fixtureId = "11111111-1111-4111-8111-111111111111";
 const user = {
@@ -158,9 +159,32 @@ async function fixture(role = "broker", options = {}) {
     calls: [],
     writes: [],
     errors: [],
+    rpcCalls: [],
+    receipts: new Map(),
+    history: [],
+    quickError: "",
   };
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
+  });
+  await context.addInitScript(() => {
+    window.__fixtureVoiceRequests = 0;
+    for (const name of ["SpeechRecognition", "webkitSpeechRecognition"])
+      Object.defineProperty(window, name, {
+        configurable: true,
+        value: function () {
+          window.__fixtureVoiceRequests++;
+          throw Error("Voice calls are forbidden in isolated fixtures");
+        },
+      });
+    if (navigator.mediaDevices)
+      Object.defineProperty(navigator.mediaDevices, "getUserMedia", {
+        configurable: true,
+        value: async () => {
+          window.__fixtureVoiceRequests++;
+          throw Error("Microphone calls are forbidden in isolated fixtures");
+        },
+      });
   });
   if (!options.anonymous)
     await context.addInitScript(
@@ -190,6 +214,68 @@ async function fixture(role = "broker", options = {}) {
       const name = url.pathname.split("/").at(-1);
       if (name === "current_user_role") return respond(state.role);
       if (name === "crm_unread_notification_count") return respond(0);
+      const args = request.postDataJSON();
+      state.rpcCalls.push({ name, args });
+      if (
+        options.quick &&
+        [
+          "crm_save_quick_client",
+          "crm_client_timeline",
+          "crm_record_client_contact",
+        ].includes(name)
+      ) {
+        if (state.quickError)
+          return respond(
+            { code: state.quickError, message: "Synthetic fixture failure" },
+            400,
+          );
+        if (name === "crm_client_timeline")
+          return respond(
+            state.history.slice(
+              (args.page_number || 0) * 50,
+              (args.page_number || 0) * 50 + 51,
+            ),
+          );
+        if (name === "crm_save_quick_client") {
+          if (state.receipts.has(args.action_id))
+            return respond(state.receipts.get(args.action_id));
+          let row = state.tables.clients.find(
+            (c) => c.id === args.target_client,
+          );
+          if (row && row.interest_revision !== args.expected_revision)
+            return respond({ code: "40001" }, 400);
+          if (!row) {
+            row = {
+              id: Math.max(0, ...state.tables.clients.map((c) => c.id)) + 1,
+              broker_id: state.user.id,
+              interest_revision: 0,
+            };
+            state.tables.clients.push(row);
+          } else row.interest_revision++;
+          Object.assign(row, args.payload);
+          const result = { id: row.id, revision: row.interest_revision };
+          state.receipts.set(args.action_id, result);
+          state.history.unshift({
+            id: `audit:${state.history.length}`,
+            created_at: new Date().toISOString(),
+            description: args.target_client
+              ? "Perfil de interesse atualizado"
+              : "Cliente cadastrado",
+          });
+          state.writes.push(name);
+          return respond(result);
+        }
+        if (!state.receipts.has(args.action_id)) {
+          state.history.unshift({
+            id: `contact:${args.action_id}`,
+            created_at: new Date().toISOString(),
+            description: "Contato registrado pelo corretor",
+          });
+          state.receipts.set(args.action_id, true);
+          state.writes.push(name);
+        }
+        return respond(true);
+      }
       state.writes.push(name);
       return respond(null);
     }
@@ -212,7 +298,50 @@ async function fixture(role = "broker", options = {}) {
         );
         return respond({ id });
       }
-      return respond(state.tables[name] || []);
+      if (request.method() === "POST") {
+        state.writes.push(name);
+        const payload = request.postDataJSON();
+        const duplicate =
+          payload.quick_action_id &&
+          (state.tables[name] || []).find(
+            (r) => r.quick_action_id === payload.quick_action_id,
+          );
+        if (duplicate) return respond(null);
+        const row = {
+          ...payload,
+          id: Math.max(0, ...(state.tables[name] || []).map((r) => r.id)) + 1,
+          status:
+            payload.status || (name === "tasks" ? "pendente" : "agendada"),
+          created_at: new Date().toISOString(),
+        };
+        state.tables[name] ??= [];
+        state.tables[name].push(row);
+        if (state.failAfterInsert) {
+          state.failAfterInsert = false;
+          return respond(
+            {
+              code: "fixture-lost-response",
+              message: "Synthetic lost response after commit",
+            },
+            500,
+          );
+        }
+        return respond({ id: row.id });
+      }
+      let rows = state.tables[name] || [];
+      for (const [key, value] of url.searchParams) {
+        if (value.startsWith("eq."))
+          rows = rows.filter((r) => String(r[key]) === value.slice(3));
+        else if (value.startsWith("in.("))
+          rows = rows.filter((r) =>
+            value.slice(4, -1).split(",").includes(String(r[key])),
+          );
+      }
+      return respond(
+        request.headers()["accept"]?.includes("vnd.pgrst.object")
+          ? rows[0] || null
+          : rows,
+      );
     }
     return respond({});
   });
@@ -225,6 +354,14 @@ async function check(name, action) {
     await action();
     results.push({ name, status: "PASS" });
   } catch (error) {
+    const pages = browser?.contexts().flatMap((c) => c.pages()) || [];
+    await pages
+      .at(-1)
+      ?.screenshot({
+        path: path.join(artifacts, "last-failure.png"),
+        fullPage: true,
+      })
+      .catch(() => {});
     results.push({
       name,
       status: "FAIL",
@@ -343,16 +480,17 @@ try {
     },
   );
   await check(
-    "new action opens existing contact editor, back preserves tab URL",
+    "new action opens quick client in hub; specialized contact editor remains available",
     async () => {
       await page.getByRole("button", { name: "Adicionar" }).click();
       await page
-        .getByRole("link", { name: "Cliente / proprietário", exact: true })
+        .getByRole("button", { name: "Cliente / proprietário", exact: true })
         .click();
       await page.getByRole("dialog").waitFor();
-      assert.equal(new URL(page.url()).pathname, "/admin/contatos");
+      assert.equal(new URL(page.url()).pathname, "/admin/meu-trabalho");
       assert.ok(await page.getByLabel("Nome completo").isVisible());
-      await page.goBack();
+      await page.keyboard.press("Escape");
+      await page.goto(`${origin}/admin/meu-trabalho`);
       await ready(page);
     },
   );
@@ -610,12 +748,43 @@ try {
       await f.context.close();
     },
   );
+  if (process.env.CRM_MEDIA_ISOLATION_BROWSER === "1") {
+    await check("isolated media: hydrated property form keeps address fields and never calls Maps", async () => {
+      const f = await fixture();
+      f.state.tables.properties[0].images = ["https://external.invalid/fixture-thumbnail.jpg"];
+      const prohibited = [];
+      f.context.on("request", request => {
+        const url = new URL(request.url());
+        if (url.origin !== origin && url.hostname !== "sdpqphiooiuglywcmkxv.supabase.co") prohibited.push(url.hostname);
+      });
+      await f.page.goto(`${origin}/admin/imoveis`);
+      await f.page.getByRole("button", { name: "Cadastrar imóvel", exact: true }).first().click();
+      await f.page.getByText("Mapa indisponível neste ambiente de testes", { exact: true }).waitFor();
+      await f.page.getByPlaceholder("Rua Joao Suassuna, Campina Grande").fill("Endereço fictício de homologação");
+      await f.page.getByRole("button", { name: "Usar localização", exact: true }).click();
+      assert.equal(await f.page.getByPlaceholder("Endereço formatado").inputValue(), "Endereço fictício de homologação");
+      assert.equal(await f.page.locator("iframe").count(), 0);
+      assert.equal(await f.page.locator("input[readonly]").count(), 2);
+      assert.deepEqual(prohibited, []);
+      await f.context.close();
+    });
+  }
+  if (process.env.CRM_QUICK_SERVICE_BROWSER === "1") {
+    const { runQuickServiceBrowser } = await import(
+      "./crm-quick-service-browser-scenarios.mjs"
+    );
+    await runQuickServiceBrowser({ fixture, ready, check, origin, artifacts });
+  }
 } finally {
   await browser?.close();
-  server.kill();
-  await once(server, "exit").catch(() => {});
+  if (server.exitCode === null && server.signalCode === null) {
+    const exited = once(server, "exit");
+    server.kill();
+    await exited.catch(() => {});
+  }
   await writeFile(
-    "tests/security/crm-broker-workspace-browser-20261103.json",
+    process.env.CRM_BROWSER_REPORT_PATH ||
+      "tests/security/crm-broker-workspace-browser-20261103.json",
     JSON.stringify(
       {
         environment:

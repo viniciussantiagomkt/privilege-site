@@ -1,47 +1,29 @@
+import { isIsolatedMediaPreview } from "@/lib/preview-media";
+import { resolveVideoSource } from "@/lib/video-source";
+
 interface VideoEmbedProps {
   url: string;
   title: string;
 }
 
-function getEmbedUrl(url: string) {
-  try {
-    const parsed = new URL(url);
-
-    if (parsed.hostname.includes("youtube.com")) {
-      const id = parsed.searchParams.get("v");
-      return id ? `https://www.youtube.com/embed/${id}` : url;
-    }
-
-    if (parsed.hostname.includes("youtu.be")) {
-      const id = parsed.pathname.replace("/", "");
-      return id ? `https://www.youtube.com/embed/${id}` : url;
-    }
-
-    if (parsed.hostname.includes("vimeo.com")) {
-      const id = parsed.pathname.split("/").filter(Boolean).pop();
-      return id ? `https://player.vimeo.com/video/${id}` : url;
-    }
-
-    return url;
-  } catch {
-    return url;
-  }
-}
-
 export function VideoEmbed({ url, title }: VideoEmbedProps) {
-  const embedUrl = getEmbedUrl(url);
-  const isDirectVideo = /\.(mp4|webm|mov)(\?.*)?$/i.test(url);
+  const source = isIsolatedMediaPreview() ? null : resolveVideoSource(url);
 
   return (
     <div className="overflow-hidden rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/45 shadow-[0_24px_80px_rgba(3,15,24,0.06)]">
-      {isDirectVideo ? (
-        <video controls className="aspect-video w-full bg-black" src={url}>
+      {!source ? (
+        <div role="status" aria-label={title} className="flex aspect-video flex-col items-center justify-center gap-2 p-5 text-center text-sm text-[#446E87]">
+          <span className="max-w-full break-words">{title}</span>
+          <span className="max-w-full break-words">{isIsolatedMediaPreview() ? "Mídia indisponível neste ambiente de testes" : "Mídia indisponível"}</span>
+        </div>
+      ) : source.type === "video" ? (
+        <video controls className="aspect-video w-full bg-black" src={source.url}>
           <track kind="captions" />
         </video>
       ) : (
         <iframe
           title={title}
-          src={embedUrl}
+          src={source.url}
           className="aspect-video w-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen

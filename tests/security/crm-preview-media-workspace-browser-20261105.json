@@ -1,0 +1,147 @@
+{
+  "environment": "loopback browser with synthetic Auth/REST fixtures; all external requests blocked",
+  "realAuthenticatedCoverage": "BLOCKED: no authorized authenticated preview in this scope",
+  "results": [
+    {
+      "name": "initial demand loads today only, without marketing or deals",
+      "status": "PASS"
+    },
+    {
+      "name": "four tabs, URL, shared search, authorized detail and close focus",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard tabs wrap and drawer focus is contained",
+      "status": "PASS"
+    },
+    {
+      "name": "existing task completion is reused and persists through fixture reload",
+      "status": "PASS"
+    },
+    {
+      "name": "new action opens quick client in hub; specialized contact editor remains available",
+      "status": "PASS"
+    },
+    {
+      "name": "contextual return resolves only an authorized lead in the existing task form",
+      "status": "PASS"
+    },
+    {
+      "name": "all entity deep links reuse their original authorized detail or editor",
+      "status": "PASS"
+    },
+    {
+      "name": "errors hide stale records, retry restores and empty search differs from error",
+      "status": "PASS"
+    },
+    {
+      "name": "responsive 360/768/1440 and 200-percent equivalent layout, full mobile drawer",
+      "status": "PASS"
+    },
+    {
+      "name": "role change invalidates prior rows and private drawer selection",
+      "status": "PASS"
+    },
+    {
+      "name": "over-500 result fails closed instead of partial rows or unlimited pagination",
+      "status": "PASS"
+    },
+    {
+      "name": "direct imoveis request loads only its declared tables",
+      "status": "PASS"
+    },
+    {
+      "name": "direct atendimentos request loads only its declared tables",
+      "status": "PASS"
+    },
+    {
+      "name": "direct negocios request loads only its declared tables",
+      "status": "PASS"
+    },
+    {
+      "name": "account identity switch clears rows without reusing old selection",
+      "status": "PASS"
+    },
+    {
+      "name": "late inactive-tab response cannot replace the current authorized tab",
+      "status": "PASS"
+    },
+    {
+      "name": "fixture profile admin uses same guard and keeps specialized routes",
+      "status": "PASS"
+    },
+    {
+      "name": "fixture profile manager uses same guard and keeps specialized routes",
+      "status": "PASS"
+    },
+    {
+      "name": "fixture profile broker uses same guard and keeps specialized routes",
+      "status": "PASS"
+    },
+    {
+      "name": "fixture profile corretor uses same guard and keeps specialized routes",
+      "status": "PASS"
+    },
+    {
+      "name": "anonymous session redirects to existing login",
+      "status": "PASS"
+    },
+    {
+      "name": "unknown database role does not load the workspace or any entity table",
+      "status": "PASS"
+    },
+    {
+      "name": "isolated media: hydrated property form keeps address fields and never calls Maps",
+      "status": "PASS"
+    },
+    {
+      "name": "quick phone browser: explicit incomplete prefixes cannot reach save RPC",
+      "status": "PASS"
+    },
+    {
+      "name": "quick phone browser: DDD55 preserves canonical WhatsApp and duplicate aliases",
+      "status": "PASS"
+    },
+    {
+      "name": "quick client: minimal create in hub, no lead and no PII in URL",
+      "status": "PASS"
+    },
+    {
+      "name": "quick client: duplicates open authorized existing row without a second insert",
+      "status": "PASS"
+    },
+    {
+      "name": "quick client: interest editing and no unrequested sections",
+      "status": "PASS"
+    },
+    {
+      "name": "client context: related records are lazy and errors differ from empty data",
+      "status": "PASS"
+    },
+    {
+      "name": "WhatsApp: six editable templates, review gate, correct recipient and no fictitious contact",
+      "status": "PASS"
+    },
+    {
+      "name": "client actions: real contact confirmation, return and visit in the same drawer",
+      "status": "PASS"
+    },
+    {
+      "name": "quick draft: typed review only; apply is not save",
+      "status": "PASS"
+    },
+    {
+      "name": "schema pending: no fake success, fields preserved, retry reuses receipt",
+      "status": "PASS"
+    },
+    {
+      "name": "client draft keeps opening revision after a background refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "client drawer: 360/768/1440 layout, keyboard focus and session clear",
+      "status": "PASS"
+    }
+  ],
+  "artifacts": "C:\\Users\\GERENCIA\\AppData\\Local\\PrivilegeCRM-Operations\\stage03e-isolation-20261105"
+}

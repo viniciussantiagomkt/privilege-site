@@ -200,22 +200,34 @@ export function Modal({
     dialog?.showModal();
     return () => {
       dialog?.close();
-      if (trigger instanceof HTMLElement && trigger.isConnected) trigger.focus();
+      if (trigger instanceof HTMLElement && trigger.isConnected)
+        trigger.focus();
     };
   }, []);
   return (
     <dialog
       ref={ref}
       className={`crm-dialog ${wide ? "wide" : ""} ${side ? "crm-context-drawer" : ""}`}
-      onCancel={onClose}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
       onKeyDown={(event) => {
         if (!side || event.key !== "Tab") return;
-        const targets = Array.from(event.currentTarget.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
-        )).filter((element) => element.getClientRects().length > 0);
-        const first = targets[0], last = targets.at(-1);
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+        const targets = Array.from(
+          event.currentTarget.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
+          ),
+        ).filter((element) => element.getClientRects().length > 0);
+        const first = targets[0],
+          last = targets.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
       }}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -260,11 +272,13 @@ export function EntityForm({
   fields,
   onSubmit,
   onClose,
+  onCancel,
   children,
 }: {
   fields: Field[];
   onSubmit: (data: FormData) => Promise<boolean>;
   onClose: () => void;
+  onCancel?: () => void;
   children?: ReactNode;
 }) {
   const { busy } = useWorkspace();
@@ -286,6 +300,7 @@ export function EntityForm({
               {f.options ? (
                 <select
                   name={f.name}
+                  aria-label={f.label}
                   required={f.required}
                   defaultValue={f.value ?? ""}
                 >
@@ -299,6 +314,7 @@ export function EntityForm({
               ) : f.type === "textarea" ? (
                 <textarea
                   name={f.name}
+                  aria-label={f.label}
                   rows={4}
                   maxLength={f.maxLength ?? 2000}
                   defaultValue={f.value ?? ""}
@@ -306,10 +322,13 @@ export function EntityForm({
               ) : (
                 <input
                   name={f.name}
+                  aria-label={f.label}
                   type={f.type || "text"}
                   required={f.required}
                   defaultValue={f.value ?? ""}
-                  maxLength={f.type === "number" ? undefined : f.maxLength ?? 160}
+                  maxLength={
+                    f.type === "number" ? undefined : (f.maxLength ?? 160)
+                  }
                   min={f.type === "number" ? "0.01" : undefined}
                   step={f.type === "number" ? "0.01" : undefined}
                   placeholder={f.placeholder}
@@ -320,7 +339,7 @@ export function EntityForm({
         </div>
         {children}
         <div className="crm-form-actions">
-          <Button secondary onClick={onClose}>
+          <Button secondary onClick={onCancel || onClose}>
             Cancelar
           </Button>
           <Button type="submit" disabled={busy}>

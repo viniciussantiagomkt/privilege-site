@@ -10,6 +10,32 @@
 .crm-work-add-options { position: absolute; right: 0; top: calc(100% + 8px); width: 250px; max-width: calc(100vw - 48px); background: #f4f7f8; border: 1px solid #dfe6e8; border-radius: 8px; z-index: 15; box-shadow: 0 10px 30px #030f1810; padding: 6px; }
 .crm-work-add-options a { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px; min-height: 44px; color: #1d4052; }
 .crm-work-add-options a:hover { background: #e0e8e6; }
+.crm-work-add-options button { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px; min-height: 44px; color: #1d4052; font: inherit; text-align: left; border: 0; background: transparent; }
+.crm-work-add-options button:hover { background: #e0e8e6; }
+.crm-service-section { border-bottom: 1px solid #dfe6e8; padding: 16px 0; min-width: 0; }
+.crm-service-section summary { min-height: 44px; cursor: pointer; color: #1d4052; padding: 10px 0; font-weight: 500; }
+.crm-service-section summary:focus-visible { outline: 2px solid #446e87; outline-offset: 3px; }
+.crm-service-section p, .crm-message-editor p { font-size: 13px; color: #446e87; line-height: 1.6; }
+.crm-service-section .crm-list-row { flex-wrap: wrap; overflow-wrap: anywhere; }
+.crm-service-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 14px 0; }
+.crm-service-actions .crm-button { min-height: 44px; white-space: normal; }
+.crm-service-history { list-style: none; padding: 0; margin: 0; }
+.crm-service-history li { border-left: 1px solid #dfe6e8; margin: 12px 0; padding: 8px 16px; }
+.crm-service-history small, .crm-service-section small { display: block; color: #446e87; font-size: 12px; }
+.crm-service-profile { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.crm-service-profile dt { font-size: 12px; color: #446e87; }
+.crm-service-profile dd { margin: 4px 0; overflow-wrap: anywhere; }
+.crm-message-editor { display: grid; gap: 14px; margin-top: 18px; }
+.crm-form .crm-service-check { display: flex; align-items: center; gap: 10px; }
+.crm-form .crm-service-check input { width: 20px; height: 20px; min-height: 20px; flex-shrink: 0; }
+.crm-service-section label { display: grid; gap: 6px; }
+.crm-service-section textarea { width: 100%; max-width: 100%; min-height: 100px; border: 1px solid #dfe6e8; padding: 12px; border-radius: 6px; }
+.crm-service-section .crm-form-actions { flex-wrap: wrap; }
+@media (max-width: 640px) {
+  .crm-service-profile { grid-template-columns: 1fr; }
+  .crm-context-drawer .crm-form-grid { grid-template-columns: 1fr; }
+  .crm-context-drawer input, .crm-context-drawer select, .crm-context-drawer textarea { min-height: 48px; font-size: 16px; }
+}
 .crm-work-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid #dfe6e8; margin-bottom: 24px; gap: 4px; }
 .crm-work-tabs button { min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 4px; color: #446e87; background: transparent; border: 0; border-bottom: 2px solid transparent; font: inherit; }
 .crm-work-tabs [aria-selected="true"] { color: #1d4052; border-color: #1d4052; background: #e0e8e650; }

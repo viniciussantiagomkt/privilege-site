@@ -1614,6 +1614,11 @@ try {
   await db.exec(readSql("supabase/migrations/"+adsMigrations[0]));migrations.push(adsMigrations[0]);
   const {runAdReportingScenarios}=await import("./crm-ad-reporting-scenarios.mjs");
   await runAdReportingScenarios({db,actor,check,denied,ids});
+  const quickMigrations=readdirSync("supabase/migrations").filter(name=>name.endsWith("_crm_quick_service.sql"));
+  assert.equal(quickMigrations.length,1);
+  await db.exec(readSql("supabase/migrations/"+quickMigrations[0]));migrations.push(quickMigrations[0]);
+  const {runQuickServiceScenarios}=await import("./crm-quick-service-scenarios.mjs");
+  await runQuickServiceScenarios({db,actor,check,denied,ids});
 } catch (e) {
   results.push({
     name: "suite infrastructure/fixture",

@@ -2,7 +2,7 @@
 
 **Etapa 01: auditoria técnica e planejamento. Atualização: 03/11/2026, horário de Brasília.**
 **Destinatário desta etapa: ChatGPT Work.**
-**Estado atual: Etapa 02 autorizada e implementada em desenvolvimento; aguarda revisão. Sem preview ou Etapa 03. Evidências na seção 15.**
+**Estado atual, 04/11/2026: Etapa 02 homologada manualmente pelo usuário (12/12), sem integração à produção. Etapa 03 em desenvolvimento autorizado, sem preview ou migration remota. Evidências nas seções 15 e 16.**
 
 As seções de auditoria preservam o snapshot da Etapa 01; a seção 15 registra a execução posterior autorizada.
 
@@ -578,3 +578,11 @@ O texto abaixo é uma instrução para execução **futura, somente depois da co
 Autorizada pelo usuário, baseada no HEAD remoto `6d867c98fdae1abbfbf84b03cadc8dfe8999ad2f`, branch `work/crm-campaign-broker-workspace-20261103`. Primeiro commit desativa deploy automático. Novo Meu Trabalho com quatro abas, busca compartilhada de alcance explícito, painel acessível/mobile, Adicionar e reaproveitamento dos formulários, histórico e ações atuais. Rotas antigas/visão gerencial preservadas.
 
 Sem mudanças de banco, migrations, RLS, integrações, preview, main ou produção. Dados por aba, limite de 500 e limpeza de contexto privado mantidos. Etapa 03 não iniciada. Relatório, verificações e roteiro: [Etapa 02](crm-broker-workspace-20261103.md). Fixtures locais não substituem sessões legítimas no staging. Aguardar revisão e confirmação do usuário.
+
+## 16. Continuidade da Etapa 03, 04/11/2026
+
+Base remota confirmada do PR #14: `26d2c1aaff96257383b555031e3d733950de43a2`. Nova branch `work/crm-broker-quick-service-20261104`, em worktree separado. Deploy automático desativado antes de publicar a branch; guard estendido ao novo nome exato. Carteiras, Shell, Workspace, autenticação, mídia e rotas antigas preservados.
+
+Cadastro rápido e perfil de interesse no Meu Trabalho, painel contextual expansível, agenda compartilhada e mensagens revisáveis de WhatsApp. Sem lead automático, novo cadastro paralelo, envio de mensagens ou matching. Histórico sanitizado reutiliza auditoria/eventos atuais; ações confirmadas são distintas de abrir/copiar WhatsApp. SQL proposto e testado somente em PGlite, nunca enviado ao staging nesta etapa. Reconhecimento de voz não habilitado: rascunho digitado, revisão e confirmação disponíveis, sem microfone/áudio.
+
+Relatório e roteiro: [Etapa 03](crm-quick-service-20261104.md). Plano anterior ao SQL, riscos e rollback: [migration proposta](crm-quick-service-migration-plan.md). Publicação, aplicação remota e homologação real da Etapa 03 dependem de autorização posterior. Etapas 04–12 continuam planejadas; nenhuma pendência de integração foi encerrada por mocks.

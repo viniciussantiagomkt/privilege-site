@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { PropertyForm } from "@/components/PropertyForm";
+import { previewMediaSource } from "@/lib/preview-media";
 import { useWorkspace } from "./Workspace";
 import {
   PageHeading,
@@ -62,7 +63,7 @@ export function PrivateThumbnail({
   }, [url]);
   const src = url?.includes("/api/property-media/") ? signed : url;
   return src ? (
-    <Image src={src} alt={title} width={500} height={320} unoptimized />
+    <Image src={previewMediaSource(src)} alt={title} width={500} height={320} unoptimized />
   ) : (
     <Building2 size={40} strokeWidth={1} />
   );

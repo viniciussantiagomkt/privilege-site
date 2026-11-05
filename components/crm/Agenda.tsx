@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useEntityIntent } from "./useEntityIntent";
 import { TaskCompleteButton } from "./TaskCompleteButton";
+import { AgendaEditor } from "./AgendaEditor";
 import { recordId } from "@/lib/crm/broker-workspace";
 import {
   CalendarDays,
@@ -19,18 +20,9 @@ import {
   Empty,
   Badge,
   Modal,
-  EntityForm,
   Button,
-  text,
-  optional,
-  numberId,
-  type Field,
 } from "./UI";
 import { matches, dateTime, type Task, type Visit } from "@/lib/crm/model";
-const localDate = (s: string) => {
-  const d = new Date(s);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}T${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
-};
 export function Agenda() {
   const ctx = useWorkspace();
   const [tab, setTab] = useState("calendar");
@@ -45,12 +37,32 @@ export function Agenda() {
     "new:task": () => {
       const raw = new URLSearchParams(ctx.routeSearch).get("lead");
       const id = recordId(raw);
-      if (raw && (!id || !ctx.data.leads.some(l => l.id === id))) return false;
-      setLeadSeed(id); setEditing(null); setMode("task"); return true;
+      if (raw && (!id || !ctx.data.leads.some((l) => l.id === id)))
+        return false;
+      setLeadSeed(id);
+      setEditing(null);
+      setMode("task");
+      return true;
     },
-    "new:visit": () => { setEditing(null); setMode("visit"); return true; },
-    task: (id) => { const row = ctx.data.tasks.find(t => t.id === id); if (!row) return false; setEditing(row); setMode("task"); return true; },
-    visit: (id) => { const row = ctx.data.visits.find(v => v.id === id); if (!row) return false; setEditing(row); setMode("visit"); return true; },
+    "new:visit": () => {
+      setEditing(null);
+      setMode("visit");
+      return true;
+    },
+    task: (id) => {
+      const row = ctx.data.tasks.find((t) => t.id === id);
+      if (!row) return false;
+      setEditing(row);
+      setMode("task");
+      return true;
+    },
+    visit: (id) => {
+      const row = ctx.data.visits.find((v) => v.id === id);
+      if (!row) return false;
+      setEditing(row);
+      setMode("visit");
+      return true;
+    },
   });
   const taskRows = ctx.data.tasks.filter(
     (t) =>
@@ -90,140 +102,6 @@ export function Agenda() {
   );
   const today = new Date().toDateString();
   const isTask = mode === "task";
-  const fields: Field[] = isTask
-    ? [
-        {
-          name: "title",
-          label: "Tarefa / retorno",
-          required: true,
-          value: editing && "title" in editing ? editing.title : "",
-        },
-        {
-          name: "due_at",
-          label: "Data e horário",
-          type: "datetime-local",
-          required: true,
-          value:
-            editing && "due_at" in editing ? localDate(editing.due_at) : "",
-        },
-        {
-          name: "lead_id",
-          label: "Lead relacionado",
-          value: editing && "lead_id" in editing ? editing.lead_id : leadSeed,
-          options: ctx.data.leads.map((l) => ({ value: l.id, label: l.name })),
-        },
-        {
-          name: "client_id",
-          label: "Cliente",
-          value: editing?.client_id,
-          options: ctx.data.clients.map((c) => ({
-            value: c.id,
-            label: c.name,
-          })),
-        },
-        {
-          name: "property_id",
-          label: "Imóvel",
-          value: editing?.property_id,
-          options: ctx.data.properties.map((p) => ({
-            value: p.id,
-            label: p.title,
-          })),
-        },
-        {
-          name: "description",
-          label: "Detalhes",
-          type: "textarea",
-          value: editing && "description" in editing ? editing.description : "",
-        },
-      ]
-    : [
-        {
-          name: "client_id",
-          label: "Cliente",
-          required: true,
-          value: editing?.client_id,
-          options: ctx.data.clients.map((c) => ({
-            value: c.id,
-            label: c.name,
-          })),
-        },
-        {
-          name: "property_id",
-          label: "Imóvel",
-          required: true,
-          value: editing?.property_id,
-          options: ctx.data.properties.map((p) => ({
-            value: p.id,
-            label: `${p.property_code} · ${p.title}`,
-          })),
-        },
-        {
-          name: "scheduled_at",
-          label: "Data e horário",
-          type: "datetime-local",
-          required: true,
-          value:
-            editing && "scheduled_at" in editing
-              ? localDate(editing.scheduled_at)
-              : "",
-        },
-        {
-          name: "notes",
-          label: "Observações",
-          type: "textarea",
-          value: editing && "notes" in editing ? editing.notes : "",
-        },
-      ];
-  if (ctx.operations)
-    fields.push({
-      name: "broker_id",
-      label: "Responsável",
-      required: true,
-      value: editing?.broker_id || ctx.userId,
-      options: [
-        ...ctx.data.brokers.map((b) => ({ value: b.id, label: b.name })),
-        ...(!ctx.data.brokers.some((b) => b.id === ctx.userId)
-          ? [{ value: ctx.userId, label: "Minha conta" }]
-          : []),
-      ],
-    });
-  async function save(f: FormData) {
-    const selectedLead = ctx.data.leads.find(
-      (l) => l.id === numberId(f, "lead_id"),
-    );
-    const brokerId = ctx.operations ? text(f, "broker_id") : ctx.userId;
-    const payload: Record<string, unknown> = isTask
-      ? {
-          title: text(f, "title"),
-          due_at: new Date(text(f, "due_at")).toISOString(),
-          lead_id: numberId(f, "lead_id"),
-          client_id: numberId(f, "client_id"),
-          property_id: numberId(f, "property_id"),
-          description: optional(f, "description"),
-          broker_id: selectedLead?.broker_id || brokerId,
-        }
-      : {
-          client_id: numberId(f, "client_id"),
-          property_id: numberId(f, "property_id"),
-          scheduled_at: new Date(text(f, "scheduled_at")).toISOString(),
-          notes: optional(f, "notes"),
-          broker_id: brokerId,
-        };
-    const table = isTask ? "tasks" : "visits";
-    return ctx.run(
-      () =>
-        editing
-          ? supabase
-              .from(table)
-              .update(payload)
-              .eq("id", editing.id)
-              .select("id")
-              .single()
-          : supabase.from(table).insert(payload).select("id").single(),
-      "Agenda atualizada.",
-    );
-  }
   return (
     <>
       <PageHeading
@@ -509,13 +387,14 @@ export function Agenda() {
             setEditing(null);
           }}
         >
-          <EntityForm
-            fields={fields}
+          <AgendaEditor
+            mode={mode}
+            editing={editing}
+            leadSeed={leadSeed}
             onClose={() => {
               setMode("");
               setEditing(null);
             }}
-            onSubmit={save}
           />
         </Modal>
       )}

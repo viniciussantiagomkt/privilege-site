@@ -1,6 +1,32 @@
 # Continuidade do Privilege CRM
 
-Atualizado em 03/11/2026.
+## Etapa 03D — 05/11/2026
+
+**Etapa 03E — correção de isolamento:** [política de build para mapas/vídeos/mídia](crm-quick-service-stage03e-isolation-20261105.md), validação de origens e regressões locais concluídas. P14 continua aguardando CI/revisão do novo HEAD, autorização específica de publicação e homologação autenticada. Nenhum deployment nesta correção.
+
+**Aplicação subsequente autorizada: PASS**, uma chamada crm_quick_service somente no staging, versão `20261105172215`, histórico 21 -> 22. Dados legados, RLS/grants/carteiras preservados e objetos exatos validados; Advisors com três avisos autenticados esperados e um índice novo ainda sem uso. [Postflight](crm-quick-service-staging-application-20261105.md). P14 passa a aguardar autorização de preview e homologação autenticada real, não nova reaplicação desta migration. Produção/merge/Etapa 04 continuam fora do escopo.
+
+Investigação de leitura delimitou a divergência Auth a updated_at de um usuário, sem mudança comparada em credencial/identidade/papéis. Causa exata inconclusiva; nenhum indicador de acesso indevido encontrado no escopo. Novo backup consistente, duas restaurações novas, assinaturas estruturais e 19 grupos PostgreSQL independentes PASS. [Relatório 03D](crm-quick-service-stage03d-20261105.md). P14 continua condicionado a nova autorização explícita, preflight imediato, aplicação única e postflight; homologação autenticada permanece pendente. Sem SQL remoto, preview, merge, produção ou Etapa 04.
+
+## Etapa 03C — 05/11/2026
+
+Backup atualizado e restauração independente comprovados, migration corrigida apenas em cópias locais PostgreSQL 17, 19 grupos reais de banco/concorrência PASS e 60 medições de timeline com até 300 mil eventos adicionais e relações sintéticas existentes. Recuperação em outro banco novo e preservação de perfil novo por update legado ensaiadas. [Relatório e limites](crm-quick-service-stage03c-20261105.md).
+
+Essas três pendências deixam de estar sem evidência LOCAL: restauração atualizada, concorrência entre conexões PostgreSQL independentes e avaliação da timeline no volume/fuso/hardware ensaiados. Homologação autenticada real segue pendente. P14 ainda exige revisão, autorização específica e preflight para qualquer migration/preview de staging. Não fechar P10/P11/P12/P13 ou declarar produção aprovada por estes testes. Nenhum SQL remoto, produção, merge ou Etapa 04 nesta fase.
+
+Atualizado em 04/11/2026.
+
+## Continuidade da Etapa 03, 04/11/2026
+
+- Etapa 02 / PR #14: **homologada manualmente pelo usuário, 12/12 cenários, nenhuma falha relatada**. Não integrada à main ou à produção. Não repetir esse aceite como se ainda estivesse pendente.
+- Etapa 03 autorizada somente para desenvolvimento na branch `work/crm-broker-quick-service-20261104`, baseada em `26d2c1a`. [Relatório](crm-quick-service-20261104.md), [plano SQL/rollback](crm-quick-service-migration-plan.md).
+- Cadastro rápido, perfil de interesse, atendimento contextual, modelos de WhatsApp e reutilização da agenda implementados localmente. Timeline privada sanitizada e retries idempotentes preparados. Sem lead automático, envio real, novo listener global ou mudança de carteiras.
+- **P14 — aplicação/homologação Etapa 03:** migration nova somente proposta/local. Falta autorização específica, backup/restore/preflight e aplicação única no staging, depois preview autorizado e testes reais A/B/gestor/admin. Testes de código, banco local e navegador com fixtures não fecham P10/P11/P12/P13.
+- **P15 — voz:** sem tecnologia local segura de transcrição validada. Revisão de rascunho digitado implementada; não há captura de áudio, reconhecimento funcional ou envio externo. Ativar transcrição requer decisão técnica e autorização próprias.
+- P01–P13 abaixo permanecem abertos nos limites descritos. Limite de 500 por lista continua; histórico do cliente tem paginação própria. P07 (coleta global no CRM) segue como risco herdado de produção, não resolvido por ausência de novos eventos neste módulo.
+- Etapa 04, matching, comissões, financiamento, PWA e integrações externas não iniciados. Aguardar confirmação do usuário antes de qualquer preview ou etapa seguinte.
+
+As seções abaixo preservam o histórico anterior, inclusive estados de publicação já superados pela confirmação acima.
 
 ## Quadro atual de continuidade, 03/11/2026
 

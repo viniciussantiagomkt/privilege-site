@@ -40,6 +40,10 @@
     {
       "name": "20261030185925_crm_ad_reporting.sql",
       "sha256": "849fb54d7379bf3c9c2f42a582e793fa11a56b9ccf4064e256ba54e84043dcaf"
+    },
+    {
+      "name": "20261105172215_crm_quick_service.sql",
+      "sha256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa"
     }
   ],
   "results": [
@@ -1182,10 +1186,266 @@
     {
       "name": "ads: inactive owner loses access and cannot keep polling personal account",
       "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national mobile",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national landline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national plain",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: national dotted",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: international plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: international 00",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: canonical unmarked",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: international landline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 national",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 international plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 international 00",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: DDD55 landline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit plus regression",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit 00 regression",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit plus eleven digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: incomplete explicit 00 eleven digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: country only plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: country only 00",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign plus US",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign 00 US",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign plus UK",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign 00 UK",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: foreign prefix must not acquire Brazil",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: empty",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: null",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: nine national digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: too many national digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: too many international digits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: invalid DDD zero",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: alphabetic extension",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: two plus signs",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: misplaced plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: mixed international prefixes",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: 64 character boundary",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: 65 character boundary",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: leading whitespace explicit plus",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone SQL/TypeScript parity: leading whitespace incomplete international",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone RPC: explicit incomplete prefixes rejected before insert",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick phone RPC: DDD55 aliases remain valid and duplicate within own portfolio",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: create, normalize, receipt replay, no automatic lead",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: duplicates restricted to own portfolio",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: revisions, no-op audit, stale edits",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: anon cannot read/edit A private client or record contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: b cannot read/edit A private client or record contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: manager cannot read/edit A private client or record contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: admin cannot read/edit A private client or record contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: disabled cannot read/edit A private client or record contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: sanitized timeline and idempotent real contact",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"purpose\":\"outro\"}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"bedrooms\":-1}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"parking_spaces\":1.5}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"budget_min\":\"600\",\"budget_max\":\"300\"}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"budget_max\":500}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"down_payment\":\"1e9\"}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"secret\":\"no\"}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: rejects invalid profile {\"neighborhoods\":[null]}",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: direct table updates cannot forge revision",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: national DDD 55 preserved and malformed phones rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: payload cannot select broker or organization",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: duplicate email normalization is private",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: agenda retry creates one task, visit and audit entry",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: manager keeps its own private portfolio",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: admin keeps its own private portfolio",
+      "result": "APROVADO"
+    },
+    {
+      "name": "quick service: archived client rejects timeline, update and receipt replay",
+      "result": "APROVADO"
     }
   ],
   "summary": {
-    "passed": 285,
+    "passed": 349,
     "failed": 0
   }
 }

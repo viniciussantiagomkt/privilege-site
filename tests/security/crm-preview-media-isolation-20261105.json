@@ -1,0 +1,70 @@
+{
+  "phase": "03E_MEDIA_ISOLATION_FIX",
+  "baseCommit": "9bd6d486fc05462c815ceca8055515d458b1f197",
+  "branch": "work/crm-broker-quick-service-20261104",
+  "recommendation": "APTO_FOR_PREVIEW_REQUEST_ONLY_AFTER_CI_SUCCESS",
+  "deploymentAuthorized": false,
+  "policy": {
+    "decision": "build/server constant PRIVILEGE_MEDIA_POLICY; never a public opt-in",
+    "branchExact": true,
+    "previewTargetRequired": true,
+    "inconsistentMetadataFailsBuild": true,
+    "unknownRuntimePolicyFailsClosed": true,
+    "stagingGuardPreserved": true,
+    "otherIdentifiedPreviewsAndProductionStandard": true
+  },
+  "render": {
+    "threeRealComponents": true,
+    "fictitiousDataOnly": true,
+    "previewIframeElements": 0,
+    "previewVideoElements": 0,
+    "previewExternalRequestAttempts": 0,
+    "productionPositiveControl": true,
+    "positiveControlExternalRequestsAborted": true,
+    "realHydratedCrmForm": true,
+    "deliberateFakeMapsKeyAtBuild": true,
+    "deliberateOptInIgnored": true,
+    "locationCoordinatesPreserved": true,
+    "arbitraryIframeUrlsRejected": true
+  },
+  "tests": {
+    "lint": "PASS",
+    "typescript": "PASS",
+    "optimizedPreviewBuild": "PASS",
+    "codePass": 180,
+    "codeFail": 0,
+    "newMediaTests": 30,
+    "pglitePass": 349,
+    "pgliteFail": 0,
+    "browserFixturePass": 35,
+    "browserFixtureFail": 0,
+    "previousStagingGuardPass": 5,
+    "allFourWorkspaceTabsPreserved": true,
+    "realAuthenticatedHomologation": "NOT_EXECUTED"
+  },
+  "configuration": {
+    "verifiedBranchVariables": 12,
+    "valuesMatched": true,
+    "changesThisExecution": 0,
+    "automaticDeployDisabled": true,
+    "autoExposeSystemEnvs": true
+  },
+  "remote": {
+    "databaseWrites": 0,
+    "migrationsApplied": 0,
+    "usersCreatedOrModified": 0,
+    "rlsChanged": false,
+    "productionModified": false,
+    "deploymentsCreated": 0,
+    "messagesSent": 0,
+    "integrationsActivated": false,
+    "merged": false,
+    "nextStageStarted": false
+  },
+  "migrationSHA256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa",
+  "limits": [
+    "No deployment or real authenticated preview tests",
+    "No claim of zero external traffic for every possible page/content",
+    "Unsupported arbitrary third-party tour iframes require explicit validated provider support"
+  ]
+}

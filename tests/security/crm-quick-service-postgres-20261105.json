@@ -1,0 +1,1963 @@
+{
+  "sourceCommit": "c5549031a1ce4e6e2cbb5b2331626405473a4d08",
+  "runnerSHA256": "15607675cfe50ce38290ad8b251f11b8669a3fb175aab7449ee14790a4248815",
+  "sqlSHA256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa",
+  "environment": "isolated restored PostgreSQL 17, independent psql connections over Docker Unix socket; synthetic SQL claims, NOT remote Auth",
+  "backup": {
+    "createdUTC": "2026-11-05T12:47:02.6584561Z",
+    "bytes": 862838,
+    "sha256": "7de5eb4fc27c0b7badeb72b0dbb246d4ca4e29f3b6ab32558a0afb2d4129590f",
+    "privateFolder": "staging-20261105-094609-144abeff",
+    "archiveValidation": "PASS",
+    "restore": "PASS"
+  },
+  "isolation": {
+    "image": "supabase/postgres@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00",
+    "network": "none",
+    "ports": {},
+    "binds": null,
+    "privileged": false
+  },
+  "results": [
+    {
+      "name": "migration: exact expansion, unchanged previous functions/RLS/grants/data/history",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrency: different action IDs, one private duplicate winner",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrency: same action and payload return same receipt exactly once",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrency: one action cannot be reused for different payloads",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrency: stale simultaneous edit loses without overwrite",
+      "status": "PASS"
+    },
+    {
+      "name": "duplicate and normalization: DDD55 aliases and incomplete explicit prefixes",
+      "status": "PASS"
+    },
+    {
+      "name": "private portfolios: B may duplicate a phone but cannot access A",
+      "status": "PASS"
+    },
+    {
+      "name": "security: manager cannot read/alter/record private A client",
+      "status": "PASS"
+    },
+    {
+      "name": "security: admin cannot read/alter/record private A client",
+      "status": "PASS"
+    },
+    {
+      "name": "security: anon cannot read/alter/record private A client",
+      "status": "PASS"
+    },
+    {
+      "name": "security: invalid cannot read/alter/record private A client",
+      "status": "PASS"
+    },
+    {
+      "name": "security: inactive cannot read/alter/record private A client",
+      "status": "PASS"
+    },
+    {
+      "name": "security: ownership injection rejected at RPC and direct-table boundaries",
+      "status": "PASS"
+    },
+    {
+      "name": "events: simultaneous real-contact retry records one event, no payload leakage",
+      "status": "PASS"
+    },
+    {
+      "name": "agenda: concurrent tasks retry and one audit INSERT",
+      "status": "PASS"
+    },
+    {
+      "name": "agenda: concurrent visits retry and one audit INSERT",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy Etapa02: old client and agenda payloads still work with defaults",
+      "status": "PASS"
+    },
+    {
+      "name": "application rollback contract: legacy update preserves new interest profile and audit",
+      "status": "PASS"
+    },
+    {
+      "name": "timeline: authorized summaries only, no notes/email/phone/snapshots",
+      "status": "PASS"
+    }
+  ],
+  "benchmarks": [
+    {
+      "syntheticEvents": 1000,
+      "page": 0,
+      "samples": 5,
+      "medianMs": 8.132,
+      "maxMs": 9.01,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 326,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 5198,
+          "sharedHitBlocks": 322,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 1000,
+      "page": 20,
+      "samples": 5,
+      "medianMs": 10.321,
+      "maxMs": 10.607,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 1051,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 326,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 5198,
+          "sharedHitBlocks": 322,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 1000,
+      "page": 200,
+      "samples": 5,
+      "medianMs": 10.003,
+      "maxMs": 10.302,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 332,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 326,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 4153,
+          "loops": 1,
+          "rowsRemoved": 5198,
+          "sharedHitBlocks": 322,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 10000,
+      "page": 0,
+      "samples": 5,
+      "medianMs": 10.372,
+      "maxMs": 10.939,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 476,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 13724,
+          "sharedHitBlocks": 472,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 10000,
+      "page": 20,
+      "samples": 5,
+      "medianMs": 12.935,
+      "maxMs": 13.287,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 1051,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 476,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 13724,
+          "sharedHitBlocks": 472,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 10000,
+      "page": 200,
+      "samples": 5,
+      "medianMs": 11.777,
+      "maxMs": 12.742,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 482,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 476,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 4627,
+          "loops": 1,
+          "rowsRemoved": 13724,
+          "sharedHitBlocks": 472,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 100000,
+      "page": 0,
+      "samples": 5,
+      "medianMs": 35.501,
+      "maxMs": 38.459,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1976,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 98987,
+          "sharedHitBlocks": 1972,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 100000,
+      "page": 20,
+      "samples": 5,
+      "medianMs": 35.225,
+      "maxMs": 35.856,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 1051,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1976,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 98987,
+          "sharedHitBlocks": 1972,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 100000,
+      "page": 200,
+      "samples": 5,
+      "medianMs": 35.671,
+      "maxMs": 35.977,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1982,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 1976,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 9364,
+          "loops": 1,
+          "rowsRemoved": 98987,
+          "sharedHitBlocks": 1972,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 300000,
+      "page": 0,
+      "samples": 5,
+      "medianMs": 89.75,
+      "maxMs": 101.971,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 19890,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5309,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 19890,
+          "loops": 1,
+          "rowsRemoved": 288461,
+          "sharedHitBlocks": 5305,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 300000,
+      "page": 20,
+      "samples": 5,
+      "medianMs": 88.743,
+      "maxMs": 120.732,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 1051,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 19890,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5309,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 19890,
+          "loops": 1,
+          "rowsRemoved": 288461,
+          "sharedHitBlocks": 5305,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    },
+    {
+      "syntheticEvents": 300000,
+      "page": 200,
+      "samples": 5,
+      "medianMs": 77.235,
+      "maxMs": 103.835,
+      "planNodes": [
+        {
+          "type": "Aggregate",
+          "relation": null,
+          "actualRows": 1,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Subquery Scan",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Limit",
+          "relation": null,
+          "actualRows": 51,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Sort",
+          "relation": null,
+          "actualRows": 10051,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5315,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Append",
+          "relation": null,
+          "actualRows": 19890,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 5309,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "audit_logs",
+          "actualRows": 19890,
+          "loops": 1,
+          "rowsRemoved": 288461,
+          "sharedHitBlocks": 5305,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Heap Scan",
+          "relation": "tasks",
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 40,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Bitmap Index Scan",
+          "relation": null,
+          "actualRows": 2000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 3,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "visits",
+          "actualRows": 1000,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 16,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash Join",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 17,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "negotiations",
+          "actualRows": 1002,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 9,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Hash",
+          "relation": null,
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Index Scan",
+          "relation": "proposals",
+          "actualRows": 500,
+          "loops": 1,
+          "rowsRemoved": 0,
+          "sharedHitBlocks": 8,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "marketing_shares",
+          "actualRows": 100,
+          "loops": 1,
+          "rowsRemoved": 104,
+          "sharedHitBlocks": 5,
+          "sharedReadBlocks": 0
+        },
+        {
+          "type": "Seq Scan",
+          "relation": "crm_event_log",
+          "actualRows": 0,
+          "loops": 1,
+          "rowsRemoved": 218,
+          "sharedHitBlocks": 4,
+          "sharedReadBlocks": 0
+        }
+      ]
+    }
+  ],
+  "pending": [
+    "Real authenticated homologation",
+    "Explicit authorization and fresh preflight before any remote change"
+  ],
+  "remoteWrites": false,
+  "independentBackendConnectionsObserved": 74,
+  "benchmarkWorkload": {
+    "validRelatedRecordsPerPortfolio": {
+      "clients": 1,
+      "tasks": 2000,
+      "visits": 1000,
+      "proposals": 500,
+      "negotiations": 500,
+      "presentations": 100
+    },
+    "portfolios": 2,
+    "auditTargetFraction": "1/19; existing authorized vs foreign relationships, no fabricated orphan IDs",
+    "cache": "warm cache, five instrumented server executions; not production SLA"
+  },
+  "timelineAcceptance": {
+    "basis": "Local engineering threshold, not a production SLA: max <=500ms at 100k, <=1500ms at 300k synthetic events; five measured nested executions per page",
+    "passed": true
+  },
+  "archiveUnchanged": true,
+  "recommendation": "LOCAL_REHEARSAL_PASS",
+  "finishedUTC": "2026-11-05T13:14:16.642Z"
+}

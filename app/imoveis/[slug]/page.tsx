@@ -8,6 +8,8 @@ import { ShareButton } from "@/components/ShareButton";
 import { WhatsAppLeadButton } from "@/components/WhatsAppLeadButton";
 import { PropertyGallery } from "@/components/PropertyGallery";
 import { VideoEmbed } from "@/components/VideoEmbed";
+import { PropertyMap } from "@/components/PropertyMap";
+import { previewMediaSource } from "@/lib/preview-media";
 import { MinhaCasaMinhaVidaBadge } from "@/components/MinhaCasaMinhaVidaBadge";
 
 import { createServerClient } from "@/lib/supabase-server";
@@ -372,16 +374,14 @@ export default async function PropertyPage({
                 </h2>
 
                 <div className="overflow-hidden rounded-[32px] border border-[#446E87]/14 shadow-[0_24px_80px_rgba(3,15,24,0.06)]">
-                  <iframe
+                  <PropertyMap
                     title={`Mapa de ${property.title}`}
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(
+                    query={
                       property.latitude && property.longitude
                         ? `${property.latitude},${property.longitude}`
                         : property.address || property.location
-                    )}&output=embed`}
-                    width="100%"
-                    height="420"
-                    loading="lazy"
+                    }
+                    height={420}
                     className="min-h-[360px] md:min-h-[500px]"
                   />
                 </div>
@@ -431,7 +431,7 @@ export default async function PropertyPage({
                 <div className="rounded-[28px] border border-[#446E87]/14 bg-[#D7E1DF]/55 p-6 md:rounded-[32px] md:p-8">
                   <div className="flex items-center gap-4">
                     <Image
-                      src={broker.avatar_url || "/brand/symbol-blue.png"}
+                      src={previewMediaSource(broker.avatar_url || "/brand/symbol-blue.png")}
                       alt={broker.name || "Corretor responsável"}
                       width={64}
                       height={64}
