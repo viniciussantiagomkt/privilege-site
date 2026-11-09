@@ -82,12 +82,14 @@ export function ClientEditor({
   onCancel,
   onDirty,
   onExisting,
+  allowContactTypeOnCreate = false,
 }: {
   contact?: Contact;
   onSaved: (id: number) => void;
   onCancel: () => void;
   onDirty: () => void;
   onExisting: (id: number) => void;
+  allowContactTypeOnCreate?: boolean;
 }) {
   const ctx = useWorkspace();
   const form = useRef<HTMLFormElement>(null);
@@ -235,7 +237,7 @@ export function ClientEditor({
           <div className="crm-form-grid">
             {clientFields(contact)
               .filter(
-                (f) => contact || ["name", "phone", "notes"].includes(f.name),
+                (f) => contact || ["name", "phone", "notes"].includes(f.name) || (allowContactTypeOnCreate && f.name === "contact_type"),
               )
               .map((f) => (
                 <label
