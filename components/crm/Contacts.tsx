@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEntityIntent } from "./useEntityIntent";
 import { Users, Phone, Mail, Building2 } from "lucide-react";
 import { useWorkspace } from "./Workspace";
-import { clientFields } from "./ClientEditor";
+import { ClientEditor } from "./ClientEditor";
 import { supabase } from "@/lib/supabase";
 import {
   PageHeading,
@@ -12,10 +12,7 @@ import {
   Empty,
   Badge,
   Modal,
-  EntityForm,
   Button,
-  text,
-  optional,
 } from "./UI";
 import { matches, initials, type Contact } from "@/lib/crm/model";
 export function Contacts() {
@@ -43,32 +40,6 @@ export function Contacts() {
       matches(ctx.query, c.name, c.phone, c.email) &&
       (!kind || c.contact_type === kind || c.contact_type === "ambos"),
   );
-  const fields = clientFields(edit);
-  const submit = (f: FormData) => {
-    const payload = {
-      name: text(f, "name"),
-      phone: optional(f, "phone"),
-      email: optional(f, "email"),
-      notes: optional(f, "notes"),
-      contact_type: text(f, "contact_type"),
-    };
-    return ctx.run(
-      () =>
-        edit
-          ? supabase
-              .from("clients")
-              .update(payload)
-              .eq("id", edit.id)
-              .select("id")
-              .single()
-          : supabase
-              .from("clients")
-              .insert({ ...payload, broker_id: ctx.userId })
-              .select("id")
-              .single(),
-      "Contato salvo.",
-    );
-  };
   return (
     <>
       <PageHeading
@@ -180,13 +151,16 @@ export function Contacts() {
             setEdit(null);
           }}
         >
-          <EntityForm
-            fields={fields}
-            onClose={() => {
-              setCreate(false);
-              setEdit(null);
+          <ClientEditor
+            key={edit?.id ?? "new"}
+            contact={edit ?? undefined}
+            onDirty={() => {}}
+            onCancel={() => { setCreate(false); setEdit(null); }}
+            onSaved={() => { setCreate(false); setEdit(null); }}
+            onExisting={(id) => {
+              const existing = ctx.data.clients.find((row) => row.id === id);
+              if (existing) { setCreate(false); setEdit(existing); }
             }}
-            onSubmit={submit}
           />
         </Modal>
       )}
