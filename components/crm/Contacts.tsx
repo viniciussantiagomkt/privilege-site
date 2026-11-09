@@ -145,7 +145,7 @@ export function Contacts() {
       {(create || edit) && (
         <Modal
           title={edit ? "Editar contato" : "Novo contato"}
-          description="Informações acessíveis apenas aos perfis autorizados."
+          description="Cadastro seguro: WhatsApp válido e finalidade são obrigatórios. Contatos antigos incompletos exigem complementação para salvar."
           onClose={() => {
             setCreate(false);
             setEdit(null);
@@ -154,6 +154,7 @@ export function Contacts() {
           <ClientEditor
             key={edit?.id ?? "new"}
             contact={edit ?? undefined}
+            allowContactTypeOnCreate
             onDirty={() => {}}
             onCancel={() => { setCreate(false); setEdit(null); }}
             onSaved={() => { setCreate(false); setEdit(null); }}
