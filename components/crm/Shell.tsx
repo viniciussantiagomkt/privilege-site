@@ -143,20 +143,10 @@ export function CrmShell({ children }: { children: ReactNode }) {
               }}
             >
               <n.icon size={20} />
-              <span>{n.label}</span>
+              <span>{ctx.operations && n.href === "/admin/leads" ? "Leads e atribuição" : ctx.operations && n.href === "/admin/equipe" ? "Supervisão da equipe" : n.label}</span>
               {n.href === path && <i />}
             </Link>
           ))}
-          {group.label === "Gestão" && ctx.operations && (
-            <>
-              <Link href="/admin/equipe" title="Supervisão da equipe" onClick={() => setMobile(false)}>
-                <Users size={20} /><span>Supervisão da equipe</span>
-              </Link>
-              <Link href="/admin/leads" title="Atribuição de leads institucionais" onClick={() => setMobile(false)}>
-                <Target size={20} /><span>Atribuição de leads</span>
-              </Link>
-            </>
-          )}
           </Fragment>)}
         </nav>
         <div className="crm-sidebar-bottom">
