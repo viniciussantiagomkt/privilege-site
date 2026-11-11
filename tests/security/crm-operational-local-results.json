@@ -1192,6 +1192,10 @@
       "result": "APROVADO"
     },
     {
+      "name": "surface: all view definitions and function bodies/settings remain unchanged",
+      "result": "APROVADO"
+    },
+    {
       "name": "surface: property_metrics definition options and ACL remain identical",
       "result": "APROVADO"
     },
@@ -1610,10 +1614,30 @@
     {
       "name": "surface: public presentation capability and consented idempotent opens remain valid",
       "result": "APROVADO"
+    },
+    {
+      "name": "surface: crm_audit_change still runs after ACL revocation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: crm_set_property_code still runs after ACL revocation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: crm_lead_timeline still runs after ACL revocation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: crm_followup_timeline still runs after ACL revocation",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: handle_new_auth_user trigger body works with existing synthetic identity",
+      "result": "APROVADO"
     }
   ],
   "summary": {
-    "passed": 390,
+    "passed": 396,
     "failed": 0
   }
 }

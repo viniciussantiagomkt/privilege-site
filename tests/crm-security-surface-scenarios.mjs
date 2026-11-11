@@ -123,4 +123,42 @@ export async function runSecuritySurfaceScenarios({ db, actor, check, ids }) {
     for (let retry = 0; retry < 2; retry++) assert.equal((await actor("anon", "select crm_record_presentation_open($1,$2,true) allowed", [share.token, nonce]))[0].allowed, true);
     assert.equal((await db.query("select count(*)::int n from marketing_share_events where share_id=$1 and nonce=$2", [share.id, nonce])).rows[0].n, 1);
   });
+  await check("surface: crm_audit_change still runs after ACL revocation", async () => {
+    const [client] = await actor("a", "insert into clients(name,broker_id) values('Local audit trigger proof',auth.uid()) returning id");
+    assert.equal((await db.query("select count(*)::int n from audit_logs where entity='clients' and entity_id=$1 and action='INSERT'", [String(client.id)])).rows[0].n, 1);
+  });
+  await check("surface: crm_set_property_code still runs after ACL revocation", async () => {
+    const [property] = await actor("a", "insert into properties(title,slug,description,location,category,price,owner_id,broker_id) values('Local property trigger proof','local-property-trigger-proof','Synthetic only','Fixture','casas','100000',auth.uid(),auth.uid()) returning property_code");
+    assert.equal(typeof property.property_code, "string");
+    assert.ok(property.property_code.length > 0);
+  });
+  let triggerLead;
+  await check("surface: crm_lead_timeline still runs after ACL revocation", async () => {
+    [triggerLead] = await actor("a", "insert into leads(name,broker_id,origin_type) values('Local lead trigger proof',auth.uid(),'personal') returning id");
+    assert.equal((await db.query("select count(*)::int n from lead_activities where lead_id=$1 and type='lead_created'", [triggerLead.id])).rows[0].n, 1);
+  });
+  await check("surface: crm_followup_timeline still runs after ACL revocation", async () => {
+    assert.ok(triggerLead?.id);
+    const before = (await db.query("select count(*)::int n from lead_activities where lead_id=$1", [triggerLead.id])).rows[0].n;
+    await actor("a", "insert into tasks(title,broker_id,lead_id,due_at) values('Local followup trigger proof',auth.uid(),$1,now())", [triggerLead.id]);
+    const rows = (await db.query("select description from lead_activities where lead_id=$1", [triggerLead.id])).rows;
+    assert.equal(rows.length, before + 1);
+    assert.ok(rows.some(r => r.description.startsWith("Retorno agendado")));
+  });
+  await check("surface: handle_new_auth_user trigger body works with existing synthetic identity", async () => {
+    // The adapter has no GoTrue hooks. Probe the actual function on a temporary
+    // relation, reusing an existing local identity; never create an Auth user.
+    const before = (await db.query("select count(*)::int n from auth.users")).rows[0].n;
+    assert.equal((await db.query("select id from brokers where id=$1", [ids.admin])).rows.length, 0);
+    await db.exec("create temporary table auth_trigger_probe(id uuid,email text,raw_user_meta_data jsonb); grant insert on auth_trigger_probe to authenticated; create trigger local_auth_trigger_probe after insert on auth_trigger_probe for each row execute function public.handle_new_auth_user()");
+    try {
+      await actor("admin", "insert into auth_trigger_probe values($1,'admin@example.invalid',$2::jsonb)", [ids.admin, JSON.stringify({ name: "Local Auth trigger probe" })]);
+      const row = (await db.query("select active,name from brokers where id=$1", [ids.admin])).rows[0];
+      assert.deepEqual(row, { active: false, name: "Local Auth trigger probe" });
+      assert.equal((await actor("admin", "select current_user_role() role"))[0].role, "admin");
+      assert.equal((await db.query("select count(*)::int n from auth.users")).rows[0].n, before);
+    } finally {
+      await db.query("delete from brokers where id=$1", [ids.admin]);
+    }
+  });
 }

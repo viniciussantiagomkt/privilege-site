@@ -62,6 +62,7 @@ async function denied(who, sql, params = []) {
   }
 }
 let migrations = [];
+let surfaceRehearsal = null;
 try {
   await db.exec(readSql("tests/fixtures/crm-schema-20261019.sql"));
   await check(
@@ -1620,8 +1621,25 @@ try {
   const surfaceMigrations = readdirSync("supabase/migrations").filter(name => name.endsWith("_crm_stage03_security_surface.sql"));
   assert.equal(surfaceMigrations.length, 1);
   const publicMetricsBefore = (await db.query("select pg_get_viewdef(oid) definition,relacl::text acl,reloptions from pg_class where oid='public.property_metrics'::regclass")).rows[0];
+  const surfaceCatalog = readSql("tests/crm-stage03-security-grants-readonly.sql");
+  const surfaceBefore = (await db.query(surfaceCatalog)).rows[0].jsonb_build_object;
   await db.exec(readSql("supabase/migrations/" + surfaceMigrations[0]));
   migrations.push(surfaceMigrations[0]);
+  surfaceRehearsal = {
+    environment: "isolated PGlite; synthetic SQL claims; NOT remote migration or Auth HTTP",
+    migration: surfaceMigrations[0],
+    sha256: createHash("sha256").update(readSql("supabase/migrations/" + surfaceMigrations[0])).digest("hex"),
+    before: surfaceBefore,
+    after: (await db.query(surfaceCatalog)).rows[0].jsonb_build_object,
+  };
+  await check("surface: all view definitions and function bodies/settings remain unchanged", async () => {
+    const summarize = snapshot => ({
+      views: snapshot.views.map(v => [v.name, v.options, v.definition_md5]),
+      functions: snapshot.functions.map(f => [f.name, f.arguments, f.body_md5, f.settings, f.security_definer]),
+    });
+    assert.deepEqual(summarize(surfaceRehearsal.before), summarize(surfaceRehearsal.after));
+    assert.equal(surfaceRehearsal.sha256, "042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d");
+  });
   await check("surface: property_metrics definition options and ACL remain identical", async () => {
     assert.deepEqual((await db.query("select pg_get_viewdef(oid) definition,relacl::text acl,reloptions from pg_class where oid='public.property_metrics'::regclass")).rows[0], publicMetricsBefore);
   });
@@ -1659,4 +1677,9 @@ writeFileSync(
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report.summary);
+if (surfaceRehearsal) {
+  surfaceRehearsal.checks = results.filter(r => r.name.startsWith("surface:"));
+  surfaceRehearsal.summary = report.summary;
+  writeFileSync("tests/security/crm-stage03-surface-rehearsal-20261111.json", JSON.stringify(surfaceRehearsal, null, 2) + "\n");
+}
 if (report.summary.failed) process.exitCode = 1;

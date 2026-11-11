@@ -1,5 +1,86 @@
 # Etapa 03 | Fechamento tecnico de seguranca para homologacao
 
+## Fechamento das ressalvas Work (rodada posterior a CI #87)
+
+Referencia de entrada: HEAD 0d573ba, CI #87 aprovada. Esta rodada altera somente instrumentacao/evidencias de auditoria, testes locais e documentacao; nao modifica app, dependencias, lockfile, configuracao remota ou SQL aprovado.
+
+### R01 - Sete versus oito avisos: reconciliado
+Log oficial do job 130619502239 / run 43048676256: Ubuntu 26.04, Node v22.23.4, npm 10.9.9, npm ci com 384 pacotes instalados / 385 auditados e **oito** avisos moderados. O log nao contem a lista JSON historica completa de pacotes; a contagem historica esta comprovada, e a lista abaixo vem da reproducao controlada atual.
+Reproduzido no MESMO Windows/Node v24.15.0 e MESMO lockfile:
+- npm 11.12.1: sete pacotes moderados.
+- npm 10.9.9 (versao usada na CI): oito pacotes moderados.
+- Ambos: auditoria --omit=dev com ZERO vulnerabilidades.
+- O pacote adicional reportado pelo npm 10 e eslint-config-next, via typescript-eslint. E propagacao de metavulnerabilidade do mesmo aviso raiz, nao uma oitava falha independente.
+- Aviso raiz: GHSA-g3hv-75wg-m249 / minimatch, DoS por amplificacao de globs. npm nao conta necessariamente um CVE por pacote.
+- Lockfile SHA-256 nesta reproducao: f8695dc973a15260fa706d2441444e8bf269a63bb7894d95c1799cdccb662550, inalterado.
+
+| Pacote instalado afetado | Versao | npm 10 | npm 11 | Escopo no lock |
+| --- | --- | --- | --- | --- |
+| @typescript-eslint/eslint-plugin | 8.59.4 | Sim | Sim | dev |
+| @typescript-eslint/parser | 8.59.4 | Sim | Sim | dev |
+| @typescript-eslint/type-utils | 8.59.4 | Sim | Sim | dev |
+| @typescript-eslint/typescript-estree | 8.59.4 | Sim | Sim | dev |
+| @typescript-eslint/utils | 8.59.4 | Sim | Sim | dev |
+| typescript-eslint | 8.59.4 | Sim | Sim | dev |
+| minimatch (filho de typescript-estree) | 10.2.5 | Sim | Sim | dev |
+| eslint-config-next | 16.4.3 | Sim | Nao reportado | dev |
+
+Evidencias: tests/security/crm-stage03-dependency-audit-npm-10.9.9.json, crm-stage03-dependency-audit-npm-11.12.1.json e crm-stage03-ci87-audit-summary.json.
+Reproducao:
+1. npm ci com o lockfile versionado.
+2. node scripts/audit-stage03-dependencies.mjs (npm instalado, CLI descoberta localmente).
+3. Para npm 10, disponibilizar a CLI oficial fixada, por exemplo npx --yes --package=npm@10.9.9 npm --version, localizar seu npm/bin/npm-cli.js e executar node scripts/audit-stage03-dependencies.mjs --npm-cli <CAMINHO_LOCAL_DA_CLI_10.9.9>.
+4. O helper executa audit --package-lock-only --json --include=dev e --omit=dev, registry explicitamente https://registry.npmjs.org/, salva versoes/hash/argumentos/dados sanitizados. Codigo 1 do audit com vulnerabilidades e resultado esperado, nao falha de transporte; resultado sem JSON/metadata ou codigo inesperado falha o helper.
+5. Para conferir sem helper: npx --yes --package=npm@10.9.9 npm audit --package-lock-only --json; repetir com --omit=dev. O script evidencia os argumentos exatos.
+6. Base de advisories e temporal; a reproducao futura pode mudar. Os snapshots registram a consulta efetiva, nao congelam a base publica.
+Nenhum npm audit fix, force, override ou upgrade foi executado.
+
+Parecer de risco: existe risco de disponibilidade do processo de lint/CI se receber padroes glob maliciosos, conforme advisory oficial. Nao foi identificado caminho de entrada de globs de usuario do CRM para essa dependencia de desenvolvimento, nem dependencia afetada no grafo de producao auditado. Nao e justificativa demonstrada para alterar emergencialmente a migration ou bloquear seu pedido de autorizacao. Continua recomendada atualizacao compativel/revisada do toolchain; nao forcar minimatch 11 (correcao indicada no advisory) dentro de consumidores que esperam outra major.
+Fonte: https://github.com/advisories/GHSA-g3hv-75wg-m249.
+
+### R02 - Ensaio isolado comprovado, SQL imutavel
+Arquivo: supabase/migrations/20261111151927_crm_stage03_security_surface.sql.
+SHA-256 aprovado mantido: 042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d.
+A suite executa esse arquivo num PGlite novo, depois de carregar a cadeia local existente. Nenhuma chamada a banco remoto. Agora captura o catalogo inteiro antes/depois pelo SQL readonly versionado e grava tests/security/crm-stage03-surface-rehearsal-20261111.json.
+
+| Objeto | Antes, anon | Depois, anon | authenticated |
+| --- | --- | --- | --- |
+| Tres views administrativas | SELECT permitido | SELECT negado | Preservado, consultado por A/B/Gestor/Admin com RLS |
+| property_metrics | SELECT permitido | Identico | Identico |
+| set_user_role / sync_property_media_arrays | EXECUTE permitido | EXECUTE negado | Preservado |
+| Quatro RPCs privadas de clientes | EXECUTE ja negado | Continua negado | Preservado |
+| Cinco funcoes trigger-only | EXECUTE permitido | EXECUTE negado | Sem exigir nova permissao para gatilhos |
+| Apresentacao publica / abertura consentida | EXECUTE permitido | Preservado | Preservado |
+
+Provas novas explicitas:
+- crm_audit_change: INSERT sintetico proprio gera um registro de auditoria.
+- crm_set_property_code: INSERT de propriedade local sintetica gera codigo comercial.
+- crm_lead_timeline: lead local proprio gera uma atividade lead_created.
+- crm_followup_timeline: tarefa local ligada ao lead gera uma atividade de retorno adicional.
+- handle_new_auth_user: executado como funcao real de gatilho numa tabela TEMPORARIA, usando identidade sintetica preexistente do adaptador. Cria somente cadastro profissional local inativo e preserva papel admin existente; a contagem auth.users permanece igual. Limpeza apenas dessa linha local ao terminar.
+**Limite explicito:** o ultimo caso prova o corpo real em contexto trigger, nao a vinculacao do hook GoTrue/Supabase Auth hospedado. Nao se criou usuario remoto nem conta adicional para esse caso. A suite base recria apenas suas fixtures de banco em memoria, nao contas de homologacao no staging.
+Os snapshots provam que definicoes/opcoes de views e corpos/search_path/SECURITY DEFINER das funcoes nao mudam; apenas ACLs previstas. property_metrics e comparada tambem por ACL completa.
+Controles positivos de admin, metricas autorizadas, midia propria e apresentacao publica consentida/idempotente continuam passando; tokens invalidos, revogados e expirados nao revelam DTO nem geram eventos.
+
+### R03 - Plano HTTP pronto, execucao bloqueada
+Roteiro: docs/crm-stage03-http-homologation-plan-20261111.md.
+Inclui 28 cenarios, aliases/fixtures necessarias, requests/payloads, codigos/status esperados, privacidade, verificacao de mutacao, repeticao idempotente e criterios de aprovacao.
+Todos os cenarios HTTP desta rodada: **NAO EXECUTADOS / BLOCKED**. Nao ha sessoes proprias autorizadas; nao foram criados usuarios ou registros remotos.
+Casos com escrita de fixture precisam de autorizacao especifica futura; a preparacao documental nao a concede. Gestao positiva mutante de papeis permanece bloqueada pelas restricoes, mesmo para admin.
+Ressalva de contrato identificada no roteiro: PostgREST mapeia classe SQLSTATE 40 para HTTP 500; a revisao obsoleta 40001 nao deve ser presumida HTTP 409. Exigir codigo 40001/mensagem controlada/ausencia de mutacao, e nao aceitar um 500 generico como resultado esperado. Nao altera o SQL aprovado.
+Fonte: https://docs.postgrest.org/en/stable/references/errors.html.
+
+### Resultado da rodada e decisao
+- Suite local afetada: **396 PASS / zero FAIL** (390 anteriores + seis provas novas).
+- Auditorias completas: sete/npm11 e oito/npm10; producao zero/ambos. Nenhum lockfile alterado.
+- Lint: PASS; typecheck: PASS; npm test: 185 PASS / zero FAIL; git diff --check: PASS. Os testes afetados foram reexecutados.
+- Nenhum ajuste adicional indispensavel no SQL aprovado foi identificado antes de SOLICITAR autorizacao de aplicacao.
+- Permanecem gates para aplicar: revisao Work das evidencias, consumidores externos, backup/restauracao e preflight atualizados com autorizacao explicita. A auditoria HTTP independente nao esta encerrada.
+- Aplicacao/homologacao/seguranca de producao NAO aprovadas por estes resultados locais.
+- Risco dev e limite do ensaio Auth permanecem documentados, nao escondidos como PASS de integracao real.
+
+## Historico da implementacao e validacao anterior (CI #87)
+
 Data: 11/11/2026, America/Sao_Paulo. PR principal #16, em Draft.
 Branch: work/crm-stage03f-controlled-fixes-20261109.
 Base revisada: 4d92d0c3061dec4ec5d0d601809720a36e5b197c.
