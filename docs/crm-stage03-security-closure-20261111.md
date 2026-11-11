@@ -116,3 +116,4 @@ Nenhuma acao de rollback, restauracao ou deployment executada.
 
 Fontes oficiais consultadas: https://supabase.com/docs/guides/database/postgres/row-level-security e https://supabase.com/changelog.md (CLI v3: migration new e local). Criacao do arquivo pelo comando oficial migration new, sem db push, apply_migration ou escrita SQL remota.
 
+Conferencia remota final, somente SELECT: 22 migrations, ultima versao 20261105172215, proposta crm_stage03_security_surface ausente. O hardening ainda nao esta ativo no staging.
