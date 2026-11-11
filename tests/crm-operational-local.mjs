@@ -1617,8 +1617,18 @@ try {
   const quickMigrations=readdirSync("supabase/migrations").filter(name=>name.endsWith("_crm_quick_service.sql"));
   assert.equal(quickMigrations.length,1);
   await db.exec(readSql("supabase/migrations/"+quickMigrations[0]));migrations.push(quickMigrations[0]);
+  const surfaceMigrations = readdirSync("supabase/migrations").filter(name => name.endsWith("_crm_stage03_security_surface.sql"));
+  assert.equal(surfaceMigrations.length, 1);
+  const publicMetricsBefore = (await db.query("select pg_get_viewdef(oid) definition,relacl::text acl,reloptions from pg_class where oid='public.property_metrics'::regclass")).rows[0];
+  await db.exec(readSql("supabase/migrations/" + surfaceMigrations[0]));
+  migrations.push(surfaceMigrations[0]);
+  await check("surface: property_metrics definition options and ACL remain identical", async () => {
+    assert.deepEqual((await db.query("select pg_get_viewdef(oid) definition,relacl::text acl,reloptions from pg_class where oid='public.property_metrics'::regclass")).rows[0], publicMetricsBefore);
+  });
   const {runQuickServiceScenarios}=await import("./crm-quick-service-scenarios.mjs");
   await runQuickServiceScenarios({db,actor,check,denied,ids});
+  const {runSecuritySurfaceScenarios}=await import("./crm-security-surface-scenarios.mjs");
+  await runSecuritySurfaceScenarios({db,actor,check,ids});
 } catch (e) {
   results.push({
     name: "suite infrastructure/fixture",

@@ -44,6 +44,10 @@
     {
       "name": "20261105172215_crm_quick_service.sql",
       "sha256": "da0c21248461ef2a7594f12ddc8520c6a60d87fe749a62311cb5c7b646a154fa"
+    },
+    {
+      "name": "20261111151927_crm_stage03_security_surface.sql",
+      "sha256": "042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d"
     }
   ],
   "results": [
@@ -1188,6 +1192,10 @@
       "result": "APROVADO"
     },
     {
+      "name": "surface: property_metrics definition options and ACL remain identical",
+      "result": "APROVADO"
+    },
+    {
       "name": "quick phone SQL/TypeScript parity: national mobile",
       "result": "APROVADO"
     },
@@ -1440,12 +1448,172 @@
       "result": "APROVADO"
     },
     {
+      "name": "security: anon cannot escalate privileges with set_user_role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: a cannot escalate privileges with set_user_role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: b cannot escalate privileges with set_user_role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: manager cannot escalate privileges with set_user_role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: disabled cannot escalate privileges with set_user_role RPC",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: anon cannot mutate A private client by direct SQL",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: b cannot mutate A private client by direct SQL",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: manager cannot mutate A private client by direct SQL",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: admin cannot mutate A private client by direct SQL",
+      "result": "APROVADO"
+    },
+    {
+      "name": "security: disabled cannot mutate A private client by direct SQL",
+      "result": "APROVADO"
+    },
+    {
       "name": "quick service: archived client rejects timeline, update and receipt replay",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: anonymous SELECT denied for admin_dashboard_metrics",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: anonymous SELECT denied for property_admin_metrics",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: anonymous SELECT denied for lead_origin_metrics",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: a metrics retain grants and underlying RLS",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: b metrics retain grants and underlying RLS",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: manager metrics retain grants and underlying RLS",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: admin metrics retain grants and underlying RLS",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: public property_metrics remains callable and RLS scoped",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: privileged RPC ACL set_user_role(text,text)",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: privileged RPC ACL sync_property_media_arrays(bigint)",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: privileged RPC ACL crm_save_quick_client(bigint,bigint,uuid,jsonb)",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: privileged RPC ACL crm_archive_client(bigint)",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: privileged RPC ACL crm_client_timeline(bigint,integer)",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: privileged RPC ACL crm_record_client_contact(bigint,uuid)",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: trigger is not an anonymous RPC crm_audit_change",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: trigger is not an anonymous RPC crm_followup_timeline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: trigger is not an anonymous RPC crm_lead_timeline",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: trigger is not an anonymous RPC crm_set_property_code",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: trigger is not an anonymous RPC handle_new_auth_user",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: authorized admin role management remains functional",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: a foreign client valid payload and direct RLS rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: b foreign client valid payload and direct RLS rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: manager foreign client valid payload and direct RLS rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: admin foreign client valid payload and direct RLS rejected",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: own write conflict and idempotency are preserved",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: media sync keeps owner authorization",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: public presentation invalid reveals nothing and creates no event",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: public presentation revoked reveals nothing and creates no event",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: public presentation expired reveals nothing and creates no event",
+      "result": "APROVADO"
+    },
+    {
+      "name": "surface: public presentation capability and consented idempotent opens remain valid",
       "result": "APROVADO"
     }
   ],
   "summary": {
-    "passed": 349,
+    "passed": 390,
     "failed": 0
   }
 }
