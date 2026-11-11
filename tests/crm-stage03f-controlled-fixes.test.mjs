@@ -19,7 +19,8 @@ test("legacy contact creation preserves the owner and mixed-contact choices", ()
   const contacts = source("Contacts");
   const editor = source("ClientEditor");
   assert.match(contacts, /allowContactTypeOnCreate/);
-  assert.match(editor, /allowContactTypeOnCreate\s*&&\s*f\.name\s*===\s*["']contact_type["']/);
+  assert.match(editor, /\["name", "phone", "notes", "contact_type"\]\.includes\(f\.name\)/);
+  assert.match(editor, /allowContactTypeOnCreate = true/);
   assert.match(editor, /contact_type:\s*text\(f,\s*["']contact_type["']\)/);
 });
 
