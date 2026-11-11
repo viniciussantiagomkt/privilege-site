@@ -82,7 +82,7 @@ export function ClientEditor({
   onCancel,
   onDirty,
   onExisting,
-  allowContactTypeOnCreate = false,
+  allowContactTypeOnCreate = true,
 }: {
   contact?: Contact;
   onSaved: (id: number) => void;
@@ -237,7 +237,7 @@ export function ClientEditor({
           <div className="crm-form-grid">
             {clientFields(contact)
               .filter(
-                (f) => contact || ["name", "phone", "notes"].includes(f.name) || (allowContactTypeOnCreate && f.name === "contact_type"),
+                (f) => contact || ["name", "phone", "notes", "contact_type"].includes(f.name),
               )
               .map((f) => (
                 <label
