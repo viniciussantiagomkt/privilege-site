@@ -381,6 +381,33 @@ export async function runQuickServiceScenarios({ db, actor, check, denied }) {
         );
       },
     );
+  // Security regression PR #16: exercise direct database operations that bypass the UI.
+  // These are isolated PGlite fixtures; no Supabase staging or production writes.
+  for (const role of ["anon", "a", "b", "manager", "disabled"]) {
+    await check(`security: ${role} cannot escalate privileges with set_user_role RPC`, async () => {
+      await assert.rejects(
+        actor(role, "select public.set_user_role($1,$2)", [
+          "nonexistent-fixture@example.invalid",
+          "admin",
+        ]),
+        (e) => e.code === "42501",
+      );
+    });
+  }
+  for (const role of ["anon", "b", "manager", "admin", "disabled"]) {
+    await check(`security: ${role} cannot mutate A private client by direct SQL`, async () => {
+      await denied(
+        role,
+        "update public.clients set name='Unauthorized fixture edit' where id=$1 returning id",
+        [client.id],
+      );
+      await denied(role, "delete from public.clients where id=$1 returning id", [client.id]);
+      assert.equal(
+        (await db.query("select name from public.clients where id=$1", [client.id])).rows[0].name,
+        "Cliente fictício Etapa 03",
+      );
+    });
+  }
   await check(
     "quick service: archived client rejects timeline, update and receipt replay",
     async () => {
