@@ -36,7 +36,7 @@ function Invoke-LocalDocker {
 }
 function Read-LocalQuery {
     param([string]$Database, [string]$Sql)
-    return Invoke-LocalDocker 'Local SQL check' @('exec',$containerName,'psql','-U','supabase_admin','-d',$Database,'-X','-v','ON_ERROR_STOP=1','-t','-A','-c',$Sql)
+    return Invoke-LocalDocker 'Local SQL check' @('exec',$containerName,'psql','-U','supabase_admin','-d',$Database,'-X','-q','-v','ON_ERROR_STOP=1','-t','-A','-c',$Sql)
 }
 try {
     if ($env:OS -ne 'Windows_NT') { throw 'This script is for Windows only.' }
@@ -47,6 +47,8 @@ try {
     $manifestFile = Join-Path $BackupDirectory 'manifest.json'
     $manifest = Get-Content -LiteralPath $manifestFile -Raw | ConvertFrom-Json
     if ($manifest.project -ne $projectRef -or $manifest.archive_list_and_decode -ne 'PASS') { throw 'Backup manifest is not the expected staging backup.' }
+    if ($manifest.source.migration_count -ne 22 -or !$manifest.source.quick_service_present -or $manifest.source.security_migration_present) { throw 'Restore requires the current 22-migration backup, before security hardening.' }
+    if (!$manifest.schema_stable_during_backup -or !$manifest.schema_fingerprint) { throw 'Backup schema stability evidence is missing.' }
     if ($manifest.archive_sha256 -ne $expectedHash -or (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -ne $expectedHash) { throw 'Backup SHA-256 mismatch. Nothing will be restored.' }
     if ((Get-Item -LiteralPath $archiveFile).Length -ne $ExpectedArchiveBytes -or $manifest.archive_bytes -ne $ExpectedArchiveBytes) { throw 'Unexpected archive size.' }
     $contextName = (Invoke-LocalDocker 'Docker context check' @('context','show')).Trim()
@@ -81,6 +83,9 @@ select json_build_object(
  'clients',(select count(*) from public.clients),
  'materials',(select count(*) from public.marketing_assets),
  'migration_count',(select count(*) from supabase_migrations.schema_migrations),
+ 'migration_versions',(select string_agg(version,',' order by version) from supabase_migrations.schema_migrations),
+ 'quick_service_present',to_regprocedure('public.crm_save_quick_client(bigint,bigint,uuid,jsonb)') is not null,
+ 'security_migration_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261111151927' or name='crm_stage03_security_surface'),
  'm5_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261019170348'),
  'new_migration_present',to_regprocedure('public.crm_marketing_recipients()') is not null,
  'public_tables_without_rls',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('r','p') and not c.relrowsecurity),
@@ -90,8 +95,13 @@ select json_build_object(
 '@
     $restored = (Read-LocalQuery $targetDatabase $sql) | ConvertFrom-Json
     $differences = @()
-    foreach ($field in @('auth_users','leads','clients','materials','migration_count','m5_present','new_migration_present')) {
+    foreach ($field in @('auth_users','leads','clients','materials','migration_count','migration_versions','quick_service_present','security_migration_present','m5_present','new_migration_present')) {
         if ($restored.$field -ne $manifest.source.$field) { $differences += $field }
+    }
+    $fingerprintSql = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql') -Raw
+    $restoredSchema = (Read-LocalQuery $targetDatabase $fingerprintSql) | ConvertFrom-Json
+    foreach ($part in $manifest.schema_fingerprint.PSObject.Properties.Name) {
+        if ($restoredSchema.$part.count -ne $manifest.schema_fingerprint.$part.count -or $restoredSchema.$part.md5 -ne $manifest.schema_fingerprint.$part.md5) { $differences += ('schema_fingerprint_' + $part) }
     }
     if ($restored.public_tables_without_rls -ne 0 -or !$restored.marketing_storage_policy_present -or !$restored.audience_function_present) { $differences += 'schema_security_checks' }
     $archiveUnchanged = (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -eq $expectedHash
@@ -113,6 +123,8 @@ select json_build_object(
         restore_transaction_exit = 0
         comparison_differences = $differences
         restored_counts_and_checks = $restored
+        restored_schema_fingerprint = $restoredSchema
+        source_schema_fingerprint = $manifest.schema_fingerprint
         source_manifest_counts = $manifest.source
         remote_connection_used = $false
         migration_executed = $false

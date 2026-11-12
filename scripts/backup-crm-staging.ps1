@@ -5,7 +5,8 @@ param([string]$PgBin = 'C:\Program Files\PostgreSQL\17\bin')
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $projectRef = 'sdpqphiooiuglywcmkxv'
-$expectedMigrationVersions = '20261008144426,20261008144813,20261008145320,20261008150501,20261008163217,20261008163432,20261008163623,20261009142538,20261009144156,20261009174757,20261013180730,20261019165011,20261019165034,20261019165057,20261019165119,20261019170348,20261028143926,20261028180043,20261029173752,20261029184222,20261030185925'
+$expectedMigrationVersions = '20261008144426,20261008144813,20261008145320,20261008150501,20261008163217,20261008163432,20261008163623,20261009142538,20261009144156,20261009174757,20261013180730,20261019165011,20261019165034,20261019165057,20261019165119,20261019170348,20261028143926,20261028180043,20261029173752,20261029184222,20261030185925,20261105172215'
+$toolVersions = [ordered]@{}
 $backupDirectory = $null
 $completed = $false
 $priorEnvironment = @{}
@@ -35,6 +36,7 @@ try {
         if (!(Test-Path -LiteralPath $tool)) { throw "Install PostgreSQL 17 client tools first. Missing: $tool" }
         $version = & $tool --version
         if ($version -notmatch '\b17\.') { throw "$name must be version 17 for this staging database." }
+        $toolVersions[$name] = [string]$version
     }
     Write-Host 'Source project: privilege-imoveis-staging / sdpqphiooiuglywcmkxv'
     Write-Host 'In Supabase Connect, use Direct connection or Session pooler (port 5432).'
@@ -79,6 +81,8 @@ select json_build_object(
  'migration_versions',(select string_agg(version,',' order by version) from supabase_migrations.schema_migrations),
  'm5_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261019170348'),
  'new_migration_present',to_regprocedure('public.crm_marketing_recipients()') is not null,
+ 'quick_service_present',to_regprocedure('public.crm_save_quick_client(bigint,bigint,uuid,jsonb)') is not null,
+ 'security_migration_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261111151927' or name='crm_stage03_security_surface'),
  'auth_users',(select count(*) from auth.users),
  'leads',(select count(*) from public.leads),
  'clients',(select count(*) from public.clients),
@@ -91,6 +95,8 @@ select json_build_object(
     if ($source.server_version -notmatch '^17\.' -or !$source.m5_present -or $source.migration_count -ne $expectedMigrationVersions.Split(',').Count -or !$source.new_migration_present -or $source.migration_versions -ne $expectedMigrationVersions) {
         throw 'Source history differs from the authorized baseline. Stop; do not apply or repeat any migration.'
     }
+    if (!$source.quick_service_present -or $source.security_migration_present) { throw 'Quick-service/security migration state differs from the approved 22-version baseline.' }
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql'))) (Join-Path $backupDirectory 'schema-before.json')
     $dumpFile = Join-Path $backupDirectory 'staging-database.dump'
     Invoke-PgClient 'pg_dump' ($connection + @('--dbname','postgres','--format=custom','--lock-wait-timeout=5s','--file',$dumpFile)) (Join-Path $backupDirectory 'dump-output.txt')
     if (!(Test-Path -LiteralPath $dumpFile) -or (Get-Item -LiteralPath $dumpFile).Length -lt 1024) { throw 'Database archive missing or unexpectedly small.' }
@@ -105,10 +111,18 @@ select json_build_object(
         if (!$toc.Contains($entry)) { throw "Required backup entry missing: $entry" }
     }
     Remove-Item -LiteralPath $decoded -Force
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql'))) (Join-Path $backupDirectory 'schema-after.json')
+    $schemaBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'schema-before.json') -Raw | ConvertFrom-Json
+    $schemaAfter = Get-Content -LiteralPath (Join-Path $backupDirectory 'schema-after.json') -Raw | ConvertFrom-Json
+    if (($schemaBefore | ConvertTo-Json -Depth 10 -Compress) -ne ($schemaAfter | ConvertTo-Json -Depth 10 -Compress)) { throw 'Schema/ACL changed during backup. Preserve files and review; backup not confirmed.' }
     $manifest = [ordered]@{
         project = $projectRef
         created_utc = [DateTime]::UtcNow.ToString('o')
         source = $source
+        tool_versions = $toolVersions
+        schema_fingerprint = $schemaBefore
+        schema_stable_during_backup = $true
+        auxiliary_counts_snapshot = 'Before pg_dump; not the same transaction as archive data'
         archive = 'staging-database.dump'
         archive_bytes = (Get-Item -LiteralPath $dumpFile).Length
         archive_sha256 = (Get-FileHash -LiteralPath $dumpFile -Algorithm SHA256).Hash
