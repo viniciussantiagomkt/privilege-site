@@ -1,0 +1,113 @@
+{
+  "result": "PASS",
+  "scope": "Updated staging database backup and isolated restore only; no migration or authenticated homologation",
+  "project_ref": "sdpqphiooiuglywcmkxv",
+  "baseline_commit": "bdb5f06dc489ca7247ebbd9b47fc31b50a993243",
+  "archive_created_utc": "2026-11-12T13:47:27.5848617Z",
+  "archive_bytes": 885434,
+  "archive_sha256": "76e2026889d7325df891e8c4eb5616b0b7ff3f93f9a84b408699d5c8b7a94567",
+  "manifest_sha256": "74300323d5cae8057795de7f12033baab6c137dfda9fe5fc99c04505a7330878",
+  "archive_and_roles_hash_verified": true,
+  "restore_transaction_exit": 0,
+  "remote_postgres": "17.11",
+  "local_postgres": "17.6",
+  "client_tools": "17.11",
+  "isolation": {
+    "network": "none",
+    "ports": [],
+    "binds": [],
+    "privileged": false
+  },
+  "original_restore_report": "REVIEW_REQUIRED retained unchanged",
+  "resolution": "Separate normalized catalog comparison by the implementing Codex matched all 10 categories; not an independent Work audit or a second restore. Corrections: text instead of name in UNION; pg_catalog search_path; logical rather than physical column ordinal.",
+  "normalized_fingerprints": {
+    "columns": {
+      "count": 807,
+      "md5": "c20e68c8e96f00898c54068c2181283a"
+    },
+    "constraints": {
+      "count": 379,
+      "md5": "1048544ac5fbdd55516287fc2d97220f"
+    },
+    "function_grants": {
+      "count": 313,
+      "md5": "3dd3e970830135556f63af9e5d7d1735"
+    },
+    "functions": {
+      "count": 107,
+      "md5": "a661d5dd13acb9d240cdf96de6f34e0e"
+    },
+    "policies": {
+      "count": 130,
+      "md5": "7f1ec317fc5fb10feba93146d1daa6c0"
+    },
+    "schemas": {
+      "count": 5,
+      "md5": "52b0752a9454c46692712eba3ef5a6cf"
+    },
+    "table_grants": {
+      "count": 2501,
+      "md5": "90cd40f067c289497ecd5c8ec420cf87"
+    },
+    "tables": {
+      "count": 88,
+      "md5": "b8740098294a8ba3c51cd7b63e736cf4"
+    },
+    "triggers": {
+      "count": 50,
+      "md5": "d606058f896d1bfb913e5de391c2e8c1"
+    },
+    "views": {
+      "count": 4,
+      "md5": "b161eafb606790dfd5ad85dc15949ae9"
+    }
+  },
+  "normalized_differences": [],
+  "remote_readonly_preflight": {
+    "postgres_version": "17.11",
+    "migration_count": 22,
+    "migration_versions": "20261008144426,20261008144813,20261008145320,20261008150501,20261008163217,20261008163432,20261008163623,20261009142538,20261009144156,20261009174757,20261013180730,20261019165011,20261019165034,20261019165057,20261019165119,20261019170348,20261028143926,20261028180043,20261029173752,20261029184222,20261030185925,20261105172215",
+    "security_migration_applied": false,
+    "public_tables_without_rls": 0,
+    "waiting_locks": 0,
+    "invalid_indexes": 0,
+    "views": [
+      {
+        "relname": "admin_dashboard_metrics",
+        "anon_select": true,
+        "authenticated_select": true
+      },
+      {
+        "relname": "lead_origin_metrics",
+        "anon_select": true,
+        "authenticated_select": true
+      },
+      {
+        "relname": "property_admin_metrics",
+        "anon_select": true,
+        "authenticated_select": true
+      },
+      {
+        "relname": "property_metrics",
+        "anon_select": true,
+        "authenticated_select": true
+      }
+    ]
+  },
+  "tests": {
+    "backup_regressions": 4,
+    "code_tests": 189,
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "powershell_parser": "PASS",
+    "diff_check": "PASS"
+  },
+  "security_sql_sha256": "042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d",
+  "limitations": [
+    "Counts in manifest are not taken in the same transaction as pg_dump.",
+    "Structural equality does not establish all-row equality against a later remote snapshot.",
+    "No Storage bytes, project configuration, Auth login or authenticated HTTP tests covered.",
+    "Local patch level 17.6 differs from source 17.11.",
+    "No pending security migration executed locally or remotely in this run."
+  ]
+}
