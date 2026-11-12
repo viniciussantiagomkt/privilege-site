@@ -1,0 +1,999 @@
+{
+  "scope": "additional review by implementing Codex executor, not attestation by independent Work auditor",
+  "reviewedAtUTC": "2026-11-11T16:25:08.948Z",
+  "verification": {
+    "auditedCommit": "bdb5f06dc489ca7247ebbd9b47fc31b50a993243",
+    "migrationHash": "042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d",
+    "approvedHashMatch": true,
+    "localSuiteRecorded": {
+      "passed": 396,
+      "failed": 0
+    },
+    "localSurfaceChecks": 37,
+    "allViewDefinitionsMatchStaging": true,
+    "all13FunctionBodiesMatchStagingAfterLFNormalization": true,
+    "auditLockfilesMatch": true,
+    "dependencyTotals": [
+      [
+        {
+          "info": 0,
+          "low": 0,
+          "moderate": 8,
+          "high": 0,
+          "critical": 0,
+          "total": 8
+        },
+        {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      ],
+      [
+        {
+          "info": 0,
+          "low": 0,
+          "moderate": 7,
+          "high": 0,
+          "critical": 0,
+          "total": 7
+        },
+        {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      ]
+    ],
+    "extraNpm10": [
+      "eslint-config-next"
+    ]
+  },
+  "history": [
+    {
+      "migration_count": 22,
+      "last_version": "20261105172215",
+      "proposed_present": false
+    }
+  ],
+  "catalog": {
+    "views": [
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+        "name": "admin_dashboard_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": true,
+        "definition_md5": "18b88db66472243b37dae401227676e2",
+        "authenticated_select": true
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+        "name": "lead_origin_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": true,
+        "definition_md5": "b1a82657fe1cb245ddca43ba74eef376",
+        "authenticated_select": true
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+        "name": "property_admin_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": true,
+        "definition_md5": "3174f4f098300b4af303b38497d83e9e",
+        "authenticated_select": true
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+        "name": "property_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": true,
+        "definition_md5": "1cd0a345b778b896f2635cdb1f34ffb3",
+        "authenticated_select": true
+      }
+    ],
+    "functions": [
+      {
+        "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_archive_client",
+        "body_md5": "16a6c1fe59ab351137c949498d709a4a",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_client bigint",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_audit_change",
+        "body_md5": "ec9b1cd1a98407077de1aec8f25b9767",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_client_timeline",
+        "body_md5": "8a550035c45dcc2949a5658c58457efe",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "arguments": "target_client bigint, page_number integer",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_followup_timeline",
+        "body_md5": "092ab67e847a07e2dbc1b094f49b801e",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_lead_timeline",
+        "body_md5": "96ebdd7713757b0a719cfde6e8832f7c",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_public_presentation",
+        "body_md5": "9ab9096d4a32c5657d080a32b7c0a072",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_token uuid",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_record_client_contact",
+        "body_md5": "8ab71ca0bdeb0e49f69f1fde5bce3ecc",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "arguments": "target_client bigint, action_id uuid",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_record_presentation_open",
+        "body_md5": "01f4b0715ae95e0380443d399e00a588",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_save_quick_client",
+        "body_md5": "8584fb215c32699b94478dcc50f04543",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "arguments": "target_client bigint, expected_revision bigint, action_id uuid, payload jsonb",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "crm_set_property_code",
+        "body_md5": "4a215036c7456dd7ab23c23995c2fb23",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "handle_new_auth_user",
+        "body_md5": "03d94589eabeb9007d2b4fe4bf85aecc",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "set_user_role",
+        "body_md5": "398ca21ed8c86d0ee5469ba2c2fdb1fb",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_email text, new_role text",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "name": "sync_property_media_arrays",
+        "body_md5": "21d411eb5652fd2034002d861023a274",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_property_id bigint",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      }
+    ]
+  },
+  "rls": {
+    "rls": [
+      {
+        "table": "audit_logs",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "clients",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "crm_contact_links",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "crm_event_log",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "leads",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "tasks",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "user_roles",
+        "forced": false,
+        "enabled": true
+      },
+      {
+        "table": "visits",
+        "forced": false,
+        "enabled": true
+      }
+    ],
+    "auth_hook": null,
+    "boundaries": [
+      {
+        "kind": "RESTRICTIVE",
+        "check": null,
+        "table": "audit_logs",
+        "using": "((current_user_role() = 'admin'::text) AND (entity = 'user_roles'::text))",
+        "policy": "crm_audit_private_boundary",
+        "command": "SELECT"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": null,
+        "table": "clients",
+        "using": "false",
+        "policy": "crm_client_no_hard_delete",
+        "command": "DELETE"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": "(can_manage_commercial() AND (broker_id = auth.uid()))",
+        "table": "clients",
+        "using": "(can_manage_commercial() AND (broker_id = auth.uid()) AND (deleted_at IS NULL))",
+        "policy": "crm_client_private_boundary",
+        "command": "ALL"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": null,
+        "table": "crm_event_log",
+        "using": "(can_manage_commercial() AND (owner_id = auth.uid()))",
+        "policy": "crm_event_private_boundary",
+        "command": "SELECT"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": null,
+        "table": "leads",
+        "using": "false",
+        "policy": "CRM lead delete boundary",
+        "command": "DELETE"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": "((deleted_at IS NULL) AND ((can_manage_commercial() AND (((broker_id = auth.uid()) AND (origin_type = 'personal'::text) AND (assigned_at IS NULL) AND (first_contact_at IS NULL)) OR (can_manage_operations() AND (broker_id IS NULL) AND (origin_type = 'company'::text) AND (assigned_at IS NULL)))) OR ((auth.uid() IS NULL) AND (broker_id IS NULL) AND (origin_type = 'company'::text) AND (status = 'novo'::text) AND (notes IS NULL) AND (assigned_at IS NULL) AND (first_contact_at IS NULL) AND (lost_reason IS NULL))))",
+        "table": "leads",
+        "using": null,
+        "policy": "CRM lead insert boundary",
+        "command": "INSERT"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": null,
+        "table": "leads",
+        "using": "(can_manage_commercial() AND (deleted_at IS NULL) AND ((broker_id = auth.uid()) OR ((broker_id IS NULL) AND (origin_type = 'company'::text) AND can_manage_operations())))",
+        "policy": "CRM lead read boundary",
+        "command": "SELECT"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": "(can_manage_commercial() AND ((broker_id = auth.uid()) OR ((broker_id IS NULL) AND (origin_type = 'company'::text) AND can_manage_operations())))",
+        "table": "leads",
+        "using": "crm_private.lead_readable(id)",
+        "policy": "CRM lead update boundary",
+        "command": "UPDATE"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": "(can_manage_commercial() AND (broker_id = auth.uid()) AND ((lead_id IS NULL) OR crm_private.lead_readable(lead_id)) AND ((client_id IS NULL) OR crm_private.client_readable(client_id)))",
+        "table": "tasks",
+        "using": "(can_manage_commercial() AND (broker_id = auth.uid()) AND ((lead_id IS NULL) OR crm_private.lead_readable(lead_id)) AND ((client_id IS NULL) OR crm_private.client_readable(client_id)))",
+        "policy": "crm_task_private_boundary",
+        "command": "ALL"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": "(can_manage_operations() OR (client_id IS NULL) OR (EXISTS ( SELECT 1\n   FROM clients c\n  WHERE (c.id = visits.client_id))))",
+        "table": "visits",
+        "using": "(can_manage_operations() OR (client_id IS NULL) OR (EXISTS ( SELECT 1\n   FROM clients c\n  WHERE (c.id = visits.client_id))))",
+        "policy": "CRM visits related client boundary",
+        "command": "ALL"
+      },
+      {
+        "kind": "RESTRICTIVE",
+        "check": "(can_manage_commercial() AND (broker_id = auth.uid()) AND ((client_id IS NULL) OR crm_private.client_readable(client_id)))",
+        "table": "visits",
+        "using": "(can_manage_commercial() AND (broker_id = auth.uid()) AND ((client_id IS NULL) OR crm_private.client_readable(client_id)))",
+        "policy": "crm_visit_private_boundary",
+        "command": "ALL"
+      }
+    ],
+    "waiting_locks": 0,
+    "normalized_functions": [
+      {
+        "name": "crm_archive_client",
+        "body_lf_md5": "16a6c1fe59ab351137c949498d709a4a"
+      },
+      {
+        "name": "crm_audit_change",
+        "body_lf_md5": "ec9b1cd1a98407077de1aec8f25b9767"
+      },
+      {
+        "name": "crm_client_timeline",
+        "body_lf_md5": "8a550035c45dcc2949a5658c58457efe"
+      },
+      {
+        "name": "crm_followup_timeline",
+        "body_lf_md5": "092ab67e847a07e2dbc1b094f49b801e"
+      },
+      {
+        "name": "crm_lead_timeline",
+        "body_lf_md5": "96ebdd7713757b0a719cfde6e8832f7c"
+      },
+      {
+        "name": "crm_public_presentation",
+        "body_lf_md5": "9ab9096d4a32c5657d080a32b7c0a072"
+      },
+      {
+        "name": "crm_record_client_contact",
+        "body_lf_md5": "8ab71ca0bdeb0e49f69f1fde5bce3ecc"
+      },
+      {
+        "name": "crm_record_presentation_open",
+        "body_lf_md5": "01f4b0715ae95e0380443d399e00a588"
+      },
+      {
+        "name": "crm_save_quick_client",
+        "body_lf_md5": "8584fb215c32699b94478dcc50f04543"
+      },
+      {
+        "name": "crm_set_property_code",
+        "body_lf_md5": "4a215036c7456dd7ab23c23995c2fb23"
+      },
+      {
+        "name": "handle_new_auth_user",
+        "body_lf_md5": "03d94589eabeb9007d2b4fe4bf85aecc"
+      },
+      {
+        "name": "set_user_role",
+        "body_lf_md5": "398ca21ed8c86d0ee5469ba2c2fdb1fb"
+      },
+      {
+        "name": "sync_property_media_arrays",
+        "body_lf_md5": "472e553727d8281ed1f7835cbf4482ad"
+      }
+    ]
+  },
+  "securityAdvisors": [
+    {
+      "name": "rls_enabled_no_policy",
+      "level": "INFO",
+      "count": 3,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+      "objects": [
+        {
+          "name": "ad_sync_leases",
+          "type": "table",
+          "schema": "crm_private"
+        },
+        {
+          "name": "campaign_receipts",
+          "type": "table",
+          "schema": "crm_private"
+        },
+        {
+          "name": "property_code_registry",
+          "type": "table",
+          "schema": "public"
+        }
+      ]
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "level": "WARN",
+      "count": 16,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+      "objects": [
+        {
+          "name": "can_manage_commercial",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "can_manage_operations",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_audit_change",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_followup_timeline",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_lead_timeline",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_public_presentation",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "target_token uuid",
+          "security_definer": true
+        },
+        {
+          "name": "crm_record_presentation_open",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+          "security_definer": true
+        },
+        {
+          "name": "crm_set_property_code",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "current_user_role",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "handle_new_auth_user",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "increment_property_view",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_property_id bigint, source_value text, page_path_value text",
+          "security_definer": true
+        },
+        {
+          "name": "is_admin",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "is_privilege_admin",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "is_staff",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "set_user_role",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_email text, new_role text",
+          "security_definer": true
+        },
+        {
+          "name": "sync_property_media_arrays",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_property_id bigint",
+          "security_definer": true
+        }
+      ]
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "count": 40,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+      "objects": [
+        {
+          "name": "can_manage_commercial",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "can_manage_operations",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_accept_lead_transfer",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_request bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_archive_client",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_client bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_archive_lead",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_lead bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_assign_lead",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_lead bigint, target_broker uuid, assignment_reason text",
+          "security_definer": true
+        },
+        {
+          "name": "crm_audit_change",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_capture_campaign_lead",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_campaign bigint, capture_id uuid, contact_name text, contact_phone text, attribution jsonb",
+          "security_definer": true
+        },
+        {
+          "name": "crm_client_timeline",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_client bigint, page_number integer",
+          "security_definer": true
+        },
+        {
+          "name": "crm_confirm_presentation_share",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_share bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_disconnect_ad_account",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_account uuid",
+          "security_definer": true
+        },
+        {
+          "name": "crm_eligible_brokers",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_followup_timeline",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_lead_timeline",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_management_metrics",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "period_days integer",
+          "security_definer": true
+        },
+        {
+          "name": "crm_marketing_recipients",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_public_presentation",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "target_token uuid",
+          "security_definer": true
+        },
+        {
+          "name": "crm_read_notification",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_notification bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_record_client_contact",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_client bigint, action_id uuid",
+          "security_definer": true
+        },
+        {
+          "name": "crm_record_contact",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_lead bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_record_presentation_open",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+          "security_definer": true
+        },
+        {
+          "name": "crm_request_lead_transfer",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_lead bigint, target_broker uuid, transfer_reason text",
+          "security_definer": true
+        },
+        {
+          "name": "crm_restore_client",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_client bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_restore_lead",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_lead bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_review_sale",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_sale bigint, expected_revision integer, decision text, review_reason text",
+          "security_definer": true
+        },
+        {
+          "name": "crm_sale_review_queue",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_save_campaign",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_campaign bigint, payload jsonb",
+          "security_definer": true
+        },
+        {
+          "name": "crm_save_quick_client",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_client bigint, expected_revision bigint, action_id uuid, payload jsonb",
+          "security_definer": true
+        },
+        {
+          "name": "crm_set_asset_audience",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_asset bigint, new_audience text, recipients uuid[]",
+          "security_definer": true
+        },
+        {
+          "name": "crm_set_property_code",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "crm_submit_asset_review",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_asset bigint",
+          "security_definer": true
+        },
+        {
+          "name": "crm_transfer_candidates",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "current_user_role",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "handle_new_auth_user",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "increment_property_view",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_property_id bigint, source_value text, page_path_value text",
+          "security_definer": true
+        },
+        {
+          "name": "is_admin",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "is_privilege_admin",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "is_staff",
+          "schema": "public",
+          "language": "sql",
+          "arguments": "",
+          "security_definer": true
+        },
+        {
+          "name": "set_user_role",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_email text, new_role text",
+          "security_definer": true
+        },
+        {
+          "name": "sync_property_media_arrays",
+          "schema": "public",
+          "language": "plpgsql",
+          "arguments": "target_property_id bigint",
+          "security_definer": true
+        }
+      ]
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "level": "WARN",
+      "count": 1,
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+      "objects": [
+        {
+          "type": "auth",
+          "entity": "Auth"
+        }
+      ]
+    }
+  ],
+  "http": {
+    "identity": "public staging anon; no user session",
+    "checks": [
+      {
+        "case": "H11/save",
+        "status": 401,
+        "code": "42501",
+        "bodyKind": "object",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "H11/contact",
+        "status": 401,
+        "code": "42501",
+        "bodyKind": "object",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "H11/timeline",
+        "status": 401,
+        "code": "42501",
+        "bodyKind": "object",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "H16/role",
+        "status": 401,
+        "code": "42501",
+        "bodyKind": "object",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "H16/media",
+        "status": 401,
+        "code": "42501",
+        "bodyKind": "object",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "HEAD/admin_dashboard_metrics",
+        "status": 200,
+        "code": null,
+        "bodyKind": "HEAD/no body",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "HEAD/property_admin_metrics",
+        "status": 200,
+        "code": null,
+        "bodyKind": "HEAD/no body",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "HEAD/lead_origin_metrics",
+        "status": 200,
+        "code": null,
+        "bodyKind": "HEAD/no body",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "HEAD/property_metrics",
+        "status": 200,
+        "code": null,
+        "bodyKind": "HEAD/no body",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "H22/invalid",
+        "status": 200,
+        "code": null,
+        "bodyKind": "null",
+        "sensitiveFieldsDetected": false
+      },
+      {
+        "case": "H24/no-consent",
+        "status": 200,
+        "code": null,
+        "bodyKind": "boolean",
+        "booleanResult": false,
+        "sensitiveFieldsDetected": false
+      }
+    ]
+  },
+  "additionalHttpEvidence": "crm-stage03-anon-readonly-http-20261111.json",
+  "authenticatedHttp": "BLOCKED; no own legitimately supplied sessions; no browser token extraction",
+  "backup": {
+    "source": "staging-20261105-135850-b4a75284",
+    "createdUTC": "2026-11-05T16:59:43.7985517Z",
+    "bytes": 863257,
+    "archiveHash": "ff117eda66b14da33659a62ce4a2e5e897395a1b9c6e3ba249584da0f50b98ac",
+    "archiveHashMatches": true,
+    "restoreReportsReviewed": 2,
+    "restoreReportsResult": "PASS, exit 0, differences []",
+    "historicalMigrationCount": 21,
+    "currentRecoveryPoint": "OUTDATED; renewed backup/restore covering 22 migrations required",
+    "notFullSupabaseRecovery": true
+  }
+}
