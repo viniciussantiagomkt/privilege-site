@@ -1,0 +1,636 @@
+{
+  "status": "BLOCKED_DRIFT_NO_APPLICATION_ATTEMPTED",
+  "audited_commit": "bf76cff1bea77c08a4d6577bda1a2b73f785e592",
+  "project": {
+    "ref": "sdpqphiooiuglywcmkxv",
+    "name": "privilege-imoveis-staging",
+    "status": "ACTIVE_HEALTHY",
+    "postgres": "17.11"
+  },
+  "migration": {
+    "file": "supabase/migrations/20261111151927_crm_stage03_security_surface.sql",
+    "sha256": "042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d",
+    "content_changed": false
+  },
+  "ci": {
+    "run": 89,
+    "result": "success",
+    "url": "https://github.com/viniciussantiagomkt/privilege-site/actions/runs/43234673139"
+  },
+  "backup": {
+    "created_utc": "2026-11-12T13:47:27.5848617Z",
+    "archive_sha256": "76e2026889d7325df891e8c4eb5616b0b7ff3f93f9a84b408699d5c8b7a94567",
+    "hash_reverified": true,
+    "restored_local_postgres": "17.6"
+  },
+  "preflight": {
+    "catalog_comparison": "8/10 categories match; function_grants and table_grants diverge",
+    "approved_fingerprints": {
+      "columns": {
+        "count": 807,
+        "md5": "c20e68c8e96f00898c54068c2181283a"
+      },
+      "constraints": {
+        "count": 379,
+        "md5": "1048544ac5fbdd55516287fc2d97220f"
+      },
+      "function_grants": {
+        "count": 313,
+        "md5": "3dd3e970830135556f63af9e5d7d1735"
+      },
+      "functions": {
+        "count": 107,
+        "md5": "a661d5dd13acb9d240cdf96de6f34e0e"
+      },
+      "policies": {
+        "count": 130,
+        "md5": "7f1ec317fc5fb10feba93146d1daa6c0"
+      },
+      "schemas": {
+        "count": 5,
+        "md5": "52b0752a9454c46692712eba3ef5a6cf"
+      },
+      "table_grants": {
+        "count": 2501,
+        "md5": "90cd40f067c289497ecd5c8ec420cf87"
+      },
+      "tables": {
+        "count": 88,
+        "md5": "b8740098294a8ba3c51cd7b63e736cf4"
+      },
+      "triggers": {
+        "count": 50,
+        "md5": "d606058f896d1bfb913e5de391c2e8c1"
+      },
+      "views": {
+        "count": 4,
+        "md5": "b161eafb606790dfd5ad85dc15949ae9"
+      }
+    },
+    "current_fingerprints": {
+      "columns": {
+        "count": 807,
+        "md5": "c20e68c8e96f00898c54068c2181283a"
+      },
+      "constraints": {
+        "count": 379,
+        "md5": "1048544ac5fbdd55516287fc2d97220f"
+      },
+      "function_grants": {
+        "count": 311,
+        "md5": "1bad0cacea71d45190382db9cb76c1ac"
+      },
+      "functions": {
+        "count": 107,
+        "md5": "a661d5dd13acb9d240cdf96de6f34e0e"
+      },
+      "policies": {
+        "count": 130,
+        "md5": "7f1ec317fc5fb10feba93146d1daa6c0"
+      },
+      "schemas": {
+        "count": 5,
+        "md5": "52b0752a9454c46692712eba3ef5a6cf"
+      },
+      "table_grants": {
+        "count": 2487,
+        "md5": "5d5fe466a257d2cf2150a36f4ddbd36d"
+      },
+      "tables": {
+        "count": 88,
+        "md5": "b8740098294a8ba3c51cd7b63e736cf4"
+      },
+      "triggers": {
+        "count": 50,
+        "md5": "d606058f896d1bfb913e5de391c2e8c1"
+      },
+      "views": {
+        "count": 4,
+        "md5": "b161eafb606790dfd5ad85dc15949ae9"
+      }
+    },
+    "material_data_comparison": {
+      "tables": 54,
+      "differences": 0,
+      "auth_excluded_fields": [
+        "updated_at",
+        "last_sign_in_at"
+      ]
+    },
+    "dry_run": {
+      "tool": "Supabase CLI 3.1.0",
+      "tls": true,
+      "connection": "Direct staging, password only in process environment; no CLI account session, credential extraction or history repair",
+      "exit": 0,
+      "pending": [
+        "20261111151927_crm_stage03_security_surface.sql"
+      ],
+      "completed_utc": "2026-11-12T14:41:21.5574602Z"
+    },
+    "grant_drift": [
+      {
+        "backup": {
+          "kind": "functions",
+          "object": "storage.delete_lifecycle_objects(object_ids uuid[])",
+          "privileges": "EXECUTE|supabase_storage_admin|false"
+        },
+        "current": null
+      },
+      {
+        "backup": {
+          "kind": "functions",
+          "object": "storage.reconcile_lifecycle_state(target_bucket_id text, policy_changed boolean)",
+          "privileges": "EXECUTE|supabase_storage_admin|false"
+        },
+        "current": null
+      },
+      {
+        "backup": {
+          "kind": "relations",
+          "object": "storage.bucket_lifecycle_states",
+          "privileges": "DELETE|supabase_storage_admin|false\nINSERT|supabase_storage_admin|false\nMAINTAIN|supabase_storage_admin|false\nREFERENCES|supabase_storage_admin|false\nSELECT|supabase_storage_admin|false\nTRIGGER|supabase_storage_admin|false\nTRUNCATE|supabase_storage_admin|false\nUPDATE|supabase_storage_admin|false"
+        },
+        "current": {
+          "kind": "relations",
+          "object": "storage.bucket_lifecycle_states",
+          "privileges": "SELECT|supabase_storage_admin|false"
+        }
+      },
+      {
+        "backup": {
+          "kind": "relations",
+          "object": "storage.lifecycle_abandoned_artifacts",
+          "privileges": "DELETE|supabase_storage_admin|false\nINSERT|supabase_storage_admin|false\nMAINTAIN|supabase_storage_admin|false\nREFERENCES|supabase_storage_admin|false\nSELECT|supabase_storage_admin|false\nTRIGGER|supabase_storage_admin|false\nTRUNCATE|supabase_storage_admin|false\nUPDATE|supabase_storage_admin|false"
+        },
+        "current": {
+          "kind": "relations",
+          "object": "storage.lifecycle_abandoned_artifacts",
+          "privileges": "SELECT|supabase_storage_admin|false"
+        }
+      }
+    ],
+    "role_comparison": {
+      "changed_grantee": "postgres",
+      "unchanged_grantees": [
+        "anon",
+        "authenticated",
+        "service_role",
+        "dashboard_user",
+        "supabase_auth_admin",
+        "supabase_storage_admin",
+        "PUBLIC"
+      ]
+    },
+    "storage_history": {
+      "new_entry": {
+        "id": 80,
+        "name": "revoke-extra-lifecycle-postgres-grants",
+        "hash": "18cfbf5c5b356469e1e95f3aa1b59ba111d82a06",
+        "executed_at": "2026-11-12 14:35:54.762352"
+      },
+      "backup_last_id": 79,
+      "observation": "Internal Storage history records migration 80 before the password helper existed; cannot attribute it to this executor. No security migration application occurred."
+    },
+    "grants_current": {
+      "views": [
+        {
+          "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+          "name": "admin_dashboard_metrics",
+          "options": [
+            "security_invoker=true"
+          ],
+          "anon_select": true,
+          "definition_md5": "18b88db66472243b37dae401227676e2",
+          "authenticated_select": true
+        },
+        {
+          "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+          "name": "lead_origin_metrics",
+          "options": [
+            "security_invoker=true"
+          ],
+          "anon_select": true,
+          "definition_md5": "b1a82657fe1cb245ddca43ba74eef376",
+          "authenticated_select": true
+        },
+        {
+          "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+          "name": "property_admin_metrics",
+          "options": [
+            "security_invoker=true"
+          ],
+          "anon_select": true,
+          "definition_md5": "3174f4f098300b4af303b38497d83e9e",
+          "authenticated_select": true
+        },
+        {
+          "acl": "{postgres=arwdDxtm/postgres,anon=arwdm/postgres,authenticated=arwdm/postgres,service_role=arwdDxtm/postgres}",
+          "name": "property_metrics",
+          "options": [
+            "security_invoker=true"
+          ],
+          "anon_select": true,
+          "definition_md5": "1cd0a345b778b896f2635cdb1f34ffb3",
+          "authenticated_select": true
+        }
+      ],
+      "functions": [
+        {
+          "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_archive_client",
+          "body_md5": "16a6c1fe59ab351137c949498d709a4a",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "target_client bigint",
+          "anon_execute": false,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_audit_change",
+          "body_md5": "ec9b1cd1a98407077de1aec8f25b9767",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_client_timeline",
+          "body_md5": "8a550035c45dcc2949a5658c58457efe",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "arguments": "target_client bigint, page_number integer",
+          "anon_execute": false,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_followup_timeline",
+          "body_md5": "092ab67e847a07e2dbc1b094f49b801e",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_lead_timeline",
+          "body_md5": "96ebdd7713757b0a719cfde6e8832f7c",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_public_presentation",
+          "body_md5": "9ab9096d4a32c5657d080a32b7c0a072",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "target_token uuid",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_record_client_contact",
+          "body_md5": "8ab71ca0bdeb0e49f69f1fde5bce3ecc",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "arguments": "target_client bigint, action_id uuid",
+          "anon_execute": false,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_record_presentation_open",
+          "body_md5": "01f4b0715ae95e0380443d399e00a588",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_save_quick_client",
+          "body_md5": "8584fb215c32699b94478dcc50f04543",
+          "settings": [
+            "search_path=\"\""
+          ],
+          "arguments": "target_client bigint, expected_revision bigint, action_id uuid, payload jsonb",
+          "anon_execute": false,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "crm_set_property_code",
+          "body_md5": "4a215036c7456dd7ab23c23995c2fb23",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "handle_new_auth_user",
+          "body_md5": "03d94589eabeb9007d2b4fe4bf85aecc",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "set_user_role",
+          "body_md5": "398ca21ed8c86d0ee5469ba2c2fdb1fb",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "target_email text, new_role text",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        },
+        {
+          "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+          "name": "sync_property_media_arrays",
+          "body_md5": "21d411eb5652fd2034002d861023a274",
+          "settings": [
+            "search_path=public"
+          ],
+          "arguments": "target_property_id bigint",
+          "anon_execute": true,
+          "security_definer": true,
+          "authenticated_execute": true
+        }
+      ]
+    }
+  },
+  "application": {
+    "attempts": 0,
+    "apply_signal_created": false,
+    "application_attempt_marker": false,
+    "credential_helper_terminated": true,
+    "credentials_retained_on_disk": false,
+    "result": "NOT_EXECUTED"
+  },
+  "history_after_interruption": {
+    "migrations": [
+      {
+        "version": "20261008144426",
+        "name": "crm_security_hardening"
+      },
+      {
+        "version": "20261008144813",
+        "name": "crm_commercial_relations"
+      },
+      {
+        "version": "20261008145320",
+        "name": "crm_atomic_media"
+      },
+      {
+        "version": "20261008150501",
+        "name": "crm_commercial_audit"
+      },
+      {
+        "version": "20261008163217",
+        "name": "crm_private_property_storage"
+      },
+      {
+        "version": "20261008163432",
+        "name": "crm_private_media_assignment"
+      },
+      {
+        "version": "20261008163623",
+        "name": "crm_preserve_private_media"
+      },
+      {
+        "version": "20261009142538",
+        "name": "crm_contact_workspace"
+      },
+      {
+        "version": "20261009144156",
+        "name": "crm_workspace_realtime"
+      },
+      {
+        "version": "20261009174757",
+        "name": "crm_marketing_presentations"
+      },
+      {
+        "version": "20261013180730",
+        "name": "crm_marketing_upload_recovery"
+      },
+      {
+        "version": "20261019165011",
+        "name": "crm_private_portfolios_and_transfers"
+      },
+      {
+        "version": "20261019165034",
+        "name": "crm_management_aggregates"
+      },
+      {
+        "version": "20261019165057",
+        "name": "crm_commercial_sale_ownership"
+      },
+      {
+        "version": "20261019165119",
+        "name": "crm_property_review_notifications"
+      },
+      {
+        "version": "20261019170348",
+        "name": "crm_approved_marketing_audience"
+      },
+      {
+        "version": "20261028143926",
+        "name": "crm_marketing_delivery_notifications"
+      },
+      {
+        "version": "20261028180043",
+        "name": "crm_optional_lead_reasons"
+      },
+      {
+        "version": "20261029173752",
+        "name": "crm_owner_draft_presentations"
+      },
+      {
+        "version": "20261029184222",
+        "name": "crm_campaign_attribution"
+      },
+      {
+        "version": "20261030185925",
+        "name": "crm_ad_reporting"
+      },
+      {
+        "version": "20261105172215",
+        "name": "crm_quick_service"
+      }
+    ]
+  },
+  "postflight": "NOT_EXECUTED: no application; read-only history and Advisors rechecked after interruption",
+  "advisors": {
+    "health": {
+      "before": [],
+      "after_interruption": []
+    },
+    "security": {
+      "before": [
+        {
+          "name": "rls_enabled_no_policy",
+          "level": "INFO",
+          "count": 3,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+        },
+        {
+          "name": "anon_security_definer_function_executable",
+          "level": "WARN",
+          "count": 16,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+        },
+        {
+          "name": "authenticated_security_definer_function_executable",
+          "level": "WARN",
+          "count": 40,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+        },
+        {
+          "name": "auth_leaked_password_protection",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+        }
+      ],
+      "after_interruption": [
+        {
+          "name": "rls_enabled_no_policy",
+          "level": "INFO",
+          "count": 3,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+        },
+        {
+          "name": "anon_security_definer_function_executable",
+          "level": "WARN",
+          "count": 16,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+        },
+        {
+          "name": "authenticated_security_definer_function_executable",
+          "level": "WARN",
+          "count": 40,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+        },
+        {
+          "name": "auth_leaked_password_protection",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+        }
+      ]
+    },
+    "performance": {
+      "before": [
+        {
+          "name": "unindexed_foreign_keys",
+          "level": "INFO",
+          "count": 46,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys"
+        },
+        {
+          "name": "auth_rls_initplan",
+          "level": "WARN",
+          "count": 70,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan"
+        },
+        {
+          "name": "unused_index",
+          "level": "INFO",
+          "count": 24,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+        },
+        {
+          "name": "multiple_permissive_policies",
+          "level": "WARN",
+          "count": 23,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies"
+        },
+        {
+          "name": "duplicate_index",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index"
+        }
+      ],
+      "after_interruption": [
+        {
+          "name": "unindexed_foreign_keys",
+          "level": "INFO",
+          "count": 46,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys"
+        },
+        {
+          "name": "auth_rls_initplan",
+          "level": "WARN",
+          "count": 70,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan"
+        },
+        {
+          "name": "unused_index",
+          "level": "INFO",
+          "count": 24,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+        },
+        {
+          "name": "multiple_permissive_policies",
+          "level": "WARN",
+          "count": 23,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies"
+        },
+        {
+          "name": "duplicate_index",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index"
+        }
+      ]
+    }
+  },
+  "http_tests": {
+    "post_application_anonymous": "NOT_EXECUTED: no migration applied",
+    "authenticated": "BLOCKED: no own legitimate authorized sessions used; no SQL claims simulation"
+  },
+  "decision": "Do not apply until Work reviews drift and recovery baseline is reconciled. Do not revoke or regrant managed Storage permissions, repair history, or auto-retry.",
+  "restrictions": {
+    "production_changed": false,
+    "users_changed": false,
+    "commercial_data_changed": false,
+    "merge": false,
+    "deployment": false
+  }
+}
