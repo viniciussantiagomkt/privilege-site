@@ -1,14 +1,18 @@
 # Local-only restore rehearsal. No remote credentials, migrations or cleanup.
 [CmdletBinding()]
 param(
-    [string]$BackupDirectory = (Join-Path $env:LOCALAPPDATA 'PrivilegeCRM-Backups\staging-20261030-155223-e69332f6'),
+    [Parameter(Mandatory=$true)][string]$BackupDirectory,
+    [Parameter(Mandatory=$true)]
     [ValidatePattern('^[A-Fa-f0-9]{64}$')]
-    [string]$ExpectedArchiveSha256 = '834699014D7801E1BAACC5040F86221A6C1797125034008893395A43E0EACD99',
+    [string]$ExpectedArchiveSha256,
+    [Parameter(Mandatory=$true)][ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$ExpectedManifestSha256,
+    [Parameter(Mandatory=$true)]
     [ValidateRange(1, [long]::MaxValue)]
-    [long]$ExpectedArchiveBytes = 814812
+    [long]$ExpectedArchiveBytes
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'crm-recovery-contract.ps1')
 $expectedHash = $ExpectedArchiveSha256.ToUpperInvariant()
 $expectedImage = 'supabase/postgres@sha256:f371b5f3f2ac0a05703f33d6e6134515fb2498cab708fb948a0aeb7481467c00'
 $containerName = 'privilege-crm-restore-20261028'
@@ -45,10 +49,15 @@ try {
     $BackupDirectory = (Resolve-Path -LiteralPath $BackupDirectory).Path
     $archiveFile = Join-Path $BackupDirectory 'staging-database.dump'
     $manifestFile = Join-Path $BackupDirectory 'manifest.json'
+    if ((Get-FileHash -LiteralPath $manifestFile -Algorithm SHA256).Hash -ne $ExpectedManifestSha256) { throw 'Explicit manifest SHA-256 differs. Nothing will be restored.' }
     $manifest = Get-Content -LiteralPath $manifestFile -Raw | ConvertFrom-Json
     if ($manifest.project -ne $projectRef -or $manifest.archive_list_and_decode -ne 'PASS') { throw 'Backup manifest is not the expected staging backup.' }
     if ($manifest.source.migration_count -ne 22 -or !$manifest.source.quick_service_present -or $manifest.source.security_migration_present) { throw 'Restore requires the current 22-migration backup, before security hardening.' }
     if (!$manifest.schema_stable_during_backup -or !$manifest.schema_fingerprint) { throw 'Backup schema stability evidence is missing.' }
+    if ($manifest.manifest_version -ne 2) { throw 'Legacy manifest is not compatible with the versioned recovery procedure.' }
+    Assert-RecoveryFingerprint ([pscustomobject]@{algorithm_version=$manifest.fingerprint_algorithm_version;categories=$manifest.schema_fingerprint})
+    Assert-RecoveryHistory $manifest.platform
+    if ((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql') -Algorithm SHA256).Hash -ne $manifest.fingerprint_sql_sha256) { throw 'Fingerprint SQL differs from the backup algorithm.' }
     if ($manifest.archive_sha256 -ne $expectedHash -or (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -ne $expectedHash) { throw 'Backup SHA-256 mismatch. Nothing will be restored.' }
     if ((Get-Item -LiteralPath $archiveFile).Length -ne $ExpectedArchiveBytes -or $manifest.archive_bytes -ne $ExpectedArchiveBytes) { throw 'Unexpected archive size.' }
     $contextName = (Invoke-LocalDocker 'Docker context check' @('context','show')).Trim()
@@ -100,8 +109,15 @@ select json_build_object(
     }
     $fingerprintSql = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql') -Raw
     $restoredSchema = (Read-LocalQuery $targetDatabase $fingerprintSql) | ConvertFrom-Json
-    foreach ($part in $manifest.schema_fingerprint.PSObject.Properties.Name) {
-        if ($restoredSchema.$part.count -ne $manifest.schema_fingerprint.$part.count -or $restoredSchema.$part.md5 -ne $manifest.schema_fingerprint.$part.md5) { $differences += ('schema_fingerprint_' + $part) }
+    Assert-RecoveryFingerprint $restoredSchema
+    foreach ($part in $RecoveryCategories) {
+        if ($restoredSchema.categories.$part.count -ne $manifest.schema_fingerprint.$part.count -or $restoredSchema.categories.$part.md5 -ne $manifest.schema_fingerprint.$part.md5) { $differences += ('schema_fingerprint_' + $part) }
+    }
+    $platformSql = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-platform-snapshot.sql') -Raw
+    $restoredPlatform = (Read-LocalQuery $targetDatabase $platformSql) | ConvertFrom-Json
+    Assert-RecoveryHistory $restoredPlatform
+    foreach ($part in @('crm_history','storage_history','roles','memberships','postgres_inherits_service_role','lifecycle_functions','lifecycle_tables')) {
+        if (($restoredPlatform.$part | ConvertTo-Json -Depth 30 -Compress) -cne ($manifest.platform.$part | ConvertTo-Json -Depth 30 -Compress)) { $differences += ('platform_' + $part) }
     }
     if ($restored.public_tables_without_rls -ne 0 -or !$restored.marketing_storage_policy_present -or !$restored.audience_function_present) { $differences += 'schema_security_checks' }
     $archiveUnchanged = (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -eq $expectedHash
@@ -124,12 +140,15 @@ select json_build_object(
         comparison_differences = $differences
         restored_counts_and_checks = $restored
         restored_schema_fingerprint = $restoredSchema
+        fingerprint_algorithm_version = $RecoveryFingerprintVersion
+        restored_platform = $restoredPlatform
+        source_platform = $manifest.platform
         source_schema_fingerprint = $manifest.schema_fingerprint
         source_manifest_counts = $manifest.source
         remote_connection_used = $false
         migration_executed = $false
         limits = @('Database restore only; no Auth login or HTTP Storage byte tests.','Storage file bytes and external project configuration are not included.','Row comparisons cover manifest counts; pg_restore must complete without errors.','No original backup or manifest was overwritten.')
-    } | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $validationFile -Encoding UTF8
+    } | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath $validationFile -Encoding UTF8
     if ($result -ne 'PASS') { throw "Restore completed but comparison requires review: $($differences -join ', '). Do not apply the migration." }
     Write-Host 'RESTORE PASS: transaction completed; manifest counts and schema checks match.'
     Write-Host 'Original archive unchanged. Staging and production were not contacted.'

@@ -1,13 +1,14 @@
 -- Catalog only. Digests contain no row data, credentials or password hashes.
+-- crm-recovery-catalog-v2: canonical ordering plus owners; never compare to v1.
 set search_path = pg_catalog;
 with scope as (
  select oid,nspname from pg_namespace
  where nspname in ('public','crm_private','auth','storage','supabase_migrations')
 ), items as (
- select 'schemas'::text kind,nspname::text key,nspname::text value from scope
+ select 'schemas'::text kind,nspname::text key,nspname::text||'|'||nspowner::regrole::text value from pg_namespace where oid in (select oid from scope)
  union all
  select 'tables',s.nspname||'.'||c.relname,
-   concat_ws('|',c.relkind,c.relrowsecurity,c.relforcerowsecurity)
+   concat_ws('|',c.relkind,c.relrowsecurity,c.relforcerowsecurity,c.relowner::regrole::text)
  from pg_class c join scope s on s.oid=c.relnamespace where c.relkind in ('r','p')
  union all
  select 'columns',s.nspname||'.'||c.relname||'.'||a.attname,
@@ -17,11 +18,11 @@ with scope as (
  where a.attnum>0 and not a.attisdropped and c.relkind in ('r','p')
  union all
  select 'functions',s.nspname||'.'||p.proname||'('||pg_get_function_identity_arguments(p.oid)||')',
-   concat_ws('|',p.prosecdef,p.provolatile,p.proconfig,replace(p.prosrc,E'\r\n',E'\n'))
+   concat_ws('|',p.prosecdef,p.provolatile,p.proconfig,p.proowner::regrole::text,replace(p.prosrc,E'\r\n',E'\n'))
  from pg_proc p join scope s on s.oid=p.pronamespace where p.prokind in ('f','p')
  union all
  select 'views',s.nspname||'.'||c.relname,
-   concat_ws('|',c.reloptions,pg_get_viewdef(c.oid))
+   concat_ws('|',c.reloptions,c.relowner::regrole::text,pg_get_viewdef(c.oid))
  from pg_class c join scope s on s.oid=c.relnamespace where c.relkind in ('v','m')
  union all
  select 'constraints',s.nspname||'.'||c.relname||'.'||k.conname,
@@ -47,7 +48,7 @@ with scope as (
  from pg_proc p join scope s on s.oid=p.pronamespace,
  lateral aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a where p.prokind in ('f','p')
 )
-select json_object_agg(kind,json_build_object('count',n,'md5',digest)) from (
- select kind,count(*) n,md5(string_agg(key||'='||value,E'\n' order by key,value)) digest
+select jsonb_build_object('algorithm_version','crm-recovery-catalog-v2','categories',jsonb_object_agg(kind,jsonb_build_object('count',n,'md5',digest))) from (
+ select kind,count(*) n,md5(string_agg(key||'='||value,E'\n' order by key collate "C",value collate "C")) digest
  from items group by kind
 ) fingerprints;
