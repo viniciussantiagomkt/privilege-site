@@ -1,0 +1,1436 @@
+{
+  "result": "PASS",
+  "scope": "single authorized staging migration and read-only catalog/anonymous HTTP postflight; not full authenticated homologation",
+  "executor": "Codex",
+  "independent_work_review": "PENDING",
+  "code_commit": "c573b1e249bbb73f8d5c98113e188ea76dd527e9",
+  "branch": "work/crm-stage03f-controlled-fixes-20261109",
+  "pr": 16,
+  "pr_draft": true,
+  "project_ref": "sdpqphiooiuglywcmkxv",
+  "project_name": "privilege-imoveis-staging",
+  "postgresql": "17.11",
+  "migration": {
+    "file": "supabase/migrations/20261111151927_crm_stage03_security_surface.sql",
+    "sha256": "042b3f49dc27e91fefa95854af0bca5c5d5be687b301e69ecc3c362fb04b874d",
+    "version": "20261111151927",
+    "name": "crm_stage03_security_surface",
+    "sql_unchanged": true
+  },
+  "backup": {
+    "date": "2026-11-17",
+    "bytes": 889967,
+    "dump_sha256": "73357c35cf3ff17a1a357a27cd3f7ab94ce060534a8b7153b55bec1df6781b5b",
+    "manifest_format": 3,
+    "manifest_sha256": "69f747f96b7160d8e30f59d37f2c378ffb875976f467e4930c1ebd479ec405d9",
+    "roles_sha256": "39b54c1af004ff07aa288274f6aba5ac9be2bda1f2008723f6797b3c700e5b2d",
+    "restore_result": "PASS",
+    "rechecked_before_application": true,
+    "previous_artifacts_preserved": true,
+    "platform_limits": [
+      "Local PostgreSQL 17.6 vs staging 17.11",
+      "Accepted local owners of pg_stat_statements, pgcrypto, uuid-ossp unchanged"
+    ],
+    "scope_limit": "Logical database backup is not complete recovery of Supabase platform, Storage object payloads, external services or deployment configuration."
+  },
+  "preflight": {
+    "result": "PASS",
+    "ci": {
+      "number": 93,
+      "id": 44158448255,
+      "conclusion": "success"
+    },
+    "project_healthy": true,
+    "secure_connection": true,
+    "exact_baseline_match": true,
+    "ten_categories": true,
+    "crm_count": 22,
+    "storage_ids": "0..80",
+    "storage_full_list_match": true,
+    "auth_versions_count": 84,
+    "auth_full_list_match": true,
+    "columns": 809,
+    "indexes": 273,
+    "index_full_definition_owner_state_match": true,
+    "relevant_roles": 8,
+    "memberships": 13,
+    "selected_data_tables": 54,
+    "selected_data_vs_restored_backup": "MATCH",
+    "selected_data_limit": "public/crm_private plus auth.users/identities and storage.objects/buckets; auth updated_at/last_sign_in_at ignored; operational Auth tables and other platform state excluded. No claim of all-row equality based on catalog fingerprints.",
+    "unexpected_drift": 0,
+    "waiting_locks": 0,
+    "invalid_indexes": 0,
+    "public_tables_without_rls": 0,
+    "target_absent": true,
+    "acl_snapshot_objects": 237
+  },
+  "application": {
+    "tool": "Official Supabase CLI",
+    "tool_version": "3.1.0",
+    "psql_version": "17.11",
+    "operation": "db push --remote=<fixed staging URI without password, sslmode=require> --skip-vault --yes --workdir <isolated migration workspace>",
+    "dry_run": {
+      "exit_code": 0,
+      "listed_only": [
+        "20261111151927_crm_stage03_security_surface.sql"
+      ]
+    },
+    "isolated_history_files": 23,
+    "all_files_byte_identical_to_repo": true,
+    "roles_seeds_vault_not_applied": true,
+    "credential_entries": 2,
+    "first_entry_result": "Password authentication failed on first read-only query; zero migration calls in failed credential session",
+    "migration_invocations": 1,
+    "exclusive_attempt_marker": true,
+    "started_utc": "2026-11-17T19:49:30.7423495Z",
+    "returned_utc": "2026-11-17T19:49:33.1087414Z",
+    "exit_code": 0,
+    "completed_message_observed": true,
+    "private_log_powershell_note": "FullyQualifiedErrorId NativeCommandError wraps native stderr notices; CLI exit 0, completion text and independent history/catalog establish successful application. No PostgreSQL ERROR/FATAL line.",
+    "preserved_transaction": true,
+    "lock_timeout": "5s",
+    "statement_timeout": "30s",
+    "retries": 0
+  },
+  "postflight": {
+    "result": "PASS",
+    "history": {
+      "count": 23,
+      "target": [
+        {
+          "name": "crm_stage03_security_surface",
+          "version": "20261111151927"
+        }
+      ],
+      "captured_utc": "2026-11-17T19:49:43.069257+00:00",
+      "target_entries": 1
+    },
+    "summary": {
+      "acl_exact_expected": true,
+      "acl_objects": 237,
+      "categories": [
+        {
+          "name": "views",
+          "before": {
+            "md5": "9d6617e4486a50e321688f725444e686",
+            "count": 4
+          },
+          "after": {
+            "md5": "9d6617e4486a50e321688f725444e686",
+            "count": 4
+          },
+          "unchanged": true
+        },
+        {
+          "name": "tables",
+          "before": {
+            "md5": "a95049c75b8792d3dd8643673efcc512",
+            "count": 88
+          },
+          "after": {
+            "md5": "a95049c75b8792d3dd8643673efcc512",
+            "count": 88
+          },
+          "unchanged": true
+        },
+        {
+          "name": "columns",
+          "before": {
+            "md5": "c622b430758bc8fc730e424da2091cad",
+            "count": 809
+          },
+          "after": {
+            "md5": "c622b430758bc8fc730e424da2091cad",
+            "count": 809
+          },
+          "unchanged": true
+        },
+        {
+          "name": "schemas",
+          "before": {
+            "md5": "3b96caddc52a1704ddf809ea3e970a42",
+            "count": 5
+          },
+          "after": {
+            "md5": "3b96caddc52a1704ddf809ea3e970a42",
+            "count": 5
+          },
+          "unchanged": true
+        },
+        {
+          "name": "policies",
+          "before": {
+            "md5": "7f1ec317fc5fb10feba93146d1daa6c0",
+            "count": 130
+          },
+          "after": {
+            "md5": "7f1ec317fc5fb10feba93146d1daa6c0",
+            "count": 130
+          },
+          "unchanged": true
+        },
+        {
+          "name": "triggers",
+          "before": {
+            "md5": "d606058f896d1bfb913e5de391c2e8c1",
+            "count": 50
+          },
+          "after": {
+            "md5": "d606058f896d1bfb913e5de391c2e8c1",
+            "count": 50
+          },
+          "unchanged": true
+        },
+        {
+          "name": "functions",
+          "before": {
+            "md5": "961dd9d583335e3da8c5fbd9d839a64f",
+            "count": 107
+          },
+          "after": {
+            "md5": "961dd9d583335e3da8c5fbd9d839a64f",
+            "count": 107
+          },
+          "unchanged": true
+        },
+        {
+          "name": "constraints",
+          "before": {
+            "md5": "1048544ac5fbdd55516287fc2d97220f",
+            "count": 379
+          },
+          "after": {
+            "md5": "1048544ac5fbdd55516287fc2d97220f",
+            "count": 379
+          },
+          "unchanged": true
+        },
+        {
+          "name": "table_grants",
+          "before": {
+            "md5": "5d5fe466a257d2cf2150a36f4ddbd36d",
+            "count": 2487
+          },
+          "after": {
+            "md5": "e411207be57da1d0617887006c2e0fe5",
+            "count": 2484
+          },
+          "unchanged": false
+        },
+        {
+          "name": "function_grants",
+          "before": {
+            "md5": "1bad0cacea71d45190382db9cb76c1ac",
+            "count": 311
+          },
+          "after": {
+            "md5": "175e46c197fde43fae5feca8f1d58082",
+            "count": 297
+          },
+          "unchanged": false
+        }
+      ],
+      "indexes_equal": true,
+      "owners_equal": true,
+      "extensions_equal": true,
+      "selected_material_equal": true
+    },
+    "auth_history_unchanged": true,
+    "storage_history_unchanged": true,
+    "roles_unchanged": true,
+    "memberships_unchanged": true,
+    "storage_lifecycle_tables_unchanged": true,
+    "storage_lifecycle_functions_unchanged": true,
+    "service_role_inheritance_unchanged": true,
+    "owners": {
+      "md5": "95b490d7bc701921ee111ac2e681f0f3",
+      "count": 458
+    },
+    "acl_delta": {
+      "removed": [
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_audit_change",
+          "signature": "",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_audit_change",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_followup_timeline",
+          "signature": "",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_followup_timeline",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_lead_timeline",
+          "signature": "",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_lead_timeline",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_set_property_code",
+          "signature": "",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "crm_set_property_code",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "handle_new_auth_user",
+          "signature": "",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "handle_new_auth_user",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "set_user_role",
+          "signature": "target_email text, new_role text",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "set_user_role",
+          "signature": "target_email text, new_role text",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "sync_property_media_arrays",
+          "signature": "target_property_id bigint",
+          "grantee": "PUBLIC",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "function",
+          "schema": "public",
+          "name": "sync_property_media_arrays",
+          "signature": "target_property_id bigint",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "EXECUTE"
+        },
+        {
+          "kind": "relation",
+          "schema": "public",
+          "name": "admin_dashboard_metrics",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "SELECT"
+        },
+        {
+          "kind": "relation",
+          "schema": "public",
+          "name": "lead_origin_metrics",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "SELECT"
+        },
+        {
+          "kind": "relation",
+          "schema": "public",
+          "name": "property_admin_metrics",
+          "signature": "",
+          "grantee": "anon",
+          "grantor": "postgres",
+          "grantable": false,
+          "privilege": "SELECT"
+        }
+      ],
+      "added": []
+    },
+    "views": [
+      {
+        "name": "admin_dashboard_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": false,
+        "definition_md5": "18b88db66472243b37dae401227676e2",
+        "authenticated_select": true
+      },
+      {
+        "name": "lead_origin_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": false,
+        "definition_md5": "b1a82657fe1cb245ddca43ba74eef376",
+        "authenticated_select": true
+      },
+      {
+        "name": "property_admin_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": false,
+        "definition_md5": "3174f4f098300b4af303b38497d83e9e",
+        "authenticated_select": true
+      },
+      {
+        "name": "property_metrics",
+        "options": [
+          "security_invoker=true"
+        ],
+        "anon_select": true,
+        "definition_md5": "1cd0a345b778b896f2635cdb1f34ffb3",
+        "authenticated_select": true
+      }
+    ],
+    "functions": [
+      {
+        "name": "crm_archive_client",
+        "body_md5": "16a6c1fe59ab351137c949498d709a4a",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_client bigint",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_audit_change",
+        "body_md5": "ec9b1cd1a98407077de1aec8f25b9767",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_client_timeline",
+        "body_md5": "8a550035c45dcc2949a5658c58457efe",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "arguments": "target_client bigint, page_number integer",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_followup_timeline",
+        "body_md5": "092ab67e847a07e2dbc1b094f49b801e",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_lead_timeline",
+        "body_md5": "96ebdd7713757b0a719cfde6e8832f7c",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_public_presentation",
+        "body_md5": "9ab9096d4a32c5657d080a32b7c0a072",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_token uuid",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_record_client_contact",
+        "body_md5": "8ab71ca0bdeb0e49f69f1fde5bce3ecc",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "arguments": "target_client bigint, action_id uuid",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_record_presentation_open",
+        "body_md5": "01f4b0715ae95e0380443d399e00a588",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_token uuid, event_nonce uuid, consented boolean",
+        "anon_execute": true,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_save_quick_client",
+        "body_md5": "8584fb215c32699b94478dcc50f04543",
+        "settings": [
+          "search_path=\"\""
+        ],
+        "arguments": "target_client bigint, expected_revision bigint, action_id uuid, payload jsonb",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "crm_set_property_code",
+        "body_md5": "4a215036c7456dd7ab23c23995c2fb23",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "handle_new_auth_user",
+        "body_md5": "03d94589eabeb9007d2b4fe4bf85aecc",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "set_user_role",
+        "body_md5": "398ca21ed8c86d0ee5469ba2c2fdb1fb",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_email text, new_role text",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      },
+      {
+        "name": "sync_property_media_arrays",
+        "body_md5": "21d411eb5652fd2034002d861023a274",
+        "settings": [
+          "search_path=public"
+        ],
+        "arguments": "target_property_id bigint",
+        "anon_execute": false,
+        "security_definer": true,
+        "authenticated_execute": true
+      }
+    ],
+    "health": [
+      {
+        "captured_utc": "2026-11-17 19:53:59.839177+00",
+        "server_version": "17.11",
+        "waiting_locks": 0,
+        "invalid_indexes": 0,
+        "public_tables_without_rls": 0,
+        "crm_migrations": 23,
+        "target_entries": 1
+      }
+    ],
+    "selected_data_tables_unchanged": 54,
+    "public_presentation_definition_and_acl_unchanged": true,
+    "property_metrics_definition_options_acl_unchanged": true,
+    "crm_history": [
+      {
+        "name": "crm_security_hardening",
+        "version": "20261008144426"
+      },
+      {
+        "name": "crm_commercial_relations",
+        "version": "20261008144813"
+      },
+      {
+        "name": "crm_atomic_media",
+        "version": "20261008145320"
+      },
+      {
+        "name": "crm_commercial_audit",
+        "version": "20261008150501"
+      },
+      {
+        "name": "crm_private_property_storage",
+        "version": "20261008163217"
+      },
+      {
+        "name": "crm_private_media_assignment",
+        "version": "20261008163432"
+      },
+      {
+        "name": "crm_preserve_private_media",
+        "version": "20261008163623"
+      },
+      {
+        "name": "crm_contact_workspace",
+        "version": "20261009142538"
+      },
+      {
+        "name": "crm_workspace_realtime",
+        "version": "20261009144156"
+      },
+      {
+        "name": "crm_marketing_presentations",
+        "version": "20261009174757"
+      },
+      {
+        "name": "crm_marketing_upload_recovery",
+        "version": "20261013180730"
+      },
+      {
+        "name": "crm_private_portfolios_and_transfers",
+        "version": "20261019165011"
+      },
+      {
+        "name": "crm_management_aggregates",
+        "version": "20261019165034"
+      },
+      {
+        "name": "crm_commercial_sale_ownership",
+        "version": "20261019165057"
+      },
+      {
+        "name": "crm_property_review_notifications",
+        "version": "20261019165119"
+      },
+      {
+        "name": "crm_approved_marketing_audience",
+        "version": "20261019170348"
+      },
+      {
+        "name": "crm_marketing_delivery_notifications",
+        "version": "20261028143926"
+      },
+      {
+        "name": "crm_optional_lead_reasons",
+        "version": "20261028180043"
+      },
+      {
+        "name": "crm_owner_draft_presentations",
+        "version": "20261029173752"
+      },
+      {
+        "name": "crm_campaign_attribution",
+        "version": "20261029184222"
+      },
+      {
+        "name": "crm_ad_reporting",
+        "version": "20261030185925"
+      },
+      {
+        "name": "crm_quick_service",
+        "version": "20261105172215"
+      },
+      {
+        "name": "crm_stage03_security_surface",
+        "version": "20261111151927"
+      }
+    ],
+    "auth_history": [
+      "00",
+      "20171026211738",
+      "20171026211808",
+      "20171026211834",
+      "20180103212743",
+      "20180108183307",
+      "20180119214651",
+      "20180125194653",
+      "20210710035447",
+      "20210722035447",
+      "20210730183235",
+      "20210909172000",
+      "20210927181326",
+      "20211122151130",
+      "20211124214934",
+      "20211202183645",
+      "20220114185221",
+      "20220114185340",
+      "20220224000811",
+      "20220323170000",
+      "20220429102000",
+      "20220531120530",
+      "20220614074223",
+      "20220811173540",
+      "20221003041349",
+      "20221003041400",
+      "20221011041400",
+      "20221020193600",
+      "20221021073300",
+      "20221021082433",
+      "20221027105023",
+      "20221114143122",
+      "20221114143410",
+      "20221125140132",
+      "20221208132122",
+      "20221215195500",
+      "20221215195800",
+      "20221215195900",
+      "20230116124310",
+      "20230116124412",
+      "20230131181311",
+      "20230322519590",
+      "20230402418590",
+      "20230411005111",
+      "20230508135423",
+      "20230523124323",
+      "20230818113222",
+      "20230914180801",
+      "20231027141322",
+      "20231114161723",
+      "20231117164230",
+      "20240115144230",
+      "20240214120130",
+      "20240306115329",
+      "20240314092811",
+      "20240427152123",
+      "20240612123726",
+      "20240729123726",
+      "20240802193726",
+      "20240806073726",
+      "20241009103726",
+      "20250717082212",
+      "20250731150234",
+      "20250804100000",
+      "20250901200500",
+      "20250903112500",
+      "20250904133000",
+      "20250925093508",
+      "20251007112900",
+      "20251104100000",
+      "20251111201300",
+      "20251201000000",
+      "20260115000000",
+      "20260121000000",
+      "20260219120000",
+      "20260302000000",
+      "20260625000000",
+      "20260821000000",
+      "20260821010000",
+      "20260824000000",
+      "20260824000001",
+      "20260831180000",
+      "20260911120000",
+      "20261030120000"
+    ],
+    "storage_history": [
+      {
+        "id": 0,
+        "hash": "e18db593bcde2aca2a408c4d1100f6abba2195df",
+        "name": "create-migrations-table"
+      },
+      {
+        "id": 1,
+        "hash": "6ab16121fbaa08bbd11b712d05f358f9b555d777",
+        "name": "initialmigration"
+      },
+      {
+        "id": 2,
+        "hash": "cdc19a79b298ce37cc730487821a1a7b06b98105",
+        "name": "storage-schema"
+      },
+      {
+        "id": 3,
+        "hash": "2cb1b0004b817b29d5b0a971af16bafeede4b70d",
+        "name": "pathtoken-column"
+      },
+      {
+        "id": 4,
+        "hash": "427c5b63fe1c5937495d9c635c263ee7a5905058",
+        "name": "add-migrations-rls"
+      },
+      {
+        "id": 5,
+        "hash": "79e081a1455b63666c1294a440f8ad4b1e6a7f84",
+        "name": "add-size-functions"
+      },
+      {
+        "id": 6,
+        "hash": "ded78e2f1b5d7e616117897e6443a925965b30d2",
+        "name": "change-column-name-in-get-size"
+      },
+      {
+        "id": 7,
+        "hash": "e7e7f86adbc51049f341dfe8d30256c1abca17aa",
+        "name": "add-rls-to-buckets"
+      },
+      {
+        "id": 8,
+        "hash": "fd670db39ed65f9d08b01db09d6202503ca2bab3",
+        "name": "add-public-to-buckets"
+      },
+      {
+        "id": 9,
+        "hash": "af597a1b590c70519b464a4ab3be54490712796b",
+        "name": "fix-search-function"
+      },
+      {
+        "id": 10,
+        "hash": "b595f05e92f7e91211af1bbfe9c6a13bb3391e16",
+        "name": "search-files-search-function"
+      },
+      {
+        "id": 11,
+        "hash": "7425bdb14366d1739fa8a18c83100636d74dcaa2",
+        "name": "add-trigger-to-auto-update-updated_at-column"
+      },
+      {
+        "id": 12,
+        "hash": "8e92e1266eb29518b6a4c5313ab8f29dd0d08df9",
+        "name": "add-automatic-avif-detection-flag"
+      },
+      {
+        "id": 13,
+        "hash": "cce962054138135cd9a8c4bcd531598684b25e7d",
+        "name": "add-bucket-custom-limits"
+      },
+      {
+        "id": 14,
+        "hash": "941c41b346f9802b411f06f30e972ad4744dad27",
+        "name": "use-bytes-for-max-size"
+      },
+      {
+        "id": 15,
+        "hash": "934146bc38ead475f4ef4b555c524ee5d66799e5",
+        "name": "add-can-insert-object-function"
+      },
+      {
+        "id": 16,
+        "hash": "76debf38d3fd07dcfc747ca49096457d95b1221b",
+        "name": "add-version"
+      },
+      {
+        "id": 17,
+        "hash": "f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101",
+        "name": "drop-owner-foreign-key"
+      },
+      {
+        "id": 18,
+        "hash": "e7a511b379110b08e2f214be852c35414749fe66",
+        "name": "add_owner_id_column_deprecate_owner"
+      },
+      {
+        "id": 19,
+        "hash": "02e5e22a78626187e00d173dc45f58fa66a4f043",
+        "name": "alter-default-value-objects-id"
+      },
+      {
+        "id": 20,
+        "hash": "cd694ae708e51ba82bf012bba00caf4f3b6393b7",
+        "name": "list-objects-with-delimiter"
+      },
+      {
+        "id": 21,
+        "hash": "8c804d4a566c40cd1e4cc5b3725a664a9303657f",
+        "name": "s3-multipart-uploads"
+      },
+      {
+        "id": 22,
+        "hash": "9737dc258d2397953c9953d9b86920b8be0cdb73",
+        "name": "s3-multipart-uploads-big-ints"
+      },
+      {
+        "id": 23,
+        "hash": "9d7e604cddc4b56a5422dc68c9313f4a1b6f132c",
+        "name": "optimize-search-function"
+      },
+      {
+        "id": 24,
+        "hash": "8312e37c2bf9e76bbe841aa5fda889206d2bf8aa",
+        "name": "operation-function"
+      },
+      {
+        "id": 25,
+        "hash": "d974c6057c3db1c1f847afa0e291e6165693b990",
+        "name": "custom-metadata"
+      },
+      {
+        "id": 26,
+        "hash": "215cabcb7f78121892a5a2037a09fedf9a1ae322",
+        "name": "objects-prefixes"
+      },
+      {
+        "id": 27,
+        "hash": "859ba38092ac96eb3964d83bf53ccc0b141663a6",
+        "name": "search-v2"
+      },
+      {
+        "id": 28,
+        "hash": "c73a2b5b5d4041e39705814fd3a1b95502d38ce4",
+        "name": "object-bucket-name-sorting"
+      },
+      {
+        "id": 29,
+        "hash": "ad2c1207f76703d11a9f9007f821620017a66c21",
+        "name": "create-prefixes"
+      },
+      {
+        "id": 30,
+        "hash": "2be814ff05c8252fdfdc7cfb4b7f5c7e17f0bed6",
+        "name": "update-object-levels"
+      },
+      {
+        "id": 31,
+        "hash": "b40367c14c3440ec75f19bbce2d71e914ddd3da0",
+        "name": "objects-level-index"
+      },
+      {
+        "id": 32,
+        "hash": "e0c37182b0f7aee3efd823298fb3c76f1042c0f7",
+        "name": "backward-compatible-index-on-objects"
+      },
+      {
+        "id": 33,
+        "hash": "b480e99ed951e0900f033ec4eb34b5bdcb4e3d49",
+        "name": "backward-compatible-index-on-prefixes"
+      },
+      {
+        "id": 34,
+        "hash": "ca80a3dc7bfef894df17108785ce29a7fc8ee456",
+        "name": "optimize-search-function-v1"
+      },
+      {
+        "id": 35,
+        "hash": "458fe0ffd07ec53f5e3ce9df51bfdf4861929ccc",
+        "name": "add-insert-trigger-prefixes"
+      },
+      {
+        "id": 36,
+        "hash": "6ae5fca6af5c55abe95369cd4f93985d1814ca8f",
+        "name": "optimise-existing-functions"
+      },
+      {
+        "id": 37,
+        "hash": "3944135b4e3e8b22d6d4cbb568fe3b0b51df15c1",
+        "name": "add-bucket-name-length-trigger"
+      },
+      {
+        "id": 38,
+        "hash": "02716b81ceec9705aed84aa1501657095b32e5c5",
+        "name": "iceberg-catalog-flag-on-buckets"
+      },
+      {
+        "id": 39,
+        "hash": "6706c5f2928846abee18461279799ad12b279b78",
+        "name": "add-search-v2-sort-support"
+      },
+      {
+        "id": 40,
+        "hash": "7ad69982ae2d372b21f48fc4829ae9752c518f6b",
+        "name": "fix-prefix-race-conditions-optimized"
+      },
+      {
+        "id": 41,
+        "hash": "07fcf1a22165849b7a029deed059ffcde08d1ae0",
+        "name": "add-object-level-update-trigger"
+      },
+      {
+        "id": 42,
+        "hash": "771479077764adc09e2ea2043eb627503c034cd4",
+        "name": "rollback-prefix-triggers"
+      },
+      {
+        "id": 43,
+        "hash": "84b35d6caca9d937478ad8a797491f38b8c2979f",
+        "name": "fix-object-level"
+      },
+      {
+        "id": 44,
+        "hash": "99c20c0ffd52bb1ff1f32fb992f3b351e3ef8fb3",
+        "name": "vector-bucket-type"
+      },
+      {
+        "id": 45,
+        "hash": "049e27196d77a7cb76497a85afae669d8b230953",
+        "name": "vector-buckets"
+      },
+      {
+        "id": 46,
+        "hash": "fedeb96d60fefd8e02ab3ded9fbde05632f84aed",
+        "name": "buckets-objects-grants"
+      },
+      {
+        "id": 47,
+        "hash": "649df56855c24d8b36dd4cc1aeb8251aa9ad42c2",
+        "name": "iceberg-table-metadata"
+      },
+      {
+        "id": 48,
+        "hash": "e0e8b460c609b9999ccd0df9ad14294613eed939",
+        "name": "iceberg-catalog-ids"
+      },
+      {
+        "id": 49,
+        "hash": "072b1195d0d5a2f888af6b2302a1938dd94b8b3d",
+        "name": "buckets-objects-grants-postgres"
+      },
+      {
+        "id": 50,
+        "hash": "6323ac4f850aa14e7387eb32102869578b5bd478",
+        "name": "search-v2-optimised"
+      },
+      {
+        "id": 51,
+        "hash": "2ee395d433f76e38bcd3856debaf6e0e5b674011",
+        "name": "index-backward-compatible-search"
+      },
+      {
+        "id": 52,
+        "hash": "5cc44c8696749ac11dd0dc37f2a3802075f3a171",
+        "name": "drop-not-used-indexes-and-functions"
+      },
+      {
+        "id": 53,
+        "hash": "d0cb18777d9e2a98ebe0bc5cc7a42e57ebe41854",
+        "name": "drop-index-lower-name"
+      },
+      {
+        "id": 54,
+        "hash": "6289e048b1472da17c31a7eba1ded625a6457e67",
+        "name": "drop-index-object-level"
+      },
+      {
+        "id": 55,
+        "hash": "262a4798d5e0f2e7c8970232e03ce8be695d5819",
+        "name": "prevent-direct-deletes"
+      },
+      {
+        "id": 56,
+        "hash": "b823ed1e418101032fa01374edc9a436e54e3ed4",
+        "name": "fix-optimized-search-function"
+      },
+      {
+        "id": 57,
+        "hash": "f127886e00d1b374fadbc7c6b31e09336aad5287",
+        "name": "s3-multipart-uploads-metadata"
+      },
+      {
+        "id": 58,
+        "hash": "00ca5d483b3fe0d522133d9002ccc5df98365120",
+        "name": "operation-ergonomics"
+      },
+      {
+        "id": 59,
+        "hash": "38456f13e39691c2bbb4b5151d0d1cdbabd4a8c4",
+        "name": "drop-unused-functions"
+      },
+      {
+        "id": 60,
+        "hash": "db35e1c91a9201e59f4fef8d972c2f277d68b157",
+        "name": "optimize-existing-functions-again"
+      },
+      {
+        "id": 61,
+        "hash": "fe0096517ae9d60aaec1d110172ba9036dc66bb7",
+        "name": "mark-filename-immutable"
+      },
+      {
+        "id": 62,
+        "hash": "c6567e688f8c4a76887e7c1b117b2d58f4feccba",
+        "name": "object-versioning-core"
+      },
+      {
+        "id": 63,
+        "hash": "c7485e417624f795ce8bb2da21927f48e088904d",
+        "name": "fix-search-name-relative-to-prefix"
+      },
+      {
+        "id": 64,
+        "hash": "0af424ecd388a39bb1645184b222185a12149675",
+        "name": "fix-search-by-timestamp-sqli"
+      },
+      {
+        "id": 65,
+        "hash": "da319c4b89ba800ce795d1b699f3a70675138058",
+        "name": "objects-key-version-index"
+      },
+      {
+        "id": 66,
+        "hash": "191466c93aa2c46a00e36505577c5fcab8d7cb4b",
+        "name": "objects-current-version-index"
+      },
+      {
+        "id": 67,
+        "hash": "15bfe8c35b66642b6c78ba60060fa8793bd2207a",
+        "name": "objects-null-version-index"
+      },
+      {
+        "id": 68,
+        "hash": "3c08f6f889922f399519722a932b51007c11bebc",
+        "name": "bucket-lifecycle-configuration"
+      },
+      {
+        "id": 69,
+        "hash": "4febacaaaa0e61e2b783bef081fe03a287e65eb3",
+        "name": "validate-bucket-lifecycle-constraints"
+      },
+      {
+        "id": 70,
+        "hash": "5c17c3777616cd8d7b18b82835525fa3205af57b",
+        "name": "list-objects-with-versions"
+      },
+      {
+        "id": 71,
+        "hash": "6d14858e66c66f8d6accf8a2630aefd1527fddba",
+        "name": "objects-delete-marker-index"
+      },
+      {
+        "id": 72,
+        "hash": "302beb09e1b469d7d4db19566f2389d280b64aa3",
+        "name": "drop-bucketid-objname-index"
+      },
+      {
+        "id": 73,
+        "hash": "ba9244051be09f22f714fc0170a2539f8b5f0e68",
+        "name": "revoke-grants-to-unused-operations"
+      },
+      {
+        "id": 74,
+        "hash": "dacb58ecb37678de855505b3e1c5aec0d5df7894",
+        "name": "unlock-object-versioning"
+      },
+      {
+        "id": 75,
+        "hash": "8454a556116c985db857d3b99de94a31a68ad273",
+        "name": "enforce-bucket-lifecycle-update-role"
+      },
+      {
+        "id": 76,
+        "hash": "052cbe11956fd14b85861fc19537c0303b73010e",
+        "name": "noncurrent-lifecycle"
+      },
+      {
+        "id": 77,
+        "hash": "d68b03438a987aa1324a0fca68f7078cb2ffb849",
+        "name": "noncurrent-lifecycle-archived-order-index"
+      },
+      {
+        "id": 78,
+        "hash": "c82ba0e577ec5c3496b1077ff385ce4645497698",
+        "name": "noncurrent-lifecycle-archived-due-index"
+      },
+      {
+        "id": 79,
+        "hash": "3b38458424d2099e6b2e3cb4233590060f527fe1",
+        "name": "lifecycle-writer-coordination"
+      },
+      {
+        "id": 80,
+        "hash": "18cfbf5c5b356469e1e95f3aa1b59ba111d82a06",
+        "name": "revoke-extra-lifecycle-postgres-grants"
+      }
+    ]
+  },
+  "advisors": {
+    "health": {
+      "before": [],
+      "after": [],
+      "new_findings": [],
+      "removed_findings": []
+    },
+    "security": {
+      "before": [
+        {
+          "name": "rls_enabled_no_policy",
+          "level": "INFO",
+          "count": 3,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+        },
+        {
+          "name": "anon_security_definer_function_executable",
+          "level": "WARN",
+          "count": 16,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+        },
+        {
+          "name": "authenticated_security_definer_function_executable",
+          "level": "WARN",
+          "count": 40,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+        },
+        {
+          "name": "auth_leaked_password_protection",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+        }
+      ],
+      "after": [
+        {
+          "name": "rls_enabled_no_policy",
+          "level": "INFO",
+          "count": 3,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+        },
+        {
+          "name": "anon_security_definer_function_executable",
+          "level": "WARN",
+          "count": 9,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+        },
+        {
+          "name": "authenticated_security_definer_function_executable",
+          "level": "WARN",
+          "count": 40,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+        },
+        {
+          "name": "auth_leaked_password_protection",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+        }
+      ],
+      "new_findings": [],
+      "removed_findings": [
+        "{\"detail\":\"Function `public.crm_audit_change()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_audit_change`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"\",\"language\":\"plpgsql\",\"name\":\"crm_audit_change\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}",
+        "{\"detail\":\"Function `public.crm_followup_timeline()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_followup_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"\",\"language\":\"plpgsql\",\"name\":\"crm_followup_timeline\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}",
+        "{\"detail\":\"Function `public.crm_lead_timeline()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_lead_timeline`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"\",\"language\":\"plpgsql\",\"name\":\"crm_lead_timeline\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}",
+        "{\"detail\":\"Function `public.crm_set_property_code()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/crm_set_property_code`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"\",\"language\":\"plpgsql\",\"name\":\"crm_set_property_code\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}",
+        "{\"detail\":\"Function `public.handle_new_auth_user()` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/handle_new_auth_user`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"\",\"language\":\"plpgsql\",\"name\":\"handle_new_auth_user\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}",
+        "{\"detail\":\"Function `public.set_user_role(target_email text, new_role text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/set_user_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"target_email text, new_role text\",\"language\":\"plpgsql\",\"name\":\"set_user_role\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}",
+        "{\"detail\":\"Function `public.sync_property_media_arrays(target_property_id bigint)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/sync_property_media_arrays`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.\",\"level\":\"WARN\",\"metadata\":{\"arguments\":\"target_property_id bigint\",\"language\":\"plpgsql\",\"name\":\"sync_property_media_arrays\",\"schema\":\"public\",\"security_definer\":true},\"name\":\"anon_security_definer_function_executable\"}"
+      ]
+    },
+    "performance": {
+      "before": [
+        {
+          "name": "unindexed_foreign_keys",
+          "level": "INFO",
+          "count": 46,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys"
+        },
+        {
+          "name": "auth_rls_initplan",
+          "level": "WARN",
+          "count": 70,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan"
+        },
+        {
+          "name": "unused_index",
+          "level": "INFO",
+          "count": 24,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+        },
+        {
+          "name": "multiple_permissive_policies",
+          "level": "WARN",
+          "count": 23,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies"
+        },
+        {
+          "name": "duplicate_index",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index"
+        }
+      ],
+      "after": [
+        {
+          "name": "unindexed_foreign_keys",
+          "level": "INFO",
+          "count": 46,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys"
+        },
+        {
+          "name": "auth_rls_initplan",
+          "level": "WARN",
+          "count": 70,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan"
+        },
+        {
+          "name": "unused_index",
+          "level": "INFO",
+          "count": 24,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+        },
+        {
+          "name": "multiple_permissive_policies",
+          "level": "WARN",
+          "count": 23,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0006_multiple_permissive_policies"
+        },
+        {
+          "name": "duplicate_index",
+          "level": "WARN",
+          "count": 1,
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index"
+        }
+      ],
+      "new_findings": [],
+      "removed_findings": []
+    }
+  },
+  "http_anonymous": {
+    "captured_utc": "2026-11-17T19:53:48.444Z",
+    "project": "sdpqphiooiuglywcmkxv",
+    "authentication": "publishable API key, no user session; anonymous role",
+    "nonmutating_only": true,
+    "tests": [
+      {
+        "name": "admin_dashboard_metrics",
+        "method": "GET",
+        "status": 401,
+        "error_code": "42501",
+        "expect": "denied",
+        "result": "PASS",
+        "response_shape": "object"
+      },
+      {
+        "name": "property_admin_metrics",
+        "method": "GET",
+        "status": 401,
+        "error_code": "42501",
+        "expect": "denied",
+        "result": "PASS",
+        "response_shape": "object"
+      },
+      {
+        "name": "lead_origin_metrics",
+        "method": "GET",
+        "status": 401,
+        "error_code": "42501",
+        "expect": "denied",
+        "result": "PASS",
+        "response_shape": "object"
+      },
+      {
+        "name": "property_metrics",
+        "method": "GET",
+        "status": 200,
+        "error_code": null,
+        "expect": "empty_array",
+        "result": "PASS",
+        "response_shape": "array(0)"
+      },
+      {
+        "name": "crm_client_timeline",
+        "method": "POST",
+        "status": 401,
+        "error_code": "42501",
+        "expect": "denied",
+        "result": "PASS",
+        "response_shape": "object"
+      },
+      {
+        "name": "crm_public_presentation_unknown_token",
+        "method": "POST",
+        "status": 200,
+        "error_code": null,
+        "expect": "null",
+        "result": "PASS",
+        "response_shape": "null"
+      }
+    ]
+  },
+  "http_authenticated": {
+    "result": "BLOCKED",
+    "reason": "No own legitimate authorized user sessions available. No browser token extraction, invented sessions or SQL claims used as HTTP proof.",
+    "plan": "docs/crm-stage03-http-homologation-plan-20261111.md",
+    "profiles": [
+      "Broker A",
+      "Broker B",
+      "Manager",
+      "Administrator"
+    ]
+  },
+  "private_evidence_hashes": {
+    "application_log_sha256": "e4bbef6e7e82e4a370e2e327172c9a83be8182ab3a6b5edbc0f43e4116de69df",
+    "dry_run_log_sha256": "94f80b6d29ffe61fee010314fb96b4546781fa9741b9ad94a4816251efcc7701",
+    "postflight_snapshot_sha256": "d41d7a9c5b77c440f0f42033cfb6b640e0869527122910a7e886c977ede64db1"
+  },
+  "prohibited_actions_performed": {
+    "production": false,
+    "deployments": false,
+    "merge": false,
+    "auth_user_changes": false,
+    "managed_permissions_changes": false,
+    "auth_storage_migrations": false,
+    "rollback": false
+  }
+}
