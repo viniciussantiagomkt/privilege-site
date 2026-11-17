@@ -41,8 +41,10 @@ try {
     if ((Get-FileHash -LiteralPath $BaselineFile -Algorithm SHA256).Hash -ne $ExpectedBaselineSha256) { throw 'Reviewed baseline SHA-256 differs.' }
     $baseline = Get-Content -LiteralPath $BaselineFile -Raw | ConvertFrom-Json
     if ($baseline.project -ne $projectRef) { throw 'Baseline is not the authorized staging project.' }
+    if ($baseline.contract_version -ne 3 -or $baseline.platform.snapshot_version -ne 2) { throw 'Reviewed baseline must explicitly cover Auth and complementary indexes.' }
     Assert-RecoveryFingerprint $baseline.fingerprint
     Assert-RecoveryHistory $baseline.platform
+    Assert-RecoveryIndexes $baseline.indexes
     foreach ($name in @('pg_dump','pg_dumpall','pg_restore','psql')) {
         $tool = Join-Path $PgBin ($name + '.exe')
         if (!(Test-Path -LiteralPath $tool)) { throw "Install PostgreSQL 17 client tools first. Missing: $tool" }
@@ -118,6 +120,9 @@ select json_build_object(
     $platformBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'platform-before.json') -Raw | ConvertFrom-Json
     Assert-RecoveryHistory $platformBefore
     Assert-RecoveryEqual $baseline.platform $platformBefore 'Platform roles/memberships and separate CRM/Storage histories'
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql'))) (Join-Path $backupDirectory 'indexes-before.json')
+    $indexesBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'indexes-before.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryIndexesEqual $baseline.indexes $indexesBefore
     $dumpFile = Join-Path $backupDirectory 'staging-database.dump'
     Invoke-PgClient 'pg_dump' ($connection + @('--dbname','postgres','--format=custom','--lock-wait-timeout=5s','--file',$dumpFile)) (Join-Path $backupDirectory 'dump-output.txt')
     if (!(Test-Path -LiteralPath $dumpFile) -or (Get-Item -LiteralPath $dumpFile).Length -lt 1024) { throw 'Database archive missing or unexpectedly small.' }
@@ -141,8 +146,11 @@ select json_build_object(
     $platformAfter = Get-Content -LiteralPath (Join-Path $backupDirectory 'platform-after.json') -Raw | ConvertFrom-Json
     Assert-RecoveryHistory $platformAfter
     Assert-RecoveryEqual $platformBefore $platformAfter 'Platform during backup'
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql'))) (Join-Path $backupDirectory 'indexes-after.json')
+    $indexesAfter = Get-Content -LiteralPath (Join-Path $backupDirectory 'indexes-after.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryIndexesEqual $indexesBefore $indexesAfter
     $manifest = [ordered]@{
-        manifest_version = 2
+        manifest_version = 3
         project = $projectRef
         created_utc = [DateTime]::UtcNow.ToString('o')
         source = $source
@@ -154,6 +162,10 @@ select json_build_object(
         platform = $platformBefore
         crm_history = $platformBefore.crm_history
         storage_history = $platformBefore.storage_history
+        auth_history = $platformBefore.auth_history
+        platform_sql_sha256 = (Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-platform-snapshot.sql') -Algorithm SHA256).Hash
+        index_snapshot = $indexesBefore
+        index_sql_sha256 = (Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql') -Algorithm SHA256).Hash
         schema_stable_during_backup = $true
         auxiliary_counts_snapshot = 'Before pg_dump; not the same transaction as archive data'
         archive = 'staging-database.dump'

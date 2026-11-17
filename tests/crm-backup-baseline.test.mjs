@@ -7,6 +7,21 @@ const backup = readFileSync(new URL("../scripts/backup-crm-staging.ps1", import.
 const restore = readFileSync(new URL("../scripts/restore-crm-backup-local.ps1", import.meta.url), "utf8");
 const fingerprint = readFileSync(new URL("../scripts/crm-backup-schema-fingerprint.sql", import.meta.url), "utf8");
 const contract = readFileSync(new URL("../scripts/crm-recovery-contract.ps1", import.meta.url), "utf8");
+const authVersions = JSON.parse(readFileSync(new URL("../scripts/crm-recovery-auth-versions.json", import.meta.url), "utf8"));
+const indexSql = readFileSync(new URL("../scripts/crm-recovery-index-snapshot.sql", import.meta.url), "utf8");
+
+test("Auth versions and complementary index algorithm are explicit, not count-only", () => {
+  assert.equal(authVersions.length, 84);
+  assert.equal(new Set(authVersions).size, 84);
+  for (const v of ["00", "20260911120000", "20261030120000"]) assert.ok(authVersions.includes(v));
+  assert.match(contract, /Platform\.auth_history -join/);
+  assert.match(indexSql, /crm-recovery-indexes-v1/);
+  for (const field of ["pg_get_indexdef", "relowner", "indisvalid", "indisready", "indislive"]) assert.ok(indexSql.includes(field));
+  assert.match(backup, /auth_history = \$platformBefore.auth_history/);
+  assert.match(backup, /Assert-RecoveryIndexesEqual \$indexesBefore \$indexesAfter/);
+  assert.match(restore, /complementary_indexes/);
+  assert.match(restore, /manifest_version -ne 3/);
+});
 
 test("catalog comparison avoids identifier truncation and physical-column gaps", () => {
   assert.match(fingerprint, /set search_path = pg_catalog/);
@@ -59,6 +74,7 @@ test("restore has no obsolete backup defaults and pins manifest and algorithm", 
 test("PowerShell contract rejects omitted/extra categories, legacy algorithms and new histories", () => {
   const path = fileURLToPath(new URL("../scripts/crm-recovery-contract.ps1", import.meta.url)).replaceAll("'", "''");
   const command = `$ErrorActionPreference='Stop'; Set-StrictMode -Version Latest;
+    if($env:OS -eq 'Windows_NT'){$env:PSModulePath=(Join-Path $env:WINDIR 'System32/WindowsPowerShell/v1.0/Modules')+';'+(Join-Path $env:ProgramFiles 'WindowsPowerShell/Modules')};
     . '${path}';
     function Expect-Rejection([scriptblock]$Action) { $rejected=$false; try { & $Action } catch { $rejected=$true }; if(!$rejected){throw 'Unsafe contract accepted'} }
     $categories=[ordered]@{}; foreach($k in $RecoveryCategories){$categories[$k]=[pscustomobject]@{count=1;md5=('a'*32)}};
@@ -70,9 +86,21 @@ test("PowerShell contract rejects omitted/extra categories, legacy algorithms an
     $crm=@($RecoveryCrmVersions.Split(',') | ForEach-Object {[pscustomobject]@{version=$_}});
     $storage=@(0..80 | ForEach-Object {[pscustomobject]@{id=$_;name='historical';hash='historical'}});
     $storage[80].name='revoke-extra-lifecycle-postgres-grants'; $storage[80].hash='18cfbf5c5b356469e1e95f3aa1b59ba111d82a06';
-    $p=[pscustomobject]@{crm_history=$crm;storage_history=$storage}; Assert-RecoveryHistory $p;
+    $p=[pscustomobject]@{crm_history=$crm;storage_history=$storage;auth_history=@($RecoveryAuthVersions)}; Assert-RecoveryHistory $p;
     $p.storage_history+=([pscustomobject]@{id=81}); Expect-Rejection {Assert-RecoveryHistory $p}; $p.storage_history=$storage;
     $p.crm_history+=([pscustomobject]@{version='20261111151927'}); Expect-Rejection {Assert-RecoveryHistory $p};
+    $p.crm_history=$crm;
+    $p.auth_history=@($RecoveryAuthVersions[0..82]); Expect-Rejection {Assert-RecoveryHistory $p};
+    $p.auth_history=@($RecoveryAuthVersions)+@('20990101000000'); Expect-Rejection {Assert-RecoveryHistory $p};
+    $p.auth_history=@($RecoveryAuthVersions.Clone()); $p.auth_history[83]='20990101000000'; Expect-Rejection {Assert-RecoveryHistory $p};
+    $p.auth_history=@($RecoveryAuthVersions); Assert-RecoveryHistory $p;
+    $i=[pscustomobject]@{schema='auth';name='one_time_tokens_link_token_hash_hash_idx';table_schema='auth';table='one_time_tokens';definition='CREATE INDEX fixture USING hash (link_token_hash)';owner='supabase_auth_admin';valid=$true;ready=$true;live=$true;unique=$false;primary=$false;exclusion=$false};
+    $idx=[pscustomobject]@{algorithm_version=$RecoveryIndexVersion;items=@($i)}; Assert-RecoveryIndexes $idx;
+    $changed=$idx | ConvertTo-Json -Depth 10 | ConvertFrom-Json; $changed.items[0].definition='CREATE INDEX changed'; Expect-Rejection {Assert-RecoveryIndexesEqual $idx $changed};
+    $changed=$idx | ConvertTo-Json -Depth 10 | ConvertFrom-Json; $changed.items[0].owner='unexpected_role'; Expect-Rejection {Assert-RecoveryIndexesEqual $idx $changed};
+    $changed=$idx | ConvertTo-Json -Depth 10 | ConvertFrom-Json; $changed.items[0].ready=$false; Expect-Rejection {Assert-RecoveryIndexesEqual $idx $changed};
+    $changed=$idx | ConvertTo-Json -Depth 10 | ConvertFrom-Json; $changed.items=@(); Expect-Rejection {Assert-RecoveryIndexesEqual $idx $changed};
+    $changed=$idx | ConvertTo-Json -Depth 10 | ConvertFrom-Json; $extra=$i | ConvertTo-Json | ConvertFrom-Json; $extra.name='unexpected_extra'; $changed.items+=@($extra); Expect-Rejection {Assert-RecoveryIndexesEqual $idx $changed};
     Expect-Rejection {Assert-RecoveryEqual ([pscustomobject]@{x=1}) ([pscustomobject]@{x=2}) 'Fixture'};
     'RECOVERY_CONTRACT_PASS';`;
   const result = spawnSync(process.platform === "win32" ? "powershell.exe" : "pwsh", ["-NoProfile", "-NonInteractive", "-Command", command], { encoding: "utf8" });

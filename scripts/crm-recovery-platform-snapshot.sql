@@ -1,8 +1,10 @@
 -- Catalog and separate product histories only. No credentials or row data.
 set search_path = pg_catalog;
 select jsonb_build_object(
+ 'snapshot_version',2,
  'crm_history',(select jsonb_agg(jsonb_build_object('version',version,'name',name) order by version) from supabase_migrations.schema_migrations),
  'storage_history',(select jsonb_agg(jsonb_build_object('id',id,'name',name,'hash',hash) order by id) from storage.migrations),
+ 'auth_history',(select jsonb_agg(version order by version) from auth.schema_migrations),
  'roles',(select jsonb_agg(jsonb_build_object('name',rolname,'superuser',rolsuper,'inherit',rolinherit,'createrole',rolcreaterole,'createdb',rolcreatedb,'login',rolcanlogin,'replication',rolreplication,'bypassrls',rolbypassrls,'connection_limit',rolconnlimit) order by rolname) from pg_roles where rolname in ('anon','authenticated','service_role','postgres','authenticator','supabase_auth_admin','supabase_storage_admin','supabase_admin')),
  'memberships',(select jsonb_agg(jsonb_build_object('role',r.rolname,'member',m.rolname,'grantor',g.rolname,'admin',a.admin_option,'inherit',a.inherit_option,'set',a.set_option) order by r.rolname,m.rolname,g.rolname) from pg_auth_members a join pg_roles r on r.oid=a.roleid join pg_roles m on m.oid=a.member join pg_roles g on g.oid=a.grantor where m.rolname in ('anon','authenticated','service_role','postgres','authenticator','supabase_auth_admin','supabase_storage_admin','supabase_admin')),
  'postgres_inherits_service_role',pg_has_role('postgres','service_role','USAGE'),

@@ -54,10 +54,14 @@ try {
     if ($manifest.project -ne $projectRef -or $manifest.archive_list_and_decode -ne 'PASS') { throw 'Backup manifest is not the expected staging backup.' }
     if ($manifest.source.migration_count -ne 22 -or !$manifest.source.quick_service_present -or $manifest.source.security_migration_present) { throw 'Restore requires the current 22-migration backup, before security hardening.' }
     if (!$manifest.schema_stable_during_backup -or !$manifest.schema_fingerprint) { throw 'Backup schema stability evidence is missing.' }
-    if ($manifest.manifest_version -ne 2) { throw 'Legacy manifest is not compatible with the versioned recovery procedure.' }
+    if ($manifest.manifest_version -ne 3 -or $manifest.platform.snapshot_version -ne 2) { throw 'Legacy manifest is not compatible with the Auth/index recovery contract.' }
     Assert-RecoveryFingerprint ([pscustomobject]@{algorithm_version=$manifest.fingerprint_algorithm_version;categories=$manifest.schema_fingerprint})
     Assert-RecoveryHistory $manifest.platform
+    Assert-RecoveryIndexes $manifest.index_snapshot
     if ((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql') -Algorithm SHA256).Hash -ne $manifest.fingerprint_sql_sha256) { throw 'Fingerprint SQL differs from the backup algorithm.' }
+    foreach ($pair in @(@('crm-recovery-platform-snapshot.sql','platform_sql_sha256'),@('crm-recovery-index-snapshot.sql','index_sql_sha256'))) {
+        if ((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $pair[0]) -Algorithm SHA256).Hash -ne $manifest.($pair[1])) { throw 'Complementary snapshot SQL differs from backup contract.' }
+    }
     if ($manifest.archive_sha256 -ne $expectedHash -or (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -ne $expectedHash) { throw 'Backup SHA-256 mismatch. Nothing will be restored.' }
     if ((Get-Item -LiteralPath $archiveFile).Length -ne $ExpectedArchiveBytes -or $manifest.archive_bytes -ne $ExpectedArchiveBytes) { throw 'Unexpected archive size.' }
     $contextName = (Invoke-LocalDocker 'Docker context check' @('context','show')).Trim()
@@ -116,9 +120,13 @@ select json_build_object(
     $platformSql = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-platform-snapshot.sql') -Raw
     $restoredPlatform = (Read-LocalQuery $targetDatabase $platformSql) | ConvertFrom-Json
     Assert-RecoveryHistory $restoredPlatform
-    foreach ($part in @('crm_history','storage_history','roles','memberships','postgres_inherits_service_role','lifecycle_functions','lifecycle_tables')) {
+    foreach ($part in @('snapshot_version','crm_history','storage_history','auth_history','roles','memberships','postgres_inherits_service_role','lifecycle_functions','lifecycle_tables')) {
         if (($restoredPlatform.$part | ConvertTo-Json -Depth 30 -Compress) -cne ($manifest.platform.$part | ConvertTo-Json -Depth 30 -Compress)) { $differences += ('platform_' + $part) }
     }
+    $indexSql = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql') -Raw
+    $restoredIndexes = (Read-LocalQuery $targetDatabase $indexSql) | ConvertFrom-Json
+    Assert-RecoveryIndexes $restoredIndexes
+    if (($restoredIndexes | ConvertTo-Json -Depth 30 -Compress) -cne ($manifest.index_snapshot | ConvertTo-Json -Depth 30 -Compress)) { $differences += 'complementary_indexes' }
     if ($restored.public_tables_without_rls -ne 0 -or !$restored.marketing_storage_policy_present -or !$restored.audience_function_present) { $differences += 'schema_security_checks' }
     $archiveUnchanged = (Get-FileHash -LiteralPath $archiveFile -Algorithm SHA256).Hash -eq $expectedHash
     if (!$archiveUnchanged) { $differences += 'original_archive_hash' }
@@ -142,6 +150,8 @@ select json_build_object(
         restored_schema_fingerprint = $restoredSchema
         fingerprint_algorithm_version = $RecoveryFingerprintVersion
         restored_platform = $restoredPlatform
+        restored_indexes = $restoredIndexes
+        source_indexes = $manifest.index_snapshot
         source_platform = $manifest.platform
         source_schema_fingerprint = $manifest.schema_fingerprint
         source_manifest_counts = $manifest.source
