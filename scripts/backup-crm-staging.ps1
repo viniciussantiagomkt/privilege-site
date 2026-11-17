@@ -1,11 +1,18 @@
 # Read-only manual PostgreSQL backup. Never restores or applies migrations.
 # Run on Windows PowerShell 5.1 or PowerShell 7 with PostgreSQL 17 client tools.
 [CmdletBinding()]
-param([string]$PgBin = 'C:\Program Files\PostgreSQL\17\bin')
+param(
+    [Parameter(Mandatory=$true)][string]$DestinationRoot,
+    [Parameter(Mandatory=$true)][string]$BaselineFile,
+    [Parameter(Mandatory=$true)][ValidatePattern('^[A-Fa-f0-9]{64}$')][string]$ExpectedBaselineSha256,
+    [string]$PgBin = 'C:\Program Files\PostgreSQL\17\bin'
+)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'crm-recovery-contract.ps1')
 $projectRef = 'sdpqphiooiuglywcmkxv'
-$expectedMigrationVersions = '20261008144426,20261008144813,20261008145320,20261008150501,20261008163217,20261008163432,20261008163623,20261009142538,20261009144156,20261009174757,20261013180730,20261019165011,20261019165034,20261019165057,20261019165119,20261019170348,20261028143926,20261028180043,20261029173752,20261029184222,20261030185925'
+$expectedMigrationVersions = '20261008144426,20261008144813,20261008145320,20261008150501,20261008163217,20261008163432,20261008163623,20261009142538,20261009144156,20261009174757,20261013180730,20261019165011,20261019165034,20261019165057,20261019165119,20261019170348,20261028143926,20261028180043,20261029173752,20261029184222,20261030185925,20261105172215'
+$toolVersions = [ordered]@{}
 $backupDirectory = $null
 $completed = $false
 $priorEnvironment = @{}
@@ -30,11 +37,20 @@ function Invoke-PgClient {
 
 try {
     if ($env:OS -ne 'Windows_NT') { throw 'This script requires Windows. No database operation was executed.' }
+    $BaselineFile = (Resolve-Path -LiteralPath $BaselineFile).Path
+    if ((Get-FileHash -LiteralPath $BaselineFile -Algorithm SHA256).Hash -ne $ExpectedBaselineSha256) { throw 'Reviewed baseline SHA-256 differs.' }
+    $baseline = Get-Content -LiteralPath $BaselineFile -Raw | ConvertFrom-Json
+    if ($baseline.project -ne $projectRef) { throw 'Baseline is not the authorized staging project.' }
+    if ($baseline.contract_version -ne 3 -or $baseline.platform.snapshot_version -ne 2) { throw 'Reviewed baseline must explicitly cover Auth and complementary indexes.' }
+    Assert-RecoveryFingerprint $baseline.fingerprint
+    Assert-RecoveryHistory $baseline.platform
+    Assert-RecoveryIndexes $baseline.indexes
     foreach ($name in @('pg_dump','pg_dumpall','pg_restore','psql')) {
         $tool = Join-Path $PgBin ($name + '.exe')
         if (!(Test-Path -LiteralPath $tool)) { throw "Install PostgreSQL 17 client tools first. Missing: $tool" }
         $version = & $tool --version
         if ($version -notmatch '\b17\.') { throw "$name must be version 17 for this staging database." }
+        $toolVersions[$name] = [string]$version
     }
     Write-Host 'Source project: privilege-imoveis-staging / sdpqphiooiuglywcmkxv'
     Write-Host 'In Supabase Connect, use Direct connection or Session pooler (port 5432).'
@@ -46,7 +62,9 @@ try {
     } elseif ($databaseHost -match '^aws-[a-z0-9-]+\.pooler\.supabase\.com$') {
         $databaseUser = "postgres.$projectRef"
     } else { throw 'Host rejected. Only this staging direct host or a Supabase session pooler is allowed.' }
-    $destinationRoot = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'PrivilegeCRM-Backups'
+    $privateRoot = Join-Path ([Environment]::GetFolderPath('LocalApplicationData')) 'PrivilegeCRM-Backups'
+    $DestinationRoot = (Resolve-Path -LiteralPath $DestinationRoot).Path
+    if ($DestinationRoot -ne $privateRoot -and !$DestinationRoot.StartsWith($privateRoot + '\',[StringComparison]::OrdinalIgnoreCase)) { throw 'Destination must stay in the explicit private local backup root, outside Git.' }
     $backupDirectory = Join-Path $destinationRoot ('staging-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-' + [Guid]::NewGuid().ToString('N').Substring(0,8))
     [void](New-Item -ItemType Directory -Path $backupDirectory -Force)
     # Dedicated folder: only the current Windows user and SYSTEM can access it.
@@ -79,6 +97,8 @@ select json_build_object(
  'migration_versions',(select string_agg(version,',' order by version) from supabase_migrations.schema_migrations),
  'm5_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261019170348'),
  'new_migration_present',to_regprocedure('public.crm_marketing_recipients()') is not null,
+ 'quick_service_present',to_regprocedure('public.crm_save_quick_client(bigint,bigint,uuid,jsonb)') is not null,
+ 'security_migration_present',exists(select 1 from supabase_migrations.schema_migrations where version='20261111151927' or name='crm_stage03_security_surface'),
  'auth_users',(select count(*) from auth.users),
  'leads',(select count(*) from public.leads),
  'clients',(select count(*) from public.clients),
@@ -91,6 +111,18 @@ select json_build_object(
     if ($source.server_version -notmatch '^17\.' -or !$source.m5_present -or $source.migration_count -ne $expectedMigrationVersions.Split(',').Count -or !$source.new_migration_present -or $source.migration_versions -ne $expectedMigrationVersions) {
         throw 'Source history differs from the authorized baseline. Stop; do not apply or repeat any migration.'
     }
+    if (!$source.quick_service_present -or $source.security_migration_present) { throw 'Quick-service/security migration state differs from the approved 22-version baseline.' }
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql'))) (Join-Path $backupDirectory 'schema-before.json')
+    $schemaBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'schema-before.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryFingerprint $schemaBefore
+    Assert-RecoveryEqual $baseline.fingerprint $schemaBefore 'Catalog/ACL/owners'
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-recovery-platform-snapshot.sql'))) (Join-Path $backupDirectory 'platform-before.json')
+    $platformBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'platform-before.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryHistory $platformBefore
+    Assert-RecoveryEqual $baseline.platform $platformBefore 'Platform roles/memberships and separate CRM/Storage histories'
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql'))) (Join-Path $backupDirectory 'indexes-before.json')
+    $indexesBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'indexes-before.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryIndexesEqual $baseline.indexes $indexesBefore
     $dumpFile = Join-Path $backupDirectory 'staging-database.dump'
     Invoke-PgClient 'pg_dump' ($connection + @('--dbname','postgres','--format=custom','--lock-wait-timeout=5s','--file',$dumpFile)) (Join-Path $backupDirectory 'dump-output.txt')
     if (!(Test-Path -LiteralPath $dumpFile) -or (Get-Item -LiteralPath $dumpFile).Length -lt 1024) { throw 'Database archive missing or unexpectedly small.' }
@@ -105,10 +137,37 @@ select json_build_object(
         if (!$toc.Contains($entry)) { throw "Required backup entry missing: $entry" }
     }
     Remove-Item -LiteralPath $decoded -Force
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql'))) (Join-Path $backupDirectory 'schema-after.json')
+    $schemaBefore = Get-Content -LiteralPath (Join-Path $backupDirectory 'schema-before.json') -Raw | ConvertFrom-Json
+    $schemaAfter = Get-Content -LiteralPath (Join-Path $backupDirectory 'schema-after.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryFingerprint $schemaAfter
+    Assert-RecoveryEqual $schemaBefore $schemaAfter 'Schema/ACL during backup'
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-recovery-platform-snapshot.sql'))) (Join-Path $backupDirectory 'platform-after.json')
+    $platformAfter = Get-Content -LiteralPath (Join-Path $backupDirectory 'platform-after.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryHistory $platformAfter
+    Assert-RecoveryEqual $platformBefore $platformAfter 'Platform during backup'
+    Invoke-PgClient 'psql' ($connection + @('--dbname','postgres','-X','--quiet','--set','ON_ERROR_STOP=1','--tuples-only','--no-align','--file',(Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql'))) (Join-Path $backupDirectory 'indexes-after.json')
+    $indexesAfter = Get-Content -LiteralPath (Join-Path $backupDirectory 'indexes-after.json') -Raw | ConvertFrom-Json
+    Assert-RecoveryIndexesEqual $indexesBefore $indexesAfter
     $manifest = [ordered]@{
+        manifest_version = 3
         project = $projectRef
         created_utc = [DateTime]::UtcNow.ToString('o')
         source = $source
+        tool_versions = $toolVersions
+        fingerprint_algorithm_version = $RecoveryFingerprintVersion
+        fingerprint_sql_sha256 = (Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-backup-schema-fingerprint.sql') -Algorithm SHA256).Hash
+        schema_fingerprint = $schemaBefore.categories
+        reviewed_baseline_sha256 = $ExpectedBaselineSha256.ToUpperInvariant()
+        platform = $platformBefore
+        crm_history = $platformBefore.crm_history
+        storage_history = $platformBefore.storage_history
+        auth_history = $platformBefore.auth_history
+        platform_sql_sha256 = (Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-platform-snapshot.sql') -Algorithm SHA256).Hash
+        index_snapshot = $indexesBefore
+        index_sql_sha256 = (Get-FileHash -LiteralPath (Join-Path $PSScriptRoot 'crm-recovery-index-snapshot.sql') -Algorithm SHA256).Hash
+        schema_stable_during_backup = $true
+        auxiliary_counts_snapshot = 'Before pg_dump; not the same transaction as archive data'
         archive = 'staging-database.dump'
         archive_bytes = (Get-Item -LiteralPath $dumpFile).Length
         archive_sha256 = (Get-FileHash -LiteralPath $dumpFile -Algorithm SHA256).Hash
@@ -119,7 +178,7 @@ select json_build_object(
         external_service_configuration = 'NOT_INCLUDED'
         source_modified = $false
     }
-    $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $backupDirectory 'manifest.json') -Encoding UTF8
+    $manifest | ConvertTo-Json -Depth 30 | Set-Content -LiteralPath (Join-Path $backupDirectory 'manifest.json') -Encoding UTF8
     $completed = $true
     Write-Host 'BACKUP FILES CREATED; archive listing and decoding passed.'
     Write-Host 'Restore verification is still pending. No migration or restore was executed.'

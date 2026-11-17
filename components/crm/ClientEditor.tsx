@@ -82,12 +82,14 @@ export function ClientEditor({
   onCancel,
   onDirty,
   onExisting,
+  allowContactTypeOnCreate = true,
 }: {
   contact?: Contact;
   onSaved: (id: number) => void;
   onCancel: () => void;
   onDirty: () => void;
   onExisting: (id: number) => void;
+  allowContactTypeOnCreate?: boolean;
 }) {
   const ctx = useWorkspace();
   const form = useRef<HTMLFormElement>(null);
@@ -235,7 +237,7 @@ export function ClientEditor({
           <div className="crm-form-grid">
             {clientFields(contact)
               .filter(
-                (f) => contact || ["name", "phone", "notes"].includes(f.name),
+                (f) => contact || ["name", "phone", "notes", "contact_type"].includes(f.name),
               )
               .map((f) => (
                 <label
@@ -285,7 +287,7 @@ export function ClientEditor({
                 </label>
               ))}
             <label>
-              Tipo de interesse{!contact ? " *" : ""}
+              Finalidade do cadastro{!contact ? " *" : ""}
               <select
                 name="purpose"
                 aria-label="Tipo de interesse"
@@ -454,7 +456,7 @@ export function ClientEditor({
               Cancelar
             </Button>
             <Button type="submit" disabled={ctx.busy}>
-              {ctx.busy ? "Salvando…" : "Salvar cliente"}
+              {ctx.busy ? "Salvando…" : allowContactTypeOnCreate ? "Salvar contato" : "Salvar cliente"}
             </Button>
           </div>
         </fieldset>

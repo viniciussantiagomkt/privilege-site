@@ -1,0 +1,131 @@
+{
+  "identity": "public staging anon; no user session",
+  "checks": [
+    {
+      "case": "H11/save",
+      "status": 401,
+      "code": "42501",
+      "bodyKind": "object",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "H11/contact",
+      "status": 401,
+      "code": "42501",
+      "bodyKind": "object",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "H11/timeline",
+      "status": 401,
+      "code": "42501",
+      "bodyKind": "object",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "H16/role",
+      "status": 401,
+      "code": "42501",
+      "bodyKind": "object",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "H16/media",
+      "status": 401,
+      "code": "42501",
+      "bodyKind": "object",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "HEAD/admin_dashboard_metrics",
+      "status": 200,
+      "code": null,
+      "bodyKind": "HEAD/no body",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "HEAD/property_admin_metrics",
+      "status": 200,
+      "code": null,
+      "bodyKind": "HEAD/no body",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "HEAD/lead_origin_metrics",
+      "status": 200,
+      "code": null,
+      "bodyKind": "HEAD/no body",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "HEAD/property_metrics",
+      "status": 200,
+      "code": null,
+      "bodyKind": "HEAD/no body",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "H22/invalid",
+      "status": 200,
+      "code": null,
+      "bodyKind": "null",
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "H24/no-consent",
+      "status": 200,
+      "code": null,
+      "bodyKind": "boolean",
+      "booleanResult": false,
+      "sensitiveFieldsDetected": false
+    },
+    {
+      "case": "anon-read/clients",
+      "status": 200,
+      "code": null,
+      "returnedRows": 0,
+      "anyRowExposure": false
+    },
+    {
+      "case": "anon-read/leads",
+      "status": 200,
+      "code": null,
+      "returnedRows": 0,
+      "anyRowExposure": false
+    },
+    {
+      "case": "anon-read/tasks",
+      "status": 200,
+      "code": null,
+      "returnedRows": 0,
+      "anyRowExposure": false
+    },
+    {
+      "case": "anon-read/visits",
+      "status": 200,
+      "code": null,
+      "returnedRows": 0,
+      "anyRowExposure": false
+    },
+    {
+      "case": "anon-read/crm_event_log",
+      "status": 401,
+      "code": "42501",
+      "returnedRows": null,
+      "anyRowExposure": false
+    },
+    {
+      "case": "anon-read/audit_logs",
+      "status": 200,
+      "code": null,
+      "returnedRows": 0,
+      "anyRowExposure": false
+    },
+    {
+      "case": "Auth/no-user-session",
+      "status": 403,
+      "code": 403,
+      "userReturned": false
+    }
+  ]
+}

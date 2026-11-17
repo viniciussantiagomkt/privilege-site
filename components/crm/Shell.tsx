@@ -143,7 +143,7 @@ export function CrmShell({ children }: { children: ReactNode }) {
               }}
             >
               <n.icon size={20} />
-              <span>{n.label}</span>
+              <span>{ctx.operations && n.href === "/admin/leads" ? "Leads e atribuição" : ctx.operations && n.href === "/admin/equipe" ? "Supervisão da equipe" : n.label}</span>
               {n.href === path && <i />}
             </Link>
           ))}
