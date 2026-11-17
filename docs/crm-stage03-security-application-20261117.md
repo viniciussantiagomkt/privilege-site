@@ -123,6 +123,18 @@ Nao ha sessoes proprias legitimas e autorizadas de A/B/Gestor/Administrador disp
 
 Retomar os [28 cenarios existentes](crm-stage03-http-homologation-plan-20261111.md) com sessoes legitimas: isolamento bilateral, controles positivos dos quatro perfis, payload valido alheio, concorrencia/idempotencia e apresentacoes validas/expiradas/revogadas. Reutilizar homologacoes aprovadas quando aplicaveis e registrar nova evidencia dos controles afetados pelo hardening.
 
+## Ressalva adicional: auditoria de dependencias atual
+
+A CI documental #94 terminou SUCCESS (npm ci, lint, typecheck, 192 testes de codigo, 396 verificacoes locais, build), mas o log de npm ci apontou 16 vulnerabilidades: sete moderadas e nove altas. Esse alerta foi examinado apos a aplicacao. A ausencia de falha na CI NAO certifica dependencias seguras.
+
+Reproducao local com npm 11.12.1, mesmo package-lock e registry oficial: npm audit --json retornou as mesmas 16 entradas (exit 1). npm audit --omit=dev --json retornou UMA moderada de producao, zero altas/criticas (exit 1). Contagens anteriores de sete/oito eram fotografias historicas da base de advisories; nao se aplicam a esta consulta atual. Nenhum pacote ou lockfile foi modificado.
+
+As nove altas estao na cadeia dev: @next/eslint-plugin-next, @typescript-eslint/typescript-estree, eslint-config-next, eslint-import-resolver-typescript, fast-glob, fdir, micromatch, picomatch e tinyglobby. Advisory raiz novo: [picomatch ReDoS](https://github.com/advisories/GHSA-fc5q-39xc-vjpf). A cadeia minimatch/typescript-eslint continua com avisos moderados. Contagens de pacotes nao equivalem a contagens de vulnerabilidades independentes.
+
+Producao: next 16.4.3 afetado por [GHSA-mfr8-8qww-v76h](https://github.com/advisories/GHSA-mfr8-8qww-v76h) e [GHSA-vc7v-qv4w-wrv8](https://github.com/advisories/GHSA-vc7v-qv4w-wrv8), ambos moderados de vazamento entre valores de parametros raiz em composicoes de cache. Busca por unstable_cache, use cache, cacheComponents e rootParams em app, components, lib e next.config.* nao encontrou ocorrencias. Isso NAO comprova ausencia de caminho exploravel.
+
+O registry indica next 16.4.6 como correcao compativel; sugestoes automaticas de downgrade amplo de eslint-config-next nao foram aceitas. Nenhum npm audit fix/force, update, nova frente funcional ou mudanca de configuracao foi executado. Work deve avaliar prioridade da correcao compativel antes de qualquer decisao de publicacao/merge. O resultado PASS desta operacao se limita a migration autorizada, catalogo e seis chamadas HTTP anonimas; nao concede aprovacao integral de seguranca. JSONs reproduzidos e limites registrados na evidencia estruturada.
+
 ## Evidencias, limitacoes e encerramento
 
 Evidencia estruturada sanitizada: tests/security/crm-stage03-security-application-20261117.json. Contem deltas previstos, fingerprints antes/depois, historicos completos, snapshots sanitizados de permissoes, Advisors e seis resultados HTTP. Query de permissoes ja versionada: tests/crm-stage03-security-grants-readonly.sql.
