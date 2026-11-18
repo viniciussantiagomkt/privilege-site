@@ -1,0 +1,1084 @@
+{
+  "result": "PASS_WITH_RESIDUAL_DEVELOPMENT_RISK",
+  "date": "2026-11-18",
+  "base_commit": "67b9b114c72e42a551f4df84691acd8761034626",
+  "branch": "codex/crm-stage03-dependencies-20261118",
+  "executor": "Codex",
+  "independent_review": "PENDING",
+  "published": false,
+  "original_pr": {
+    "pr": 16,
+    "draft": true,
+    "head": "67b9b114c72e42a551f4df84691acd8761034626",
+    "merged": false
+  },
+  "node": "v24.15.0",
+  "packageSha256": "cb05e01d18991477a93108cf7e5dc6de9b14e7a11c6d2a2a01297b7426dfebd9",
+  "lockBefore": "1e2a1f4068ecf30ba9de2fe2e5144d91e3b07995a46ebbbd3d25e41c812f0e7a",
+  "lockAfter": "56a1360a9a0147bdb416f6cf05d1c85432a6d0696949d652b07e1d33b10f0b84",
+  "versions": {
+    "next": "16.4.6",
+    "eslint-config-next": "16.4.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "eslint": "9.39.4",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.73.0"
+  },
+  "docs": [
+    {
+      "path": "node_modules/next/dist/docs/01-app/01-getting-started/18-upgrading.md",
+      "sha256": "ad60e823e50a3f2843f66635d3ce62b3f931543b5d67a55810fdab9b816b9e87"
+    },
+    {
+      "path": "node_modules/next/dist/docs/01-app/03-api-reference/05-config/03-eslint.md",
+      "sha256": "4d83a417f3d7976d8713266f4c95a36de8429d8fa1c0a22d355b26a3978a0161"
+    }
+  ],
+  "npm": "11.12.1",
+  "registry": "https://registry.npmjs.org/",
+  "audit_database_is_time_dependent": true,
+  "instructions_read": [
+    "AGENTS.md",
+    "node_modules/next/AGENTS.md",
+    "node_modules/next/dist/docs/01-app/01-getting-started/18-upgrading.md",
+    "node_modules/next/dist/docs/01-app/02-guides/upgrading/version-16.md",
+    "node_modules/next/dist/docs/01-app/03-api-reference/05-config/03-eslint.md",
+    "node_modules/next/dist/docs/01-app/03-api-reference/02-components/image.md"
+  ],
+  "commands": {
+    "lockfile": [
+      "npm install --package-lock-only --ignore-scripts --no-audit --registry=https://registry.npmjs.org/",
+      "npm update typescript-eslint --package-lock-only --ignore-scripts --no-audit --registry=https://registry.npmjs.org/"
+    ],
+    "installation": "npm ci --no-audit --registry=https://registry.npmjs.org/",
+    "audit_before": "npm audit --package-lock-only --include=dev --json --registry=https://registry.npmjs.org/",
+    "audit_after": "npm audit --package-lock-only --include=dev --json --registry=https://registry.npmjs.org/",
+    "audit_production": "npm audit --package-lock-only --omit=dev --json --registry=https://registry.npmjs.org/ --fetch-retries=0 --fetch-timeout=30000",
+    "lint": "npm run lint",
+    "typescript": "npm run typecheck",
+    "code": "npm test",
+    "crm_local": "npm run test:crm-local (CRM_LOCAL_REPORT_PATH set outside Git)",
+    "build_browser_http": "node tests/crm-dependency-smoke.mjs (runs next build, next start, HTTP and Edge headless)"
+  },
+  "audit_before": {
+    "exit_code": 1,
+    "report": {
+      "auditReportVersion": 2,
+      "vulnerabilities": {
+        "@next/eslint-plugin-next": {
+          "name": "@next/eslint-plugin-next",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "fast-glob"
+          ],
+          "effects": [
+            "eslint-config-next"
+          ],
+          "range": ">=14.3.0-canary.0",
+          "nodes": [
+            "node_modules/@next/eslint-plugin-next"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "14.2.35",
+            "isSemVerMajor": true
+          }
+        },
+        "@typescript-eslint/eslint-plugin": {
+          "name": "@typescript-eslint/eslint-plugin",
+          "severity": "moderate",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils"
+          ],
+          "effects": [],
+          "range": "6.16.0 - 8.72.2",
+          "nodes": [
+            "node_modules/@typescript-eslint/eslint-plugin"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/parser": {
+          "name": "@typescript-eslint/parser",
+          "severity": "moderate",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "effects": [
+            "typescript-eslint"
+          ],
+          "range": "6.16.0 - 8.72.2",
+          "nodes": [
+            "node_modules/@typescript-eslint/parser"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/type-utils": {
+          "name": "@typescript-eslint/type-utils",
+          "severity": "moderate",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "effects": [],
+          "range": "6.16.0 - 8.72.2",
+          "nodes": [
+            "node_modules/@typescript-eslint/type-utils"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/typescript-estree": {
+          "name": "@typescript-eslint/typescript-estree",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "minimatch",
+            "tinyglobby"
+          ],
+          "effects": [
+            "@typescript-eslint/parser",
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils",
+            "typescript-eslint"
+          ],
+          "range": ">=6.16.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/typescript-estree"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/utils": {
+          "name": "@typescript-eslint/utils",
+          "severity": "moderate",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "effects": [
+            "@typescript-eslint/eslint-plugin",
+            "typescript-eslint"
+          ],
+          "range": "6.16.0 - 8.72.2",
+          "nodes": [
+            "node_modules/@typescript-eslint/utils"
+          ],
+          "fixAvailable": true
+        },
+        "eslint-config-next": {
+          "name": "eslint-config-next",
+          "severity": "high",
+          "isDirect": true,
+          "via": [
+            "@next/eslint-plugin-next"
+          ],
+          "effects": [],
+          "range": ">=14.3.0-canary.0",
+          "nodes": [
+            "node_modules/eslint-config-next"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "14.2.35",
+            "isSemVerMajor": true
+          }
+        },
+        "eslint-import-resolver-typescript": {
+          "name": "eslint-import-resolver-typescript",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "tinyglobby"
+          ],
+          "effects": [],
+          "range": ">=3.8.0",
+          "nodes": [
+            "node_modules/eslint-import-resolver-typescript"
+          ],
+          "fixAvailable": true
+        },
+        "fast-glob": {
+          "name": "fast-glob",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "micromatch"
+          ],
+          "effects": [
+            "@next/eslint-plugin-next"
+          ],
+          "range": ">=3.0.0",
+          "nodes": [
+            "node_modules/fast-glob"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "14.2.35",
+            "isSemVerMajor": true
+          }
+        },
+        "fdir": {
+          "name": "fdir",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "picomatch"
+          ],
+          "effects": [],
+          "range": ">=5.2.1",
+          "nodes": [
+            "node_modules/tinyglobby/node_modules/fdir"
+          ],
+          "fixAvailable": true
+        },
+        "micromatch": {
+          "name": "micromatch",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "picomatch"
+          ],
+          "effects": [
+            "fast-glob"
+          ],
+          "range": ">=4.0.0",
+          "nodes": [
+            "node_modules/micromatch"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "14.2.35",
+            "isSemVerMajor": true
+          }
+        },
+        "minimatch": {
+          "name": "minimatch",
+          "severity": "moderate",
+          "isDirect": false,
+          "via": [
+            {
+              "source": 1244623,
+              "name": "minimatch",
+              "dependency": "minimatch",
+              "title": "minimatch has potential denial of service via globparts amplification",
+              "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-405"
+              ],
+              "cvss": {
+                "score": 0,
+                "vectorString": null
+              },
+              "range": ">=7.0.0 <11.0.1"
+            }
+          ],
+          "effects": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "range": "7.0.0 - 11.0.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch"
+          ],
+          "fixAvailable": true
+        },
+        "next": {
+          "name": "next",
+          "severity": "moderate",
+          "isDirect": true,
+          "via": [
+            {
+              "source": 1247486,
+              "name": "next",
+              "dependency": "next",
+              "title": "Next.js: Information disclosure across root params when a 'use cache' function is called through unstable_cache()",
+              "url": "https://github.com/advisories/GHSA-mfr8-8qww-v76h",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-362"
+              ],
+              "cvss": {
+                "score": 0,
+                "vectorString": null
+              },
+              "range": ">=16.3.0 <=16.4.4"
+            },
+            {
+              "source": 1247712,
+              "name": "next",
+              "dependency": "next",
+              "title": "Next.js: Cache leak across root param values in nested 'use cache' functions via delayed inner stream metadata",
+              "url": "https://github.com/advisories/GHSA-vc7v-qv4w-wrv8",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-362"
+              ],
+              "cvss": {
+                "score": 0,
+                "vectorString": null
+              },
+              "range": ">=16.2.0 <=16.4.4"
+            }
+          ],
+          "effects": [],
+          "range": "16.2.0 - 16.4.4",
+          "nodes": [
+            "node_modules/next"
+          ],
+          "fixAvailable": {
+            "name": "next",
+            "version": "16.4.6",
+            "isSemVerMajor": false
+          }
+        },
+        "picomatch": {
+          "name": "picomatch",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            {
+              "source": 1247710,
+              "name": "picomatch",
+              "dependency": "picomatch",
+              "title": "picomatch vulnerable to ReDoS through single-branch repeated extglobs",
+              "url": "https://github.com/advisories/GHSA-fc5q-39xc-vjpf",
+              "severity": "high",
+              "cwe": [
+                "CWE-1333"
+              ],
+              "cvss": {
+                "score": 7.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+              },
+              "range": "<=4.0.7"
+            }
+          ],
+          "effects": [
+            "fdir",
+            "micromatch",
+            "tinyglobby"
+          ],
+          "range": "*",
+          "nodes": [
+            "node_modules/picomatch",
+            "node_modules/tinyglobby/node_modules/picomatch"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "14.2.35",
+            "isSemVerMajor": true
+          }
+        },
+        "tinyglobby": {
+          "name": "tinyglobby",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "fdir",
+            "picomatch"
+          ],
+          "effects": [
+            "@typescript-eslint/typescript-estree",
+            "eslint-import-resolver-typescript"
+          ],
+          "range": "*",
+          "nodes": [
+            "node_modules/tinyglobby"
+          ],
+          "fixAvailable": true
+        },
+        "typescript-eslint": {
+          "name": "typescript-eslint",
+          "severity": "moderate",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "effects": [],
+          "range": "<=8.72.2",
+          "nodes": [
+            "node_modules/typescript-eslint"
+          ],
+          "fixAvailable": true
+        }
+      },
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 7,
+          "high": 9,
+          "critical": 0,
+          "total": 16
+        },
+        "dependencies": {
+          "prod": 32,
+          "dev": 381,
+          "optional": 87,
+          "peer": 0,
+          "peerOptional": 0,
+          "total": 450
+        }
+      }
+    }
+  },
+  "audit_after": {
+    "exit_code": 1,
+    "report": {
+      "auditReportVersion": 2,
+      "vulnerabilities": {
+        "@next/eslint-plugin-next": {
+          "name": "@next/eslint-plugin-next",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "fast-glob"
+          ],
+          "effects": [
+            "eslint-config-next"
+          ],
+          "range": ">=14.3.0-canary.0",
+          "nodes": [
+            "node_modules/@next/eslint-plugin-next"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "@typescript-eslint/eslint-plugin": {
+          "name": "@typescript-eslint/eslint-plugin",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/parser",
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils"
+          ],
+          "effects": [],
+          "range": ">=8.47.1-alpha.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/eslint-plugin"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/parser": {
+          "name": "@typescript-eslint/parser",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "effects": [
+            "@typescript-eslint/eslint-plugin"
+          ],
+          "range": ">=8.47.1-alpha.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/parser"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/type-utils": {
+          "name": "@typescript-eslint/type-utils",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "effects": [],
+          "range": ">=8.47.1-alpha.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/type-utils"
+          ],
+          "fixAvailable": true
+        },
+        "@typescript-eslint/typescript-estree": {
+          "name": "@typescript-eslint/typescript-estree",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "tinyglobby"
+          ],
+          "effects": [
+            "@typescript-eslint/parser",
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils",
+            "typescript-eslint"
+          ],
+          "range": ">=8.47.1-alpha.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/typescript-estree"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "@typescript-eslint/utils": {
+          "name": "@typescript-eslint/utils",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "effects": [],
+          "range": ">=8.47.1-alpha.0",
+          "nodes": [
+            "node_modules/@typescript-eslint/utils"
+          ],
+          "fixAvailable": true
+        },
+        "eslint-config-next": {
+          "name": "eslint-config-next",
+          "severity": "high",
+          "isDirect": true,
+          "via": [
+            "@next/eslint-plugin-next",
+            "typescript-eslint"
+          ],
+          "effects": [],
+          "range": ">=14.3.0-canary.0",
+          "nodes": [
+            "node_modules/eslint-config-next"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "eslint-import-resolver-typescript": {
+          "name": "eslint-import-resolver-typescript",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "tinyglobby"
+          ],
+          "effects": [],
+          "range": ">=3.8.0",
+          "nodes": [
+            "node_modules/eslint-import-resolver-typescript"
+          ],
+          "fixAvailable": true
+        },
+        "fast-glob": {
+          "name": "fast-glob",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "micromatch"
+          ],
+          "effects": [
+            "@next/eslint-plugin-next"
+          ],
+          "range": ">=3.0.0",
+          "nodes": [
+            "node_modules/fast-glob"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "fdir": {
+          "name": "fdir",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "picomatch"
+          ],
+          "effects": [],
+          "range": ">=5.2.1",
+          "nodes": [
+            "node_modules/tinyglobby/node_modules/fdir"
+          ],
+          "fixAvailable": true
+        },
+        "micromatch": {
+          "name": "micromatch",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "picomatch"
+          ],
+          "effects": [
+            "fast-glob"
+          ],
+          "range": ">=4.0.0",
+          "nodes": [
+            "node_modules/micromatch"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "picomatch": {
+          "name": "picomatch",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            {
+              "source": 1247710,
+              "name": "picomatch",
+              "dependency": "picomatch",
+              "title": "picomatch vulnerable to ReDoS through single-branch repeated extglobs",
+              "url": "https://github.com/advisories/GHSA-fc5q-39xc-vjpf",
+              "severity": "high",
+              "cwe": [
+                "CWE-1333"
+              ],
+              "cvss": {
+                "score": 7.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+              },
+              "range": "<=4.0.7"
+            }
+          ],
+          "effects": [
+            "fdir",
+            "micromatch",
+            "tinyglobby"
+          ],
+          "range": "*",
+          "nodes": [
+            "node_modules/picomatch",
+            "node_modules/tinyglobby/node_modules/picomatch"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "tinyglobby": {
+          "name": "tinyglobby",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "fdir",
+            "picomatch"
+          ],
+          "effects": [
+            "@typescript-eslint/typescript-estree",
+            "eslint-import-resolver-typescript"
+          ],
+          "range": "*",
+          "nodes": [
+            "node_modules/tinyglobby"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        },
+        "typescript-eslint": {
+          "name": "typescript-eslint",
+          "severity": "high",
+          "isDirect": false,
+          "via": [
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "effects": [
+            "eslint-config-next"
+          ],
+          "range": ">=8.47.1-alpha.0",
+          "nodes": [
+            "node_modules/typescript-eslint"
+          ],
+          "fixAvailable": {
+            "name": "eslint-config-next",
+            "version": "16.3.8",
+            "isSemVerMajor": true
+          }
+        }
+      },
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 14,
+          "critical": 0,
+          "total": 14
+        },
+        "dependencies": {
+          "prod": 32,
+          "dev": 382,
+          "optional": 87,
+          "peer": 0,
+          "peerOptional": 0,
+          "total": 451
+        }
+      }
+    }
+  },
+  "audit_production": {
+    "exit_code": 0,
+    "report": {
+      "auditReportVersion": 2,
+      "vulnerabilities": {},
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "dependencies": {
+          "prod": 32,
+          "dev": 382,
+          "optional": 87,
+          "peer": 0,
+          "peerOptional": 0,
+          "total": 451
+        }
+      }
+    }
+  },
+  "changed_lock_entries": [
+    {
+      "path": "node_modules/@next/env",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/eslint-plugin-next",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@next/swc-darwin-arm64",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-darwin-x64",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-arm64-gnu",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-arm64-musl",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-x64-gnu",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-x64-musl",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-win32-arm64-msvc",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@next/swc-win32-x64-msvc",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/@typescript-eslint/eslint-plugin",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/eslint-plugin/node_modules/ignore",
+      "before": "7.0.5",
+      "after": "7.0.16",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/parser",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/project-service",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/scope-manager",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/tsconfig-utils",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/type-utils",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/types",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion",
+      "before": "5.0.12",
+      "after": "5.0.13",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
+      "before": "10.2.5",
+      "after": "11.0.9",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree/node_modules/semver",
+      "before": "7.8.0",
+      "after": "7.8.6",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/utils",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@typescript-eslint/visitor-keys",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/eslint-config-next",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": true
+    },
+    {
+      "path": "node_modules/next",
+      "before": "16.4.3",
+      "after": "16.4.6",
+      "dev": false
+    },
+    {
+      "path": "node_modules/typescript-eslint",
+      "before": "8.59.4",
+      "after": "8.73.0",
+      "dev": true
+    },
+    {
+      "path": "node_modules/@isaacs/nonrecursive-glob-match",
+      "before": null,
+      "after": "1.1.0",
+      "dev": true
+    }
+  ],
+  "glob_consumers": [
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree",
+      "version": "8.73.0",
+      "dev": true,
+      "engines": {
+        "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+      },
+      "dependencies": {
+        "@typescript-eslint/project-service": "8.73.0",
+        "@typescript-eslint/tsconfig-utils": "8.73.0",
+        "@typescript-eslint/types": "8.73.0",
+        "@typescript-eslint/visitor-keys": "8.73.0",
+        "debug": "^4.4.3",
+        "minimatch": "^11.0.1",
+        "semver": "^7.7.3",
+        "tinyglobby": "^0.2.15",
+        "ts-api-utils": "^2.5.0"
+      }
+    },
+    {
+      "path": "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
+      "version": "11.0.9",
+      "dev": true,
+      "engines": {
+        "node": "20 || >=22"
+      },
+      "dependencies": {
+        "@isaacs/nonrecursive-glob-match": "^1.1.0",
+        "brace-expansion": "^5.0.12"
+      }
+    },
+    {
+      "path": "node_modules/minimatch",
+      "version": "3.1.5",
+      "dev": true,
+      "engines": {
+        "node": "*"
+      },
+      "dependencies": {
+        "brace-expansion": "^1.1.7"
+      }
+    },
+    {
+      "path": "node_modules/picomatch",
+      "version": "2.3.2",
+      "dev": true,
+      "engines": {
+        "node": ">=8.6"
+      }
+    },
+    {
+      "path": "node_modules/tinyglobby/node_modules/picomatch",
+      "version": "4.0.4",
+      "dev": true,
+      "engines": {
+        "node": ">=12"
+      }
+    },
+    {
+      "path": "node_modules/typescript-eslint",
+      "version": "8.73.0",
+      "dev": true,
+      "engines": {
+        "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+      },
+      "dependencies": {
+        "@typescript-eslint/eslint-plugin": "8.73.0",
+        "@typescript-eslint/parser": "8.73.0",
+        "@typescript-eslint/typescript-estree": "8.73.0",
+        "@typescript-eslint/utils": "8.73.0"
+      }
+    }
+  ],
+  "minimatch": {
+    "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+    "before_affected": "10.2.5",
+    "after": "11.0.9",
+    "consumer": "@typescript-eslint/typescript-estree@8.73.0",
+    "declared_range": "^11.0.1",
+    "parent": "eslint-config-next@16.4.6 -> typescript-eslint@^8.56.0",
+    "forced_override": false,
+    "legacy_3_branch": "3.1.5 retained: outside affected range >=7 <11.0.1; no forced major update",
+    "peer_compatibility": {
+      "eslint": "9.39.4 satisfies ^9.0.0",
+      "typescript": "5.9.3 satisfies >=4.8.4 <6.1.0",
+      "node": "24.15.0 satisfies all engines; minimatch11 requires Node20 or >=22"
+    }
+  },
+  "picomatch": {
+    "advisory": "https://github.com/advisories/GHSA-fc5q-39xc-vjpf",
+    "affected": "<=4.0.7",
+    "latest_observed": "4.0.7",
+    "patched_version": "None listed in reviewed advisory on 2026-11-18",
+    "versions_retained": [
+      "2.3.2",
+      "4.0.4"
+    ],
+    "scope": "development only per lockfile dev flags and production audit",
+    "chains": [
+      "eslint-config-next -> @next/eslint-plugin-next -> fast-glob -> micromatch -> picomatch 2.3.2",
+      "eslint-config-next -> eslint-import-resolver-typescript -> tinyglobby/fdir -> picomatch 4.0.4",
+      "typescript-eslint -> typescript-estree -> tinyglobby -> picomatch 4.0.4"
+    ],
+    "mitigation": "Do not process attacker-controlled globs or execute untrusted PR tooling with privileged credentials. Follow upstream fix and retest; no incompatible override or scanner-driven downgrade applied.",
+    "count_limit": "14 affected package/metavulnerability entries share one remaining root advisory. Increased inherited severity after TS ESLint refresh is not evidence of 14 independent new flaws."
+  },
+  "validation": {
+    "npm_ci": "PASS",
+    "lint": {
+      "result": "PASS",
+      "errors": 0,
+      "warnings": 0
+    },
+    "typescript": "PASS",
+    "code": {
+      "passed": 192,
+      "failed": 0
+    },
+    "crm_local": {
+      "passed": 396,
+      "failed": 0
+    },
+    "build": "PASS",
+    "http_browser": {
+      "passed": 47,
+      "failed": 0
+    },
+    "env_files_loaded": [],
+    "environment": "Local Next production build and Edge headless; loopback HTTP fixtures only, NOT Supabase/Auth/staging homologation",
+    "corrections_to_test_only": [
+      "Initial login alert locator matched Next route announcer and form; scoped locator to form [role=alert]. No application/Auth code changed."
+    ],
+    "no_app_sql_security_config_changes": true
+  },
+  "authenticated_remote": {
+    "result": "BLOCKED",
+    "reason": "No own legitimate sessions used or available; loopback fixtures do not certify real Auth, RLS, RPC or role isolation."
+  },
+  "risks": [
+    "Development picomatch ReDoS has no reviewed patched release; full npm audit remains nonzero.",
+    "Local Windows Node24 checks do not replace independent Linux/Node22 CI or authenticated staging homologation.",
+    "Browser external Google Maps attempt was blocked by test before network; harness is not an application isolation policy."
+  ],
+  "prohibited_actions": {
+    "sql_changes": false,
+    "remote_db": false,
+    "migrations": false,
+    "permissions_or_rls": false,
+    "auth_changes": false,
+    "users": false,
+    "merge": false,
+    "push": false,
+    "deployments": false,
+    "audit_fix_force": false,
+    "incompatible_overrides": false
+  }
+}

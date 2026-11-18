@@ -1,0 +1,244 @@
+{
+  "executed_utc": "2026-11-18T14:07:31.288Z",
+  "environment": "Local Next production build and Edge headless; loopback HTTP fixtures only, NOT Supabase/Auth/staging homologation",
+  "no_remote_credentials": true,
+  "no_remote_database": true,
+  "synthetic_records_in_memory_only": true,
+  "external_hosts_blocked_before_network": [
+    "www.google.com"
+  ],
+  "remote_authenticated_scenarios": "BLOCKED: no own legitimate authorized sessions; not simulated as PASS",
+  "results": [
+    {
+      "name": "production build using loopback fixtures only",
+      "result": "PASS",
+      "exit_code": 0
+    },
+    {
+      "name": "HTTP /",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /imoveis",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /contato",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /sobre",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /corretores",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /links",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /login",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /imoveis/categoria/casas",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /imoveis/cidade/campina-grande",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /imoveis/compatibilidade-sintetica",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /robots.txt",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "HTTP /sitemap.xml",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "Route Handler POST /api/leads",
+      "result": "PASS",
+      "expected_status": 400,
+      "status": 400
+    },
+    {
+      "name": "Route Handler POST /api/conversions",
+      "result": "PASS",
+      "expected_status": 400,
+      "status": 400
+    },
+    {
+      "name": "Route Handler GET /api/conversions",
+      "result": "PASS",
+      "expected_status": 405,
+      "status": 405
+    },
+    {
+      "name": "Route Handler GET /api/admin/site-analytics",
+      "result": "PASS",
+      "expected_status": 401,
+      "status": 401
+    },
+    {
+      "name": "Route Handler POST /api/admin/brokers",
+      "result": "PASS",
+      "expected_status": 501,
+      "status": 501
+    },
+    {
+      "name": "Route Handler POST /api/presentation-open",
+      "result": "PASS",
+      "expected_status": 400,
+      "status": 400
+    },
+    {
+      "name": "Route Handler POST /api/presentation-open",
+      "result": "PASS",
+      "expected_status": 403,
+      "status": 403
+    },
+    {
+      "name": "Route Handler GET /api/property-media/invalid",
+      "result": "PASS",
+      "expected_status": 404,
+      "status": 404
+    },
+    {
+      "name": "Route Handler GET /api/presentation-media/invalid/1",
+      "result": "PASS",
+      "expected_status": 404,
+      "status": 404
+    },
+    {
+      "name": "Route Handler GET /api/property-media/[fixture]/[fixture].webp",
+      "result": "PASS",
+      "expected_status": 200,
+      "status": 200
+    },
+    {
+      "name": "next/image optimization renders local image",
+      "result": "PASS",
+      "status": 200
+    },
+    {
+      "name": "browser /",
+      "result": "PASS"
+    },
+    {
+      "name": "browser /imoveis",
+      "result": "PASS"
+    },
+    {
+      "name": "browser /contato",
+      "result": "PASS"
+    },
+    {
+      "name": "browser /login",
+      "result": "PASS"
+    },
+    {
+      "name": "browser /imoveis/compatibilidade-sintetica",
+      "result": "PASS"
+    },
+    {
+      "name": "login displays controlled local fixture rejection",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin/meu-trabalho",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin/leads",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin/crm",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin/corretores",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin/marketing",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous protected navigation /admin/apresentacoes",
+      "result": "PASS"
+    },
+    {
+      "name": "valid local fixture presentation renders",
+      "result": "PASS"
+    },
+    {
+      "name": "invalid presentation rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "missing local fixture presentation rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "property page images decode",
+      "result": "PASS"
+    },
+    {
+      "name": "mobile no overflow /",
+      "result": "PASS"
+    },
+    {
+      "name": "mobile no overflow /imoveis",
+      "result": "PASS"
+    },
+    {
+      "name": "mobile no overflow /login",
+      "result": "PASS"
+    },
+    {
+      "name": "mobile no overflow /imoveis/compatibilidade-sintetica",
+      "result": "PASS"
+    },
+    {
+      "name": "no browser runtime exceptions",
+      "result": "PASS",
+      "error_names": []
+    },
+    {
+      "name": "no integration scripts in local preview build",
+      "result": "PASS"
+    }
+  ],
+  "upstream_methods": [
+    "GET",
+    "POST"
+  ],
+  "summary": {
+    "passed": 47,
+    "failed": 0
+  }
+}
