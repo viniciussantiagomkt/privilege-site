@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:crm-demo": "node scripts/crm-local-demo.mjs --local-fixtures",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "test:crm-local": "node tests/crm-operational-local.mjs"
+    "test:crm-local": "node tests/crm-operational-local.mjs",
+    "test:crm-operations-browser": "node tests/crm-operations-browser.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.0",

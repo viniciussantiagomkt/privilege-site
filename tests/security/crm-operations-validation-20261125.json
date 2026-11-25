@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-25",
+  "branch": "codex/crm-operational-priority-20261125",
+  "base": "11735068faa301a3e530b9cd0cb19aff19e65fbe",
+  "environment": "Independent local development with synthetic in-memory fixture API; no staging access",
+  "npm_ci": "PASS; exact existing lockfile, ignore-scripts; zero vulnerabilities reported",
+  "lint": "PASS; no warnings",
+  "typecheck": "PASS",
+  "unit_tests": {"passed":200,"failed":0},
+  "crm_local": {"passed":396,"failed":0,"scope":"Existing isolated PostgreSQL/PGlite suite; not remote permission proof"},
+  "browser": {"passed":11,"failed":0,"viewports":[{"width":1440,"height":1000},{"width":360,"height":800}],"evidence":"crm-operations-browser-20261125.json"},
+  "build": "PASS; Next16.4.6 with allowlisted child environment and loopback fixture configuration",
+  "new_migrations":0,
+  "remote_reads":0,
+  "remote_writes":0,
+  "real_messages_sent":0,
+  "production_access":false,
+  "deployment":false,
+  "push":false,
+  "merge":false,
+  "stage03_evidence_unchanged":true,
+  "homologation_limit":"Local functional evidence only. Supabase/Auth/RLS, commercial fixtures and independent Work approval remain separate gates."
+}

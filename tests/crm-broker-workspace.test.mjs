@@ -225,6 +225,8 @@ function render({
     "./LeadHistory": {},
     "./ContactWhatsAppLink": {},
     "./ClientService": {},
+    "./DailyPlan": { DailyPlan: () => null },
+    "./AgendaEditor": { AgendaEditor: () => null },
   });
   return renderToStaticMarkup(createElement(BrokerWorkspace));
 }

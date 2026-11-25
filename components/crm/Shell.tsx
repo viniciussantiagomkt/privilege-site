@@ -59,6 +59,7 @@ const NAV_GROUPS = [
   { label: "Gestão", paths: ["/admin", "/admin/analytics", "/admin/automacoes", "/admin/equipe"] },
 ];
 export function CrmShell({ children }: { children: ReactNode }) {
+  const localDemo = process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_CRM_DEMO === "synthetic-loopback" && /^http:\/\/127\.0\.0\.1:\d+\/?$/.test(process.env.NEXT_PUBLIC_SUPABASE_URL || "");
   const path = usePathname();
   const ctx = useWorkspace();
   const [collapsed, setCollapsed] = useState(false);
@@ -153,8 +154,8 @@ export function CrmShell({ children }: { children: ReactNode }) {
           <div className="crm-sidebar-note">
             <span className="crm-live-dot" />
             <div>
-              <strong>Ambiente de homologação</strong>
-              <p>Dados do staging</p>
+              <strong>{localDemo ? "Demonstração local" : "Ambiente de homologação"}</strong>
+              <p>{localDemo ? "Dados sintéticos em memória" : "Dados do staging"}</p>
             </div>
           </div>
           <a href="/" target="_blank" rel="noreferrer">

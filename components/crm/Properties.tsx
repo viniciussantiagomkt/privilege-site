@@ -36,6 +36,8 @@ import {
   type Field,
 } from "./UI";
 import { matches, type CrmProperty, dateTime } from "@/lib/crm/model";
+import { PortfolioFiltersBar, PropertyComparison } from "./PortfolioTools";
+import { filterPortfolio, captureGaps, EMPTY_PORTFOLIO_FILTERS } from "@/lib/crm/operations";
 export function PrivateThumbnail({
   url,
   title,
@@ -74,6 +76,9 @@ export function Properties() {
   const [view, setView] = useState("cards");
   const [filter, setFilter] = useState("");
   const [scope, setScope] = useState("");
+  const [searchFilters, setSearchFilters] = useState({ ...EMPTY_PORTFOLIO_FILTERS });
+  const [comparisonIds, setComparisonIds] = useState<number[]>([]);
+  const [comparing, setComparing] = useState(false);
   const [edit, setEdit] = useState<CrmProperty | null>(null);
   const [create, setCreate] = useState(false);
   const [selected, setSelected] = useState<CrmProperty | null>(null);
@@ -82,7 +87,7 @@ export function Properties() {
     imovel: (id) => { const row = ctx.data.properties.find(p => p.id === id); if (!row) return false; setSelected(row); return true; },
   });
   const [archive, setArchive] = useState<CrmProperty | null>(null);
-  const properties = ctx.data.properties.filter(
+  const properties = filterPortfolio(ctx.data.properties, searchFilters).filter(
     (p) =>
       matches(ctx.query, p.title, p.property_code, p.location, p.category) &&
       (!scope || p.broker_id === ctx.userId || p.owner_id === ctx.userId) &&
@@ -90,6 +95,7 @@ export function Properties() {
   );
   const canEdit = (p: CrmProperty) =>
     ctx.operations || p.owner_id === ctx.userId || p.broker_id === ctx.userId;
+  const comparisonRows = !ctx.loading && !ctx.errors.properties ? ctx.data.properties.filter(p => comparisonIds.includes(p.id) && !p.deleted_at).slice(0, 3) : [];
   function saved() {
     setEdit(null);
     setCreate(false);
@@ -187,6 +193,8 @@ export function Properties() {
           </button>
         </div>
       </div>
+      <PortfolioFiltersBar rows={ctx.errors.properties ? [] : ctx.data.properties} value={searchFilters} onChange={setSearchFilters} />
+      {!!comparisonRows.length && <div className="crm-ops-compare-bar" role="status"><span>{comparisonRows.length} de 3 imóveis selecionados</span><Button secondary onClick={() => setComparisonIds([])}>Limpar seleção</Button><Button disabled={comparisonRows.length < 2} onClick={() => setComparing(true)}>Comparar imóveis</Button></div>}
       <SectionState tables={["properties"]}>
         {properties.length ? (
           view === "cards" ? (
@@ -201,6 +209,7 @@ export function Properties() {
                     <Badge>{p.property_code || `#${p.id}`}</Badge>
                   </div>
                   <div className="crm-property-card-body">
+                    <label className="crm-ops-check"><input type="checkbox" aria-label={`Comparar ${p.title}`} checked={comparisonIds.includes(p.id)} disabled={!comparisonIds.includes(p.id) && comparisonRows.length >= 3} onChange={e => setComparisonIds(ids => e.target.checked ? [...ids.filter(id => ctx.data.properties.some(p => p.id === id)), p.id].slice(0, 3) : ids.filter(id => id !== p.id))} />Comparar</label>
                     <h3>{p.title}</h3>
                     <p>
                       <MapPin
@@ -210,6 +219,7 @@ export function Properties() {
                       {p.location}
                     </p>
                     <strong>{p.price}</strong>
+                    {p.workflow_status === "rascunho" && <p className="crm-capture-gaps">{captureGaps(p, ctx.data, ctx.userId).join(" · ") || "Ficha preenchida; aprovação pendente"}</p>}
                     <div className="crm-property-specs">
                       <span>
                         <BedDouble size={12} style={{ display: "inline" }} />{" "}
@@ -308,6 +318,7 @@ export function Properties() {
           </div>
         )}
       </SectionState>
+      {comparing && comparisonRows.length >= 2 && <PropertyComparison rows={comparisonRows} onClose={() => setComparing(false)} onOpen={setSelected} />}
       {shareProperty && (
         <ShareComposer
           propertyId={shareProperty}

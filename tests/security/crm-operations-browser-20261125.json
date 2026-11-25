@@ -1,0 +1,54 @@
+{
+  "environment": "Local synthetic fixture UI only; NOT Supabase or staging permission certification",
+  "external_hosts_blocked": [],
+  "results": [
+    {
+      "name": "normal local fixture login and personal dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "four hub tabs and personal daily queue",
+      "result": "PASS"
+    },
+    {
+      "name": "create task through existing inline editor, persist and reload",
+      "result": "PASS"
+    },
+    {
+      "name": "edit return and complete task with fixture API effects",
+      "result": "PASS"
+    },
+    {
+      "name": "schedule visit through existing editor and verify owner queue",
+      "result": "PASS"
+    },
+    {
+      "name": "portfolio combined filters preserve unknown prices",
+      "result": "PASS"
+    },
+    {
+      "name": "compare two authorized properties and open existing detail",
+      "result": "PASS"
+    },
+    {
+      "name": "capture owner gaps and proposal readiness use existing links",
+      "result": "PASS"
+    },
+    {
+      "name": "mobile layouts have no page overflow",
+      "result": "PASS"
+    },
+    {
+      "name": "keyboard tabs remain navigable",
+      "result": "PASS"
+    },
+    {
+      "name": "logout and B login discard A private UI rows",
+      "result": "PASS"
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 0
+  }
+}
