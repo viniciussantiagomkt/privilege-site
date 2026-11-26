@@ -1,7 +1,7 @@
 /** Isolated PostgreSQL/WASM tests. Never connects to staging or Auth HTTP. */
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 const { PGlite } = await import(
   process.env.CRM_PGLITE_MODULE || "@electric-sql/pglite"
 );
@@ -1647,6 +1647,22 @@ try {
   await runQuickServiceScenarios({db,actor,check,denied,ids});
   const {runSecuritySurfaceScenarios}=await import("./crm-security-surface-scenarios.mjs");
   await runSecuritySurfaceScenarios({db,actor,check,ids});
+  for (const name of ["20261118163136_crm_preserve_omitted_client_interest.sql", "20261125140440_crm_quick_client_revision_conflict.sql"]) {
+    await db.exec(readSql("supabase/migrations/" + name)); migrations.push(name);
+  }
+  await check("integrated25: canonical body, omitted interest and PT409 preserve ownership", async () => {
+    assert.equal((await db.query("select md5(prosrc) body from pg_proc where oid='public.crm_save_quick_client(bigint,bigint,uuid,jsonb)'::regprocedure")).rows[0].body, "5d06ec04e18c2a7a73c101f7d87ab57f");
+    const payload = { name: "Local canonical client", phone: "+55 (83) 99999-9501", email: null, notes: "original", contact_type: "cliente", interest_profile: { purpose: "compra" } };
+    const save = (who, id, revision, value) => actor(who, "select crm_save_quick_client($1,$2,$3,$4::jsonb) data", [id,revision,randomUUID(),JSON.stringify(value)]);
+    const own = (await save("a",null,null,payload))[0].data;
+    const omitted = { ...payload, notes: "edited" }; delete omitted.interest_profile;
+    const updated = (await save("a",own.id,0,omitted))[0].data;
+    assert.equal(updated.revision,1);
+    await assert.rejects(save("a",own.id,0,payload), e=>e.code==="PT409");
+    await assert.rejects(save("b",own.id,1,payload), e=>e.code==="42501");
+    const row=(await actor("a","select notes,interest_profile from clients where id=$1",[own.id]))[0];
+    assert.equal(row.notes,"edited"); assert.deepEqual(row.interest_profile,{purpose:"compra"});
+  });
 } catch (e) {
   results.push({
     name: "suite infrastructure/fixture",
@@ -1673,13 +1689,13 @@ const report = {
   },
 };
 writeFileSync(
-  process.env.CRM_LOCAL_REPORT_PATH || "tests/security/crm-operational-local-results.json",
+  process.env.CRM_LOCAL_REPORT_PATH || "tests/security/crm-integrated-local-results-20261126.json",
   JSON.stringify(report, null, 2) + "\n",
 );
 console.log(report.summary);
 if (surfaceRehearsal) {
   surfaceRehearsal.checks = results.filter(r => r.name.startsWith("surface:"));
   surfaceRehearsal.summary = report.summary;
-  writeFileSync("tests/security/crm-stage03-surface-rehearsal-20261111.json", JSON.stringify(surfaceRehearsal, null, 2) + "\n");
+  writeFileSync("tests/security/crm-integrated-surface-rehearsal-20261126.json", JSON.stringify(surfaceRehearsal, null, 2) + "\n");
 }
 if (report.summary.failed) process.exitCode = 1;

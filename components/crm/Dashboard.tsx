@@ -24,6 +24,7 @@ import {
   initials,
 } from "@/lib/crm/model";
 import { supabase } from "@/lib/supabase";
+import { DailyPlan } from "./DailyPlan";
 export function Dashboard() {
   const { data, userId, operations, loading, busy, run } = useWorkspace();
   const [scope, setScope] = useState("team");
@@ -123,6 +124,7 @@ export function Dashboard() {
             icon={<Wallet size={18} />}
           />
         </div>
+        <DailyPlan limit={3} />
         <div className="crm-dashboard-grid">
           <Panel
             title="Novas oportunidades"

@@ -4,19 +4,22 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:crm-demo": "node scripts/crm-local-demo.mjs --local-fixtures",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "test:crm-local": "node tests/crm-operational-local.mjs"
+    "test:crm-local": "node tests/crm-operational-local.mjs",
+    "test:crm-operations-browser": "node tests/crm-operations-browser.mjs",
+    "test:crm-demo-auth": "node tests/crm-demo-auth-browser.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.39.0",
     "lucide-react": "^1.16.0",
-    "next": "16.4.3",
+    "next": "16.4.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.76.0",
@@ -29,7 +32,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.4.3",
+    "eslint-config-next": "16.4.6",
     "playwright": "1.62.1",
     "tailwindcss": "^4",
     "typescript": "^5"

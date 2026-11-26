@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-26",
+  "branch": "codex/crm-operational-priority-20261125",
+  "work_reference": "67b9b114c72e42a551f4df84691acd8761034626",
+  "environment": "Loopback synthetic demo; NOT authenticated staging homologation",
+  "auth_browser_checks": 15,
+  "operational_browser_checks": 11,
+  "code_tests": 203,
+  "crm_local_checks": 396,
+  "lint": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "build_method": "Clean copied source, npm ci --ignore-scripts, allowlisted environment with inactive loopback Supabase only",
+  "guard_changes": [
+    "CORS explicit profile headers in loopback API",
+    "automatic deployment disabled for exact branch",
+    "operational Preview requires approved staging public key and rejects production/admin key",
+    "maps/videos isolated for exact operational Preview branch"
+  ],
+  "no_remote_writes": true,
+  "no_deployment": true,
+  "limitations": [
+    "Local fixtures persist only in process memory",
+    "Only tasks/visits writable in demo",
+    "Realtime WebSocket unavailable in fixture API",
+    "Phone remote access awaits authorized protected Preview",
+    "Vercel effective variables/protection and remote CI not yet validated"
+  ]
+}

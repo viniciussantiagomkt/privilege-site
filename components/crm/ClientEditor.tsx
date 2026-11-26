@@ -62,6 +62,8 @@ export function quickServiceError(error: { code?: string } | null) {
       "Já existe um contato com esse WhatsApp ou e-mail na sua carteira. Localize-o na busca.",
     "40001":
       "O cadastro mudou em outra sessão. Reabra o cliente antes de editar.",
+    PT409:
+      "O cadastro mudou em outra sessão. Reabra o cliente antes de editar.",
     "42501": "Cliente indisponível para esta sessão. Reabra seu atendimento.",
     PGRST202:
       "Cadastro rápido ainda não habilitado neste ambiente. Aguarde a migration autorizada.",

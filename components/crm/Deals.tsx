@@ -5,6 +5,7 @@ import { useEntityIntent } from "./useEntityIntent";
 import { Handshake, FileText, Wallet, TrendingUp } from "lucide-react";
 import { useWorkspace } from "./Workspace";
 import { supabase } from "@/lib/supabase";
+import { proposalGaps } from "@/lib/crm/operations";
 import {
   PageHeading,
   SectionState,
@@ -258,6 +259,9 @@ export function Deals() {
           icon={<TrendingUp size={18} />}
         />
       </div>
+      {!ctx.loading && !ctx.errors.proposals && <section className="crm-ops" aria-label="Acompanhamento das minhas propostas"><header className="crm-ops-heading"><h2>Próximos passos do negócio</h2></header>
+        {proposalGaps(ctx.data, ctx.userId).length ? proposalGaps(ctx.data, ctx.userId).slice(0, 5).map(({ proposal, gaps }) => <div className="crm-ops-row" key={proposal.id}><div><h3>Proposta #{proposal.id}</h3><p>{gaps.join(" · ") || "Cadastro conferido nos dados carregados"}</p><small>{proposal.status.replaceAll("_", " ")} · {proposal.value ? money(proposal.value) : "Valor pendente"}</small></div><Button secondary onClick={() => { setSelected(proposal); setForm("proposal"); }}>Conferir proposta</Button></div>) : <p className="crm-ops-empty">Nenhuma proposta pessoal em acompanhamento.</p>}
+      </section>}
       <div className="crm-tab-bar">
         <button
           className={tab === "proposals" ? "active" : ""}

@@ -50,7 +50,7 @@ const marketingTables: (keyof WorkspaceData)[] = tables.filter((t) =>
   /^(marketing_|asset_|develop)/.test(t),
 );
 const modules: Record<string, (keyof WorkspaceData)[]> = {
-  "/admin": ["leads", "properties", "sales", "tasks", "visits"],
+  "/admin": ["leads", "properties", "sales", "tasks", "visits", "clients"],
   "/admin/campanhas": ["crm_campaigns", "crm_lead_attributions", "leads", "properties", "developments"],
   "/admin/leads": [
     "crm_lead_attributions",
@@ -63,7 +63,7 @@ const modules: Record<string, (keyof WorkspaceData)[]> = {
   ],
   "/admin/contatos": ["clients", "leads", "properties", "crm_contact_links"],
   "/admin/agenda": ["tasks", "visits", "clients", "leads", "properties"],
-  "/admin/imoveis": ["properties", "leads", "clients", ...marketingTables],
+  "/admin/imoveis": ["properties", "leads", "clients", "crm_contact_links", ...marketingTables],
   "/admin/negocios": [
     "proposals",
     "negotiations",

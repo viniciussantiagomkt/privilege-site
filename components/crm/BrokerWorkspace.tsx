@@ -29,6 +29,9 @@ import { RecordContactButton } from "./RecordContactButton";
 import { LeadHistory } from "./LeadHistory";
 import { ContactWhatsAppLink } from "./ContactWhatsAppLink";
 import { ClientServiceDrawer } from "./ClientService";
+import { DailyPlan } from "./DailyPlan";
+import { AgendaEditor } from "./AgendaEditor";
+import type { Task, Visit } from "@/lib/crm/model";
 
 const ADD_ACTIONS: { kind: WorkKind; label: string }[] = [
   { kind: "contact", label: "Cliente / proprietário" },
@@ -54,6 +57,8 @@ function MyWork() {
   >({});
   const [add, setAdd] = useState(false);
   const [newClient, setNewClient] = useState(false);
+  const [agenda, setAgenda] = useState<{ mode: "task" | "visit"; id?: number } | null>(null);
+  const [agendaDirty, setAgendaDirty] = useState(false);
   const errors = ["session", ...WORK_TABLES[tab]].filter((t) => ctx.errors[t]);
   const unavailable = ctx.loading || errors.length > 0;
   const records = unavailable ? [] : workRecords(tab, ctx.data, ctx.query);
@@ -127,6 +132,8 @@ function MyWork() {
                         Cliente / proprietário
                         <Plus size={14} />
                       </button>
+                    ) : a.kind === "task" || a.kind === "visit" ? (
+                      <button key={a.kind} type="button" onClick={() => { setAdd(false); setAgenda({ mode: a.kind as "task" | "visit" }); goTab("hoje"); }}>{a.label}<Plus size={14} /></button>
                     ) : (
                       <Link
                         key={a.kind}
@@ -169,7 +176,8 @@ function MyWork() {
           );
         })}
       </div>
-      <section
+      {tab === "hoje" && <section role="tabpanel" id="work-panel-hoje" aria-labelledby="work-tab-hoje"><DailyPlan onOpen={r => { if (r.kind === "task" || r.kind === "visit") setAgenda({ mode: r.kind, id: r.id }); }} onCreate={mode => setAgenda({ mode })} /></section>}
+      {tab !== "hoje" && <section
         role="tabpanel"
         id={`work-panel-${tab}`}
         aria-labelledby={`work-tab-${tab}`}
@@ -179,9 +187,7 @@ function MyWork() {
       >
         <div className="crm-work-caption">
           <p>
-            {tab === "hoje"
-              ? "Hoje e pendências anteriores · horário de Campina Grande"
-              : WORK_TABS.find((t) => t.id === tab)?.label}
+            {WORK_TABS.find((t) => t.id === tab)?.label}
           </p>
           {!unavailable && <span>{records.length} registros encontrados</span>}
           {tab === "atendimentos" &&
@@ -196,32 +202,6 @@ function MyWork() {
           Busca nos dados autorizados desta aba, até 500 registros por tabela.
           Não é uma pesquisa global da carteira.
         </p>
-        {!unavailable && tab === "hoje" && (
-          <dl className="crm-work-summary">
-            <div>
-              <dt>Tarefas e retornos</dt>
-              <dd>{records.filter((r) => r.kind === "task").length}</dd>
-            </div>
-            <div>
-              <dt>Visitas pendentes</dt>
-              <dd>{records.filter((r) => r.kind === "visit").length}</dd>
-            </div>
-            <div>
-              <dt>Leads sem contato registrado</dt>
-              <dd>
-                {
-                  ctx.data.leads.filter(
-                    (l) =>
-                      !l.first_contact_at &&
-                      !["perdido", "convertido"].includes(
-                        l.status.replaceAll("_", " "),
-                      ),
-                  ).length
-                }
-              </dd>
-            </div>
-          </dl>
-        )}
         {ctx.loading ? (
           <div
             className="crm-skeleton-grid"
@@ -272,9 +252,7 @@ function MyWork() {
             title={
               ctx.query
                 ? "Nenhum resultado nesta aba"
-                : tab === "hoje"
-                  ? "Nenhuma pendência para hoje"
-                  : "Nenhum registro disponível"
+                : "Nenhum registro disponível"
             }
             description={
               ctx.query
@@ -283,7 +261,7 @@ function MyWork() {
             }
           />
         )}
-      </section>
+      </section>}
       {tab === "atendimentos" &&
         !unavailable &&
         (newClient || selected?.kind === "contact") && (
@@ -368,6 +346,9 @@ function MyWork() {
           )}
         </Modal>
       )}
+      {agenda && tab === "hoje" && !unavailable && (!agenda.id || (agenda.mode === "task" ? ctx.data.tasks : ctx.data.visits).some(r => r.id === agenda.id && r.broker_id === ctx.userId)) && <Modal side title={agenda.id ? "Editar compromisso" : agenda.mode === "task" ? "Nova tarefa / retorno" : "Agendar visita"} onClose={() => { if (!agendaDirty || window.confirm("Descartar alterações não salvas?")) { setAgenda(null); setAgendaDirty(false); } }}>
+        <AgendaEditor mode={agenda.mode} editing={agenda.id ? (agenda.mode === "task" ? ctx.data.tasks : ctx.data.visits).find(r => r.id === agenda.id) as Task | Visit : undefined} onDirty={() => setAgendaDirty(true)} onClose={() => { setAgenda(null); setAgendaDirty(false); }} onCancel={() => { if (!agendaDirty || window.confirm("Descartar alterações não salvas?")) { setAgenda(null); setAgendaDirty(false); } }} />
+      </Modal>}
     </div>
   );
 }

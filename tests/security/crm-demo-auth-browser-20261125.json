@@ -1,0 +1,1140 @@
+{
+  "environment": "Loopback synthetic fixtures only",
+  "network_intercepted": false,
+  "checks": [
+    "Anonymous protected route redirects to login",
+    "Incorrect password cannot enter CRM",
+    "Login through form with supplied credentials",
+    "/admin",
+    "/admin/meu-trabalho",
+    "/admin/agenda",
+    "/admin/imoveis",
+    "/admin/negocios",
+    "/admin/apresentacoes",
+    "Session survives ordinary page reload",
+    "Agenda period and completion filters preserve pending returns",
+    "Logout restores route protection",
+    "Official local form login and role guard: b",
+    "Official local form login and role guard: gestor",
+    "Official local form login and role guard: admin"
+  ],
+  "responses": [
+    {
+      "path": "/auth/v1/token",
+      "status": 400
+    },
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/crm_contact_links",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/asset_versions",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_assets",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/asset_relations",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_collections",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_collection_items",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_shares",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_share_events",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/developers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/developments",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/development_units",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/asset_imports",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_favorites",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/proposals",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/negotiations",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/marketing_assets",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/logout",
+      "status": 204
+    },
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/logout",
+      "status": 204
+    },
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_management_metrics",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_management_metrics",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_management_metrics",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/logout",
+      "status": 204
+    },
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/brokers",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/notifications",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/leads",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/properties",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/sales",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/tasks",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/visits",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_unread_notification_count",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/clients",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_management_metrics",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_management_metrics",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/user",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/current_user_role",
+      "status": 200
+    },
+    {
+      "path": "/rest/v1/rpc/crm_management_metrics",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/logout",
+      "status": 204
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "Local fixture API does not implement Realtime; ordinary HTTP reads remain available."
+  ],
+  "result": "PASS"
+}
