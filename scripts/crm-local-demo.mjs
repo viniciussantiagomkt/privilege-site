@@ -24,7 +24,7 @@ function scoped(table, profile) {
   return rows.filter(r => r.broker_id === profile.id || r.owner_id === profile.id || r.user_id === profile.id);
 }
 const api = createServer(async (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", origin);res.setHeader("Access-Control-Allow-Headers", "authorization,apikey,content-type,prefer,x-client-info,range,range-unit,x-supabase-api-version");res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PATCH,OPTIONS");res.setHeader("Access-Control-Expose-Headers", "Content-Range");
+  res.setHeader("Access-Control-Allow-Origin", origin);res.setHeader("Access-Control-Allow-Headers", "authorization,apikey,content-type,accept-profile,content-profile,prefer,x-client-info,range,range-unit,x-supabase-api-version");res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,POST,PATCH,OPTIONS");res.setHeader("Access-Control-Expose-Headers", "Content-Range");
   const send = (value, status = 200) => { res.writeHead(status, { "Content-Type": "application/json" });res.end(req.method === "HEAD" ? undefined : JSON.stringify(value)); };
   if (req.headers.origin && req.headers.origin !== origin) return send({ code: "42501" }, 403);
   if (req.method === "OPTIONS") return send(null, 200);
@@ -61,7 +61,7 @@ const api = createServer(async (req, res) => {
 });
 await new Promise((resolve, reject) => { api.once("error", reject);api.listen(apiPort, "127.0.0.1", resolve); });
 const env = Object.fromEntries(Object.entries(process.env).filter(([k]) => /^(PATH|SystemRoot|WINDIR|TEMP|TMP|USERPROFILE|LOCALAPPDATA|APPDATA|ProgramFiles|ProgramFiles\(x86\)|ComSpec|PATHEXT)$/i.test(k)));
-Object.assign(env, { NEXT_TELEMETRY_DISABLED: "1", NEXT_PUBLIC_CRM_DEMO: "synthetic-loopback", NEXT_PUBLIC_SUPABASE_URL: apiOrigin, NEXT_PUBLIC_SUPABASE_ANON_KEY: "synthetic-local-fixture-only", NEXT_PUBLIC_SITE_URL: origin, VERCEL_ENV: "preview", VERCEL_GIT_COMMIT_REF: "codex/crm-operational-priority-20261125" });
+Object.assign(env, { NEXT_TELEMETRY_DISABLED: "1", NEXT_PUBLIC_CRM_DEMO: "synthetic-loopback", NEXT_PUBLIC_SUPABASE_URL: apiOrigin, NEXT_PUBLIC_SUPABASE_ANON_KEY: "synthetic-local-fixture-only", NEXT_PUBLIC_SITE_URL: origin, VERCEL_ENV: "preview", VERCEL_GIT_COMMIT_REF: "local/crm-demo" });
 const child = spawn(process.execPath, ["node_modules/next/dist/bin/next", "dev", "--hostname", "127.0.0.1", "--port", String(nextPort)], { env, stdio: ["ignore", "pipe", "pipe"] });
 child.stdout.on("data", d => process.stdout.write(d));child.stderr.on("data", d => process.stderr.write(d));
 const front = createServer((req, res) => {

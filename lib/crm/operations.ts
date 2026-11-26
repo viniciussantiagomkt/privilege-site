@@ -5,6 +5,10 @@ import { type WorkRecord } from "./broker-workspace";
 const civilFormatter = new Intl.DateTimeFormat("sv-SE", { timeZone: "America/Fortaleza" });
 const day = (d: Date) => civilFormatter.format(d);
 export type AgendaPeriod = "today" | "overdue" | "week" | "all";
+export function agendaStatusMatches(kind: "task" | "visit", status: string, filter: string) {
+  const closed = (kind === "task" ? ["concluida", "cancelada"] : ["realizada", "cancelada"]).includes(status);
+  return filter === "all" || (filter === "closed" ? closed : !closed);
+}
 export function dailyQueue(data: WorkspaceData, userId: string, now = new Date()) {
   if (!userId) return [];
   const rows: (WorkRecord & { reason: string; priority: number })[] = [];

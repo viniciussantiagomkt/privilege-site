@@ -7,10 +7,27 @@ import { demoData, DEMO_PROFILES } from "./fixtures/operational-demo-data.mjs";
 function compile(file, deps = {}) { const m = new Module(file);m.require = name => deps[name] || Module.createRequire(import.meta.url)(name);m._compile(ts.transpileModule(fs.readFileSync(file, "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, file);return m.exports; }
 const filters = compile("lib/property-filters.ts"), ops = compile("lib/crm/operations.ts", { "../property-filters": filters });
 const now = new Date("2026-11-25T15:00:00Z"), data = demoData(now), a = DEMO_PROFILES[0].id;
+
+test("operational client editor recognizes the approved PT409 contract without replacing native serialization", () => {
+  const source = fs.readFileSync("components/crm/ClientEditor.tsx", "utf8");
+  assert.match(source, /PT409:\s*"O cadastro mudou em outra sessão/);
+  assert.match(source, /"40001":\s*"O cadastro mudou em outra sessão/);
+});
 test("daily priorities are personal, deterministic and never expose B's task", () => { const rows = ops.dailyQueue(data, a, now);assert.equal(rows[0].id, 1);assert.ok(rows.every(r => r.title !== "Retorno privado B"));assert.deepEqual(rows, ops.dailyQueue(data, a, now));assert.deepEqual(ops.dailyQueue(data, "", now), []); });
 test("completed/cancelled tasks and invalid dates are excluded", () => { const d = structuredClone(data);d.tasks[0].status = "concluida";d.tasks[1].due_at = "invalid";assert.ok(!ops.dailyQueue(d, a, now).some(r => r.kind === "task" && [1, 2].includes(r.id))); });
 test("business civil day handles UTC midnight without local-machine timezone", () => { assert.equal(ops.inAgendaPeriod("2026-11-26T01:00:00Z", "today", now), true);assert.equal(ops.inAgendaPeriod("2026-11-26T04:00:00Z", "today", now), false);assert.equal(ops.inAgendaPeriod("bad", "all", now), false); });
 test("week includes seven civil days and excludes more distant dates", () => { assert.equal(ops.inAgendaPeriod("2026-12-02T15:00:00Z", "week", now), true);assert.equal(ops.inAgendaPeriod("2026-12-03T15:00:00Z", "week", now), false); });
+
+test("agenda separates pending, concluded and cancelled without reopening them", () => {
+  for (const [kind, closed] of [["task", ["concluida", "cancelada"]], ["visit", ["realizada", "cancelada"]]]) {
+    for (const status of closed) {
+      assert.equal(ops.agendaStatusMatches(kind, status, "pending"), false);
+      assert.equal(ops.agendaStatusMatches(kind, status, "closed"), true);
+      assert.equal(ops.agendaStatusMatches(kind, status, "all"), true);
+    }
+    assert.equal(ops.agendaStatusMatches(kind, "agendada", "closed"), false);
+  }
+});
 test("portfolio budget never treats unknown price as zero", () => { const f = { ...ops.EMPTY_PORTFOLIO_FILTERS, maxPrice: "600000" };assert.deepEqual(ops.filterPortfolio(data.properties, f).map(p => p.id), [1]); });
 test("combined city/category/bedroom/availability filters use only supplied authorized rows", () => { const f = { city: "Campina Grande", category: "casas", maxPrice: "", bedrooms: "3", available: true };assert.deepEqual(ops.filterPortfolio(data.properties, f).map(p => p.id), [2]); });
 test("capture gaps resolve only the current owner's owner contact link", () => { const gaps = ops.captureGaps(data.properties[2], data, a);assert.ok(gaps.includes("Fotos pendentes"));assert.ok(!gaps.includes("Vínculo de proprietário não carregado"));assert.ok(ops.captureGaps(data.properties[2], data, DEMO_PROFILES[1].id).includes("Vínculo de proprietário não carregado")); });

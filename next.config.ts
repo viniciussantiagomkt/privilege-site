@@ -4,6 +4,7 @@ import { resolvePreviewMediaPolicy } from "./lib/preview-media-build.mjs";
 
 // Fail before build-time data fetching if this review branch is accidentally deployed.
 const reviewBranch =
+  process.env.VERCEL_GIT_COMMIT_REF === "codex/crm-operational-priority-20261125" ||
   process.env.VERCEL_GIT_COMMIT_REF === "work/crm-broker-quick-service-20261104" ||
   process.env.VERCEL_GIT_COMMIT_REF?.startsWith("work/crm-campaign-") ||
   process.env.VERCEL_GIT_COMMIT_REF ===

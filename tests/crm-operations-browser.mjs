@@ -8,7 +8,8 @@ const artifacts = path.join(process.env.LOCALAPPDATA, "PrivilegeCRM-Operations/o
 await fs.mkdir(artifacts, { recursive: true });
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-await context.route("**/*", route => { const u = new URL(route.request().url());if (u.hostname === "127.0.0.1" || ["data:", "blob:"].includes(u.protocol)) return route.continue();external.add(u.hostname);return route.abort(); });
+// Observe only: request interception can hide real browser CORS preflight failures.
+context.on("request", request => { const u = new URL(request.url());if (u.hostname !== "127.0.0.1" && !["data:", "blob:"].includes(u.protocol)) external.add(u.hostname); });
 const page = await context.newPage();
 const errors = [];page.on("pageerror", e => errors.push(e.message));
 async function check(name, fn) { await fn();results.push({ name, result: "PASS" }); }
@@ -26,5 +27,6 @@ try {
   await check("keyboard tabs remain navigable", async () => { await page.getByRole("tab", { name: "Hoje", exact: true }).focus();await page.keyboard.press("ArrowRight");await page.waitForURL(/aba=atendimentos/);await page.locator('[role="tab"][aria-selected="true"]').filter({ hasText: "Atendimentos" }).waitFor(); });
   await check("logout and B login discard A private UI rows", async () => { await page.setViewportSize({ width: 1440, height: 1000 });await page.getByRole("button", { name: "Sair da conta", exact: true }).click();await page.waitForURL(base + "/login");await login("b");await page.getByText("Retorno privado B", { exact: true }).first().waitFor();assert.equal(await page.getByText("Retornar para Marina", { exact: true }).count(), 0);await page.getByRole("button", { name: "Sair da conta", exact: true }).click();await page.waitForURL(base + "/login"); });
   assert.deepEqual(errors, []);
+  assert.deepEqual([...external], []);
 } catch (e) { results.push({ name: "browser flow", result: "FAIL", error: e.message });await page.screenshot({ path: path.join(artifacts, "failure.png"), fullPage: true });process.exitCode = 1; }
 finally { await browser.close();const report = { environment: "Local synthetic fixture UI only; NOT Supabase or staging permission certification", external_hosts_blocked: [...external], results, summary: { passed: results.filter(r => r.result === "PASS").length, failed: results.filter(r => r.result === "FAIL").length } };await fs.mkdir("tests/security", { recursive: true });await fs.writeFile("tests/security/crm-operations-browser-20261125.json", JSON.stringify(report, null, 2) + "\n");console.log(JSON.stringify(report)); }

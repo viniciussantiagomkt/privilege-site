@@ -4,6 +4,7 @@ import { useEntityIntent } from "./useEntityIntent";
 import { TaskCompleteButton } from "./TaskCompleteButton";
 import { AgendaEditor } from "./AgendaEditor";
 import { recordId } from "@/lib/crm/broker-workspace";
+import { agendaStatusMatches, inAgendaPeriod, type AgendaPeriod } from "@/lib/crm/operations";
 import {
   CalendarDays,
   Check,
@@ -32,6 +33,7 @@ export function Agenda() {
   const [mode, setMode] = useState("");
   const [editing, setEditing] = useState<Task | Visit | null>(null);
   const [filter, setFilter] = useState("pending");
+  const [period, setPeriod] = useState<AgendaPeriod>("all");
   const [leadSeed, setLeadSeed] = useState<number | null>(null);
   useEntityIntent({
     "new:task": () => {
@@ -66,8 +68,10 @@ export function Agenda() {
   });
   const taskRows = ctx.data.tasks.filter(
     (t) =>
-      matches(ctx.query, t.title, t.description) &&
-      (filter === "all" || t.status !== "concluida"),
+      matches(ctx.query, t.title, t.description,
+        ctx.data.clients.find(c => c.id === t.client_id)?.name,
+        ctx.data.properties.find(p => p.id === t.property_id)?.title) &&
+      agendaStatusMatches("task", t.status, filter) && inAgendaPeriod(t.due_at, period),
   );
   const visitRows = ctx.data.visits.filter(
     (v) =>
@@ -77,7 +81,7 @@ export function Agenda() {
         ctx.data.clients.find((c) => c.id === v.client_id)?.name,
         ctx.data.properties.find((p) => p.id === v.property_id)?.title,
       ) &&
-      (filter === "all" || !["realizada", "cancelada"].includes(v.status)),
+      agendaStatusMatches("visit", v.status, filter) && inAgendaPeriod(v.scheduled_at, period),
   );
   const events = [
     ...taskRows.map((t) => ({
@@ -137,7 +141,14 @@ export function Agenda() {
           onChange={(e) => setFilter(e.target.value)}
         >
           <option value="pending">Pendentes</option>
+          <option value="closed">Concluídos / cancelados</option>
           <option value="all">Todos os registros</option>
+        </select>
+        <select aria-label="Período dos compromissos" value={period} onChange={e => setPeriod(e.target.value as AgendaPeriod)}>
+          <option value="all">Qualquer período</option>
+          <option value="overdue">Prazo vencido</option>
+          <option value="today">Hoje</option>
+          <option value="week">Próximos 7 dias</option>
         </select>
         <div className="crm-view-toggle">
           <button

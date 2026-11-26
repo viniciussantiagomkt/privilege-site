@@ -27,6 +27,14 @@ Somente tarefas e visitas aceitam escrita na demonstracao, em memoria. Outros ca
 
 Para parar: Ctrl+C no processo que iniciou o script, ou comando `stop` em seu stdin. Se3210 estiver ocupado, escolha CRM_DEMO_PORT antes de iniciar outro processo; nao iniciar duas instancias na mesma porta.
 
+### Correcao de acesso manual em 25/11
+
+Falha reproduzida com Edge/Playwright sem interceptacao: login200, mas preflight CORS da RPC current_user_role bloqueava content-profile, levando o AdminGuard a negar o papel. API loopback agora permite explicitamente content-profile e accept-profile, mantendo origem exata e todas as verificacoes de sessao/escopo. Nenhuma alteracao no AdminGuard, Workspace, papeis ou configuracao Supabase remota.
+
+Os testes operacionais antigos usavam context.route, que mascarava esse erro de navegador. Agora apenas observam a rede, sem interceptacao. Novo `npm run test:crm-demo-auth`: login pelo formulario com as credenciais acima, senha incorreta rejeitada, anonimo redirecionado, seis modulos acessiveis, recarga normal, logout e quatro perfis sinteticos aprovados. Sem injecao de storage/sessoes, sem CORS desabilitado. Resultado:14 verificacoes PASS. Suite operacional:11 PASS; codigo:200 PASS; lint e TypeScript PASS.
+
+Limitacao independente: a API sintetica nao implementa WebSocket Realtime, podendo registrar aviso no console; consultas HTTP e atualizacao manual continuam disponiveis. Nao e certificacao do Realtime ou RLS hospedados. Evidencia: tests/security/crm-demo-auth-browser-20261125.json. Reiniciar o servidor reinicializa somente os dados sinteticos em memoria e exige novo login.
+
 ## Reorganizacao das 12 etapas
 
 | Etapa original | Entrega/reuso agora | Dependencia real restante |

@@ -3,11 +3,25 @@ import assert from "node:assert/strict";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { spawnSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { resolvePreviewMediaPolicy, isolatedPreviewBranch } from "../lib/preview-media-build.mjs";
 import { loadFixtureModule, renderMediaFixtures } from "./helpers/render-preview-media.mjs";
 const media = loadFixtureModule("lib/preview-media.ts");
 const video = loadFixtureModule("lib/video-source.ts");
 const { VideoEmbed } = loadFixtureModule("components/VideoEmbed.tsx");
+
+test("operational preview remains staging-only, media-isolated and never auto-deploys", () => {
+  const branch = "codex/crm-operational-priority-20261125";
+  assert.equal(JSON.parse(readFileSync("vercel.json", "utf8")).git.deploymentEnabled[branch], false);
+  assert.equal(resolvePreviewMediaPolicy({ VERCEL_ENV: "preview", VERCEL_GIT_COMMIT_REF: branch }), "isolated");
+  assert.throws(() => resolvePreviewMediaPolicy({ VERCEL_ENV: "production", VERCEL_GIT_COMMIT_REF: branch }));
+  const result = spawnSync(process.execPath, ["--input-type=module", "-e", "await import('./next.config.ts')"], {
+    env: { ...process.env, VERCEL_ENV: "preview", VERCEL_GIT_COMMIT_REF: branch,
+      NEXT_PUBLIC_SUPABASE_URL: "https://wrong-project.invalid", NEXT_PUBLIC_SUPABASE_ANON_KEY: "fixture-invalid" }, encoding: "utf8",
+  });
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /requires the verified staging environment/);
+});
 
 test("Preview layout omits GTM and Clarity with the isolated environment settings", () => {
   const previous = { VERCEL_ENV: process.env.VERCEL_ENV, NEXT_PUBLIC_GTM_ID: process.env.NEXT_PUBLIC_GTM_ID,
