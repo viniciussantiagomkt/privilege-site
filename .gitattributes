@@ -1,0 +1,2 @@
+supabase/migrations/20261118163136_crm_preserve_omitted_client_interest.sql text eol=lf
+supabase/migrations/20261125140440_crm_quick_client_revision_conflict.sql text eol=lf

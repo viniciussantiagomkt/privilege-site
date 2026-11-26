@@ -7,6 +7,29 @@ import { demoData, DEMO_PROFILES } from "./fixtures/operational-demo-data.mjs";
 function compile(file, deps = {}) { const m = new Module(file);m.require = name => deps[name] || Module.createRequire(import.meta.url)(name);m._compile(ts.transpileModule(fs.readFileSync(file, "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, file);return m.exports; }
 const filters = compile("lib/property-filters.ts"), ops = compile("lib/crm/operations.ts", { "../property-filters": filters });
 const now = new Date("2026-11-25T15:00:00Z"), data = demoData(now), a = DEMO_PROFILES[0].id;
+const release = compile("lib/crm/release-scope.ts");
+
+test("restricted preview denies unverified routes on the server and fails closed without scope", () => {
+  const env = { VERCEL_ENV: "preview", VERCEL_GIT_COMMIT_REF: "codex/crm-operational-priority-20261125" };
+  assert.equal(release.operationalRouteBlocked("/admin", env), true);
+  const enabled = { ...env, CRM_OPERATIONAL_SCOPE: "daily-operations" };
+  for (const route of ["/admin", "/admin/agenda", "/admin/contatos", "/admin/imoveis"]) assert.equal(release.operationalRouteBlocked(route, enabled), false);
+  for (const route of ["/admin/equipe", "/admin/apresentacoes/", "/api/presentation-open", "/api/admin/brokers", "/apresentacoes/test"]) assert.equal(release.operationalRouteBlocked(route, enabled), true);
+  assert.equal(release.operationalRouteBlocked("/admin/agenda", { ...enabled, VERCEL_ENV: "production" }), true);
+  assert.equal(release.operationalRouteBlocked("/admin/equipe", {}), false);
+  const { proxy } = compile("proxy.ts", { "@/lib/crm/release-scope": release });
+  const previous = { VERCEL_ENV: process.env.VERCEL_ENV, VERCEL_GIT_COMMIT_REF: process.env.VERCEL_GIT_COMMIT_REF };
+  Object.assign(process.env, env);
+  try { assert.equal(proxy({ nextUrl: new URL("https://preview.invalid/admin/equipe") }).status, 403); }
+  finally { for (const [k,v] of Object.entries(previous)) { if(v===undefined) delete process.env[k]; else process.env[k]=v; } }
+});
+
+test("canonical applied SQL is versioned without rewriting approved bytes", () => {
+  const crypto = Module.createRequire(import.meta.url)("node:crypto");
+  for (const [name, sha] of [["20261118163136_crm_preserve_omitted_client_interest.sql", "32398a29e75d062baac775cbf449648ce737f60882486a09ce0492f8c947bb33"], ["20261125140440_crm_quick_client_revision_conflict.sql", "f7eaf871f07b25c4b23d690efb079557804dd4f0dcdfba179420c6ca0d7bbd0a"]]) {
+    assert.equal(crypto.createHash("sha256").update(fs.readFileSync("supabase/migrations/"+name)).digest("hex"), sha);
+  }
+});
 
 test("operational client editor recognizes the approved PT409 contract without replacing native serialization", () => {
   const source = fs.readFileSync("components/crm/ClientEditor.tsx", "utf8");

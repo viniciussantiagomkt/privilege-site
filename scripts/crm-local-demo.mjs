@@ -54,7 +54,15 @@ const api = createServer(async (req, res) => {
     if (body.client_id && !scoped("clients", profile).some(c => c.id === Number(body.client_id))) return send({ code: "42501" }, 403);
     if (body.property_id && !scoped("properties", profile).some(p => p.id === Number(body.property_id))) return send({ code: "42501" }, 403);
     if (req.method === "PATCH") { if (!rows.length) return send({ code: "42501" }, 403);for (const row of rows) Object.assign(row, body, { updated_at: new Date().toISOString() }); }
-    else { const row = { ...body, id: Math.max(0, ...data[table].map(r => r.id)) + 1, broker_id: profile.id, status: table === "tasks" ? "pendente" : "agendada", created_at: new Date().toISOString(), updated_at: new Date().toISOString(), deleted_at: null };data[table].push(row);rows = [row]; }
+    else {
+      const duplicate = body.quick_action_id && data[table].find(r => r.quick_action_id === body.quick_action_id);
+      if (duplicate) {
+        if (duplicate.broker_id !== profile.id) return send({ code: "42501" }, 403);
+        rows = [];
+      } else {
+        const row = { ...body, id: Math.max(0, ...data[table].map(r => r.id)) + 1, broker_id: profile.id, status: table === "tasks" ? "pendente" : "agendada", created_at: new Date().toISOString(), updated_at: new Date().toISOString(), deleted_at: null };data[table].push(row);rows = [row];
+      }
+    }
   } else if (!["GET", "HEAD"].includes(req.method)) return send({ code: "42501" }, 405);
   res.setHeader("Content-Range", rows.length ? `0-${rows.length - 1}/${rows.length}` : "*/0");
   const single = String(req.headers.accept || "").includes("vnd.pgrst.object");return send(single ? rows[0] || null : rows, req.method === "POST" ? 201 : 200);

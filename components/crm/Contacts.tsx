@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useEntityIntent } from "./useEntityIntent";
-import { Users, Phone, Mail, Building2 } from "lucide-react";
+import { Users, Phone, Mail, Building2, CalendarPlus, Clock } from "lucide-react";
+import { AgendaEditor } from "./AgendaEditor";
 import { useWorkspace } from "./Workspace";
 import { ClientEditor } from "./ClientEditor";
 import { supabase } from "@/lib/supabase";
@@ -22,6 +23,7 @@ export function Contacts() {
   const [create, setCreate] = useState(false);
   const [detail, setDetail] = useState<Contact | null>(null);
   const [archive, setArchive] = useState<Contact | null>(null);
+  const [agenda, setAgenda] = useState<{ contact: Contact; mode: "task" | "visit" } | null>(null);
   useEntityIntent({
     "new:contact": () => {
       setEdit(null);
@@ -172,6 +174,10 @@ export function Contacts() {
           onClose={() => setDetail(null)}
         >
           <div className="crm-detail-actions">
+            {detail.broker_id === ctx.userId && <>
+              <Button secondary onClick={() => { setAgenda({ contact: detail, mode: "task" }); setDetail(null); }}><Clock size={15} />Agendar retorno</Button>
+              <Button secondary onClick={() => { setAgenda({ contact: detail, mode: "visit" }); setDetail(null); }}><CalendarPlus size={15} />Agendar visita</Button>
+            </>}
             {detail.phone && (
               <a
                 className="crm-button secondary"
@@ -238,6 +244,9 @@ export function Contacts() {
           )}
         </Modal>
       )}
+      {agenda && <Modal title={agenda.mode === "task" ? "Agendar retorno" : "Agendar visita"} description={agenda.contact.name} onClose={() => setAgenda(null)}>
+        <AgendaEditor mode={agenda.mode} clientSeed={agenda.contact.id} onClose={() => setAgenda(null)} />
+      </Modal>}
       {archive && (
         <Modal
           title="Arquivar contato"

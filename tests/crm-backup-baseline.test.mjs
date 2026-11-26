@@ -33,10 +33,12 @@ test("catalog comparison avoids identifier truncation and physical-column gaps",
 test("backup baseline pins exactly the 22 approved migrations, not just a count", () => {
   const versions = backup.match(/\$expectedMigrationVersions = '([^']+)'/)[1].split(",");
   const actual = readdirSync(new URL("../supabase/migrations", import.meta.url))
-    .filter(n => n.endsWith(".sql") && !n.endsWith("_crm_stage03_security_surface.sql"))
+    .filter(n => n.endsWith(".sql") && n.split("_")[0] <= "20261105172215")
     .map(n => n.split("_")[0]).sort();
   assert.equal(versions.length, 22);
   assert.deepEqual(versions, actual);
+  const later = readdirSync(new URL("../supabase/migrations", import.meta.url)).filter(n=>n.endsWith(".sql")&&n.split("_")[0]>"20261105172215").map(n=>n.split("_")[0]).sort();
+  assert.deepEqual(later, ["20261111151927", "20261118163136", "20261125140440"]);
   assert.match(backup, /source\.migration_versions -ne \$expectedMigrationVersions/);
   assert.match(backup, /source\.security_migration_present/);
 });

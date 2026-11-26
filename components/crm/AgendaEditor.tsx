@@ -57,7 +57,7 @@ export function AgendaEditor({
           name: "title",
           label: "Tarefa / retorno",
           required: true,
-          value: editing && "title" in editing ? editing.title : "",
+          value: editing && "title" in editing ? editing.title : clientSeed ? `Retornar para ${ctx.data.clients.find(c => c.id === clientSeed)?.name || "cliente"}` : "",
         },
         {
           name: "due_at",

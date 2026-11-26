@@ -4,6 +4,7 @@ import path from "node:path";
 import { chromium } from "playwright";
 
 const base = "http://127.0.0.1:3210";
+const returnTitle = `Retorno contextual de teste ${Date.now()}`;
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 // No routing, API mocks, storage injection or CORS overrides: exercise manual-browser rules.
 const context = await browser.newContext();
@@ -19,6 +20,11 @@ page.on("console", m => {
   else failures.push({ console: m.text() });
 });
 try {
+  for (let attempt = 0; attempt < 40; attempt++) {
+    try { if ((await fetch(base + "/login")).status === 200) break; } catch { /* Readiness only; no authentication or writes retried. */ }
+    if (attempt === 39) throw new Error("Local demo did not become ready");
+    await new Promise(resolve => setTimeout(resolve, 250));
+  }
   await page.goto(base + "/admin");
   await page.waitForURL(base + "/login");
   checks.push("Anonymous protected route redirects to login");
@@ -43,8 +49,31 @@ try {
   await page.reload();
   await page.locator(".crm-main").waitFor();
   checks.push("Session survives ordinary page reload");
+  await page.goto(base + "/admin/contatos");
+  await page.getByRole("button", { name: "Marina · cliente sintética", exact: true }).click();
+  await page.getByRole("button", { name: "Agendar retorno", exact: true }).click();
+  const returnDialog = page.getByRole("dialog");
+  await returnDialog.getByRole("textbox", { name: /Tarefa \/ retorno/ }).fill(returnTitle);
+  const tomorrow = new Date(Date.now() + 86400000);
+  const localDate = new Date(tomorrow.getTime() - tomorrow.getTimezoneOffset() * 60000).toISOString().slice(0,16);
+  await returnDialog.locator('input[type="datetime-local"]').fill(localDate);
+  await returnDialog.getByRole("button", { name: "Salvar", exact: true }).click();
+  await returnDialog.waitFor({ state: "hidden" });
+  checks.push("Create linked return directly from own contact via existing editor");
+  await page.goto(base + "/admin/contatos");
+  await page.getByRole("button", { name: "Marina · cliente sintética", exact: true }).click();
+  await page.getByRole("button", { name: "Agendar visita", exact: true }).click();
+  const visitDialog = page.getByRole("dialog");
+  await visitDialog.getByRole("combobox", { name: /Imóvel/ }).selectOption("1");
+  await visitDialog.locator('input[type="datetime-local"]').fill(localDate);
+  const visitResponse = page.waitForResponse(r => r.url().includes("/rest/v1/visits") && r.request().method() === "POST");
+  await visitDialog.getByRole("button", { name: "Salvar", exact: true }).click();
+  assert.equal((await visitResponse).status(), 201);
+  await visitDialog.waitFor({ state: "hidden" });
+  checks.push("Create linked visit from own contact without reselecting client");
   await page.goto(base + "/admin/agenda");
   await page.getByRole("button", { name: "Tarefas", exact: true }).click();
+  await page.getByText(returnTitle, { exact: true }).waitFor();
   await page.getByLabel("Período dos compromissos").selectOption("overdue");
   await page.getByText("Retornar para Marina", { exact: true }).waitFor();
   await page.getByLabel("Filtrar compromissos").selectOption("closed");
@@ -81,6 +110,6 @@ try {
 finally {
   await browser.close();
   const report = { environment: "Loopback synthetic fixtures only", network_intercepted: false, checks, responses, failures, warnings: [...new Set(warnings)], result: process.exitCode ? "FAIL" : "PASS" };
-  await fs.writeFile("tests/security/crm-demo-auth-browser-20261125.json", JSON.stringify(report, null, 2) + "\n");
+  await fs.writeFile("tests/security/crm-demo-auth-browser-integrated-20261126.json", JSON.stringify(report, null, 2) + "\n");
   console.log(JSON.stringify({ result: report.result, checks, failures, warnings: report.warnings }));
 }
